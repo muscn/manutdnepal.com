@@ -4,8 +4,44 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Manchester United Supporters' Club Nepal</title>
+    <style>
+     html {
+        font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+        background-color: #e54d36;
+        color: #fff;
+    }
+    #banner img{
+        width:41.66%;
+        vertical-align: middle;
+    }
+    #brand{
+        vertical-align: middle;
+        display: inline-block;
+        text-transform: uppercase;
+        font-style: italic;
+        font-size: 4em;
+        font-weight: bolder;
+    }
+    /* adding line-break after #mu */
+    #mu {
+        display:inline;
+    }
+    #mu:after {
+        content:"\a";
+        white-space: pre;
+    }
+    #sc{
+        font-weight: normal;
+    }
+</style>
 </head>
 <body>
-
+    <div id="banner">
+        <img src="logo.png" alt="Manchester United Supporters' Club Nepal Logo">
+        <div id="brand">
+            <span id="mu">Manchester United </span>
+            <span id="sc">Supporters' Club,</span> Nepal
+        </div>
+    </div>
 </body>
 </html>
