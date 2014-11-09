@@ -1,0 +1,18 @@
+#dev + production
+django
+psycopg2
+#dev only
+django-debug-toolbar
+ipython
+pyinotify
+#flake8
+#maybe in future
+#e git+https://github.com/xtranophilist/django-dbsettings.git@master#egg=django-dbsettings
+#pillow
+#django-mptt
+#django-froala-editor
+#linaro-django-pagination
+#django-redis
+#sorl-thumbnail==11.12.1b
+#django-sitetree
+#django-cacheops
