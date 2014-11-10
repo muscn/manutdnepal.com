@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Manchester United Supporters' Club Nepal{% endblock %}</title>
+    {#    <link rel="canonical" href="http://manutdnepal.com/">#}
+    {#    <link rel="canonical" href="http://manutd.org.np/">#}
+    {% block bootstrap_styles %}
+        <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>
