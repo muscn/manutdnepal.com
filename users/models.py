@@ -111,6 +111,40 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
 
+class Membership(models.Model):
+    user = models.ForeignKey(User, related_name='membership')
+    date_of_birth = models.DateField(null=True)
+    temporary_address = models.TextField(null=True)
+    permanent_address = models.TextField(null=True)
+    homepage = models.URLField(null=True)
+    mobile = models.CharField(max_length=50, null=True)
+    telephone = models.CharField(max_length=50, null=True, blank=True)
+    identification_type = models.CharField(max_length=50, null=True)
+    identification_file = models.FileField(null=True)
+    SHIRT_SIZES = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Double Extra Large'),
+    )
+    shirt_size = models.CharField(max_length=4, choices=SHIRT_SIZES, null=True)
+    PRESENT_STATUSES = (
+        ('S', 'Student'),
+        ('E', 'Employed'),
+        ('U', 'Unemployed'),
+    )
+    present_status = models.CharField(max_length=1, choices=PRESENT_STATUSES, null=True)
+    registration_date = models.DateField(null=True)
+    approved_date = models.DateField(null=True, blank=True)
+    MEMBERSHIP_STATUSES = (
+        ('P', 'Pending'),
+        ('A', 'Active'),
+        ('E', 'Expired'),
+    )
+    membership_status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
+
+
 def group_required(*group_names):
     """Requires user membership in at least one of the groups passed in."""
 
@@ -132,8 +166,12 @@ class GroupProxy(Group):
         # verbose_name_plural = _('Groups')
 
 
+# @receiver(user_signed_up)
 @receiver(user_logged_in)
 def get_extra_data(sender, **kwargs):
+    # import ipdb
+    #
+    # ipdb.set_trace()
     user = kwargs.pop('user')
     extra_data = user.socialaccount_set.filter(provider='facebook')[0].extra_data
     if extra_data['gender'] == 'male':
