@@ -34,9 +34,9 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
-
                 {% else %}
-                    <li><a href="{% url 'account_login' %}" class="secondary small button">Log in</a></li>
+                    <li><a href="{% url 'account_login' %}" class="secondary small button">Log In</a></li>
+                    <li><a href="{% url 'account_signup' %}" class="secondary small button">Register</a></li>
                 {% endif %}
 
             </ul>
