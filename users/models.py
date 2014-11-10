@@ -51,6 +51,14 @@ class User(AbstractBaseUser):
         max_length=254,
         unique=True,
         db_index=True)
+
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others'),
+    )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
