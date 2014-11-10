@@ -3,7 +3,10 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.translation import ugettext_lazy as _
-
+from django.dispatch import receiver
+# from allauth.account.signals import user_signed_up
+from allauth.account.signals import user_logged_in
+# allauth.account.signals.
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, full_name=''):
@@ -114,7 +117,7 @@ def group_required(*group_names):
     def in_groups(u):
         if u.is_authenticated():
             # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
-            #    return True
+            # return True
             if bool(u.groups.filter(name__in=group_names)):
                 return True
         return False
@@ -127,3 +130,15 @@ class GroupProxy(Group):
         proxy = True
         verbose_name = _('Group')
         # verbose_name_plural = _('Groups')
+
+
+@receiver(user_logged_in)
+def get_extra_data(sender, **kwargs):
+    user = kwargs.pop('user')
+    extra_data = user.socialaccount_set.filter(provider='facebook')[0].extra_data
+    if extra_data['gender'] == 'male':
+        user.gender = 'M'
+    elif extra_data['gender'] == 'female':
+        user.gender = 'F'
+
+    user.save()

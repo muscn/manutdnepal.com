@@ -17,7 +17,7 @@ ACCOUNT_USERNAME_BLACKLIST = ['united', 'manutd', 'manchester', 'reddevil', 'red
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
          {
-             'SCOPE': ['email'],
+             'SCOPE': ['email', 'user_birthday', 'user_website'],
              # 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
              'METHOD': 'oauth2',
              # 'LOCALE_FUNC': 'path.to.callable',
