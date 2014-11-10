@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.twitter',
 
     'core',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -44,6 +45,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.static',
@@ -56,6 +58,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 )
+
+AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
