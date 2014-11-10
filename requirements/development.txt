@@ -1,6 +1,8 @@
 #dev + production
 django
 psycopg2
+django-allauth
+
 #dev only
 django-debug-toolbar
 ipython
