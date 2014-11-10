@@ -31,6 +31,15 @@
                 <a class="navbar-brand" href="/">
                     <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club, Nepal</a>
             </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
+
+                {% else %}
+                    <li><a href="{% url 'account_login' %}" class="secondary small button">Log in</a></li>
+                {% endif %}
+
+            </ul>
 
         </div>
         <!-- /.container-fluid -->
