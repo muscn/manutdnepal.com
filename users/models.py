@@ -4,9 +4,9 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
-# from allauth.account.signals import user_signed_up
+from allauth.account.signals import user_signed_up
 from allauth.account.signals import user_logged_in
-# allauth.account.signals.
+
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, full_name=''):
@@ -168,15 +168,30 @@ class GroupProxy(Group):
 
 # @receiver(user_signed_up)
 @receiver(user_logged_in)
-def get_extra_data(sender, **kwargs):
-    # import ipdb
-    #
-    # ipdb.set_trace()
-    user = kwargs.pop('user')
-    extra_data = user.socialaccount_set.filter(provider='facebook')[0].extra_data
-    if extra_data['gender'] == 'male':
-        user.gender = 'M'
-    elif extra_data['gender'] == 'female':
-        user.gender = 'F'
+def get_extra_data(request, user, sociallogin=None, **kwargs):
+    import ipdb
+
+    ipdb.set_trace()
+
+    if sociallogin:
+
+        extra_data = sociallogin.account.extra_data
+
+        if sociallogin.account.provider == 'twitter':
+            user.full_name = extra_data['name']
+
+        if sociallogin.account.provider == 'facebook':
+            user.full_name = extra_data['name']
+            if extra_data['gender'] == 'male':
+                user.gender = 'M'
+            elif extra_data['gender'] == 'female':
+                user.gender = 'F'
+
+        if sociallogin.account.provider == 'google':
+            pass
+            # user.first_name = sociallogin.account.extra_data['given_name']
+            # user.last_name = sociallogin.account.extra_data['family_name']
+            # verified = sociallogin.account.extra_data['verified_email']
+            # picture_url = sociallogin.account.extra_data['picture']
 
     user.save()
