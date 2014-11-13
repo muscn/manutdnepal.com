@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
             password=password,
             full_name=full_name,
         )
-        user.is_admin = True
+        user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
         return user

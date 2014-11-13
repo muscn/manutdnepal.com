@@ -1,0 +1,58 @@
+{% extends base_template %}
+{% block title %} Membership Form {% endblock %}
+{% block content %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="section">
+            <h3>Personal Details</h3>
+
+            <div>
+                <label>Full Name</label>
+                <span>{{ user.full_name }}</span>
+            </div>
+
+            <div>
+                <label>Date of Birth</label>
+                {{ form.date_of_birth }}
+            </div>
+
+            <div>
+                <label>Gender</label>
+                {{ form.gender }}
+            </div>
+
+        </div>
+
+
+        <div class="section">
+            <h3>Address</h3>
+
+            <div>
+                <label>Temporary</label>
+                {{ form.temporary_address }}
+            </div>
+            <div>
+                <label>Permanent</label>
+                {{ form.permanent_address }}
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Contact</h3>
+
+            <div>
+                <label>Cell</label>
+                {{ form.temporary_address }}
+            </div>
+            <div>
+                <label>Permanent</label>
+                {{ form.permanent_address }}
+            </div>
+        </div>
+
+
+        {{ form }}
+        <input type="submit" class="small secondary button" value="Submit">
+    </form>
+{% endblock %}

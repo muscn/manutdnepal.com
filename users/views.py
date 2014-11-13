@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
+from users.models import Membership
+from users.forms import MembershipForm
 
 
 def index(request):
@@ -27,3 +29,18 @@ def logout(request, next_page=None):
     if next_page:
         return redirect(next_page)
     return redirect('/')
+
+
+def membership_form(request):
+    item, new = Membership.objects.get_or_create(user=request.user)
+    if request.POST:
+        form = MembershipForm(data=request.POST, instance=item)
+        if form.is_valid():
+            item = form.save()
+            return redirect('/')
+    else:
+        form = MembershipForm(instance=item)
+    return render(request, 'membership_form.html', {
+        'form': form,
+        'base_template': 'base.html',
+    })
