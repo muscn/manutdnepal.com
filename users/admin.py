@@ -69,7 +69,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = UserCreationForm
     ordering = ('username',)
     filter_horizontal = ()
-    list_display = ('username', 'email', 'is_staff', 'gender')
+    list_display = ('username', 'email', 'is_staff')
     list_filter = ('is_staff', 'is_superuser')
     fieldsets = ((None,
                   {'fields': ('full_name',
