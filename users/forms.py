@@ -17,5 +17,33 @@ class GroupAdminForm(forms.ModelForm):
 
 
 class MembershipForm(forms.ModelForm):
+    # SHIRT_SIZES = (
+    # ('S', 'Small'),
+    # ('M', 'Medium'),
+    # ('L', 'Large'),
+    # ('XL', 'Extra Large'),
+    # ('XXL', 'Double Extra Large'),
+    # )
+    SHIRT_SIZES = (
+        ('S', 'S'),
+        ('M', 'M'),
+        ('L', 'L'),
+        ('XL', 'XL'),
+        ('XXL', 'XXL'),
+    )
+    PRESENT_STATUSES = (
+        ('S', 'Student'),
+        ('E', 'Employed'),
+        ('U', 'Unemployed'),
+    )
+    IDENTIFICATION_TYPES = (
+        ('C', 'Citizenship'),
+        ('L', 'License'),
+        ('I', 'Identity Card'),
+    )
+    shirt_size = forms.ChoiceField(widget=forms.RadioSelect(), choices=SHIRT_SIZES)
+    present_status = forms.ChoiceField(widget=forms.RadioSelect(), choices=PRESENT_STATUSES)
+    identification_type = forms.ChoiceField(widget=forms.RadioSelect(), choices=IDENTIFICATION_TYPES)
+
     class Meta:
         model = Membership

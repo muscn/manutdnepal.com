@@ -47,12 +47,35 @@
             </div>
             <div>
                 <label>Tel</label>
-                {{ form.telephone}}
+                {{ form.telephone }}
+            </div>
+        </div>
+
+        <div class="section">
+            <div>
+                <label>Identification Type:</label>
+                {{ form.identification_type }}
+            </div>
+
+            <div>
+                <label>Identification File:</label>
+                {{ form.identification_file }}
+            </div>
+        </div>
+
+        <div class="section">
+            <div>
+                <label>Shirt Size</label>
+                {{ form.shirt_size }}
+            </div>
+
+            <div>
+                <label>Present Status</label>
+                {{ form.present_status }}
             </div>
         </div>
 
 
-        {{ form }}
         <input type="submit" class="small secondary button" value="Submit">
     </form>
 {% endblock %}

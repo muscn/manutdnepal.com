@@ -114,20 +114,8 @@ class Membership(models.Model):
     telephone = models.CharField(max_length=50, null=True, blank=True)
     identification_type = models.CharField(max_length=50, null=True)
     identification_file = models.FileField(null=True)
-    SHIRT_SIZES = (
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-        ('XL', 'Extra Large'),
-        ('XXL', 'Double Extra Large'),
-    )
-    shirt_size = models.CharField(max_length=4, choices=SHIRT_SIZES, null=True)
-    PRESENT_STATUSES = (
-        ('S', 'Student'),
-        ('E', 'Employed'),
-        ('U', 'Unemployed'),
-    )
-    present_status = models.CharField(max_length=1, choices=PRESENT_STATUSES, null=True)
+    shirt_size = models.CharField(max_length=4, null=True)
+    present_status = models.CharField(max_length=1, null=True)
     registration_date = models.DateField(null=True)
     approved_date = models.DateField(null=True, blank=True)
     MEMBERSHIP_STATUSES = (

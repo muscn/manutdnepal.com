@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
@@ -31,6 +32,7 @@ def logout(request, next_page=None):
     return redirect('/')
 
 
+@login_required
 def membership_form(request):
     item, new = Membership.objects.get_or_create(user=request.user)
     if request.POST:
