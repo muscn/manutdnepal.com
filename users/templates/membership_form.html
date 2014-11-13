@@ -1,6 +1,17 @@
 {% extends base_template %}
 {% block title %} Membership Form {% endblock %}
+{% load socialaccount %}
 {% block content %}
+    {% get_social_accounts user as accounts %}
+    {% if not accounts.twitter %}
+        <a href="{% provider_login_url "twitter" process="connect" %}">Connect a Twitter account</a>
+    {% endif %}
+    {% if not accounts.facebook %}
+        <a href="{% provider_login_url "facebook" process="connect" %}">Connect a Facebook account</a>
+    {% endif %}
+    {% if not accounts.google %}
+        <a href="{% provider_login_url "google" process="connect" %}">Connect a Google account</a>
+    {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
