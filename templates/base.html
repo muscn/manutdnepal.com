@@ -32,11 +32,12 @@
                     <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club, Nepal</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                {% if not request.user.membership %}
-                    <li><a href="{% url 'account_logout' %}" class="secondary small button">Apply for Membership</a>
-                    </li>
-                {% endif %}
+
                 {% if request.user.is_authenticated %}
+                    {% if not request.user.membership %}
+                        <li><a href="{% url 'register' %}" class="secondary small button">Apply for Membership</a>
+                        </li>
+                    {% endif %}
                     <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
                 {% else %}
                     <li><a href="{% url 'account_login' %}" class="secondary small button">Log In</a></li>
