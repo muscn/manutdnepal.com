@@ -41,6 +41,12 @@ class MembershipForm(forms.ModelForm):
         ('L', 'License'),
         ('I', 'Identity Card'),
     )
+    GENDERS = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others'),
+    )
+    gender = forms.ChoiceField(widget=forms.RadioSelect(), choices=GENDERS)
     shirt_size = forms.ChoiceField(widget=forms.RadioSelect(), choices=SHIRT_SIZES)
     present_status = forms.ChoiceField(widget=forms.RadioSelect(), choices=PRESENT_STATUSES)
     identification_type = forms.ChoiceField(widget=forms.RadioSelect(), choices=IDENTIFICATION_TYPES)

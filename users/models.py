@@ -107,6 +107,7 @@ class User(AbstractBaseUser):
 class Membership(models.Model):
     user = models.OneToOneField(User, related_name='membership')
     date_of_birth = models.DateField(null=True)
+    gender = models.CharField(null=True, max_length=1)
     temporary_address = models.TextField(null=True)
     permanent_address = models.TextField(null=True)
     homepage = models.URLField(null=True)
