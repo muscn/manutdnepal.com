@@ -1,6 +1,7 @@
 from django import forms
 from users.models import User, Membership
 from django.contrib.auth.models import Group
+from app.libr import HTML5ModelForm
 
 
 class UserAdminForm(forms.ModelForm):
@@ -16,7 +17,7 @@ class GroupAdminForm(forms.ModelForm):
         fields = ['name', 'permissions']
 
 
-class MembershipForm(forms.ModelForm):
+class MembershipForm(HTML5ModelForm):
     # SHIRT_SIZES = (
     # ('S', 'Small'),
     # ('M', 'Medium'),
@@ -24,6 +25,7 @@ class MembershipForm(forms.ModelForm):
     # ('XL', 'Extra Large'),
     # ('XXL', 'Double Extra Large'),
     # )
+    # date_of_birth = HTML5ModelForm.DateTypeInput()
     SHIRT_SIZES = (
         ('S', 'S'),
         ('M', 'M'),

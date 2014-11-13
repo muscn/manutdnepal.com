@@ -3,11 +3,10 @@ from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserCha
     UserCreationForm as DjangoUserCreationForm
 from django import forms
 
-from users.models import User, GroupProxy
+from users.models import User, GroupProxy, Membership
 
 
 class UserCreationForm(DjangoUserCreationForm):
-
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -44,7 +43,6 @@ class UserCreationForm(DjangoUserCreationForm):
 
 
 class UserChangeForm(DjangoUserChangeForm):
-
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
     password hash display field.
@@ -52,7 +50,7 @@ class UserChangeForm(DjangoUserChangeForm):
     # password = ReadOnlyPasswordHashField(label= ("Password"),
     # help_text= ("Raw passwords are not stored, so there is no way to see "
     # "this user's password, but you can change the password "
-    #                "using <a href=\"password/\">this form</a>."))
+    # "using <a href=\"password/\">this form</a>."))
 
     class Meta(DjangoUserChangeForm.Meta):
         model = User
@@ -81,10 +79,10 @@ class CustomUserAdmin(UserAdmin):
                               'is_superuser',
                               'last_login',
                               'groups')}),
-                 )
+    )
     add_fieldsets = ((None,
                       {'classes': ('wide',
-                                   ),
+                      ),
                        'fields': ('username',
                                   'email',
                                   'password1',
@@ -92,7 +90,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_active',
                                   'is_staff',
                                   'is_superuser')}),
-                     )
+    )
 
 
 admin.site.register(User, CustomUserAdmin)
@@ -105,3 +103,4 @@ from django.contrib.auth.models import Group
 
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
+admin.site.register(Membership)

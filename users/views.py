@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
 from users.models import Membership
 from users.forms import MembershipForm
+import datetime
 
 
 def index(request):
@@ -34,7 +35,32 @@ def logout(request, next_page=None):
 
 @login_required
 def membership_form(request):
-    item, new = Membership.objects.get_or_create(user=request.user)
+    item = Membership(user=request.user)
+    item.gender = 'F'
+    accounts = sorted(request.user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
+    for account in accounts:
+        if account.provider == 'facebook':
+            extra_data = account.extra_data
+            try:
+                item.gender = extra_data['gender'][:1].upper()
+            except KeyError:
+                pass
+            try:
+                item.date_of_birth = datetime.datetime.strptime(extra_data['birthday'], '%m/%d/%Y').strftime('%Y-%m-%d')
+            except KeyError:
+                pass
+            try:
+                item.temporary_address = extra_data['location']['name']
+            except KeyError:
+                pass
+            try:
+                item.permanent_address = extra_data['hometown']['name']
+            except KeyError:
+                pass
+            # import ipdb
+            #
+            # ipdb.set_trace()
+
     if request.POST:
         form = MembershipForm(data=request.POST, instance=item)
         if form.is_valid():
