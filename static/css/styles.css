@@ -3,3 +3,8 @@
     display: inline-block;
     margin-top: -15px;
 }
+
+form ul li {
+    list-style: none;
+    display: inline;
+}
