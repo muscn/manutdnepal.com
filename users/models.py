@@ -105,7 +105,7 @@ class User(AbstractBaseUser):
 
 
 class Membership(models.Model):
-    user = models.ForeignKey(User, related_name='membership')
+    user = models.OneToOneField(User, related_name='membership')
     date_of_birth = models.DateField(null=True)
     temporary_address = models.TextField(null=True)
     permanent_address = models.TextField(null=True)
@@ -162,12 +162,7 @@ class GroupProxy(Group):
 # @receiver(user_signed_up)
 @receiver(user_logged_in)
 def get_extra_data(request, user, sociallogin=None, **kwargs):
-    import ipdb
-
-    ipdb.set_trace()
-
     if sociallogin:
-
         extra_data = sociallogin.account.extra_data
 
         if sociallogin.account.provider == 'twitter':
