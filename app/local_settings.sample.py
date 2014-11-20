@@ -1,3 +1,26 @@
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
+}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'muscn',
+#         'USER': 'muscn',
+#         'PASSWORD': 'muscn',
+#         'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#         'PORT': '',  # Set to empty string for default.
+#     }
+# }
+
+STATIC_URL = '/static/muscn/'
+STATIC_ROOT = '/var/www/html/static/muscn/'
+MEDIA_ROOT = '/var/www/html/static/muscn/media'
+MEDIA_URL = 'http://localhost/static/muscn/media/'
+
 import os
 from logging import config
 import sys
@@ -26,10 +49,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-STATIC_URL = '/static/muscn/'
-STATIC_ROOT = '/var/www/html/static/muscn/'
-MEDIA_ROOT = '/var/www/html/static/muscn/media'
-MEDIA_URL = 'http://localhost/static/muscn/media/'
 
 from settings import *
 
@@ -40,17 +59,6 @@ INSTALLED_APPS += (
 MIDDLEWARE_CLASSES += (
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'muscn',
-        'USER': 'muscn',
-        'PASSWORD': 'muscn',
-        'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',  # Set to empty string for default.
-    }
-}
 
 # CACHES = {
 # 'default': {
