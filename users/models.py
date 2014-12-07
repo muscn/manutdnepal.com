@@ -61,6 +61,9 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
+    def is_member(self):
+        return True if self.membership.payment and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['full_name', 'email']
 
@@ -126,7 +129,7 @@ class Membership(models.Model):
         ('A', 'Active'),
         ('E', 'Expired'),
     )
-    membership_status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
+    status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
     payment = models.ForeignKey(Payment, blank=True, null=True)
 
     def __unicode__(self):

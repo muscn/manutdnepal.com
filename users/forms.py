@@ -66,4 +66,4 @@ class MembershipForm(HTML5ModelForm):
 
     class Meta:
         model = Membership
-        exclude = ('membership_status', 'homepage', 'user', 'registration_date')
+        exclude = ('status', 'homepage', 'user', 'registration_date')
