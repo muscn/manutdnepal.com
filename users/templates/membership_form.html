@@ -14,24 +14,26 @@
     {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.errors }}
-
+        {{ form.non_field_errors }}
         <div class="section">
             <h3>Personal Details</h3>
 
             <div>
                 <label>Full Name</label>
                 <span>{{ form.full_name }}</span>
+                {{ form.full_name.errors }}
             </div>
 
             <div>
                 <label>Date of Birth</label>
                 {{ form.date_of_birth }}
+                {{ form.date_of_birth.errors }}
             </div>
 
             <div>
                 <label>Gender</label>
                 {{ form.gender }}
+                {{ form.gender.errors }}
             </div>
 
         </div>
@@ -43,10 +45,12 @@
             <div>
                 <label>Temporary</label>
                 {{ form.temporary_address }}
+                {{ form.temporary_address.errors }}
             </div>
             <div>
                 <label>Permanent</label>
                 {{ form.permanent_address }}
+                {{ form.permanent_address.errors }}
             </div>
         </div>
 
@@ -56,10 +60,12 @@
             <div>
                 <label>Cell</label>
                 {{ form.mobile }}
+                {{ form.mobile.errors }}
             </div>
             <div>
                 <label>Tel</label>
                 {{ form.telephone }}
+                {{ form.telephone.errors }}
             </div>
         </div>
 
@@ -67,11 +73,13 @@
             <div>
                 <label>Identification Type:</label>
                 {{ form.identification_type }}
+                {{ form.identification_type.errors }}
             </div>
 
             <div>
                 <label>Identification File:</label>
                 {{ form.identification_file }}
+                {{ form.identification_type.errors }}
             </div>
         </div>
 
@@ -79,11 +87,13 @@
             <div>
                 <label>Shirt Size</label>
                 {{ form.shirt_size }}
+                {{ form.shirt_size.errors }}
             </div>
 
             <div>
                 <label>Present Status</label>
                 {{ form.present_status }}
+                {{ form.present_status.errors }}
             </div>
         </div>
 
