@@ -6,7 +6,7 @@ from django.contrib.auth import logout as auth_logout
 from users.models import Membership
 from users.forms import MembershipForm
 from payment.forms import BankDepositForm
-from payment.models import BankAccount
+from payment.models import BankAccount, BankDeposit, Payment
 
 import datetime
 
@@ -80,7 +80,13 @@ def membership_payment(request):
         membership = request.user.membership
     except Membership.DoesNotExist:
         return redirect(reverse('membership_form'))
-    bank_deposit_form = BankDepositForm()
+    if request.POST:
+        #TODO handle other payment methods
+        bank_deposit_form = BankDepositForm(request.POST, request.FILES)
+        Payment.create(request.user, 500, bank_deposit_form)
+        return redirect(reverse('membership_thankyou'))
+    else:
+        bank_deposit_form = BankDepositForm()
     bank_accounts = BankAccount.objects.all()
     return render(request, 'membership_payment.html', {
         'membership': membership,

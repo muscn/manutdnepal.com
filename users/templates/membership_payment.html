@@ -4,9 +4,8 @@
 
 
     <p>
-        Thank you! Your membership request has been received. You may deposit the membership fee of Rs. XXX to one of
-        the
-        following bank accounts and upload an image of the cash deposit voucher here to complete the membership process.
+        Thank you! Your membership request has been received. You may deposit the fee of Rs. XXX to one of the following
+        bank accounts and upload an image of the cash deposit voucher here to complete the membership process.
     </p>
 
     <p>
@@ -15,7 +14,28 @@
         {% endfor %}
     </p>
 
-    <p>If you want to submit the fee by cash directly or via other means feasible to you, you can contact us
+    <form method="POST" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
+        {{ bank_deposit_form.non_field_errors }}
+
+        <div class="form-group">
+            {{ bank_deposit_form.bank.label_tag }}
+            {{ bank_deposit_form.bank }}
+            {{ bank_deposit_form.bank.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ bank_deposit_form.voucher_image.label_tag }}
+            {{ bank_deposit_form.voucher_image }}
+            {{ bank_deposit_form.voucher_image.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-default">Submit</button>
+
+
+    </form>
+
+    <p>If you want to submit the fee by cash directly or by other means feasible to you, you can contact us
         at:<br/>
         Phone: +977-98xxxxxxx OR <br/>
         <a href="mailto:membership@manutd.org.np">membership@manutd.org.np</a> <br/>
