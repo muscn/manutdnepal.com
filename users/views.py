@@ -39,6 +39,11 @@ def logout(request, next_page=None):
 
 @login_required
 def membership_form(request):
+    try:
+        membership = request.user.membership
+        return redirect(reverse('membership_payment'))
+    except Membership.DoesNotExist:
+        pass
     item = Membership(user=request.user)
     accounts = sorted(request.user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
     for account in accounts:
