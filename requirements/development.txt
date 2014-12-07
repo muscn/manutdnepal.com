@@ -2,6 +2,7 @@
 django
 psycopg2
 django-allauth
+Pillow
 
 #dev only
 django-debug-toolbar
