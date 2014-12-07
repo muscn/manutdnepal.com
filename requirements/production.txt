@@ -1,6 +1,7 @@
 django
 psycopg2
 django-allauth
+Pillow
 
 #production-only
 gunicorn
