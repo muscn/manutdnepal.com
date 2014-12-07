@@ -52,6 +52,12 @@ class MembershipForm(HTML5ModelForm):
     shirt_size = forms.ChoiceField(widget=forms.RadioSelect(), choices=SHIRT_SIZES)
     present_status = forms.ChoiceField(widget=forms.RadioSelect(), choices=PRESENT_STATUSES)
     identification_type = forms.ChoiceField(widget=forms.RadioSelect(), choices=IDENTIFICATION_TYPES)
+    full_name = forms.CharField(max_length=254)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(MembershipForm, self).__init__(*args, **kwargs)
+        self.fields['full_name'].initial = self.user.full_name
 
     class Meta:
         model = Membership

@@ -57,17 +57,17 @@ def membership_form(request):
                 item.permanent_address = extra_data['hometown']['name']
             except KeyError:
                 pass
-            # import ipdb
-            #
-            # ipdb.set_trace()
+                # import ipdb
+                #
+                # ipdb.set_trace()
 
     if request.POST:
-        form = MembershipForm(data=request.POST, instance=item)
+        form = MembershipForm(data=request.POST, instance=item, user=request.user)
         if form.is_valid():
             item = form.save()
             return redirect('/')
     else:
-        form = MembershipForm(instance=item)
+        form = MembershipForm(instance=item, user=request.user)
     return render(request, 'membership_form.html', {
         'form': form,
         'base_template': 'base.html',
