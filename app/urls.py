@@ -6,5 +6,6 @@ urlpatterns = patterns('',
 
                        url(r'^admin/', include(admin.site.urls)),
                        (r'^accounts/', include('allauth.urls')),
-                       url(r'^register/$', 'users.views.membership_form', name='register'),
+                       url(r'^membership/$', 'users.views.membership_form', name='membership_form'),
+                       url(r'^membership/payment$', 'users.views.membership_payment', name='membership_payment'),
 )

@@ -37,7 +37,7 @@
                     {% if request.user.membership %}
                         <li><a>✓</a></li>
                     {% else %}
-                        <li><a href="{% url 'register' %}" class="secondary small button">Apply for Membership</a>
+                        <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for Membership</a>
                         </li>
                     {% endif %}
                     <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
