@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
 from allauth.account.signals import user_logged_in
+from payment.models import Payment
 
 
 class UserManager(BaseUserManager):
@@ -125,6 +126,7 @@ class Membership(models.Model):
         ('E', 'Expired'),
     )
     membership_status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
+    payment = models.ForeignKey(Payment, blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.user)
