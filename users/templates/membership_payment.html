@@ -1,0 +1,28 @@
+{% extends base_template %}
+{% block title %} Membership Payment {% endblock %}
+{% block content %}
+
+
+    <p>
+        Thank you! Your membership request has been received. You may deposit the membership fee of Rs. XXX to one of
+        the
+        following bank accounts and upload an image of the cash deposit voucher here to complete the membership process.
+    </p>
+
+    <p>
+        {% for account in bank_accounts %}
+            {{ account.bank_name }} - A/C No.: {{ account.ac_no }}
+        {% endfor %}
+    </p>
+
+    <p>If you want to submit the fee by cash directly or via other means feasible to you, you can contact us
+        at:<br/>
+        Phone: +977-98xxxxxxx OR <br/>
+        <a href="mailto:membership@manutd.org.np">membership@manutd.org.np</a> <br/>
+        <a target="_blank" href="https://www.facebook.com/muscnepal">Facebook</a> <br/>
+        <a target="_blank" href="https://twitter.com/MUSCNP">Twitter</a> <br/>
+    </p>
+
+
+
+{% endblock %}

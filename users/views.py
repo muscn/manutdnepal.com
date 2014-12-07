@@ -1,9 +1,13 @@
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
 from users.models import Membership
 from users.forms import MembershipForm
+from payment.forms import BankDepositForm
+from payment.models import BankAccount
+
 import datetime
 
 
@@ -56,18 +60,31 @@ def membership_form(request):
                 item.permanent_address = extra_data['hometown']['name']
             except KeyError:
                 pass
-                # import ipdb
-                #
-                # ipdb.set_trace()
 
     if request.POST:
         form = MembershipForm(request.POST, request.FILES, instance=item, user=request.user)
         if form.is_valid():
-            item = form.save()
-            return redirect('/')
+            form.save()
+            return redirect(reverse('membership_payment'))
     else:
         form = MembershipForm(instance=item, user=request.user)
     return render(request, 'membership_form.html', {
         'form': form,
+        'base_template': 'base.html',
+    })
+
+
+def membership_payment(request):
+    # check if membership form has been received
+    try:
+        membership = request.user.membership
+    except Membership.DoesNotExist:
+        return redirect(reverse('membership_form'))
+    bank_deposit_form = BankDepositForm()
+    bank_accounts = BankAccount.objects.all()
+    return render(request, 'membership_payment.html', {
+        'membership': membership,
+        'bank_deposit_form': bank_deposit_form,
+        'bank_accounts': bank_accounts,
         'base_template': 'base.html',
     })
