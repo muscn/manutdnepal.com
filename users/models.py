@@ -126,6 +126,9 @@ class Membership(models.Model):
     )
     membership_status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
 
+    def __unicode__(self):
+        return unicode(self.user)
+
 
 def group_required(*group_names):
     """Requires user membership in at least one of the groups passed in."""
