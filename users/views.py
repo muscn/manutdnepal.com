@@ -36,7 +36,6 @@ def logout(request, next_page=None):
 @login_required
 def membership_form(request):
     item = Membership(user=request.user)
-    item.gender = 'F'
     accounts = sorted(request.user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
     for account in accounts:
         if account.provider == 'facebook':
@@ -62,7 +61,7 @@ def membership_form(request):
                 # ipdb.set_trace()
 
     if request.POST:
-        form = MembershipForm(data=request.POST, instance=item, user=request.user)
+        form = MembershipForm(request.POST, request.FILES, instance=item, user=request.user)
         if form.is_valid():
             item = form.save()
             return redirect('/')
