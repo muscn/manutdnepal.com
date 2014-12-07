@@ -11,6 +11,13 @@ class Payment(models.Model):
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
 
+    @staticmethod
+    def create(user, amount, method):
+        payment = Payment(user=user, amount=amount)
+        payment.save()
+        method.payment = payment
+        return method
+
     def __unicode__(self):
         return unicode(self.user) + ' - ' + unicode(self.date_time) + ' - ' + unicode(self.amount)
 
