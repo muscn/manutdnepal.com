@@ -120,6 +120,7 @@ class Membership(models.Model):
     present_status = models.CharField(max_length=1, null=True)
     registration_date = models.DateField(null=True)
     approved_date = models.DateField(null=True, blank=True)
+    approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
     MEMBERSHIP_STATUSES = (
         ('P', 'Pending'),
         ('A', 'Active'),
