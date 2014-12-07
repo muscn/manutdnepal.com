@@ -83,8 +83,16 @@ def membership_payment(request):
     if request.POST:
         # TODO handle other payment methods
         bank_deposit_form = BankDepositForm(request.POST, request.FILES)
-        bank_deposit = Payment.create(request.user, 500, bank_deposit_form.save(commit=False))
+        # bank_deposit = Payment.create(request.user, 500, bank_deposit_form.save(commit=False))
+        # bank_deposit.save()
+        # membership.payment =
+        payment = Payment(user=request.user, amount=500)
+        payment.save()
+        bank_deposit = bank_deposit_form.save(commit=False)
+        bank_deposit.payment = payment
         bank_deposit.save()
+        membership.payment = payment
+        membership.save()
         return redirect(reverse('membership_thankyou'))
     else:
         bank_deposit_form = BankDepositForm()
@@ -102,6 +110,8 @@ def membership_thankyou(request):
         membership = request.user.membership
     except Membership.DoesNotExist:
         return redirect(reverse('membership_form'))
+    if not membership.payment:
+        return redirect(reverse('membership_payment'))
     return render(request, 'membership_thankyou.html', {
         'membership': membership,
         'base_template': 'base.html',
