@@ -8,21 +8,21 @@
 
 {% block content %}
     <div class="container">
-    <h3>Personal Details</h3>
     {% get_social_accounts user as accounts %}
     {% if not accounts.twitter %}
-        <a href="{% provider_login_url "twitter" process="connect" %}" class="btn btn-social btn-twitter"><i class="fa fa-twitter"></i> Connect a Twitter account</a>
+        <a href="{% provider_login_url "twitter" process="connect" %}" class="btn btn-social btn-twitter social"><i class="fa fa-twitter"></i> Connect a Twitter account</a>
     {% endif %}
     {% if not accounts.facebook %}
-        <a href="{% provider_login_url "facebook" process="connect" %}" class="btn btn-social btn-facebook"><i class="fa fa-facebook"></i> Connect a Facebook account</a>
+        <a href="{% provider_login_url "facebook" process="connect" %}" class="btn btn-social btn-facebook social"><i class="fa fa-facebook"></i> Connect a Facebook account</a>
     {% endif %}
     {% if not accounts.google %}
-        <a href="{% provider_login_url "google" process="connect" %}" class="btn btn-social btn-google"><i class="fa fa-google"></i> Connect a Google account</a>
+        <a href="{% provider_login_url "google" process="connect" %}" class="btn btn-social btn-google social"><i class="fa fa-google"></i> Connect a Google account</a>
     {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="section">
+            <h3>Personal Details</h3>
 
             <div>
                 <label>Full Name</label>
@@ -38,17 +38,18 @@
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <label>Gender</label>
-                    {{ form.gender }}
+                    <div class="gender-radio">{{ form.gender }}</div>
                     {{ form.gender.errors }}
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <label>Present Status</label>
-                    {{ form.present_status }}
+                    <div class="present-status-radio">{{ form.present_status }}
                     {{ form.present_status.errors }}
-
+            <br/>
+                    </div>
                 </div>
             </div>
-
+        </div>
         <div class="section">
             <div class='row'>
                 <div class="col-xs-6 col-sm-6 col-md-6">
@@ -89,18 +90,18 @@
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <label>Identification Type:</label>
-                    {{ form.identification_type }}
+                    <div class="id-type-radio">{{ form.identification_type }}</div>
                     {{ form.identification_type.errors }}
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <label>Shirt Size:</label>
-                    {{ form.shirt_size }}
+                    <div class="shirt-size-radio">{{ form.shirt_size }}</div>
                     {{ form.shirt_size.errors }}
                 </div>
             </div>
         </div>
         <br/>
-        <input type="submit" class="small secondary button btn btn-primary btn-lg btn-block" value="Submit">
+        <input type="submit" class="small secondary button btn btn-lg btn-default" value="Submit">
     </form>
 </div>
 {% endblock %}
