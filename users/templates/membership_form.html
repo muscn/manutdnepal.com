@@ -1,16 +1,22 @@
 {% extends base_template %}
 {% block title %} Membership Form {% endblock %}
 {% load socialaccount %}
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}css/social-media-membership.css" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
 {% block content %}
+    <div class="container">
     {% get_social_accounts user as accounts %}
     {% if not accounts.twitter %}
-        <a href="{% provider_login_url "twitter" process="connect" %}">Connect a Twitter account</a>
+        <a href="{% provider_login_url "twitter" process="connect" %}" class="btn btn-social btn-twitter social"><i class="fa fa-twitter"></i> Connect a Twitter account</a>
     {% endif %}
     {% if not accounts.facebook %}
-        <a href="{% provider_login_url "facebook" process="connect" %}">Connect a Facebook account</a>
+        <a href="{% provider_login_url "facebook" process="connect" %}" class="btn btn-social btn-facebook social"><i class="fa fa-facebook"></i> Connect a Facebook account</a>
     {% endif %}
     {% if not accounts.google %}
-        <a href="{% provider_login_url "google" process="connect" %}">Connect a Google account</a>
+        <a href="{% provider_login_url "google" process="connect" %}" class="btn btn-social btn-google social"><i class="fa fa-google"></i> Connect a Google account</a>
     {% endif %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -23,81 +29,79 @@
                 <span>{{ form.full_name }}</span>
                 {{ form.full_name.errors }}
             </div>
-
-            <div>
-                <label>Date of Birth</label>
-                {{ form.date_of_birth }}
-                {{ form.date_of_birth.errors }}
+            <br/>
+            <div class='row'>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <label>Date of Birth</label>
+                    {{ form.date_of_birth }}
+                    {{ form.date_of_birth.errors }}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <label>Gender</label>
+                    <div class="gender-radio">{{ form.gender }}</div>
+                    {{ form.gender.errors }}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <label>Present Status</label>
+                    <div class="present-status-radio">{{ form.present_status }}
+                    {{ form.present_status.errors }}
+            <br/>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <label>Gender</label>
-                {{ form.gender }}
-                {{ form.gender.errors }}
-            </div>
-
         </div>
-
-
         <div class="section">
-            <h3>Address</h3>
-
-            <div>
-                <label>Temporary</label>
-                {{ form.temporary_address }}
-                {{ form.temporary_address.errors }}
-            </div>
-            <div>
-                <label>Permanent</label>
-                {{ form.permanent_address }}
-                {{ form.permanent_address.errors }}
+            <div class='row'>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label>Address</label>
+                    {{ form.permanent_address }}
+                    {{ form.permanent_address.errors }}
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label>.</label> 
+                    {{ form.temporary_address }}
+                    {{ form.temporary_address.errors }}
+                </div>
             </div>
         </div>
 
         <div class="section">
             <h3>Contact</h3>
-
-            <div>
-                <label>Cell</label>
-                {{ form.mobile }}
-                {{ form.mobile.errors }}
-            </div>
-            <div>
-                <label>Tel</label>
-                {{ form.telephone }}
-                {{ form.telephone.errors }}
-            </div>
+            <div class='row'>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label>Mobile:</label>
+                    {{ form.mobile }}
+                    {{ form.mobile.errors }}
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <label>Telephone:</label>
+                    {{ form.telephone }}
+                    {{ form.telephone.errors }}
+                </div>
+            </div>            
         </div>
-
+        <br/>
         <div class="section">
-            <div>
-                <label>Identification Type:</label>
-                {{ form.identification_type }}
-                {{ form.identification_type.errors }}
-            </div>
-
-            <div>
-                <label>Identification File:</label>
-                {{ form.identification_file }}
-                {{ form.identification_type.errors }}
-            </div>
-        </div>
-
-        <div class="section">
-            <div>
-                <label>Shirt Size</label>
-                {{ form.shirt_size }}
-                {{ form.shirt_size.errors }}
-            </div>
-
-            <div>
-                <label>Present Status</label>
-                {{ form.present_status }}
-                {{ form.present_status.errors }}
+            <div class='row'>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <label>Identification File:</label>
+                    {{ form.identification_file }}
+                    {{ form.identification_type.errors }}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <label>Identification Type:</label>
+                    <div class="id-type-radio">{{ form.identification_type }}</div>
+                    {{ form.identification_type.errors }}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <label>Shirt Size:</label>
+                    <div class="shirt-size-radio">{{ form.shirt_size }}</div>
+                    {{ form.shirt_size.errors }}
+                </div>
             </div>
         </div>
-
-
-        <input type="submit" class="small secondary button" value="Submit">
+        <br/>
+        <input type="submit" class="small secondary button btn btn-lg btn-default" value="Submit">
     </form>
+</div>
 {% endblock %}
