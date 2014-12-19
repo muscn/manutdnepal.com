@@ -126,6 +126,10 @@ form.signup {
     max-width: 225px;
 }
 
+#wrapper-login-register form.login input{
+    max-width: 300px;
+}
+
 /* Membership Form*/
 #wrapper-membership-form .social-accounts .btn {
     color: #fff;
