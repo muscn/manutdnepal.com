@@ -18,6 +18,8 @@
 
     <div class="container-fluid" id="wrapper-login-register">
 
+        <br>
+
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6">
 
@@ -27,11 +29,12 @@
 
                 <h2>Sign In</h2>
 
-                {% include "account/login_form.html" %}
+                {% include "account/login_form.html" with form=login_form %}
 
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6">
-                SignUp Form
+                <h2>New Member?</h2>
+                {% include "account/signup_form.html" with form=signup_form %}
             </div>
 
         </div>
