@@ -1,8 +1,9 @@
-
 .connect-with {
     text-transform: uppercase;
     font-size: x-large;
 }
+
+/* or styling*/
 
 form.login {
     position: relative;
@@ -23,37 +24,13 @@ form.login:before {
     font-weight: bold;
 }
 
-
-#label-rememberme {
-    float: left;
-}
-
-#id-forgot-password {
-    float: left;
-}
-
-#id-sign-up {
-    float: right;
-}
-
 .smGlobalBtn {
-    /* global button class */
     display: inline-block;
-    position: relative;
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    box-shadow: 0 2px 2px #999;
-    padding: 0px;
-    text-decoration: none;
-    text-align: center;
     color: #fff;
-    font-size: 25px;
-    font-weight: normal;
-    line-height: 2em;
-    border-radius: 25px;
-    -moz-border-radius: 25px;
-    -webkit-border-radius: 25px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 24px;
 }
 
 /* facebook button class*/
