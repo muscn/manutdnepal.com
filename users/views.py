@@ -7,8 +7,16 @@ from users.models import Membership
 from users.forms import MembershipForm
 from payment.forms import BankDepositForm
 from payment.models import BankAccount, BankDeposit, Payment
-
+from allauth.account.forms import LoginForm, SignupForm
 import datetime
+
+
+def login_register(request):
+    if request.user.is_authenticated():
+        return redirect(reverse('membership_form'))
+    login_form = LoginForm()
+    signup_form = SignupForm()
+    return render(request, 'account/login_register.html', {'login_form': login_form, 'signup_form': signup_form})
 
 
 def index(request):

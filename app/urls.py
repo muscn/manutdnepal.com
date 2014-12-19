@@ -2,7 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 urlpatterns = patterns('',
-                       url(r'^$', 'core.views.home', name='home'),
+                       # url(r'^$', 'core.views.home', name='home'),
+                       url(r'^$', 'users.views.login_register', name='login_register'),
                        url(r'^admin/', include(admin.site.urls)),
                        (r'^accounts/', include('allauth.urls')),
                        url(r'^membership/$', 'users.views.membership_form', name='membership_form'),
