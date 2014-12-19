@@ -4,7 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Manchester United Supporters' Club Nepal{% endblock %}</title>
+    <title>
+        {% block whole_title %}
+            {% block title %}{% endblock %} | Manchester United Supporters' Club Nepal
+        {% endblock %}
+    </title>
     {#    <link rel="canonical" href="http://manutdnepal.com/">#}
     {#    <link rel="canonical" href="http://manutd.org.np/">#}
     {% block bootstrap_styles %}
@@ -47,10 +51,10 @@
                                 Membership</a>
                             </li>
                         {% endif %}
-                        <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
+                        <li><a href="{% url 'account_logout' %}" class="secondary small button">Sign Out</a></li>
                     {% else %}
-                        <li><a href="{% url 'account_login' %}" class="secondary small button">Log In</a></li>
-                        <li><a href="{% url 'account_signup' %}" class="secondary small button">Register</a></li>
+                        <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
+                        <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
                     {% endif %}
 
                 </ul>
