@@ -86,3 +86,15 @@ form.login:before {
 .googleBtn:before {
     content: "\f0d5";
 }
+
+/*Sign Up form style*/
+
+form.signup button {
+    text-align: center;
+    max-width: 100px;
+    /*margin: 0px auto;*/
+}
+
+form.signup {
+    max-width: 400px;
+}
