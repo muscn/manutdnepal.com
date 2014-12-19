@@ -9,6 +9,8 @@
     {#    <link rel="canonical" href="http://manutd.org.np/">#}
     {% block bootstrap_styles %}
         <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
+        <link href="{% static "css/bootstrap-flat.min.css" %}" rel="stylesheet" type="text/css">
+        {#        <link href="{% static "css/bootstrap-flat-extras.min.css" %}" rel="stylesheet" type="text/css">#}
     {% endblock %}
     <link href="{% static "css/styles.css" %}" rel="stylesheet" type="text/css">
     <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
@@ -33,25 +35,25 @@
                     <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club, Nepal</a>
             </div>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">
 
-                {% if request.user.is_authenticated %}
-                    {% if request.user.membership %}
-                        {% if request.user.is_member %}
-                            <li><a>✓</a></li>
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.membership %}
+                            {% if request.user.is_member %}
+                                <li><a>✓</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
+                                Membership</a>
+                            </li>
                         {% endif %}
+                        <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
                     {% else %}
-                        <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
-                            Membership</a>
-                        </li>
+                        <li><a href="{% url 'account_login' %}" class="secondary small button">Log In</a></li>
+                        <li><a href="{% url 'account_signup' %}" class="secondary small button">Register</a></li>
                     {% endif %}
-                    <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
-                {% else %}
-                    <li><a href="{% url 'account_login' %}" class="secondary small button">Log In</a></li>
-                    <li><a href="{% url 'account_signup' %}" class="secondary small button">Register</a></li>
-                {% endif %}
 
-            </ul>
+                </ul>
             </div>
         </div>
         <!-- /.container-fluid -->
