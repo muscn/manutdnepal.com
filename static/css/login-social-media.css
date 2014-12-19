@@ -1,35 +1,43 @@
-/*hr {*/
-	/*margin-top: .01em;*/
-/*}*/
 
-.connect-with{
+.connect-with {
     text-transform: uppercase;
     font-size: x-large;
 }
 
-.login-or{
-    text-transform: uppercase;
-    font-size: x-large;
+form.login {
+    position: relative;
+    list-style: none;
+    margin: 20px 0 0 0;
+    padding: 30px 0 0 0;
+    border-top: 1px solid #ccc;
 }
 
-#login-label{
-	float:left;
-	display: inline-block;
+form.login:before {
+    content: 'or';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin: -11px 0 0 -7px;
+    padding: 0 3px;
+    background-color: #fff;
+    font-weight: bold;
 }
+
 
 #label-rememberme {
-	float:left;
+    float: left;
 }
 
 #id-forgot-password {
-	float: left;
+    float: left;
 }
 
 #id-sign-up {
-	float: right;
+    float: right;
 }
 
-.smGlobalBtn{ /* global button class */
+.smGlobalBtn {
+    /* global button class */
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -44,68 +52,69 @@
     font-weight: normal;
     line-height: 2em;
     border-radius: 25px;
-    -moz-border-radius:25px;
-    -webkit-border-radius:25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
 }
 
 /* facebook button class*/
-.facebookBtn{
+.facebookBtn {
     background: #4060A5;
 }
 
-.facebookBtn:before{ /* use :before to add the relevant icons */
+.facebookBtn:before {
+    /* use :before to add the relevant icons */
     font-family: "FontAwesome";
     content: "\f09a"; /* add facebook icon */
 }
 
-.facebookBtn:hover{
+.facebookBtn:hover {
     color: #4060A5;
     background: #fff;
 }
 
 /* twitter button class*/
-.twitterBtn{
+.twitterBtn {
     background: #00ABE3;
 }
 
-.twitterBtn:before{
-      font-family: "FontAwesome";
-      content: "\f099"; /* add twitter icon */
+.twitterBtn:before {
+    font-family: "FontAwesome";
+    content: "\f099"; /* add twitter icon */
 }
 
-.twitterBtn:hover{
-      color: #00ABE3;
-      background: #fff;
+.twitterBtn:hover {
+    color: #00ABE3;
+    background: #fff;
 }
 
 /* google plus button class*/
-.googleBtn{
+.googleBtn {
     background: #e64522;
 }
 
-.googleBtn:before{
-      font-family: "FontAwesome";
-      content: "\f0d5"; /* add googleplus icon */
+.googleBtn:before {
+    font-family: "FontAwesome";
+    content: "\f0d5"; /* add googleplus icon */
 }
 
-.googleBtn:hover{
-      color: #e64522;
-      background: #fff;
+.googleBtn:hover {
+    color: #e64522;
+    background: #fff;
 }
 
 /*login template css*/
 
 #wrapper-login {
-	width:350px;
-	/*height:100%;*/
-	/*padding-bottom: 1.5em;*/
-	/*padding-top: .5em;*/
-	/*background-color: #F8F8F8;*/
-	/*border-radius: 2em;*/
-	/*color: #777777;*/
+    width: 350px;
+    /*height:100%;*/
+    /*padding-bottom: 1.5em;*/
+    /*padding-top: .5em;*/
+    /*background-color: #F8F8F8;*/
+    /*border-radius: 2em;*/
+    /*color: #777777;*/
 }
 
 /*#wrapper-login h1 {*/
-	/*float: left;*/
-	/*display: inline-block;*/
+/*float: left;*/
+/*display: inline-block;*/
 /*}*/
