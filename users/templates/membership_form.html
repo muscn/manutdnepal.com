@@ -2,106 +2,129 @@
 {% block title %} Membership Form {% endblock %}
 {% load socialaccount %}
 {% block extrahead %}
-    <link href="{{ STATIC_URL }}css/social-media-membership.css" rel="stylesheet" type="text/css">
+    <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" type="text/css">
 
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-    {% get_social_accounts user as accounts %}
-    {% if not accounts.twitter %}
-        <a href="{% provider_login_url "twitter" process="connect" %}" class="btn btn-social btn-twitter social"><i class="fa fa-twitter"></i> Connect a Twitter account</a>
-    {% endif %}
-    {% if not accounts.facebook %}
-        <a href="{% provider_login_url "facebook" process="connect" %}" class="btn btn-social btn-facebook social"><i class="fa fa-facebook"></i> Connect a Facebook account</a>
-    {% endif %}
-    {% if not accounts.google %}
-        <a href="{% provider_login_url "google" process="connect" %}" class="btn btn-social btn-google social"><i class="fa fa-google"></i> Connect a Google account</a>
-    {% endif %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="section">
-            <h3>Personal Details</h3>
+    <div class="container-fluid" id="wrapper-membership-form">
 
-            <div>
-                <label>Full Name</label>
-                <span>{{ form.full_name }}</span>
-                {{ form.full_name.errors }}
-            </div>
-            <br/>
-            <div class='row'>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <label>Date of Birth</label>
-                    {{ form.date_of_birth }}
-                    {{ form.date_of_birth.errors }}
+        <div class="social-accounts">
+            {% get_social_accounts user as accounts %}
+            {#        {% if not accounts.twitter or accounts.facebook or accounts.google %}#}
+            {#            <span>Connect With</span>#}
+            {#        {% endif %}#}
+            {% if not accounts.facebook %}
+                <a href="{% provider_login_url "facebook" process="connect" %}"
+                   class="btn facebookBtn">&nbsp;&nbsp;Connect a Facebook account</a>
+            {% endif %}
+            {% if not accounts.google %}
+                <a href="{% provider_login_url "google" process="connect" %}"
+                   class="btn googleBtn">&nbsp;&nbsp;Connect a Google account</a>
+            {% endif %}
+            {% if not accounts.twitter %}
+                <a href="{% provider_login_url "twitter" process="connect" %}"
+                   class="btn twitterBtn">&nbsp;&nbsp; Connect a Twitter account</a>
+            {% endif %}
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="section">
+                <h3>Personal Details</h3>
+
+                <div class="form-group">
+                    {{ form.full_name.label_tag }}
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
                 </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <label>Gender</label>
-                    <div class="gender-radio">{{ form.gender }}</div>
-                    {{ form.gender.errors }}
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <label>Present Status</label>
-                    <div class="present-status-radio">{{ form.present_status }}
-                    {{ form.present_status.errors }}
-            <br/>
+
+                <div class="row form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.date_of_birth.label_tag }}
+                        {{ form.date_of_birth }}
+                        {{ form.date_of_birth.errors }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.gender.label_tag }}
+                        {{ form.gender }}
+                        {{ form.gender.errors }}
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="section">
-            <div class='row'>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <label>Address</label>
-                    {{ form.permanent_address }}
-                    {{ form.permanent_address.errors }}
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <label>.</label> 
-                    {{ form.temporary_address }}
-                    {{ form.temporary_address.errors }}
-                </div>
-            </div>
-        </div>
+            <div class="section">
+                <h3>Address</h3>
 
-        <div class="section">
-            <h3>Contact</h3>
-            <div class='row'>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <label>Mobile:</label>
-                    {{ form.mobile }}
-                    {{ form.mobile.errors }}
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <label>Telephone:</label>
-                    {{ form.telephone }}
-                    {{ form.telephone.errors }}
-                </div>
-            </div>            
-        </div>
-        <br/>
-        <div class="section">
-            <div class='row'>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <label>Identification File:</label>
-                    {{ form.identification_file }}
-                    {{ form.identification_type.errors }}
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <label>Identification Type:</label>
-                    <div class="id-type-radio">{{ form.identification_type }}</div>
-                    {{ form.identification_type.errors }}
-                </div>
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <label>Shirt Size:</label>
-                    <div class="shirt-size-radio">{{ form.shirt_size }}</div>
-                    {{ form.shirt_size.errors }}
+                <div class="row form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.permanent_address }}
+                        {{ form.permanent_address.errors }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        {{ form.temporary_address }}
+                        {{ form.temporary_address.errors }}
+                    </div>
                 </div>
             </div>
-        </div>
-        <br/>
-        <input type="submit" class="small secondary button btn btn-lg btn-default" value="Submit">
-    </form>
-</div>
+
+            <div class="section">
+                <h3>Contact</h3>
+
+                <div class="row form-group">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <label>Mobile:</label>
+                        {{ form.mobile }}
+                        {{ form.mobile.errors }}
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <label>Telephone:</label>
+                        {{ form.telephone }}
+                        {{ form.telephone.errors }}
+                    </div>
+                </div>
+            </div>
+            <br/>
+
+            <div class="section">
+                <div class="row form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.identification_file.label_tag }}
+                        {{ form.identification_file }}
+                        {{ form.identification_type.errors }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.identification_type.label_tag }}
+                        {{ form.identification_type }}
+                        {{ form.identification_type.errors }}
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.present_status.label_tag }}
+                        {{ form.present_status }}
+                        {{ form.present_status.errors }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        {{ form.shirt_size.label_tag }}
+{#                        <div class="checkbox">#}
+                            {{ form.shirt_size }}
+{#                        </div>#}
+                        {{ form.shirt_size.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
+    </div>
 {% endblock %}
+<div class="col-xs-4 col-sm-4 col-md-4">
+
+</div>
+<div class="col-xs-4 col-sm-4 col-md-4">
+
+</div>

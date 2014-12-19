@@ -125,3 +125,16 @@ form.signup {
 #wrapper-login-register .social-button .row {
     max-width: 225px;
 }
+
+/* Membership Form*/
+#wrapper-membership-form .social-accounts .btn {
+    color: #fff;
+}
+
+#wrapper-membership-form .social-accounts .btn:hover {
+    opacity: 0.75;
+}
+
+#id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {
+    max-width: 350px;
+}
