@@ -1,6 +1,4 @@
 {% extends "account/base.html" %}
-
-{% load url from future %}
 {% load i18n %}
 
 {% block title %}{% trans "Signup" %}{% endblock %}
@@ -16,34 +14,7 @@
 
 <p>{% blocktrans %}Already have an account? Then, please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
-
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  <p>
-    <label for="id_email">{{ form.username.label }}</label>
-<input autofocus="autofocus" class="form-control" id="id_username" maxlength="30" name="username" placeholder="Username" type="text">
- </p>
-  <p>
-    <label for="id_email">{{ form.email.label }}</label>
-	<input id="id_email" class="form-control" name="email" placeholder="E-mail address" type="email">
- </p>
-   <p>
-    <label for="id_email">{{ form.password1.label }}</label>
-	<input id="id_password1" class="form-control" name="password1" placeholder="Password" type="password">
- </p>
-   <p>
-    <label for="id_email">{{ form.password2.label }}</label>
-	<input id="id_password2" class="form-control" name="password2" placeholder="Password" type="password">
- 	<input id="id_confirmation_key" maxlength="40" name="confirmation_key" type="hidden">
- </p>
-
-
-  <!-- {{ form.as_p }} -->
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="btn btn-primary btn-lg btn-block" type="submit">{% trans "Sign Up" %}</button>
-</form>
+{% include "account/signup_form.html" %}
 
 </div>
 
