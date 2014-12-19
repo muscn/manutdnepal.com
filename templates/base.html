@@ -23,47 +23,55 @@
     {% block extrahead %}{% endblock %}
 </head>
 <body>
-{% block navbar %}
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target="#navbarCollapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">
-                    <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club, Nepal</a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="nav navbar-nav navbar-right">
+<div id="container">
+    {% block navbar %}
 
-                    {% if request.user.is_authenticated %}
-                        {% if request.user.membership %}
-                            {% if request.user.is_member %}
-                                <li><a>✓</a></li>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#navbarCollapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club,
+                        Nepal</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="nav navbar-nav navbar-right">
+
+                        {% if request.user.is_authenticated %}
+                            {% if request.user.membership %}
+                                {% if request.user.is_member %}
+                                    <li><a>✓</a></li>
+                                {% endif %}
+                            {% else %}
+                                <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
+                                    Membership</a>
+                                </li>
                             {% endif %}
+                            <li><a href="{% url 'account_logout' %}" class="secondary small button">Sign Out</a></li>
                         {% else %}
-                            <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
-                                Membership</a>
-                            </li>
+                            <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
+                            <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
                         {% endif %}
-                        <li><a href="{% url 'account_logout' %}" class="secondary small button">Sign Out</a></li>
-                    {% else %}
-                        <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
-                        <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
-                    {% endif %}
 
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-{% endblock %}
-{% block content %}
-{% endblock %}
+            <!-- /.container-fluid -->
+        </nav>
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        COPYLEFT (ↄ) MUSCN - All Rights REVERSED 2015
+    </footer>
+</div>
 </body>
 </html>

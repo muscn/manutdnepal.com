@@ -3,9 +3,19 @@ Brand Color:
 #e54d36
 */
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
     font-size: 16px;
+    height: 100%
+}
+
+#container {
+    min-height: 100%;
+    position: relative;
 }
 
 /*Navbar styles*/
@@ -32,4 +42,12 @@ form ul li {
 
 #error-message {
     color: #a55;
+}
+
+footer {
+    border-top: 1px solid #cccccc;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
