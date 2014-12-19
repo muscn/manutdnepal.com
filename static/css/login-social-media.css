@@ -1,3 +1,7 @@
+#wrapper-login {
+    width: 350px;
+}
+
 .connect-with {
     text-transform: uppercase;
     font-size: x-large;
@@ -24,6 +28,8 @@ form.login:before {
     font-weight: bold;
 }
 
+/*Social icons styles*/
+
 .smGlobalBtn {
     display: inline-block;
     color: #fff;
@@ -44,54 +50,39 @@ form.login:before {
     font-family: "FontAwesome";
 }
 
-/*Colors for social buttons*/
 .facebookBtn {
     background: #4060A5;
 }
+
 .facebookBtn:hover {
     color: #4060A5;
 }
+
 .twitterBtn {
     background: #00ABE3;
 }
+
 .twitterBtn:hover {
     color: #00ABE3;
 }
+
 .googleBtn {
     background: #e64522;
 }
+
 .googleBtn:hover {
     color: #e64522;
 }
+
 /* use :before to add the relevant icons */
 .facebookBtn:before {
     content: "\f09a";
 }
+
 .twitterBtn:before {
     content: "\f099";
 }
+
 .googleBtn:before {
     content: "\f0d5";
 }
-
-
-
-
-
-
-/*login template css*/
-
-#wrapper-login {
-    width: 350px;
-    /*height:100%;*/
-    /*padding-bottom: 1.5em;*/
-    /*padding-top: .5em;*/
-    /*background-color: #F8F8F8;*/
-    /*border-radius: 2em;*/
-    /*color: #777777;*/
-}
-
-/*#wrapper-login h1 {*/
-/*float: left;*/
-/*display: inline-block;*/
-/*}*/
