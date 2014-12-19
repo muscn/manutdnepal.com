@@ -10,9 +10,53 @@
     {% block bootstrap_styles %}
         <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
     {% endblock %}
+    <link href="{% static "css/styles.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
     {% block extrahead %}{% endblock %}
 </head>
 <body>
+{% block navbar %}
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club, Nepal</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav navbar-right">
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user.membership %}
+                        {% if request.user.is_member %}
+                            <li><a>✓</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
+                            Membership</a>
+                        </li>
+                    {% endif %}
+                    <li><a href="{% url 'account_logout' %}" class="secondary small button">Log Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'account_login' %}" class="secondary small button">Log In</a></li>
+                    <li><a href="{% url 'account_signup' %}" class="secondary small button">Register</a></li>
+                {% endif %}
+
+            </ul>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+{% endblock %}
 {% block content %}
 {% endblock %}
 </body>

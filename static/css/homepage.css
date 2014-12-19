@@ -1,0 +1,138 @@
+.wrapper-signin {
+	width: 450px;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+	padding-bottom: 2em;
+	margin-left: 1.5em;
+	color: #777777;
+	/*border-left: 1px solid #777777;*/
+  opacity: .75;
+
+}
+
+hr {
+	margin-top: .01em;
+}
+
+#error-message {
+  color:#a55;
+}
+
+#login-label{
+	float:left;
+	display: inline-block;
+}
+
+#label-rememberme {
+	float:left;
+}
+
+#id-forgot-password {
+	float: left;
+}
+
+#id-sign-up {
+	float: right;
+}
+
+.smGlobalBtn{ /* global button class */
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 65px;
+    height: 65px;
+    box-shadow: 0 2px 2px #999;
+    padding: 0px;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 2em;
+    border-radius: 5px;
+    -moz-border-radius:25px;
+    -webkit-border-radius:25px;
+}
+
+/* facebook button class*/
+.facebookBtn{
+    background: #4060A5;
+}
+
+.facebookBtn:before{ /* use :before to add the relevant icons */
+    font-family: "FontAwesome";
+    content: "\f09a"; /* add facebook icon */
+}
+
+.facebookBtn:hover{
+    color: #4060A5;
+    background: #fff;
+}
+
+/* twitter button class*/
+.twitterBtn{
+    background: #00ABE3;
+}
+
+.twitterBtn:before{
+      font-family: "FontAwesome";
+      content: "\f099"; /* add twitter icon */
+}
+
+.twitterBtn:hover{
+      color: #00ABE3;
+      background: #fff;
+}
+
+/* google plus button class*/
+.googleBtn{
+    background: #e64522;
+}
+
+.googleBtn:before{
+      font-family: "FontAwesome";
+      content: "\f0d5"; /* add googleplus icon */
+}
+
+.googleBtn:hover{
+      color: #e64522;
+      background: #fff;
+}
+
+/*login template css*/
+
+#wrapper-login {
+	width:350px;
+	height:100%;
+	padding-bottom: 1.5em;
+	padding-top: .5em;
+	background-color: #F8F8F8;
+	border-radius: 2em;
+	color: #777777;  
+}
+
+#wrapper-login h1 {
+	float: left;
+	display: inline-block;
+}
+
+.container-login {
+	float: left;
+  width: 50%;
+  height: 100%;
+}
+
+.container-signup {
+	float: right;
+  width: 50%;
+}
+
+.container-social-button {
+  height: 10em;
+  width: 25em;
+  margin: auto;
+}
+
+#submit-button {
+  float: right;
+}
