@@ -121,3 +121,7 @@ form.signup {
 #wrapper-login-register #btn-sign-in {
     max-width: 150px;
 }
+
+#wrapper-login-register .social-button .row {
+    max-width: 225px;
+}
