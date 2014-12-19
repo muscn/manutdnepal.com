@@ -8,5 +8,6 @@ urlpatterns = patterns('',
                        url(r'^membership/$', 'users.views.membership_form', name='membership_form'),
                        url(r'^membership/payment/$', 'users.views.membership_payment', name='membership_payment'),
                        url(r'^membership/thankyou/$', 'users.views.membership_thankyou', name='membership_thankyou'),
+                       url(r'^home/$', 'core.views.home', name='home'),
 
 )

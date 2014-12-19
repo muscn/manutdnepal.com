@@ -1,5 +1,138 @@
 {% extends 'base.html' %}
+
+{% load socialaccount %}
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}css/homepage.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block content %}
 
+<div class="container-login">
+<div class="container-social-button text-center">
+{% if socialaccount.providers  %}
+<div class='row'>
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <i id="connnect-with"><h4>Connect with</h4></i>
+  </div>
+</div>
 
+<div class='row'>
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="social-button">
+      <div class="row">
+        {% for provider in socialaccount.providers %}
+        {% if provider.id == "openid" %}
+        {% for brand in provider.get_brands %}
+          <a title="{{brand.name}}" 
+             class="socialaccount_provider {{provider.id}} {{brand.id}}" 
+             href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
+             >{{brand.name}}</a>
+        
+        {% endfor %}
+        {% endif %}
+        <div class ="col-xs-4 col-sm-4 col-md-4">
+          <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} {{provider.id}}Btn smGlobalBtn" 
+             href="{% provider_login_url provider.id process=process %}"></a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>  
+</div>
+
+<div class="container-fluid text-center" id="wrapper-login">
+<div class='row'>
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <h1>Log In</h1>
+  </div>
+</div>
+    <hr/>
+
+{# <div class="login-or">{% trans 'or' %}</div> #}
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+<p>{% blocktrans %}If you have not created an account yet, then please
+<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}" role="form">
+  {% csrf_token %}
+
+  <div class='row'>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      {# <p id="login-label"><strong>{{ form.login.label }}</strong></p> #}
+    </div>
+  </div>
+      {% if form.errors %}
+        <p id="error-message">The login and/or password you specified are not correct.</p>
+      {% endif %}
+  <!-- {{ form.login }} -->
+  <input autofocus="autofocus" class="form-control" id="id_login" name="login" placeholder="Username or e-mail" type="text">
+  <br/>
+
+  <!-- {{ form.password }} -->
+  <input id="id_password" class="form-control" name="password" placeholder="Password" type="password">
+  <div class="col-sm-offset-0 col-sm-10">
+      <div class="checkbox">
+        <label id="label-rememberme">
+          {{ form.remember }} {{ form.remember.label }}
+        </label>
+        <br/>
+      </div>
+  </div>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="primaryAction btn btn-primary btn-lg btn-block" type="submit">{% trans "Sign In" %}</button>
+  <a id="id-forgot-password" class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <a id="id-sign-up" href="{{ signup_url }}">New registration</a>
+</form>
+
+</div>  
+</div>
+{# signup form downwards #}
+<div class="container-signup">
+<div class="wrapper-signin">
+
+<h1>{% trans "Sign Up" %}</h1>
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  <p>
+    <label for="id_email">{{ signup_form.username.label }}</label>
+<input autofocus="autofocus" class="form-control" id="id_username" maxlength="30" name="username" placeholder="Username" type="text">
+ </p>
+  <p>
+    <label for="id_email">{{ signup_form.email.label }}</label>
+	<input id="id_email" class="form-control" name="email" placeholder="E-mail address" type="email">
+ </p>
+   <p>
+    <label for="id_email">{{ signup_form.password1.label }}</label>
+	<input id="id_password1" class="form-control" name="password1" placeholder="Password" type="password">
+ </p>
+   <p>
+    <label for="id_email">{{ signup_form.password2.label }}</label>
+	<input id="id_password2" class="form-control" name="password2" placeholder="Password" type="password">
+ 	<input id="id_confirmation_key" maxlength="40" name="confirmation_key" type="hidden">
+ </p>
+
+
+  <!-- {{ form.as_p }} -->
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="btn btn-primary btn-lg" id="submit-button" type="submit">{% trans "Sign Up" %} &raquo;</button>
+</form>
+
+</div>
+</div>
 {% endblock %}
