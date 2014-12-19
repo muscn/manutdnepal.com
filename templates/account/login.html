@@ -1,6 +1,5 @@
 {% extends "account/base.html" %}
 
-{% load socialaccount %}
 {% load i18n %}
 {% load account %}
 {% load url from future %}
@@ -18,50 +17,10 @@
             </div>
         </div>
         <hr/>
-        {% if socialaccount.providers %}
-            <div class='row'>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <span class="connect-with">Connect with</span>
-                </div>
-            </div>
-
-            <div class='row'>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="social-button">
-                        <div class="row">
-                            {% for provider in socialaccount.providers %}
-                                {% if provider.id == "openid" %}
-                                    {% for brand in provider.get_brands %}
-                                        <a title="{{ brand.name }}"
-                                           class="socialaccount_provider {{ provider.id }} {{ brand.id }}"
-                                           href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
-                                                >{{ brand.name }}</a>
-
-                                    {% endfor %}
-                                {% endif %}
-                                <div class="col-xs-4 col-sm-4 col-md-4">
-                                    <a title="{{ provider.name }}"
-                                       class="socialaccount_provider {{ provider.id }} {{ provider.id }}Btn smGlobalBtn"
-                                       href="{% provider_login_url provider.id process=process %}"></a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {#<div class="login-or">{% trans 'or' %}</div>#}
-            {% include "socialaccount/snippets/login_extra.html" %}
-        {% endif %}
+        {% include "account/social_login.html" %}
 
         <form class="login follows-or" method="POST" action="{% url 'account_login' %}" role="form">
             {% csrf_token %}
-
-            {#  <div class='row'>#}
-            {#    <div class="col-xs-12 col-sm-12 col-md-12">#}
-            {#      <p id="login-label"><strong>{{ form.login.label }}</strong></p>#}
-            {#    </div>#}
-            {#  </div>#}
 
             {% if form.errors %}
                 <p id="error-message">The login and/or password you specified are not correct.</p>
