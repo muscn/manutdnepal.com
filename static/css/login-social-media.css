@@ -33,51 +33,51 @@ form.login:before {
     font-size: 24px;
 }
 
-/* facebook button class*/
+.smGlobalBtn:hover {
+    text-decoration: none;
+    background: #fff;
+    border: 3px solid;
+    line-height: 54px;
+}
+
+.smGlobalBtn:before {
+    font-family: "FontAwesome";
+}
+
+/*Colors for social buttons*/
 .facebookBtn {
     background: #4060A5;
 }
-
-.facebookBtn:before {
-    /* use :before to add the relevant icons */
-    font-family: "FontAwesome";
-    content: "\f09a"; /* add facebook icon */
-}
-
 .facebookBtn:hover {
     color: #4060A5;
-    background: #fff;
 }
-
-/* twitter button class*/
 .twitterBtn {
     background: #00ABE3;
 }
-
-.twitterBtn:before {
-    font-family: "FontAwesome";
-    content: "\f099"; /* add twitter icon */
-}
-
 .twitterBtn:hover {
     color: #00ABE3;
-    background: #fff;
 }
-
-/* google plus button class*/
 .googleBtn {
     background: #e64522;
 }
-
-.googleBtn:before {
-    font-family: "FontAwesome";
-    content: "\f0d5"; /* add googleplus icon */
-}
-
 .googleBtn:hover {
     color: #e64522;
-    background: #fff;
 }
+/* use :before to add the relevant icons */
+.facebookBtn:before {
+    content: "\f09a";
+}
+.twitterBtn:before {
+    content: "\f099";
+}
+.googleBtn:before {
+    content: "\f0d5";
+}
+
+
+
+
+
 
 /*login template css*/
 
