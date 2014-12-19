@@ -23,9 +23,8 @@
             {% csrf_token %}
 
             {% if form.errors %}
-                <p id="error-message">The login and/or password you specified are not correct.</p>
+                <p id="error-message">Incorrect username/e-mail or password.</p>
             {% endif %}
-            <!-- {{ form.login }} -->
             <input autofocus="autofocus" class="form-control" id="id_login" name="login"
                    placeholder="Username or e-mail" type="text">
             <br/>
