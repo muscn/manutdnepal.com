@@ -1,9 +1,15 @@
-hr {
-	margin-top: .01em;
+/*hr {*/
+	/*margin-top: .01em;*/
+/*}*/
+
+.connect-with{
+    text-transform: uppercase;
+    font-size: x-large;
 }
 
-#error-message {
-  color:#a55;
+.login-or{
+    text-transform: uppercase;
+    font-size: x-large;
 }
 
 #login-label{
@@ -91,15 +97,15 @@ hr {
 
 #wrapper-login {
 	width:350px;
-	height:100%;
-	padding-bottom: 1.5em;
-	padding-top: .5em;
-	background-color: #F8F8F8;
-	border-radius: 2em;
-	color: #777777;  
+	/*height:100%;*/
+	/*padding-bottom: 1.5em;*/
+	/*padding-top: .5em;*/
+	/*background-color: #F8F8F8;*/
+	/*border-radius: 2em;*/
+	/*color: #777777;*/
 }
 
-#wrapper-login h1 {
-	float: left;
-	display: inline-block;
-}
+/*#wrapper-login h1 {*/
+	/*float: left;*/
+	/*display: inline-block;*/
+/*}*/

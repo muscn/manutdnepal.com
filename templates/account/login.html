@@ -21,7 +21,7 @@
 {% if socialaccount.providers  %}
 <div class='row'>
   <div class="col-xs-12 col-sm-12 col-md-12">
-    <i id="connnect-with"><storng>--- Connect with ---</storng></i>
+    <span class="connect-with">Connect with</span>
   </div>
 </div>
 
@@ -52,9 +52,6 @@
 <div class="login-or">{% trans 'or' %}</div>
 {% include "socialaccount/snippets/login_extra.html" %}
 
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}
 
 <form class="login" method="POST" action="{% url 'account_login' %}" role="form">
@@ -74,7 +71,7 @@
 
   <!-- {{ form.password }} -->
   <input id="id_password" class="form-control" name="password" placeholder="Password" type="password">
-  <div class="col-sm-offset-0 col-sm-10">
+  <div>
       <div class="checkbox">
         <label id="label-rememberme">
           {{ form.remember }} {{ form.remember.label }}
@@ -87,7 +84,7 @@
   {% endif %}
   <button class="primaryAction btn btn-primary btn-lg btn-block" type="submit">{% trans "Sign In" %}</button>
   <a id="id-forgot-password" class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <a id="id-sign-up" href="{{ signup_url }}">New registration</a>
+  <a id="id-sign-up" href="{{ signup_url }}">{% trans 'Sign Up' %}</a>
 </form>
 
 </div>  
