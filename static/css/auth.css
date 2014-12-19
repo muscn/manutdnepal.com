@@ -9,7 +9,7 @@
 
 /* or styling*/
 
-form.login {
+#wrapper-login form.login {
     position: relative;
     list-style: none;
     margin: 20px 0 0 0;
@@ -17,7 +17,7 @@ form.login {
     border-top: 1px solid #ccc;
 }
 
-form.login:before {
+#wrapper-login form.login:before {
     content: 'or';
     position: absolute;
     top: 0;
@@ -30,6 +30,10 @@ form.login:before {
 
 /*Social icons styles*/
 
+.social-button {
+    max-width: 350px;
+}
+
 .smGlobalBtn {
     display: inline-block;
     color: #fff;
@@ -37,6 +41,7 @@ form.login:before {
     height: 60px;
     line-height: 60px;
     font-size: 24px;
+    text-align: center;
 }
 
 .smGlobalBtn:hover {
@@ -97,4 +102,22 @@ form.signup button {
 
 form.signup {
     max-width: 400px;
+}
+
+/* Hybrid Login Register Page*/
+
+#wrapper-login-register h2 {
+    text-transform: uppercase;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    font-size: x-large;
+}
+
+#wrapper-login-register a#id-sign-up {
+    display: none;
+}
+
+#wrapper-login-register #btn-sign-in {
+    max-width: 150px;
 }
