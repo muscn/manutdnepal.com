@@ -1,0 +1,31 @@
+{% load i18n %}
+<form class="login" method="POST" action="{% url 'account_login' %}" role="form">
+    {% csrf_token %}
+
+    {% if form.errors %}
+        <p id="error-message">Incorrect username/e-mail or password.</p>
+    {% endif %}
+    <input autofocus="autofocus" class="form-control" id="id_login" name="login"
+           placeholder="Username or e-mail" type="text">
+    <br/>
+
+    <!-- {{ form.password }} -->
+    <input id="id_password" class="form-control" name="password" placeholder="Password" type="password">
+
+    <div>
+        <div class="checkbox">
+            <label id="label-rememberme" class="pull-left">
+                {{ form.remember }} {{ form.remember.label }}
+            </label>
+            <br/>
+        </div>
+    </div>
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+    <button class="primaryAction btn btn-primary btn-lg btn-block" id="btn-sign-in"
+            type="submit">{% trans "Sign In" %}</button>
+    <a id="id-forgot-password" class="pull-left"
+       href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    <a id="id-sign-up" href="{{ signup_url }}" class="pull-right">{% trans 'Sign Up' %}</a>
+</form>
