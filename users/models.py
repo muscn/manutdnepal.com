@@ -5,9 +5,12 @@ from django.contrib.auth.decorators import user_passes_test
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
+<<<<<<< Updated upstream
 from allauth.account.signals import user_logged_in
 from payment.models import Payment
 
+=======
+>>>>>>> Stashed changes
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, full_name=''):
@@ -180,4 +183,5 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
             # verified = sociallogin.account.extra_data['verified_email']
             # picture_url = sociallogin.account.extra_data['picture']
 
-    user.save()
+
+        user.save()
