@@ -180,4 +180,5 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
             # verified = sociallogin.account.extra_data['verified_email']
             # picture_url = sociallogin.account.extra_data['picture']
 
-    user.save()
+
+        user.save()
