@@ -22,7 +22,6 @@ def login_register(request):
 def index(request):
     if request.user.is_authenticated():
         return render(request, 'dashboard_index.html')
-        return render(request, 'dashboard_index.html')
     return login(request)
 
 
