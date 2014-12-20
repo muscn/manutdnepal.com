@@ -37,3 +37,21 @@ class HTML5ModelForm(forms.ModelForm):
             self.fields[query].widget = self.fields[query].hidden_widget()
             self.fields[query].label = ''
         return self
+
+
+class HTML5BootstrapModelForm(HTML5ModelForm):
+
+    def refine(self):
+        super(HTML5BootstrapModelForm, self).refine()
+        for (name, field) in self.fields.items():
+            # import ipdb
+            # ipdb.set_trace()
+            widget = field.widget
+            if widget.__class__.__name__ is 'RadioSelect':
+                continue
+            if 'class' in widget.attrs:
+                widget.attrs['class'] += ' form-control'
+            else:
+                widget.attrs['class'] = 'form-control'
+
+
