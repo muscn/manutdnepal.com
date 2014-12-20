@@ -44,6 +44,10 @@ form ul li {
     color: #a55;
 }
 
+.limit-width{
+    max-width: 350px;
+}
+
 footer {
     border-top: 1px solid #cccccc;
     text-align: center;

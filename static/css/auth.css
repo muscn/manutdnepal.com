@@ -6,11 +6,6 @@
     padding-left: 0;
 }
 
-
-#wrapper-login {
-    width: 350px;
-}
-
 .connect-with {
     text-transform: uppercase;
     font-size: x-large;
@@ -21,7 +16,7 @@
 #wrapper-login form.login {
     position: relative;
     list-style: none;
-    margin: 20px 0 0 0;-
+    margin: 20px 0 0 0;
     padding: 30px 0 0 0;
     border-top: 1px solid #ccc;
 }
@@ -38,10 +33,6 @@
 }
 
 /*Social icons styles*/
-
-.social-button {
-    max-width: 350px;
-}
 
 .smGlobalBtn {
     display: inline-block;
@@ -149,11 +140,5 @@ form.signup {
 }
 
 #id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {
-    max-width: 350px;
-}
-
-/*Password Reset*/
-
-form.password_reset{
     max-width: 350px;
 }
