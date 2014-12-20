@@ -1,8 +1,8 @@
-from app.libr import HTML5ModelForm
+from app.libr import HTML5BootstrapModelForm
 from .models import BankDeposit
 
 
-class BankDepositForm(HTML5ModelForm):
+class BankDepositForm(HTML5BootstrapModelForm):
     class Meta:
         model = BankDeposit
         exclude = ('payment', )

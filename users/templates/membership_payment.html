@@ -18,15 +18,15 @@
                 bank accounts and upload an image of the cash deposit voucher here to complete the membership process.
             </div>
 
-            <ul class="list-group">
-                {% for account in bank_accounts %}
-                    <li class="list-group-item">
-                        {{ account.bank_name }} - A/C No.: {{ account.ac_no }}
-                    </li>
-                {% endfor %}
-            </ul>
+{#            <ul class="list-group">#}
+{#                {% for account in bank_accounts %}#}
+{#                    <li class="list-group-item">#}
+{#                        {{ account.bank_name }} - A/C No.: {{ account.ac_no }}#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
 
-            <form method="POST" enctype="multipart/form-data" role="form">
+            <form method="POST" enctype="multipart/form-data" role="form" class="limit-width">
                 {% csrf_token %}
                 {{ bank_deposit_form.non_field_errors }}
 

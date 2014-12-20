@@ -1,7 +1,7 @@
 from django import forms
 from users.models import User, Membership
 from django.contrib.auth.models import Group
-from app.libr import HTML5ModelForm, HTML5BootstrapModelForm
+from app.libr import HTML5BootstrapModelForm
 
 
 class UserAdminForm(forms.ModelForm):
