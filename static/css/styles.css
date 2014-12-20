@@ -13,11 +13,6 @@ body {
     height: 100%
 }
 
-#container {
-    min-height: 100%;
-    position: relative;
-}
-
 /*Navbar styles*/
 
 .navbar .logo {
@@ -44,14 +39,27 @@ form ul li {
     color: #a55;
 }
 
-.limit-width{
+.limit-width {
     max-width: 350px;
 }
 
+/* Style for fixing footer at bottom */
+
+#container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -60px;
+}
+
+#push {
+    height: 60px;
+}
+
 footer {
+    height: 60px;
+    background-color: #f5f5f5;
     border-top: 1px solid #cccccc;
     text-align: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
