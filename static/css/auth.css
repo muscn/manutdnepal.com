@@ -2,16 +2,6 @@
     width: 350px;
 }
 
-#reset-password {
-    width: 250px;
-    border-radius: .5em;
-}
-
-#id_email {
-    border-radius: .5em;
-    width: 350px;
-}
-
 .connect-with {
     text-transform: uppercase;
     font-size: x-large;
@@ -150,5 +140,11 @@ form.signup {
 }
 
 #id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {
+    max-width: 350px;
+}
+
+/*Password Reset*/
+
+form.password_reset{
     max-width: 350px;
 }
