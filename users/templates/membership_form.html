@@ -90,13 +90,13 @@
             <div class="section">
                 <div class="row form-group">
                     <div class="col-xs-12 col-sm-6 col-md-6">
-                        {{ form.identification_file.label_tag }}
-                        {{ form.identification_file }}
+                        {{ form.identification_type.label_tag }}
+                        <div class="radio">{{ form.identification_type }}</div>
                         {{ form.identification_type.errors }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
-                        {{ form.identification_type.label_tag }}
-                        <div class="radio">{{ form.identification_type }}</div>
+                        {{ form.identification_file.label_tag }}
+                        {{ form.identification_file }}
                         {{ form.identification_type.errors }}
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                         {{ form.shirt_size.label_tag }}
-                            <div class="radio">{{ form.shirt_size }}</div>
+                        <div class="radio">{{ form.shirt_size }}</div>
                         {{ form.shirt_size.errors }}
                     </div>
                 </div>
