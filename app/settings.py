@@ -11,6 +11,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'cacheops',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,3 +74,21 @@ try:
     from .local_settings import *  # noqa
 except ImportError:
     pass
+
+
+# DJANGO_REDIS_IGNORE_EXCEPTIONS = True
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+# CACHE_MIDDLEWARE_SECONDS = 216000
+# CACHE_MIDDLEWARE_KEY_PREFIX = ''
+
+CACHEOPS_DEFAULTS = {
+    'timeout': 60 * 60
+}
+
+CACHEOPS = {
+    '*.*': {'ops': 'all'},
+}
+

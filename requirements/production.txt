@@ -1,7 +1,10 @@
-django
+#dev and production
+Django
 psycopg2
 django-allauth
 Pillow
+django-cacheops
+django-redis
 
 #production-only
 gunicorn
