@@ -142,3 +142,11 @@ form.signup {
 #id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {
     max-width: 350px;
 }
+
+.radio{
+    margin-top: auto;
+}
+
+.radio ul{
+    padding-left: 0;
+}

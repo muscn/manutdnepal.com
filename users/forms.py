@@ -1,7 +1,7 @@
 from django import forms
 from users.models import User, Membership
 from django.contrib.auth.models import Group
-from app.libr import HTML5ModelForm
+from app.libr import HTML5ModelForm, HTML5BootstrapModelForm
 
 
 class UserAdminForm(forms.ModelForm):
@@ -17,7 +17,7 @@ class GroupAdminForm(forms.ModelForm):
         fields = ['name', 'permissions']
 
 
-class MembershipForm(HTML5ModelForm):
+class MembershipForm(HTML5BootstrapModelForm):
     # SHIRT_SIZES = (
     # ('S', 'Small'),
     # ('M', 'Medium'),
@@ -70,12 +70,10 @@ class MembershipForm(HTML5ModelForm):
         model = Membership
         exclude = ('status', 'homepage', 'user', 'registration_date')
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'}),
+            'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
             'temporary_address': forms.Textarea(
-                attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Temporary Address'}),
+                attrs={'rows': 2, 'placeholder': 'Temporary Address'}),
             'permanent_address': forms.Textarea(
-                attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Permanent Address'}),
-            'mobile': forms.TextInput(attrs={'class': 'form-control'}),
-            'telephone': forms.TextInput(attrs={'class': 'form-control'}),
+                attrs={'rows': 2, 'placeholder': 'Permanent Address'}),
 
         }
