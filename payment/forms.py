@@ -1,4 +1,4 @@
-from app.libr import HTML5BootstrapModelForm
+from app.utils.forms import HTML5BootstrapModelForm
 from .models import BankDeposit
 
 
