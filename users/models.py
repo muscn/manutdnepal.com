@@ -62,6 +62,7 @@ class User(AbstractBaseUser):
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
     def is_member(self):
+        # TODO handle RelatedObjectDoesNotExist
         return True if self.membership.payment and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False
 
     USERNAME_FIELD = 'username'
@@ -104,6 +105,46 @@ class User(AbstractBaseUser):
             return True
         except Group.DoesNotExist:
             return False
+
+    def get_sample_card(self):
+        from django.core.cache import cache
+        cached = cache.get('sample_card_'+str(self.id))
+        if cached:
+            return cached
+        import os
+        from django.conf import settings
+        from PIL import ImageFont
+        from PIL import Image
+        from PIL import ImageDraw
+        from urllib import urlretrieve
+
+        img = Image.open(os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_card.jpg'))
+        draw = ImageDraw.Draw(img)
+        # write devil number
+        font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-ThinItalic.otf'), 19)
+        draw.text((613, 75), "#007", (255, 255, 255), font=font)
+        # write name
+        font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Regular.otf'), 19)
+        draw.text((433, 438), self.full_name, (255, 255, 255), font=font)
+        # write phone number
+        font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Regular.otf'), 19)
+        draw.text((643, 521), self.membership.mobile, (255, 255, 255), font=font)
+        # download qr
+        # if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'qrs')):
+        # os.makedirs(os.path.join(settings.MEDIA_ROOT, 'qrs'))
+        # urlretrieve('http://api.qrserver.com/v1/create-qr-code/?data=http://manutd.org.np/007&size=160x160&ecc=H',
+        #             os.path.join(settings.MEDIA_ROOT, 'qrs', str(self.id) + '.png'))
+        # qr = Image.open(os.path.join(settings.MEDIA_ROOT, 'qrs', str(self.id) + '.png'))
+        # write qr to image
+        # draw.bitmap((65, 302), qr)
+        if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'sample_cards')):
+            os.makedirs(os.path.join(settings.MEDIA_ROOT, 'sample_cards'))
+        img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.id) + '.jpg'))
+        # import ipdb
+        # ipdb.set_trace()
+        url = settings.MEDIA_URL + 'sample_cards/' + str(self.id) + '.jpg'
+        cache.set('sample_card_'+str(self.id), url)
+        return url
 
     objects = UserManager()
 
@@ -179,6 +220,5 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
             # user.last_name = sociallogin.account.extra_data['family_name']
             # verified = sociallogin.account.extra_data['verified_email']
             # picture_url = sociallogin.account.extra_data['picture']
-
 
         user.save()
