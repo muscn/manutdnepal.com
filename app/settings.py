@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.twitter',
 
     'froala_editor',
+    'dbsettings',
 
     'core',
     'users',

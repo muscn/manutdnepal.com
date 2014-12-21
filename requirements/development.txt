@@ -7,6 +7,7 @@ django-cacheops
 django-redis
 django-mptt
 django-froala-editor
+-e git+https://github.com/xtranophilist/django-dbsettings.git@master#egg=django-dbsettings
 
 #dev only
 django-debug-toolbar
@@ -15,7 +16,7 @@ pyinotify
 #flake8
 
 #maybe in future
-#e git+https://github.com/xtranophilist/django-dbsettings.git@master#egg=django-dbsettings
+
 #django-froala-editor
 #linaro-django-pagination
 #sorl-thumbnail==11.12.1b
