@@ -5,6 +5,7 @@ django-allauth
 Pillow
 django-cacheops
 django-redis
+django-mptt
 
 #dev only
 django-debug-toolbar
@@ -14,7 +15,6 @@ pyinotify
 
 #maybe in future
 #e git+https://github.com/xtranophilist/django-dbsettings.git@master#egg=django-dbsettings
-#django-mptt
 #django-froala-editor
 #linaro-django-pagination
 #sorl-thumbnail==11.12.1b

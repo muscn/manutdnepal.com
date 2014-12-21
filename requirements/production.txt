@@ -5,6 +5,7 @@ django-allauth
 Pillow
 django-cacheops
 django-redis
+django-mptt
 
 #production-only
 gunicorn
