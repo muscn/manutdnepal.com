@@ -6,6 +6,7 @@ Pillow
 django-cacheops
 django-redis
 django-mptt
+django-froala-editor
 
 #production-only
 gunicorn
