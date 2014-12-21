@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'core',
     'users',
     'payment',
+    'page',
 )
 
 MIDDLEWARE_CLASSES = (
