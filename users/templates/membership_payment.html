@@ -18,6 +18,8 @@
                 bank accounts and upload an image of the cash deposit voucher here to complete the membership process.
             </div>
 
+
+
 {#            <ul class="list-group">#}
 {#                {% for account in bank_accounts %}#}
 {#                    <li class="list-group-item">#}
@@ -68,6 +70,8 @@
 
 
         {% endif %}
+
+    <img src="{{ request.user.get_sample_card }}" />
 
 
     </div>
