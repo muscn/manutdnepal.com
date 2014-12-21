@@ -4,6 +4,7 @@ from django.contrib import admin
 urlpatterns = patterns('',
                        # url(r'^$', 'core.views.home', name='home'),
                        url(r'^$', 'users.views.login_register', name='login_register'),
+                       (r'^admin/settings/', include('dbsettings.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        (r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, 'logout'),
                        (r'^accounts/', include('allauth.urls')),
@@ -11,5 +12,6 @@ urlpatterns = patterns('',
                        url(r'^membership/payment/$', 'users.views.membership_payment', name='membership_payment'),
                        url(r'^membership/thankyou/$', 'users.views.membership_thankyou', name='membership_thankyou'),
                        url(r'^home/$', 'core.views.home', name='home'),
+
                        (r'', include('page.urls')),
 )
