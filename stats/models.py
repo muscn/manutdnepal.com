@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from app.utils.countries import CountryField
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -17,16 +18,17 @@ class CompetitionYear(models.Model):
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 
 
-# Fixtured
-class Country(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+# # Fixtured
+# class Country(models.Model):
+#     name = models.CharField(max_length=255)
+#     slug = models.SlugField(max_length=255)
 
 
 # Fixtured
 class City(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
+    country = CountryField()
 
 
 # Fixtured
@@ -79,6 +81,7 @@ class Person(models.Model):
     name = models.CharField(max_length=254)
     slug = models.CharField(max_length=254)
     date_of_birth = models.DateField()
+    image = models.ImageField(upload_to='/photos/')
     # fmh
     # favored_person = models.ForeignKey('Person')
     # favored_team = models.ForeignKey(Team)
@@ -88,7 +91,8 @@ class Person(models.Model):
 
 
 class Player(Person):
-    nationality = models.ForeignKey(Country, related_name='players')
+
+    nationality = CountryField()
     favored_position = models.CharField(max_length=4)
 
     def get_contract_expiry_date(self):
@@ -99,13 +103,13 @@ class Player(Person):
 
 
 class Official(Person):
-    nationality = models.ForeignKey(Country, related_name='officials', null=True, blank=True)
+    nationality = CountryField(null=True, blank=True)
     pass
 
 
 # Doesn't handle cases where a player is also a staff. e.g.: Giggsy 2013/14 :D
 class Staff(Person):
-    nationality = models.ForeignKey(Country, related_name='staffs')
+    nationality = CountryField()
     roles = [('Manager', 'manager'), ('Goal Keeping Coach', 'goal_keeping_coach')]
     role = models.CharField(max_length=254, choices=roles)
 
@@ -166,7 +170,7 @@ class Goal(models.Model):
 
 # class Card(models.Model):
 # player = models.ForeignKey(Player)
-#     time = models.PositiveIntegerField()
+# time = models.PositiveIntegerField()
 #     match = models.ForeignKey(Match)
 #
 #     class Meta:
@@ -189,9 +193,11 @@ class Substitution(models.Model):
     subbed_in = models.ForeignKey(Player, related_name='subbed_in')
     subbed_out = models.ForeignKey(Player, related_name='subbed_out')
     types = [('Injury', 'injury'), ('Tactical', 'tactical')]
-    type = models.CharField(max_length=10, choices = types, null=True, blank=True)
+    type = models.CharField(max_length=10, choices=types, null=True, blank=True)
     time = models.PositiveIntegerField()
 
+
+# Pure stats
 
 class StatSet(models.Model):
     """
@@ -222,20 +228,6 @@ class StatSet(models.Model):
         return u'Stats for %s' % self.match
 
 
-class Injury(models.Model):
-    player = models.ForeignKey(Player, related_name='injuries')
-    injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
-    # Ankle, Illness, Shoulder, Finger,
-    type = models.CharField(max_length=100, choices=injuries, null=True, blank=True)
-    injury_date = models.DateField(null=True, blank=True)
-    return_date = models.DateField(null=True, blank=True)
-    return_date_confirmed = models.BooleanField(default=True)
-    remarks = models.CharField(max_length=255, null=True, blank=True)
-
-    class Meta:
-        verbose_name_plural = 'Injuries'
-
-
 # class PlayerStatLine(models.Model):
 #     """ Used for collecting the stat line for a player in a game """
 #
@@ -258,3 +250,17 @@ class Injury(models.Model):
 
 # Formation
 # Position
+
+
+class Injury(models.Model):
+    player = models.ForeignKey(Player, related_name='injuries')
+    injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
+    # Ankle, Illness, Shoulder, Finger,
+    type = models.CharField(max_length=100, choices=injuries, null=True, blank=True)
+    injury_date = models.DateField(null=True, blank=True)
+    return_date = models.DateField(null=True, blank=True)
+    return_date_confirmed = models.BooleanField(default=True)
+    remarks = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Injuries'
