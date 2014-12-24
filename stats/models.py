@@ -30,6 +30,9 @@ class City(models.Model):
     slug = models.SlugField(max_length=255)
     country = CountryField()
 
+    class Meta:
+        verbose_name_plural = 'Cities'
+
 
 # Fixtured
 class Stadium(models.Model):
