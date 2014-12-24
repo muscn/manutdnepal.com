@@ -183,6 +183,15 @@ class RedCard(models.Model):
     match = models.ForeignKey(Match, related_name='red_cards')
 
 
+class Substitution(models.Model):
+    subbed_in = models.ForeignKey(Player, related_name='subbed_in')
+    subbed_out = models.ForeignKey(Player, related_name='subbed_out')
+    types = [('Injury', 'injury'), ('Tactical', 'tactical')]
+    type = models.CharField(max_length=10, choices = types, null=True, blank=True)
+    time = models.PositiveIntegerField()
+
+
+
 class StatSet(models.Model):
     '''
     Holds all the basic stats of a game such as possession, shots on goal
@@ -210,3 +219,13 @@ class StatSet(models.Model):
 
     def __unicode__(self):
         return u'Stats for %s' % self.match
+
+
+class Injury(models.Model):
+    player = models.ForeignKey(Player, related_name='injuries')
+    injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
+    # Ankle, Illness, Shoulder, Finger,
+    type = models.CharField(max_length=100, null=True, blank=True)
+    return_date = models.DateField(null=True, blank=True)
+    return_date_confirmed = models.BooleanField(default=True)
+    remarks = models.CharField(max_length=255)
