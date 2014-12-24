@@ -73,22 +73,21 @@ footer {
 
 /* Social button follow us */
 
-.social-icon {
-    padding-top: 6px;
-    font-size: 16px;
-    text-align: center;
-    width: 32px;
-    height: 32px;
-    border: 2px solid #777;
-    border-radius: 50%;
-    color: #777;
-    margin: 5px;
-}
+    .social-icon
+    {
+        padding-top: 10px;
+        /*font-size: 100px;*/
+        text-align: center;
+        width: 70px;
+        height: 70px;
+        border: 2px solid #777;
+        color: #777;
+        margin: 5px;
+    }
 
-a.social-icon:hover, a.social-icon:active, a.social-icon:focus {
-    text-decoration: none;
-    color: #e54d36;
-    border-color: #e54d36;
-}
-
-
+    a.social-icon:hover, a.social-icon:active, a.social-icon:focus
+    {
+        text-decoration: none;
+        color: #e54d36;
+        border-color: #e54d36;
+    }
