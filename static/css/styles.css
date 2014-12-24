@@ -57,8 +57,10 @@ form ul li {
     height: 25px;
 }
 
+/* Footer styles */
+
 footer {
-    height: 200px;
+    height: 1px;
     background-color: #f5f5f5;
     border-top: 1px solid #cccccc;
     margin-top: 10px;
@@ -71,7 +73,12 @@ footer {
 
 .copyleft-text {
     position: relative; 
-    bottom: -90px;
+    /*bottom: -90px;*/
+    display: inline;
+}
+
+.text-footer {
+    width: 30%;
 }
 
 h3.footer-heading {
@@ -79,4 +86,29 @@ h3.footer-heading {
     padding-top: .5em;
     float: left;
 }
+
+#footer-text {
+    margin-top: .65em;
+}
+
+/* Social button follow us */
+
+.social-icon {
+    padding-top: 6px;
+    font-size: 16px;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    border: 2px solid #777;
+    border-radius: 50%;
+    color: #777;
+    margin: 5px;
+}
+
+a.social-icon:hover, a.social-icon:active, a.social-icon:focus {
+    text-decoration: none;
+    color: #e54d36;
+    border-color: #e54d36;
+}
+
 
