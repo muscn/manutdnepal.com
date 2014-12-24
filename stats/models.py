@@ -24,7 +24,7 @@ class Country(models.Model):
 
 
 # Fixtured
-class City(models.CharField):
+class City(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
 
@@ -33,7 +33,7 @@ class City(models.CharField):
 class Stadium(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    # city = models.ForeignKey(City, related_name='stadiums')
+    city = models.ForeignKey(City, related_name='stadiums')
     capacity = models.PositiveIntegerField()
     latitude = models.FloatField()
     longitude = models.FloatField()
