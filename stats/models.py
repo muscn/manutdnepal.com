@@ -33,7 +33,7 @@ class City(models.CharField):
 class Stadium(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    city = models.ForeignKey(City, related_name='stadiums')
+    # city = models.ForeignKey(City, related_name='stadiums')
     capacity = models.PositiveIntegerField()
     latitude = models.FloatField()
     longitude = models.FloatField()
@@ -106,7 +106,7 @@ class Official(Person):
 # Doesn't handle cases where a player is also a staff. Re: Giggsy 2013/14 :D
 class Staff(Person):
     nationality = models.ForeignKey(Country, related_name='staffs')
-    roles = [('Manager', 'manager'), 'Goal Keeping Coach', 'goal_keeping_coach']
+    roles = [('Manager', 'manager'), ('Goal Keeping Coach', 'goal_keeping_coach')]
     role = models.CharField(max_length=254, choices=roles)
 
     def get_contract_expiry_date(self):
@@ -156,10 +156,10 @@ class Match(models.Model):
 # Match Events
 
 class Goal(models.Model):
-    scorer = models.ForeignKey(Player)
-    assist_by = models.ForeignKey(Player)
+    scorer = models.ForeignKey(Player, related_name='goals')
+    assist_by = models.ForeignKey(Player, related_name='assists')
     time = models.PositiveIntegerField()
-    match = models.ForeignKey(Match)
+    match = models.ForeignKey(Match, related_name='goals')
 
 
 # class Card(models.Model):
