@@ -158,6 +158,8 @@ class Match(models.Model):
 class Goal(models.Model):
     scorer = models.ForeignKey(Player, related_name='goals')
     assist_by = models.ForeignKey(Player, related_name='assists')
+    penalty = models.BooleanField(default=False)
+    own_goal = models.BooleanField(default=False)
     time = models.PositiveIntegerField()
     match = models.ForeignKey(Match, related_name='goals')
 
