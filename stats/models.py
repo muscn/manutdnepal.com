@@ -20,8 +20,8 @@ class CompetitionYear(models.Model):
 
 # # Fixtured
 # class Country(models.Model):
-#     name = models.CharField(max_length=255)
-#     slug = models.SlugField(max_length=255)
+# name = models.CharField(max_length=255)
+# slug = models.SlugField(max_length=255)
 
 
 # Fixtured
@@ -36,20 +36,20 @@ class Stadium(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     city = models.ForeignKey(City, related_name='stadiums')
-    capacity = models.PositiveIntegerField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    capacity = models.PositiveIntegerField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
 
 
 # Fixtured
 class Team(models.Model):
     name = models.CharField(max_length=255)
     short_name = models.CharField(max_length=10)
-    alternative_names = models.CharField(max_length=255)
-    nick_name = models.CharField(max_length=50)
+    alternative_names = models.CharField(max_length=255, blank=True, null=True)
+    nick_name = models.CharField(max_length=50, blank=True, null=True)
     stadium = models.ForeignKey(Stadium, related_name='teams')
     foundation_date = models.DateField(blank=True, null=True)
-    crest = models.ImageField(upload_to='/crests/')
+    crest = models.ImageField(upload_to='/crests/', blank=True, null=True)
 
     def get_derby_teams(self):
         # stadium -> city -> stadiums -> teams
@@ -80,8 +80,8 @@ class TeamYear(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length=254)
     slug = models.CharField(max_length=254)
-    date_of_birth = models.DateField()
-    image = models.ImageField(upload_to='/photos/')
+    date_of_birth = models.DateField(blank=True, null=True)
+    image = models.ImageField(upload_to='/photos/', blank=True, null=True)
     # fmh
     # favored_person = models.ForeignKey('Person')
     # favored_team = models.ForeignKey(Team)
@@ -91,9 +91,8 @@ class Person(models.Model):
 
 
 class Player(Person):
-
     nationality = CountryField()
-    favored_position = models.CharField(max_length=4)
+    favored_position = models.CharField(max_length=4, blank=True, null=True)
 
     def get_contract_expiry_date(self):
         pass
@@ -151,17 +150,17 @@ class Match(models.Model):
     home_team = models.ForeignKey(Team, related_name='home_matches')
     away_team = models.ForeignKey(Team, related_name='away_matches')
     competition_year = models.ForeignKey(CompetitionYear, related_name='matches')
-    referee = models.ForeignKey(Official, related_name='refereed_matches')
-    assistant_referee_1 = models.ForeignKey(Official, related_name='assisted_matches')
-    assistant_referee_2 = models.ForeignKey(Official, related_name='assisted_matches2')
-    match_referee = models.ForeignKey(Official)
+    referee = models.ForeignKey(Official, related_name='refereed_matches', blank=True, null=True)
+    assistant_referee_1 = models.ForeignKey(Official, related_name='assisted_matches', blank=True, null=True)
+    assistant_referee_2 = models.ForeignKey(Official, related_name='assisted_matches2', blank=True, null=True)
+    match_referee = models.ForeignKey(Official, blank=True, null=True)
 
 
 # Match Events
 
 class Goal(models.Model):
     scorer = models.ForeignKey(Player, related_name='goals')
-    assist_by = models.ForeignKey(Player, related_name='assists')
+    assist_by = models.ForeignKey(Player, related_name='assists', blank=True, null=True)
     penalty = models.BooleanField(default=False)
     own_goal = models.BooleanField(default=False)
     time = models.PositiveIntegerField()
