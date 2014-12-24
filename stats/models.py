@@ -13,7 +13,7 @@ class Competition(models.Model):
 
 
 class CompetitionYear(models.Model):
-    competition = models.ForeignKey(Competition)
+    competition = models.ForeignKey(Competition, related_name='seasons')
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 
 
@@ -33,7 +33,7 @@ class City(models.CharField):
 class Stadium(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
-    city = models.ForeignKey(City)
+    city = models.ForeignKey(City, related_name='stadiums')
     capacity = models.PositiveIntegerField()
     latitude = models.FloatField()
     longitude = models.FloatField()
@@ -45,7 +45,7 @@ class Team(models.Model):
     short_name = models.CharField(max_length=10)
     alternative_names = models.CharField(max_length=255)
     nick_name = models.CharField(max_length=50)
-    stadium = models.ForeignKey(Stadium)
+    stadium = models.ForeignKey(Stadium, related_name='teams')
     foundation_date = models.DateField(blank=True, null=True)
     crest = models.ImageField(upload_to='/crests/')
 
@@ -67,7 +67,7 @@ class Team(models.Model):
 
 
 class TeamYear(models.Model):
-    team = models.ForeignKey(Team)
+    team = models.ForeignKey(Team, related_name='seasons')
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
     # color codes, hex probably
     home_color = models.CharField(max_length=10, null=True, blank=True)
@@ -78,7 +78,6 @@ class TeamYear(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length=254)
     slug = models.CharField(max_length=254)
-    nationality = models.ForeignKey(Country)
     date_of_birth = models.DateField()
     # fmh
     # favored_person = models.ForeignKey('Person')
@@ -89,6 +88,7 @@ class Person(models.Model):
 
 
 class Player(Person):
+    nationality = models.ForeignKey(Country, related_name='players')
     favored_position = models.CharField(max_length=4)
 
     def get_contract_expiry_date(self):
@@ -99,11 +99,13 @@ class Player(Person):
 
 
 class Official(Person):
+    nationality = models.ForeignKey(Country, related_name='officials', null=True, blank=True)
     pass
 
 
 # Doesn't handle cases where a player is also a staff. Re: Giggsy 2013/14 :D
 class Staff(Person):
+    nationality = models.ForeignKey(Country, related_name='staffs')
     roles = [('Manager', 'manager'), 'Goal Keeping Coach', 'goal_keeping_coach']
     role = models.CharField(max_length=254, choices=roles)
 
@@ -115,8 +117,8 @@ class Staff(Person):
 
 
 class PlayerCareerSession(models.Model):
-    player = models.ForeignKey(Player)
-    team = models.ForeignKey(Team)
+    player = models.ForeignKey(Player, related_name='career_sessions')
+    team = models.ForeignKey(Team, related_name='player_sessions')
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     wage = models.FloatField(null=True, blank=True)
@@ -128,8 +130,8 @@ class PlayerCareerSession(models.Model):
 
 
 class StaffCareerSession(models.Model):
-    staff = models.ForeignKey(Staff)
-    team = models.ForeignKey(Team)
+    staff = models.ForeignKey(Staff, related_name='career_sessions')
+    team = models.ForeignKey(Team, related_name='staff_sessions')
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     wage = models.FloatField(null=True, blank=True)
@@ -145,9 +147,9 @@ class Match(models.Model):
     home_team = models.ForeignKey(Team, related_name='home_matches')
     away_team = models.ForeignKey(Team, related_name='away_matches')
     competition_year = models.ForeignKey(CompetitionYear, related_name='matches')
-    referee = models.ForeignKey(Official)
-    linesman_1 = models.ForeignKey(Official)
-    linesman_2 = models.ForeignKey(Official)
+    referee = models.ForeignKey(Official, related_name='refereed_matches')
+    assistant_referee_1 = models.ForeignKey(Official, related_name='assisted_matches')
+    assistant_referee_2 = models.ForeignKey(Official, related_name='assisted_matches2')
     match_referee = models.ForeignKey(Official)
 
 
@@ -161,7 +163,7 @@ class Goal(models.Model):
 
 
 # class Card(models.Model):
-#     player = models.ForeignKey(Player)
+# player = models.ForeignKey(Player)
 #     time = models.PositiveIntegerField()
 #     match = models.ForeignKey(Match)
 #
