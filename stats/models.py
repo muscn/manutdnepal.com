@@ -103,7 +103,7 @@ class Official(Person):
     pass
 
 
-# Doesn't handle cases where a player is also a staff. Re: Giggsy 2013/14 :D
+# Doesn't handle cases where a player is also a staff. e.g.: Giggsy 2013/14 :D
 class Staff(Person):
     nationality = models.ForeignKey(Country, related_name='staffs')
     roles = [('Manager', 'manager'), ('Goal Keeping Coach', 'goal_keeping_coach')]
@@ -193,12 +193,11 @@ class Substitution(models.Model):
     time = models.PositiveIntegerField()
 
 
-
 class StatSet(models.Model):
-    '''
+    """
     Holds all the basic stats of a game such as possession, shots on goal
     so on and so forth
-    '''
+    """
 
     attempts_on_goal = models.IntegerField()
     shots_on_target = models.IntegerField()
@@ -227,7 +226,35 @@ class Injury(models.Model):
     player = models.ForeignKey(Player, related_name='injuries')
     injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
     # Ankle, Illness, Shoulder, Finger,
-    type = models.CharField(max_length=100, null=True, blank=True)
+    type = models.CharField(max_length=100, choices=injuries, null=True, blank=True)
+    injury_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
     return_date_confirmed = models.BooleanField(default=True)
-    remarks = models.CharField(max_length=255)
+    remarks = models.CharField(max_length=255, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Injuries'
+
+
+# class PlayerStatLine(models.Model):
+#     """ Used for collecting the stat line for a player in a game """
+#
+#     player = models.ForeignKey(Player)
+#     match = models.ForeignKey(Match)
+#     shots = models.IntegerField(default=0)
+#     shots_on_goal = models.IntegerField(default=0)
+#     minutes = models.IntegerField(default=0)
+#     goals = models.IntegerField(default=0)
+#     assists = models.IntegerField(default=0)
+#     fouls_committed = models.IntegerField(default=0)
+#     fouls_suffered = models.IntegerField(default=0)
+#     corners = models.IntegerField(default=0)
+#     offsides = models.IntegerField(default=0)
+#     saves = models.IntegerField(default=0)
+#     goals_against = models.IntegerField(default=0)
+#
+#     def __unicode__(self):
+#         return u'Stats for %s' % self.player
+
+# Formation
+# Position
