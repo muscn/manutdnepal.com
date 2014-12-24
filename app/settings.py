@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'users',
     'payment',
     'page',
+    'stats',
 )
 
 MIDDLEWARE_CLASSES = (
