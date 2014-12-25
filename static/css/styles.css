@@ -60,34 +60,36 @@ form ul li {
 /* Footer styles */
 
 footer {
-    height: 300px;
+    height: 225px;
     background-color: #f5f5f5;
     border-top: 1px solid #cccccc;
     margin-top: 10px;
     /*text-align: center;*/
     color: #e54d36;
     position: relative;
-    border-top: 5px solid #e54d36;
+    border-top: 3px solid #e54d36;
 
+}
+
+
+.footer-text {
+    color: #333;
 }
 
 /* Social button follow us */
 
-    .social-icon
-    {
-        padding-top: 10px;
-        /*font-size: 100px;*/
-        text-align: center;
-        width: 70px;
-        height: 70px;
-        border: 2px solid #777;
-        color: #777;
-        margin: 5px;
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #777;
+    text-align: center;
+    padding-top: 5px;
+    color: #777;
+    margin: 5px;
     }
 
-    a.social-icon:hover, a.social-icon:active, a.social-icon:focus
-    {
-        text-decoration: none;
-        color: #e54d36;
-        border-color: #e54d36;
-    }
+a.social-icon:hover, a.social-icon:active, a.social-icon:focus {
+    text-decoration: none;
+    color: #e54d36;
+    border-color: #e54d36;
+}
