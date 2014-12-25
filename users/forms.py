@@ -1,7 +1,7 @@
 from django import forms
 from users.models import User, Membership
 from django.contrib.auth.models import Group
-from app.libr import HTML5ModelForm
+from app.utils.forms import HTML5BootstrapModelForm
 
 
 class UserAdminForm(forms.ModelForm):
@@ -17,7 +17,7 @@ class GroupAdminForm(forms.ModelForm):
         fields = ['name', 'permissions']
 
 
-class MembershipForm(HTML5ModelForm):
+class MembershipForm(HTML5BootstrapModelForm):
     # SHIRT_SIZES = (
     # ('S', 'Small'),
     # ('M', 'Medium'),
@@ -48,11 +48,13 @@ class MembershipForm(HTML5ModelForm):
         ('F', 'Female'),
         ('O', 'Others'),
     )
-    gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'radio-inline'}), choices=GENDERS)
-    shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'radio-inline'}), choices=SHIRT_SIZES)
-    present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'radio-inline'}), choices=PRESENT_STATUSES)
-    identification_type = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'radio-inline'}), choices=IDENTIFICATION_TYPES)
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), max_length=254)
+    gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=GENDERS)
+    shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=SHIRT_SIZES)
+    present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
+                                       choices=PRESENT_STATUSES)
+    identification_type = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
+                                            choices=IDENTIFICATION_TYPES)
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -68,10 +70,10 @@ class MembershipForm(HTML5ModelForm):
         model = Membership
         exclude = ('status', 'homepage', 'user', 'registration_date')
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'class':'form-control', 'placeholder': 'YYYY-MM-DD'}),
-            'temporary_address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Temporary Address'}),
-            'permanent_address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Permanent Address'}),
-            'mobile': forms.TextInput(attrs={'class': 'form-control'}),
-            'telephone': forms.TextInput(attrs={'class': 'form-control'}),
+            'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
+            'temporary_address': forms.Textarea(
+                attrs={'rows': 2, 'placeholder': 'Temporary Address'}),
+            'permanent_address': forms.Textarea(
+                attrs={'rows': 2, 'placeholder': 'Permanent Address'}),
 
         }
