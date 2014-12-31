@@ -27,6 +27,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
 
+    'rest_framework',
+
     'froala_editor',
     'dbsettings',
 
@@ -34,6 +36,8 @@ INSTALLED_APPS = (
     'users',
     'payment',
     'page',
+
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,8 +89,8 @@ except ImportError:
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
-# CACHE_MIDDLEWARE_SECONDS = 216000
-# CACHE_MIDDLEWARE_KEY_PREFIX = ''
+CACHE_MIDDLEWARE_SECONDS = 216000
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 CACHEOPS_DEFAULTS = {
     'timeout': 60 * 60
@@ -96,3 +100,10 @@ CACHEOPS = {
     '*.*': {'ops': 'all'},
 }
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
