@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+from api import views
+
 urlpatterns = patterns('',
                        # url(r'^$', 'core.views.home', name='home'),
                        url(r'^$', 'users.views.login_register', name='login_register'),
@@ -15,4 +17,7 @@ urlpatterns = patterns('',
                        url(r'^home/$', 'core.views.home', name='home'),
 
                        (r'', include('page.urls')),
+
+                       url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+                       url(r'^api/', include('api.urls')),
 )
