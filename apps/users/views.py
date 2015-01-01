@@ -85,11 +85,16 @@ def membership_form(request):
         'base_template': 'base.html',
     })
 
+
 @login_required
 def membership_payment(request):
     # check if membership form has been received
     try:
         membership = request.user.membership
+        if membership.status == 'A':
+            return redirect(reverse('view_profile'))
+        elif membership.status == 'E':
+            return redirect(reverse('renew_membership'))
     except Membership.DoesNotExist:
         return redirect(reverse('membership_form'))
     if request.POST:
@@ -99,6 +104,7 @@ def membership_payment(request):
         # bank_deposit.save()
         # membership.payment =
         from apps.users import membership_settings
+
         payment = Payment(user=request.user, amount=membership_settings.membership_fee)
         payment.save()
         bank_deposit = bank_deposit_form.save(commit=False)
@@ -116,6 +122,7 @@ def membership_payment(request):
         'bank_accounts': bank_accounts,
         'base_template': 'base.html',
     })
+
 
 @login_required
 def membership_thankyou(request):

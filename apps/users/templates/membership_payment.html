@@ -5,10 +5,19 @@
 {% block content %}
     <div class="container-fluid">
 
-        {% if request.user.membership.payment %}
+        {% if request.user.membership.payment.verified %}
 
-            You have already paid for membership.
-            <a target="_blank" href="http://www.helpnepal.net/donate">How about some donations?</a>
+            <div class="alert alert-success" role="alert">
+                You have already paid for membership.
+                <a target="_blank" href="http://www.helpnepal.net/donate">How about some donations?</a>
+            </div>
+
+
+        {% elif request.user.membership.payment %}
+
+            <div class="alert alert-success" role="alert">
+                Your membership request is currently being processed. We will get back to you, thank you!
+            </div>
 
         {% else %}
 
@@ -74,7 +83,7 @@
 
         {% endif %}
 
-        <h3>We will deliver you your membership card once your payment information is verified. Your card looks like
+        <h3>We will deliver you your membership card once your request is processed. Your card looks like
             this:
         </h3>
 
