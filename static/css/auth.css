@@ -131,3 +131,10 @@ form.signup {
 #wrapper-membership-form #id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {
     max-width: 350px;
 }
+
+/* Social Connect buttons */
+
+.connect.btn {
+    width: 200px;
+    margin: 0.2em;
+}
