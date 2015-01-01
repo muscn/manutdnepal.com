@@ -7,7 +7,11 @@
             Thank you, your payment information has been received. We will contact you soon.
         </div>
 
-    <img src="{{ request.user.get_sample_card }}" />
+    <h3>We will deliver you your membership card once your payment information is verified. Your card looks like
+            this:
+        </h3>
+
+        <img class="img-responsive" src="{{ request.user.get_sample_card }}"/>
 
     </div>
 {% endblock %}
