@@ -77,3 +77,20 @@ class MembershipForm(HTML5BootstrapModelForm):
                 attrs={'rows': 2, 'placeholder': 'Permanent Address'}),
 
         }
+
+
+from allauth.account.forms import SignupForm
+
+
+class SignupForm(SignupForm):
+    full_name = forms.CharField(label='Full name')
+
+    def save(self, request):
+        user = super(SignupForm, self).save(request)
+        user.full_name = self.cleaned_data['full_name']
+        user.save()
+        return user
+
+    def signup(self, request, user):
+        user.full_name = self.cleaned_data['full_name']
+        user.save()

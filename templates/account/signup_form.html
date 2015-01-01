@@ -1,10 +1,15 @@
 {% load i18n %}
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
+
+    <p>
+        <label for="id_full_name">Full Name</label>
+        <input autofocus="autofocus" class="form-control" id="id_full_name" maxlength="30" name="full_name" type="text">
+    </p>
+
     <p>
         <label for="id_email">{{ form.username.label }}</label>
-        <input autofocus="autofocus" class="form-control" id="id_username" maxlength="30" name="username"
-               placeholder="Username" type="text">
+        <input class="form-control" id="id_username" maxlength="30" name="username" type="text">
     </p>
 
     <p>
@@ -23,8 +28,6 @@
         <input id="id_confirmation_key" maxlength="40" name="confirmation_key" type="hidden">
     </p>
 
-
-    <!-- {{ form.as_p }} -->
     {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
     {% endif %}
