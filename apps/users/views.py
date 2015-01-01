@@ -85,7 +85,7 @@ def membership_form(request):
         'base_template': 'base.html',
     })
 
-
+@login_required
 def membership_payment(request):
     # check if membership form has been received
     try:
@@ -117,7 +117,7 @@ def membership_payment(request):
         'base_template': 'base.html',
     })
 
-
+@login_required
 def membership_thankyou(request):
     try:
         membership = request.user.membership
