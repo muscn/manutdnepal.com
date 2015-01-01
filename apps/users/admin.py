@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserCha
     UserCreationForm as DjangoUserCreationForm
 from django import forms
 
-from users.models import User, GroupProxy, Membership
+from apps.users.models import User, GroupProxy, Membership
 
 
 class UserCreationForm(DjangoUserCreationForm):

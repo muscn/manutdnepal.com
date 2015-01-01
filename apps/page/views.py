@@ -1,4 +1,4 @@
-from page.models import Page
+from .models import Page
 from django.shortcuts import render, get_object_or_404
 
 

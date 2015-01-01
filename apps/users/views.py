@@ -3,10 +3,10 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
-from users.models import Membership
-from users.forms import MembershipForm
-from payment.forms import BankDepositForm
-from payment.models import BankAccount, BankDeposit, Payment
+from .models import Membership
+from .forms import MembershipForm
+from apps.payment.forms import BankDepositForm
+from apps.payment.models import BankAccount, BankDeposit, Payment
 from allauth.account.forms import LoginForm, SignupForm
 import datetime
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from page.models import Page, Category
-from page.forms import PageForm
+from .models import Page, Category
+from .forms import PageForm
 
 
 class PageAdmin(admin.ModelAdmin):

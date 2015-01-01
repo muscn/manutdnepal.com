@@ -1,5 +1,5 @@
 from django import forms
-from users.models import User, Membership
+from .models import User, Membership
 from django.contrib.auth.models import Group
 from app.utils.forms import HTML5BootstrapModelForm
 

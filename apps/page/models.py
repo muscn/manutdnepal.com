@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db import models
-from users.models import User
+from apps.users.models import User
 from mptt.models import MPTTModel, TreeForeignKey
 from app.utils.forms import unique_slugify
 import datetime
