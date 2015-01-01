@@ -98,8 +98,8 @@ def membership_payment(request):
         # bank_deposit = Payment.create(request.user, 500, bank_deposit_form.save(commit=False))
         # bank_deposit.save()
         # membership.payment =
-        # TODO Membership fee from settings
-        payment = Payment(user=request.user, amount=500)
+        from apps.users import membership_settings
+        payment = Payment(user=request.user, amount=membership_settings.membership_fee)
         payment.save()
         bank_deposit = bank_deposit_form.save(commit=False)
         bank_deposit.payment = payment
