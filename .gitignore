@@ -1,6 +1,6 @@
 .idea
 *.pyc
 *~
-app/local_settings.py
+muscn/local_settings.py
 db.sqlite3
 private/*
