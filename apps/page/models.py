@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from apps.users.models import User
 from mptt.models import MPTTModel, TreeForeignKey
-from app.utils.forms import unique_slugify
+from muscn.utils.forms import unique_slugify
 import datetime
 from froala_editor.fields import FroalaField
 

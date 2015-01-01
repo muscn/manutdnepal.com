@@ -1,4 +1,4 @@
-from app.utils.forms import HTML5BootstrapModelForm
+from muscn.utils.forms import HTML5BootstrapModelForm
 from .models import BankDeposit
 
 

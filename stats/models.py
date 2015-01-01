@@ -1,6 +1,6 @@
 from django.db import models
 import datetime
-from app.utils.countries import CountryField
+from muscn.utils.countries import CountryField
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
