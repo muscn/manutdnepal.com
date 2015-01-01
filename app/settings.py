@@ -30,10 +30,10 @@ INSTALLED_APPS = (
     'froala_editor',
     'dbsettings',
 
-    'core',
-    'users',
-    'payment',
-    'page',
+    'apps.core',
+    'apps.users',
+    'apps.payment',
+    'apps.page',
 )
 
 MIDDLEWARE_CLASSES = (

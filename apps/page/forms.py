@@ -1,5 +1,5 @@
 from django.forms import ModelForm, ChoiceField
-from page.models import Page
+from .models import Page
 from os.path import isfile, join, splitext
 from os import listdir
 

@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
 from allauth.account.signals import user_logged_in
-from payment.models import Payment
+from apps.payment.models import Payment
 
 
 class UserManager(BaseUserManager):
