@@ -58,9 +58,39 @@ form ul li {
 }
 
 footer {
-    height: 25px;
+    /*height: 25px;*/
     background-color: #f5f5f5;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid #e54d36;
     margin-top: 10px;
     text-align: center;
+    padding: 1em;
+}
+
+.footer-links a:before {
+    content: "| ";
+}
+
+.footer-links a:first-child:before {
+    content: "";
+}
+
+/* Social icons*/
+
+.facebookBtn {
+    background: #4060A5;
+}
+
+.googleBtn {
+    background: #e64522;
+}
+
+.twitterBtn {
+    background: #00ABE3;
+}
+
+.social-button {
+    color: #fff;
+    display: inline-block;
+    width: 2em;
+    line-height: 2em;
 }
