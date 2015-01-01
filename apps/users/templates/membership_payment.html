@@ -1,4 +1,6 @@
 {% extends base_template %}
+{% load dbsettings %}
+
 {% block title %} Membership Payment {% endblock %}
 {% block content %}
     <div class="container-fluid">
@@ -13,7 +15,7 @@
 
 
             <div class="alert alert-success" role="alert">
-                Thank you! Your membership request has been received. You may deposit the fee of Rs. XXX to one of the
+                Thank you! Your membership request has been received. You may deposit the fee of Rs. {{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }} to one of the
                 following
                 bank accounts and upload an image of the cash deposit voucher here to complete the membership process.
             </div>
