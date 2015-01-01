@@ -65,8 +65,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "allauth.socialaccount.context_processors.socialaccount",
 )
 
-ROOT_URLCONF = 'app.urls'
-WSGI_APPLICATION = 'app.wsgi.application'
+ROOT_URLCONF = 'muscn.urls'
+WSGI_APPLICATION = 'muscn.wsgi.application'
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
