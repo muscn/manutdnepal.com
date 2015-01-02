@@ -70,7 +70,7 @@ form.signup {
     max-width: 300px;
 }
 
-#wrapper-login-register .smGlobalBtn{
+#wrapper-login-register .smGlobalBtn, #wrapper-login .smGlobalBtn{
     line-height: 2em;
     width: 2em;
     font-size: 1.6em;
