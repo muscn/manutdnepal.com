@@ -68,19 +68,6 @@
     color: #e64522;
 }
 
-/* use :before to add the relevant icons */
-.facebookBtn:before {
-    content: "\f09a";
-}
-
-.twitterBtn:before {
-    content: "\f099";
-}
-
-.googleBtn:before {
-    content: "\f0d5";
-}
-
 /*Sign Up form style*/
 
 form.signup button {

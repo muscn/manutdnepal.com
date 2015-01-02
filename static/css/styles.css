@@ -30,20 +30,7 @@ nav.navbar {
     text-transform: uppercase;
 }
 
-form ul li {
-    list-style: none;
-    display: inline;
-}
-
-#error-message {
-    color: #a55;
-}
-
-.limit-width {
-    max-width: 350px;
-}
-
-/* Style for fixing footer at bottom */
+/* Footer */
 
 #container {
     min-height: 100%;
@@ -58,7 +45,6 @@ form ul li {
 }
 
 footer {
-    /*height: 25px;*/
     background-color: #f5f5f5;
     border-top: 1px solid #e54d36;
     margin-top: 10px;
@@ -75,6 +61,18 @@ footer {
 }
 
 /* Social icons*/
+
+.facebookBtn:before {
+    content: "\f09a";
+}
+
+.twitterBtn:before {
+    content: "\f099";
+}
+
+.googleBtn:before {
+    content: "\f0d5";
+}
 
 .facebookBtn {
     background: #4060A5;
@@ -93,4 +91,30 @@ footer {
     display: inline-block;
     width: 2em;
     line-height: 2em;
+}
+
+/* Form styles*/
+
+form ul li {
+    list-style: none;
+    display: inline;
+}
+
+#error-message {
+    color: #a55;
+}
+
+.limit-width {
+    max-width: 350px;
+}
+
+
+.required label:after {
+    content: '*';
+    color: red;
+}
+
+i.required:after {
+    content: '*';
+    color: red;
 }
