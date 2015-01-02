@@ -63,6 +63,12 @@ footer {
     content: "";
 }
 
+@media only screen and (max-width: 991px) {
+   footer .about-pages, footer .social-links {
+       text-align : center;
+    }
+}
+
 /* Social icons*/
 
 .facebookBtn:before {
@@ -140,3 +146,6 @@ i.required:after {
     content: '*';
     color: red;
 }
+
+
+/* Media queries */
