@@ -276,7 +276,7 @@ class Membership(models.Model):
     gender = models.CharField(null=True, max_length=1)
     temporary_address = models.TextField(null=True)
     permanent_address = models.TextField(null=True)
-    homepage = models.URLField(null=True)
+    homepage = models.URLField(null=True, blank=True)
     mobile = models.CharField(max_length=50, null=True)
     telephone = models.CharField(max_length=50, null=True, blank=True)
     identification_type = models.CharField(max_length=50, null=True)
