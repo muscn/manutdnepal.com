@@ -1,0 +1,26 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <h1>{% trans "Social Network Login Failure" %}</h1>
+
+        <p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+
+        <div class="text-center limit-width" id="wrapper-login">
+            {% include "account/social_login.html" %}
+            {% include "account/login_form.html" %}
+        </div>
+
+    </div>
+
+{% endblock %}
