@@ -77,11 +77,11 @@ form.signup {
 }
 
 /* Membership Form*/
-#wrapper-membership-form .social-accounts .btn {
+.social-accounts .btn {
     color: #fff;
 }
 
-#wrapper-membership-form .social-accounts .btn:hover {
+.social-accounts .btn:hover {
     opacity: 0.75;
 }
 

@@ -133,7 +133,7 @@ form ul li {
     display: inline;
 }
 
-#error-message {
+#error-message, .errorlist {
     color: #a55;
 }
 
