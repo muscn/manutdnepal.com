@@ -1,0 +1,31 @@
+{% extends "socialaccount/base.html" %}
+
+{% load url from future %}
+{% load i18n %}
+
+{% block title %}{% trans "Login Cancelled" %}{% endblock %}
+
+{% block extrahead %}
+    <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <h1>{% trans "Login Cancelled" %}</h1>
+
+        {% url 'account_login' as login_url %}
+
+        <p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was
+            a mistake, please proceed to sign in.{% endblocktrans %}</p>
+
+        <div class="text-center limit-width" id="wrapper-login">
+            {% include "account/social_login.html" %}
+            {% include "account/login_form.html" %}
+        </div>
+
+    </div>
+
+{% endblock %}
+
