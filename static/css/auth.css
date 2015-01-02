@@ -32,42 +32,6 @@
     font-weight: bold;
 }
 
-/*Social icons styles*/
-
-.smGlobalBtn {
-    display: inline-block;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    font-size: 24px;
-    text-align: center;
-    color: #fff;
-}
-
-.smGlobalBtn:hover {
-    text-decoration: none;
-    background: #fff;
-    border: 3px solid;
-    line-height: 54px;
-}
-
-.smGlobalBtn:before {
-    font-family: "FontAwesome";
-}
-
-
-.facebookBtn:hover {
-    color: #4060A5;
-}
-
-.twitterBtn:hover {
-    color: #00ABE3;
-}
-
-.googleBtn:hover {
-    color: #e64522;
-}
-
 /*Sign Up form style*/
 
 form.signup button {
@@ -104,6 +68,12 @@ form.signup {
 
 #wrapper-login-register form.login input{
     max-width: 300px;
+}
+
+#wrapper-login-register .smGlobalBtn{
+    line-height: 2em;
+    width: 2em;
+    font-size: 1.6em;
 }
 
 /* Membership Form*/

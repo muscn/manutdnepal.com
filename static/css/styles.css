@@ -48,7 +48,6 @@ footer {
     background-color: #f5f5f5;
     border-top: 1px solid #e54d36;
     margin-top: 10px;
-    text-align: center;
     padding: 1em;
 }
 
@@ -90,11 +89,31 @@ footer {
     background: #00ABE3;
 }
 
-.social-button {
+.facebookBtn:hover {
+    color: #4060A5;
+}
+
+.twitterBtn:hover {
+    color: #00ABE3;
+}
+
+.googleBtn:hover {
+    color: #e64522;
+}
+
+.smGlobalBtn {
     color: #fff;
     display: inline-block;
     width: 2em;
     line-height: 2em;
+    text-align: center;
+}
+
+.smGlobalBtn:hover {
+    text-decoration: none;
+    background: #fff;
+    border: 0.2em solid;
+    line-height: 1.6em !important;
 }
 
 /* Form styles*/
