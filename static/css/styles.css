@@ -94,3 +94,13 @@ footer {
     width: 2em;
     line-height: 2em;
 }
+
+.required label:after {
+    content: '*';
+    color: red;
+}
+
+i.required:after {
+    content: '*';
+    color: red;
+}

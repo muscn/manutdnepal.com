@@ -74,7 +74,7 @@ class MembershipForm(HTML5BootstrapModelForm):
             'temporary_address': forms.Textarea(
                 attrs={'rows': 2, 'placeholder': 'Temporary Address'}),
             'permanent_address': forms.Textarea(
-                attrs={'rows': 2, 'placeholder': 'Permanent Address'}),
+                attrs={'rows': 2, 'placeholder': 'Permanent Address *'}),
 
         }
 
