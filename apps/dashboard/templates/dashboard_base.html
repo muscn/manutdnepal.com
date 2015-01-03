@@ -24,8 +24,8 @@
 </head>
 <body>
 <div id="container">
-    {% block navbar %}
 
+    {% block navbar %}
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -50,11 +50,21 @@
             <!-- /.container-fluid -->
         </nav>
     {% endblock %}
+
+    <div class="container-fluid">
+        <div id="bc1" class="btn-group btn-breadcrumb">
+            <a href="{% url 'dashboard_index' %}" class="btn btn-default"><i class="fa fa-home"></i></a>
+            {% block breadcrumbs %}
+            {% endblock %}
+        </div>
+    </div>
+
     <div class="container-fluid">
         {% block content %}
         {% endblock %}
     </div>
 </div>
+
 
 </div>
 

@@ -1,3 +1,5 @@
+/* Navbar Styles */
+
 nav.navbar {
     background-color: #000;
     border: none;
@@ -19,4 +21,15 @@ nav.navbar {
 
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
     color: #fff;
+}
+
+/* Tiles Style */
+
+.tile {
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px solid black;
+    min-height: 5em;
+    text-align: center;
 }
