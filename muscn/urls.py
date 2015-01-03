@@ -14,5 +14,7 @@ urlpatterns = patterns('',
                        url(r'^membership/thankyou/$', 'apps.users.views.membership_thankyou', name='membership_thankyou'),
                        url(r'^home/$', 'apps.core.views.home', name='home'),
 
+                       (r'dashboard/', include('apps.dashboard.urls')),
+
                        (r'', include('apps.page.urls')),
 )
