@@ -1,8 +1,38 @@
 {% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
 
 {% block title %} Payments {% endblock %}
 
 {% block breadcrumbs %}
-{{ block.super }}
+    {{ block.super }}
     <a href="{% url 'list_payments' %}" class="btn btn-default"><i class="fa fa-money"></i> Payment</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort all_payments as sorted_objects %}
+    {% autopaginate sorted_objects 25 as paginated_objects %}
+
+    <table class="table table-bordered table-hover">
+        <thead>
+        <th>{% anchor name _("Name") %}</th>
+        <th>{% anchor account__account_no _('Account No.') %}</th>
+        <th>{% anchor description _('Specification') %}</th>
+        </thead>
+        <tbody>
+        {% for item in paginated_objects %}
+            <tr>
+                <td>
+                    {{ item }}
+                </td>
+                <td>
+
+                </td>
+                <td>{{ item.description }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
