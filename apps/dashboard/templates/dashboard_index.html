@@ -3,20 +3,10 @@
 {% block title %} Home {% endblock %}
 
 {% block extrahead %}
-    <script>
-        $(document).ready(function () {
-            $("#menu-toggle").click(function (e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("active");
 
-            });
-
-        });
-    </script>
 {% endblock %}
 
 {% block content %}
 
-    {% include '_dashboard_sidebar.html' %}
 
 {% endblock %}
