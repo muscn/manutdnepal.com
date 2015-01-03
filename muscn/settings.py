@@ -29,6 +29,8 @@ INSTALLED_APPS = (
 
     'froala_editor',
     'dbsettings',
+    'linaro_django_pagination',
+    'webstack_django_sorting',
 
     'apps.core',
     'apps.users',
@@ -45,6 +47,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'linaro_django_pagination.middleware.PaginationMiddleware',
+    'webstack_django_sorting.middleware.SortingMiddleware',
 )
 
 TEMPLATE_LOADERS = (

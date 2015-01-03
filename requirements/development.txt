@@ -8,6 +8,8 @@ django-redis
 django-mptt
 django-froala-editor
 -e git+https://github.com/xtranophilist/django-dbsettings.git@master#egg=django-dbsettings
+linaro-django-pagination
+webstack-django-sorting
 
 #dev only
 django-debug-toolbar
@@ -16,8 +18,5 @@ pyinotify
 #flake8
 
 #maybe in future
-
-#django-froala-editor
-#linaro-django-pagination
 #sorl-thumbnail==11.12.1b
 #django-sitetree
