@@ -6,14 +6,25 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="tile">
-                hey
-            </div>
-        </div>
 
-    </div>
+    <a class="tile red" href="{% url 'list_payments' %}">
+        <i class="fa fa-money"></i>
+        <span>Payment</span>
+    </a>
 
+    <a class="tile orange" href="{% url 'list_payments' %}">
+        <i class="fa fa-users"></i>
+        <span>Membership</span>
+    </a>
+
+    <a class="tile purple" href="{% url 'list_payments' %}">
+        <i class="fa fa-share-alt"></i>
+        <span>Social Media</span>
+    </a>
+
+    <a class="tile green" href="{% url 'list_payments' %}">
+        <i class="fa fa-futbol-o"></i>
+        <span>Stats</span>
+    </a>
 
 {% endblock %}
