@@ -22,6 +22,10 @@ class Payment(models.Model):
         return unicode(self.user) + ' - ' + unicode(self.date_time) + ' - ' + unicode(self.amount)
 
     @property
+    def list_payment_for(self):
+        return self.payment_for.all()
+
+    @property
     def verified(self):
         return True if self.verified_by else False
 

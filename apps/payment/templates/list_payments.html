@@ -21,12 +21,12 @@
             <th>{% anchor user 'By' %}</th>
             <th>{% anchor date_time 'Date, Time' %}</th>
             <th>{% anchor amount 'Amount' %}</th>
-            <th>For</th>
+            <th>{% anchor list_payment_for 'For' %}</th>
             <th>{% anchor verified_by 'Verified By' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
-                <tr class="{% if item.verified_by %}success{% else %}warning{% endif %}">
+                <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
                     <td>
                         {{ item.user.full_name }}
                     </td>
