@@ -44,15 +44,6 @@
                     <ul class="nav navbar-nav navbar-right">
 
                         {% if request.user.is_authenticated %}
-                            {% if request.user.membership %}
-                                {% if request.user.is_member %}
-                                    <li><a>✓</a></li>
-                                {% endif %}
-                            {% else %}
-                                <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
-                                    Membership</a>
-                                </li>
-                            {% endif %}
                             <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
                         {% else %}
                             <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
