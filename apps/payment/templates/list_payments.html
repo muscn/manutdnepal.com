@@ -1,6 +1,7 @@
 {% extends 'dashboard_base.html' %}
 {% load pagination_tags %}
 {% load sorting_tags %}
+{% load filters %}
 
 {% block title %} Payments {% endblock %}
 
@@ -14,25 +15,38 @@
     {% autosort all_payments as sorted_objects %}
     {% autopaginate sorted_objects 25 as paginated_objects %}
 
-    <table class="table table-bordered table-hover">
-        <thead>
-        <th>{% anchor name _("Name") %}</th>
-        <th>{% anchor account__account_no _('Account No.') %}</th>
-        <th>{% anchor description _('Specification') %}</th>
-        </thead>
-        <tbody>
-        {% for item in paginated_objects %}
-            <tr>
-                <td>
-                    {{ item }}
-                </td>
-                <td>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor user 'By' %}</th>
+            <th>{% anchor date_time 'Date/Time' %}</th>
+            <th>{% anchor amount 'Amount' %}</th>
+            <th>For</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        {{ item.user.full_name }}
+                    </td>
+                    <td>
+                        {{ item.date_time }}
+                    </td>
+                    <td>
+                        {{ item.amount }}
+                    </td>
 
-                </td>
-                <td>{{ item.description }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <td>
+                        {% for event in item.payment_for.all %}
+                            {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
 
 {% endblock %}
