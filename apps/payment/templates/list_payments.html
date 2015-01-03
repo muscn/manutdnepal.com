@@ -1,0 +1,8 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %} Payments {% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+    <a href="{% url 'list_payments' %}" class="btn btn-default"><i class="fa fa-money"></i> Payment</a>
+{% endblock %}
