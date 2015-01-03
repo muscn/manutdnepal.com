@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = patterns('',
-                       url(r'^$', views.index, name=''),
+                       url(r'^$', views.index, name='dashboard_index'),
 )
