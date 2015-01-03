@@ -293,7 +293,7 @@ class Membership(models.Model):
         ('E', 'Expired'),
     )
     status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
-    payment = models.ForeignKey(Payment, blank=True, null=True)
+    payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for')
 
     def __unicode__(self):
         return unicode(self.user)

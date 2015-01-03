@@ -46,13 +46,14 @@ def logout(request, next_page=None):
 
 @login_required
 def membership_form(request):
+    user = request.user
     try:
-        membership = request.user.membership
+        membership = user.membership
         return redirect(reverse('membership_payment'))
     except Membership.DoesNotExist:
         pass
-    item = Membership(user=request.user)
-    accounts = sorted(request.user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
+    item = Membership(user=user)
+    accounts = sorted(user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
     for account in accounts:
         if account.provider == 'facebook':
             extra_data = account.extra_data
@@ -74,9 +75,11 @@ def membership_form(request):
                 pass
 
     if request.POST:
-        form = MembershipForm(request.POST, request.FILES, instance=item, user=request.user)
+        form = MembershipForm(request.POST, request.FILES, instance=item, user=user)
         if form.is_valid():
             form.save()
+            user.full_name = form.cleaned_data['full_name']
+            user.save()
             return redirect(reverse('membership_payment'))
     else:
         form = MembershipForm(instance=item, user=request.user)
