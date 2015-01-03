@@ -34,20 +34,22 @@ nav.navbar {
 .tile {
     display: inline-block;
     box-sizing: border-box;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
     height: 12em;
     text-align: center;
     width: 15em;
     margin: 1em;
-    background: #333;
-    color: #fff;
+    /*background: #333;*/
+    /*color: #333;*/
+    color: #666 !important;
     padding: 1em;
 }
 
 a.tile:hover {
     text-decoration: none;
     background: #fff;
-    /*color: #e54d36;*/
+    border-color: #eeeeee;
+    /*color: purple;*/
 }
 
 .tile .fa {
