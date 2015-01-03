@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'apps.users',
     'apps.payment',
     'apps.page',
-    'apps.dashbaord',
+    'apps.dashboard',
 
 )
 
