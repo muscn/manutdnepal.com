@@ -1,8 +1,22 @@
 nav.navbar {
-    border-color: black;
+    background-color: #000;
+    border: none;
+    border-bottom: 1px solid #e54d36;
 }
 
 .navbar-default .navbar-brand {
-    color: black;
+    color: #e54d36;
 }
 
+.navbar-default .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #e54d36;;
+
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #fff;
+}
