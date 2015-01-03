@@ -19,13 +19,14 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor user 'By' %}</th>
-            <th>{% anchor date_time 'Date/Time' %}</th>
+            <th>{% anchor date_time 'Date, Time' %}</th>
             <th>{% anchor amount 'Amount' %}</th>
             <th>For</th>
+            <th>{% anchor verified_by 'Verified By' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
-                <tr>
+                <tr class="{% if item.verified_by %}success{% else %}warning{% endif %}">
                     <td>
                         {{ item.user.full_name }}
                     </td>
@@ -35,11 +36,13 @@
                     <td>
                         {{ item.amount }}
                     </td>
-
                     <td>
                         {% for event in item.payment_for.all %}
                             {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
+                    </td>
+                    <td>
+                        {{ item.verified_by.full_name }}
                     </td>
                 </tr>
             {% endfor %}
