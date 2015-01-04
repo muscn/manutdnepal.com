@@ -219,7 +219,7 @@ class User(AbstractBaseUser):
                 'http://api.qrserver.com/v1/create-qr-code/?data=http://manutd.org.np/' + devil_number + '&size=208x208&ecc=' + qr_error_correction + '&color=ffffff&bgcolor=000',
                 os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png'))
             qr = Image.open(os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png'))
-            #make qr transparent
+            # make qr transparent
             qr = qr.convert('RGBA')
             data = qr.getdata()
             new_data = []
@@ -259,7 +259,7 @@ class User(AbstractBaseUser):
         # # write qr to image
         # # draw.bitmap((65, 302), qr)
         # if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'sample_cards')):
-        #     os.makedirs(os.path.join(settings.MEDIA_ROOT, 'sample_cards'))
+        # os.makedirs(os.path.join(settings.MEDIA_ROOT, 'sample_cards'))
         # img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.id) + '.jpg'))
         # import ipdb
         # ipdb.set_trace()
@@ -345,10 +345,3 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
             # picture_url = sociallogin.account.extra_data['picture']
 
         user.save()
-
-
-class GroupRequiredMixin(object):
-    @classmethod
-    def as_view(cls, **initkwargs):
-        view = super(GroupRequiredMixin, cls).as_view(**initkwargs)
-        return group_required(view)
