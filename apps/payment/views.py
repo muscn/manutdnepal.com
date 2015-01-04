@@ -20,10 +20,10 @@ class PaymentUpdateView(UpdateView):
             obj = self.get_object()
             obj.verified_by = None
             obj.save()
-            messages.info(request, 'The payment is disproved!.')
+            messages.info(request, 'The payment is disproved!')
         if 'approve' in request.GET:
             obj = self.get_object()
             obj.verified_by = request.user
             obj.save()
-            messages.info(request, 'The payment is approved!.')
+            messages.info(request, 'The payment is approved!')
         return super(PaymentUpdateView, self).get(request, *args, **kwargs)
