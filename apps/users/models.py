@@ -345,3 +345,10 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
             # picture_url = sociallogin.account.extra_data['picture']
 
         user.save()
+
+
+class GroupRequiredMixin(object):
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super(GroupRequiredMixin, cls).as_view(**initkwargs)
+        return group_required(view)
