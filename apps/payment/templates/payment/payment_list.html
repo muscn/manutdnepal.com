@@ -28,7 +28,9 @@
             {% for item in paginated_objects %}
                 <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
                     <td>
-                        {{ item.date_time }}
+                        <a href="{% url 'update_payment' item.id %}">
+                            {{ item.date_time }}
+                        </a>
                     </td>
                     <td>
                         {{ item.user.full_name }}
