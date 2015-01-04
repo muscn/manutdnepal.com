@@ -1,15 +1,18 @@
 from django.db import models
 from django.conf import settings
+import datetime
 
 User = settings.AUTH_USER_MODEL
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User)
-    date_time = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, blank=False, verbose_name='By')
+    date_time = models.DateTimeField(default=datetime.datetime.now, verbose_name='Date/Time')
     amount = models.FloatField()
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
+
+
 
     @staticmethod
     def create(user, amount, method):
