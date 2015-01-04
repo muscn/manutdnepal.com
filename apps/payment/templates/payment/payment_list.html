@@ -12,7 +12,7 @@
 
 {% block content %}
 
-    {% autosort all_payments as sorted_objects %}
+    {% autosort object_list as sorted_objects %}
     {% autopaginate sorted_objects 25 as paginated_objects %}
 
     <div class="table-responsive">

@@ -1,10 +1,16 @@
-from django.shortcuts import render
+from django.views.generic.list import ListView
 from .models import Payment
 
 
-def list_payments(request):
-    all_payments = Payment.objects.all()
-    context = {
-        'all_payments': all_payments
-    }
-    return render(request, 'list_payments.html', context)
+class PaymentListView(ListView):
+    model = Payment
+
+
+# def list_payments(request):
+# all_payments = Payment.objects.all()
+#     context = {
+#         'object_list': all_payments
+#     }
+#     return render(request, 'payment_list.html', context)
+
+
