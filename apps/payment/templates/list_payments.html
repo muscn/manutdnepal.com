@@ -18,8 +18,8 @@
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
-            <th>{% anchor user 'By' %}</th>
             <th>{% anchor date_time 'Date, Time' %}</th>
+            <th>{% anchor user 'By' %}</th>
             <th>{% anchor amount 'Amount' %}</th>
             <th>{% anchor list_payment_for 'For' %}</th>
             <th>{% anchor verified_by 'Verified By' %}</th>
@@ -28,10 +28,10 @@
             {% for item in paginated_objects %}
                 <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
                     <td>
-                        {{ item.user.full_name }}
+                        {{ item.date_time }}
                     </td>
                     <td>
-                        {{ item.date_time }}
+                        {{ item.user.full_name }}
                     </td>
                     <td>
                         {{ item.amount }}
