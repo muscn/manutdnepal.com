@@ -116,3 +116,17 @@ nav.navbar {
     position: relative;
     top: 0;
 }
+
+.tile .flip-body a {
+    display: block;
+    background-color: #eeeeee;
+    padding: 0.3em;
+    border-bottom: 1px solid #dddddd;
+    color: #555;
+    opacity: 0.75;
+}
+
+.tile .flip-body a:hover {
+    text-decoration: none;
+    opacity: 1;
+}
