@@ -69,3 +69,40 @@ class SignupForm(SignupForm):
     def signup(self, request, user):
         user.full_name = self.cleaned_data['full_name']
         user.save()
+
+
+class UserForm(HTML5BootstrapModelForm):
+    password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
+    password2 = forms.CharField(widget=forms.PasswordInput, label='Password (again)')
+
+    def clean_username(self):
+        data = self.cleaned_data
+        try:
+            User.objects.get(username=data['username'])
+        except User.DoesNotExist:
+            return data['username']
+        raise forms.ValidationError('This username is already taken.')
+
+    def clean_email(self):
+        data = self.cleaned_data
+        try:
+            User.objects.get(email=data['email'])
+        except User.DoesNotExist:
+            return data['email']
+        raise forms.ValidationError('User with this email address already exists.')
+
+    def clean(self):
+        data = self.cleaned_data
+        if "password1" in data and "password2" in data and data["password1"] != data["password2"]:
+            raise forms.ValidationError("Passwords don't match.")
+
+    def save(self):
+        data = self.cleaned_data
+        user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password1'])
+        user.full_name = data['full_name']
+        user.save()
+        return user
+
+    class Meta:
+        model = User
+        exclude = ('last_login', 'is_active', 'is_staff', 'is_superuser', 'groups', 'password')
