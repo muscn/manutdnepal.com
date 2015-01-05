@@ -2,23 +2,6 @@
 
 {% block title %} Home {% endblock %}
 
-{% block extrahead %}
-    <script>
-        $(document).ready(function () {
-            $(function () {
-                $('.flip-container').mouseenter(function () {
-                    $(this).addClass('open');
-                });
-                $('.flip-container').mouseleave(function () {
-                    $(this).removeClass('open');
-                });
-            });
-
-        });
-    </script>
-
-{% endblock %}
-
 {% block content %}
 
     <div class="dashboard-icons">
