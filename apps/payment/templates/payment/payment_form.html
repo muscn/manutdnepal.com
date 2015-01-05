@@ -51,11 +51,15 @@
             </form>
 
             <div class="pull-right actions">
+                {% if object.method %}
+                    <a href="{{ object.method.get_absolute_url }}" class="btn btn-info">View/Update {{ object.method_type }}</a>
+                {% endif %}
                 {% if object.verified %}
                     {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
                 {% elif object.pk %}
                     {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
                 {% endif %}
+
                 {% include 'partials/delete_button.html' with object=object url='delete_payment' %}
             </div>
         </div>

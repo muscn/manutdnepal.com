@@ -3,11 +3,11 @@
 {% load sorting_tags %}
 {% load filters %}
 
-{% block title %} Bank Deposits {% endblock %}
+{% block title %} Direct Payments {% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_bank_deposits' %}"><i class="fa fa-bank"></i>Bank Deposits</a>
+    <a href="{% url 'list_bank_deposits' %}"><i class="fa fa-money"></i>Direct Payments</a>
 {% endblock %}
 
 {% block content %}
@@ -19,8 +19,8 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor payment__date_time 'Date, Time' %}</th>
-            <th>{% anchor bank 'Bank' %}</th>
-            <th>{% anchor payment__user 'By' %}</th>
+            <th>{% anchor received_by 'Received By' %}</th>
+            <th>{% anchor payment__user 'Paid By' %}</th>
             <th>{% anchor payment__amount 'Amount' %}</th>
             <th>Payment</th>
             </thead>
@@ -28,12 +28,12 @@
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-                        <a href="{% url 'update_bank_deposit' item.id %}">
+                        <a href="{% url 'update_direct_payment' item.id %}">
                             {{ item.payment.date_time }}
                         </a>
                     </td>
                     <td>
-                        {{ item.bank }}
+                        {{ item.received_by.full_name }}
                     </td>
                     <td>
                         {{ item.payment.user.full_name }}
@@ -55,7 +55,7 @@
     {% paginate %}
 
     <div class="pull-right">
-        <a class="btn btn-success" href="{% url 'create_bank_deposit' %}">New Bank Deposit</a>
+        <a class="btn btn-success" href="{% url 'create_direct_payment' %}">New Direct Payment</a>
     </div>
 
 {% endblock %}
