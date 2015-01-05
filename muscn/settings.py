@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'dbsettings',
     'linaro_django_pagination',
     'webstack_django_sorting',
+    'auditlog',
 
     'apps.core',
     'apps.users',
@@ -50,6 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'linaro_django_pagination.middleware.PaginationMiddleware',
     'webstack_django_sorting.middleware.SortingMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 )
 
 TEMPLATE_LOADERS = (

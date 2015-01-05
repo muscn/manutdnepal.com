@@ -10,6 +10,7 @@ django-froala-editor
 -e git+https://github.com/xtranophilist/django-dbsettings.git@master#egg=django-dbsettings
 linaro-django-pagination
 webstack-django-sorting
+django-auditlog
 
 #production-only
 gunicorn
