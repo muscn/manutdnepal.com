@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView
-from .models import Payment
+from .models import Payment, BankAccount
 from .forms import PaymentForm
 
 
@@ -29,3 +29,7 @@ class PaymentUpdateView(UpdateView):
             return redirect(reverse_lazy('update_payment', kwargs={'pk': obj.pk}))
         else:
             return super(PaymentUpdateView, self).post(request, *args, **kwargs)
+
+
+class BankAccountListView(ListView):
+    model = BankAccount

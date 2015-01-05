@@ -1,0 +1,45 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Bank Accounts {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_bank_accounts' %}"><i class="fa fa-bank"></i>Bank Accounts</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 25 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor bank_name 'Bank Name' %}</th>
+            <th>{% anchor ac_no 'Account No.' %}</th>
+            <th>{% anchor branch_name 'Branch Name' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        {{ item.bank_name }}
+                    </td>
+                    <td>
+                        {{ item.ac_no }}
+                    </td>
+                    <td>
+                        {{ item.branch_name }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+{% endblock %}

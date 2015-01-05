@@ -7,4 +7,5 @@ urlpatterns = patterns('',
                        url(r'^$', views.index, name='dashboard_index'),
                        url(r'^payment/$', payment_views.PaymentListView.as_view(), name='list_payments'),
                        url(r'^payment/(?P<pk>\d+)/$', payment_views.PaymentUpdateView.as_view(), name='update_payment'),
+                       url(r'^bank-accounts/$', payment_views.BankAccountListView.as_view(), name='list_bank_accounts'),
 )
