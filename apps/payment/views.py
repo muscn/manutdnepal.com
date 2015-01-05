@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from .models import Payment, BankAccount, BankDeposit, DirectPayment
-from .forms import PaymentForm, BankAccountForm
+from .forms import PaymentForm, BankAccountForm, BankDepositPaymentForm
 
 
 class PaymentListView(ListView):
@@ -65,6 +65,18 @@ class BankAccountDeleteView(DeleteView):
 
 class BankDepositListView(ListView):
     model = BankDeposit
+
+
+class BankDepositCreateView(CreateView):
+    model = BankDeposit
+    form_class = BankDepositPaymentForm
+    success_url = reverse_lazy('list_bank_deposits')
+
+
+class BankDepositUpdateView(UpdateView):
+    model = BankDeposit
+    form_class = BankDepositPaymentForm
+    success_url = reverse_lazy('list_bank_deposits')
 
 
 class DirectPaymentListView(ListView):
