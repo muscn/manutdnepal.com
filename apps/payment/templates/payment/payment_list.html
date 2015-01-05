@@ -22,6 +22,7 @@
             <th>{% anchor user 'By' %}</th>
             <th>{% anchor amount 'Amount' %}</th>
             <th>{% anchor list_payment_for 'For' %}</th>
+            <th>{% anchor method 'Method' %}</th>
             <th>{% anchor verified_by 'Verified By' %}</th>
             </thead>
             <tbody>
@@ -42,6 +43,11 @@
                         {% for event in item.payment_for.all %}
                             {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
+                    </td>
+                    <td>
+                        {% if item.method %}
+                            <a href="{{ item.method.get_absolute_url }}">{{ item.method_type }}</a>
+                        {% endif %}
                     </td>
                     <td>
                         {{ item.verified_by.full_name }}

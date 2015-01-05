@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.conf import settings
 import datetime
@@ -15,6 +16,10 @@ class Payment(models.Model):
     @property
     def method(self):
         return self.bank_deposit or self.direct_payment
+
+    @property
+    def method_type(self):
+        return self.method.__class__._meta.verbose_name.title()
 
     @staticmethod
     def create(user, amount, method):
@@ -49,6 +54,9 @@ class BankDeposit(models.Model):
     voucher_image = models.ImageField(upload_to='voucher_images/')
     payment = models.OneToOneField(Payment, related_name='bank_deposit')
 
+    def get_absolute_url(self):
+        return reverse_lazy('update_bank_deposit', kwargs={'pk': self.pk})
+
     def __unicode__(self):
         return unicode(self.payment.user) + ' - ' + unicode(self.payment.date_time) + ' - ' + unicode(
             self.payment.amount) + '-' + unicode(self.bank)
@@ -57,6 +65,9 @@ class BankDeposit(models.Model):
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
+
+    def get_absolute_url(self):
+        return reverse_lazy('update_direct_payment', kwargs={'pk': self.pk})
 
     def __unicode__(self):
         return unicode(self.payment.user) + ' - ' + unicode(self.payment.date_time) + ' - ' + unicode(
@@ -68,7 +79,7 @@ class DirectPayment(models.Model):
         #
         #
         # class Transaction(models.Model):
-        #     service = models.ForeignKey(Service)
+        # service = models.ForeignKey(Service)
         #     transaction_id = models.TextField(max_length=64)
         #     payment = models.ForeignKey(Payment)
         #     extra_data = models.JSONField()
