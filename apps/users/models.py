@@ -327,6 +327,8 @@ class Membership(models.Model):
             self.status = 'P'
         return super(Membership, self).save(*args, **kwargs)
 
+    def approved(self):
+        return True if self.payment and self.payment.verified and self.approved_by else False
 
     def __unicode__(self):
         return unicode(self.user)

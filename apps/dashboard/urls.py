@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
 from . import views
 from apps.payment import views as payment_views
+from apps.users import views as users_views
 
 
 urlpatterns = patterns('',
@@ -39,4 +40,6 @@ urlpatterns = patterns('',
                            name='delete_direct_payment'),
 
                        url(r'^audit-log/$', views.AuditLogListView.as_view(), name='audit_log'),
+
+                       url(r'^membership/$', users_views.MembershipListView.as_view(), name='list_memberships'),
 )

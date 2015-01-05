@@ -1,0 +1,57 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Memberships {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_memberships' %}"><i class="fa fa-users"></i>Memberships</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor user 'User' %}</th>
+            <th>{% anchor mobile 'Mobile' %}</th>
+            <th>{% anchor registration_date 'Registration Date' %}</th>
+            <th>{% anchor approved_by 'Approved By' %}</th>
+            <th>{% anchor approved_date 'Approved Date' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr class="{% if item.approved %}success{% else %}warning{% endif %}">
+                    <td>
+                        {{ item.user.full_name }}
+                    </td>
+                    <td>
+                        {{ item.mobile }}
+                    </td>
+                    <td>
+                        {{ item.registration_date }}
+                    </td>
+                    <td>
+                        {{ item.approved_by }}
+                    </td>
+                    <td>
+                        {{ item.approved_date }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+    <div class="pull-right">
+        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>
+    </div>
+
+{% endblock %}

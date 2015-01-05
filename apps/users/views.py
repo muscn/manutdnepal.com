@@ -9,6 +9,7 @@ from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, BankDeposit, Payment
 from allauth.account.forms import LoginForm, SignupForm
 import datetime
+from django.views.generic.list import ListView
 
 
 def login_register(request):
@@ -136,3 +137,7 @@ def membership_thankyou(request):
         'membership': membership,
         'base_template': 'base.html',
     })
+
+
+class MembershipListView(ListView):
+    model = Membership
