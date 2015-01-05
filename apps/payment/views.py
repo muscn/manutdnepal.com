@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
-from muscn.utils.mixins import UpdateView
+from muscn.utils.mixins import UpdateView, CreateView
 from .models import Payment, BankAccount
 from .forms import PaymentForm, BankAccountForm
 
@@ -29,6 +29,12 @@ class PaymentUpdateView(UpdateView):
             return redirect(reverse_lazy('update_payment', kwargs={'pk': obj.pk}))
         else:
             return super(PaymentUpdateView, self).post(request, *args, **kwargs)
+
+
+class PaymentCreateView(CreateView):
+    model = Payment
+    form_class = PaymentForm
+    success_url = reverse_lazy('list_payments')
 
 
 class BankAccountListView(ListView):

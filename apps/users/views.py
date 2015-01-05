@@ -103,9 +103,6 @@ def membership_payment(request):
     if request.POST:
         # TODO handle other payment methods
         bank_deposit_form = BankDepositForm(request.POST, request.FILES)
-        # bank_deposit = Payment.create(request.user, 500, bank_deposit_form.save(commit=False))
-        # bank_deposit.save()
-        # membership.payment =
         from apps.users import membership_settings
 
         payment = Payment(user=request.user, amount=membership_settings.membership_fee)

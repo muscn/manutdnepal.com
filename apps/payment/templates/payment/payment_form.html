@@ -51,7 +51,7 @@
             <div class="pull-right">
                 {% if object.verified %}
                     {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
-                {% else %}
+                {% elif object.pk %}
                     {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
                 {% endif %}
             </div>
