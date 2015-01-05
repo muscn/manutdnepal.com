@@ -9,6 +9,10 @@
     <span>{{ scenario }} {{ object }}</span>
 {% endblock %}
 
+{% block extrahead %}
+    {% include 'partials/selectize.html' %}
+{% endblock %}
+
 {% block content %}
 
     <div class="row">
