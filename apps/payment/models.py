@@ -12,7 +12,9 @@ class Payment(models.Model):
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
 
-
+    @property
+    def method(self):
+        return self.bank_deposit or self.direct_payment
 
     @staticmethod
     def create(user, amount, method):
@@ -45,7 +47,7 @@ class BankAccount(models.Model):
 class BankDeposit(models.Model):
     bank = models.ForeignKey(BankAccount)
     voucher_image = models.ImageField(upload_to='voucher_images/')
-    payment = models.ForeignKey(Payment)
+    payment = models.OneToOneField(Payment, related_name='bank_deposit')
 
     def __unicode__(self):
         return unicode(self.payment.user) + ' - ' + unicode(self.payment.date_time) + ' - ' + unicode(
@@ -54,19 +56,19 @@ class BankDeposit(models.Model):
 
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User)
-    payment = models.ForeignKey(Payment)
+    payment = models.OneToOneField(Payment, related_name='direct_payment')
 
     def __unicode__(self):
         return unicode(self.payment.user) + ' - ' + unicode(self.payment.date_time) + ' - ' + unicode(
             self.payment.amount)
 
-#
-# class Service(models.Model):
-#     name = models.CharField(max_length=255)
-#
-#
-# class Transaction(models.Model):
-#     service = models.ForeignKey(Service)
-#     transaction_id = models.TextField(max_length=64)
-#     payment = models.ForeignKey(Payment)
-#     extra_data = models.JSONField()
+        #
+        # class Service(models.Model):
+        # name = models.CharField(max_length=255)
+        #
+        #
+        # class Transaction(models.Model):
+        #     service = models.ForeignKey(Service)
+        #     transaction_id = models.TextField(max_length=64)
+        #     payment = models.ForeignKey(Payment)
+        #     extra_data = models.JSONField()

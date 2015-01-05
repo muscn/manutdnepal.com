@@ -1,6 +1,7 @@
 {% extends 'dashboard_base.html' %}
+{% load filters %}
 
-{% block title %} {{ scenario }}Payment {% endblock %}
+{% block title %} {{ scenario }} Payment {% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -40,18 +41,38 @@
                 {{ form.remarks.errors }}
             </div>
 
-            <input type="submit" class="btn" value="Save">
+            <input type="submit" class="btn btn-info" value="Save">
 
         </form>
 
         <div class="col-sm-12 col-lg-6">
-            {% if not form.instance.verified %}
-                {% include 'partials/action_form.html' with action='Approve' class='success' %}
-            {% endif %}
-            {% if form.instance.verified %}
-                <p> The payment was verified by {{ form.instance.verified_by.full_name }}.</p>
-                {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
-            {% endif %}
+
+            <div id="method-details">
+
+                {% if object.method|get_class_name == 'BankDeposit' %}
+                    <div class="bank-deposit">
+                        <h3><i class="fa fa-bank"></i> Bank Deposit</h3>
+                        <a href="{{ object.method.voucher_image.url }}" alt="Click to view full image" target="_blank">
+                            <img class="img-responsive" src="{{ object.method.voucher_image.url }}">
+                        </a>
+                    </div>
+                {% elif object.method|get_class_name == 'DirectPayment' %}
+                    <h3>Directly paid to {{ object.method.received_by.full_name }}.</h3>
+                {% endif %}
+
+            </div>
+
+            <div class="actions">
+
+                {% if not object.verified %}
+                    {% include 'partials/action_form.html' with action='Approve' class='success' %}
+                {% endif %}
+                {% if object.verified %}
+                    <p> The payment was verified by {{ object.verified_by.full_name }}.</p>
+                    {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
+                {% endif %}
+            </div>
+
         </div>
 
     </div>
