@@ -46,11 +46,11 @@
 
         <div class="col-sm-12 col-lg-6">
             {% if not form.instance.verified %}
-                <a href="{% url 'update_payment' form.instance.id %}?approve" class="btn btn-warning">Approve</a>
+                {% include 'partials/action_form.html' with action='Approve' class='success' %}
             {% endif %}
             {% if form.instance.verified %}
                 <p> The payment was verified by {{ form.instance.verified_by.full_name }}.</p>
-                <a href="{% url 'update_payment' form.instance.id %}?disprove" class="btn btn-danger">Disprove</a>
+                {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
             {% endif %}
         </div>
 

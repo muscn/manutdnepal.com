@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
+from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView
 from .models import Payment
@@ -15,15 +16,16 @@ class PaymentUpdateView(UpdateView):
     form_class = PaymentForm
     success_url = reverse_lazy('list_payments')
 
-    def get(self, request, *args, **kwargs):
-        if 'disprove' in request.GET:
+    def post(self, request, *args, **kwargs):
+        if 'action' in request.POST:
             obj = self.get_object()
-            obj.verified_by = None
+            if request.POST['action'] == 'Approve':
+                obj.verified_by = request.user
+                messages.info(request, 'The payment is approved!')
+            elif request.POST['action'] == 'Disprove':
+                obj.verified_by = None
+                messages.info(request, 'The payment is disproved!')
             obj.save()
-            messages.info(request, 'The payment is disproved!')
-        if 'approve' in request.GET:
-            obj = self.get_object()
-            obj.verified_by = request.user
-            obj.save()
-            messages.info(request, 'The payment is approved!')
-        return super(PaymentUpdateView, self).get(request, *args, **kwargs)
+            return redirect(reverse_lazy('update_payment', kwargs={'pk': obj.pk}))
+        else:
+            return super(PaymentUpdateView, self).post(request, *args, **kwargs)
