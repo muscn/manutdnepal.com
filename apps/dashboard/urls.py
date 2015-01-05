@@ -26,4 +26,6 @@ urlpatterns = patterns('',
                            name='create_bank_deposit'),
                        url(r'^bank-deposit/(?P<pk>\d+)/$', payment_views.BankDepositUpdateView.as_view(),
                            name='update_bank_deposit'),
+                       url(r'^bank-deposit/(?P<pk>\d+)/delete/$', payment_views.BankDepositDeleteView.as_view(),
+                           name='delete_bank_deposit'),
 )

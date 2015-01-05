@@ -79,5 +79,10 @@ class BankDepositUpdateView(UpdateView):
     success_url = reverse_lazy('list_bank_deposits')
 
 
+class BankDepositDeleteView(DeleteView):
+    model = BankDeposit
+    success_url = reverse_lazy('list_bank_deposits')
+
+
 class DirectPaymentListView(ListView):
     model = DirectPayment
