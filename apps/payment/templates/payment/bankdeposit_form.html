@@ -66,6 +66,19 @@
                 {% if object.payment %}
                     <a href="{% url 'update_payment' object.payment.id %}" class="btn btn-info">View/Update Payment</a>
                 {% endif %}
+                {% if object.payment.verified %}
+                    <form method="POST" action="{% url 'update_payment' object.payment.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="Disprove"/>
+                        <input type="submit" value="Disprove" class="btn btn-danger">
+                    </form>
+                {% elif object.payment.pk %}
+                    <form method="POST" action="{% url 'update_payment' object.payment.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="Approve"/>
+                        <input type="submit" value="Approve" class="btn btn-success warning">
+                    </form>
+                {% endif %}
                 {% include 'partials/delete_button.html' with object=object url='delete_bank_deposit' %}
             </div>
         </div>
