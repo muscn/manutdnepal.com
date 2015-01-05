@@ -59,6 +59,10 @@ class BankDeposit(models.Model):
     voucher_image = models.ImageField(upload_to='voucher_images/')
     payment = models.OneToOneField(Payment, related_name='bank_deposit')
 
+    def delete(self, *args, **kwargs):
+        self.payment.delete()
+        return super(BankDeposit, self).delete(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse_lazy('update_bank_deposit', kwargs={'pk': self.pk})
 
@@ -70,6 +74,10 @@ class BankDeposit(models.Model):
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
+
+    def delete(self, *args, **kwargs):
+        self.payment.delete()
+        return super(DirectPayment, self).delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse_lazy('update_direct_payment', kwargs={'pk': self.pk})
@@ -86,5 +94,5 @@ class DirectPayment(models.Model):
         # class Transaction(models.Model):
         # service = models.ForeignKey(Service)
         # transaction_id = models.TextField(max_length=64)
-        #     payment = models.ForeignKey(Payment)
+        # payment = models.ForeignKey(Payment)
         #     extra_data = models.JSONField()
