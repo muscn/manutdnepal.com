@@ -13,6 +13,11 @@ class Payment(models.Model):
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
 
+    def delete(self, delete_method=True, *args, **kwargs):
+        if delete_method:
+            self.method.delete(delete_payment=False)
+        return super(Payment, self).delete(*args, **kwargs)
+
     @property
     def method(self):
         # methods are related name on one-to-one payment fields on payment methods
@@ -59,8 +64,9 @@ class BankDeposit(models.Model):
     voucher_image = models.ImageField(upload_to='voucher_images/')
     payment = models.OneToOneField(Payment, related_name='bank_deposit')
 
-    def delete(self, *args, **kwargs):
-        self.payment.delete()
+    def delete(self, delete_payment=True, *args, **kwargs):
+        if delete_payment:
+            self.payment.delete(delete_method=False)
         return super(BankDeposit, self).delete(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -75,8 +81,9 @@ class DirectPayment(models.Model):
     received_by = models.ForeignKey(User)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
 
-    def delete(self, *args, **kwargs):
-        self.payment.delete()
+    def delete(self, delete_payment=True, *args, **kwargs):
+        if delete_payment:
+            self.payment.delete(delete_method=False)
         return super(DirectPayment, self).delete(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -95,4 +102,4 @@ class DirectPayment(models.Model):
         # service = models.ForeignKey(Service)
         # transaction_id = models.TextField(max_length=64)
         # payment = models.ForeignKey(Payment)
-        #     extra_data = models.JSONField()
+        # extra_data = models.JSONField()
