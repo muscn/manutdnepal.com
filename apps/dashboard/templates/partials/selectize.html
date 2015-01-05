@@ -1,0 +1,10 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'vendors/selectize/selectize.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/selectize/selectize.bootstrap3.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/selectize/selectize.flatten.css' %}"/>
+<script type="text/javascript">
+    $(function () {
+        $('select').selectize();
+    });
+</script>

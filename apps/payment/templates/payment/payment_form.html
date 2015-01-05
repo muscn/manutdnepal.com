@@ -9,6 +9,11 @@
     <span>{{ scenario }} {{ object }}</span>
 {% endblock %}
 
+{% block extrahead %}
+    {% include 'partials/selectize.html' %}
+    {% include 'partials/datetimepicker.html' %}
+{% endblock %}
+
 {% block content %}
 
     <div class="row">
@@ -23,7 +28,7 @@
                 {{ form.user.errors }}
             </div>
 
-            <div class="form-group">
+            <div class="form-group date-time">
                 {{ form.date_time.label_tag }}
                 {{ form.date_time }}
                 {{ form.date_time.errors }}

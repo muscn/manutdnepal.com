@@ -1,7 +1,9 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
+{% load staticfiles %}
 
 {% block title %}Manchester United Supporters' Club Nepal{% endblock %}
+<link rel="icon" type="image/png" href="{% block favicon_url %}{% static 'img/favicon.ico' %}{% endblock %}"/>
 
 {% block branding %}
     <h1 id="site-name">MUSCN Admin Panel</h1>

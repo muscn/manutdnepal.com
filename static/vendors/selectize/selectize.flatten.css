@@ -1,0 +1,8 @@
+.selectize-input {
+    border-radius: 0 !important;
+}
+
+.selectize-dropdown {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}

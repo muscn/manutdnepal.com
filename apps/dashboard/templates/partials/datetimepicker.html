@@ -1,0 +1,16 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'vendors/datetimepicker/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'vendors/datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/datetimepicker/bootstrap-datetimepicker.min.css' %}"/>
+{#<link rel="stylesheet" type="text/css" href="{% static 'vendors/selectize/selectize.flatten.css' %}"/>#}
+
+<script type="text/javascript">
+    $(function () {
+        $('.form-group.date-time input').datetimepicker({
+            format: "YYYY-MM-DD HH:mm",
+            pick12HourFormat: false,
+            pickSeconds: false
+        });
+    });
+</script>
