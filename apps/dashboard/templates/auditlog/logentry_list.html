@@ -7,7 +7,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'audit_log' %}"><i class="fa fa-bank"></i>Audit Log</a>
+    <a href="{% url 'audit_log' %}"><i class="fa fa-history"></i>Audit Log</a>
 {% endblock %}
 
 {% block content %}
@@ -55,9 +55,5 @@
     </div>
 
     {% paginate %}
-
-    <div class="pull-right">
-        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>
-    </div>
 
 {% endblock %}
