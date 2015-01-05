@@ -11,6 +11,9 @@
     </title>
     {#    <link rel="canonical" href="http://manutdnepal.com/">#}
     {#    <link rel="canonical" href="http://manutd.org.np/">#}
+
+    <link rel="icon" type="image/png" href="{% block favicon_url %}{% static 'img/favicon.ico' %}{% endblock %}"/>
+
     {% block bootstrap_styles %}
         <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
         <link href="{% static "css/bootstrap-flat.min.css" %}" rel="stylesheet" type="text/css">
