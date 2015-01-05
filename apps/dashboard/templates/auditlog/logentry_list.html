@@ -19,7 +19,7 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor actor 'Actor' %}</th>
-            <th>Object</th>
+            <th>{% anchor object_repr 'Object' %}</th>
             <th>{% anchor content_type 'Type' %}</th>
             <th>{% anchor action 'Action' %}</th>
             <th>{% anchor timestamp 'Timestamp' %}</th>
@@ -31,7 +31,16 @@
                         {{ item.actor.full_name }}
                     </td>
                     <td>
-                        {{ item.object_repr }}
+                        {% if item.action == 2 %}
+                            {{ item.object_repr }}
+                        {% else %}
+                            {% if item.get_object.get_absolute_url %}
+                                <a href="{{ item.get_object.get_absolute_url }}">{{ item.object_repr }}</a>
+                            {% else %}
+                                {{ item.object_repr }}
+                            {% endif %}
+
+                        {% endif %}
                     </td>
                     <td>
                         {{ item.content_type }}

@@ -39,6 +39,9 @@ class Payment(models.Model):
         method.payment = payment
         return method
 
+    def get_absolute_url(self):
+        return reverse_lazy('update_payment', kwargs={'pk': self.pk})
+
     def __unicode__(self):
         return unicode(self.user) + ' - ' + unicode(self.date_time) + ' - ' + unicode(self.amount)
 
