@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
-from .models import Membership
+from .models import Membership, User
 from .forms import MembershipForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, BankDeposit, Payment
@@ -154,3 +154,19 @@ class MembershipUpdateView(UpdateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
+
+
+class UserListView(ListView):
+    model = User
+
+
+class UserCreateView(CreateView):
+    model = User
+    form_class = MembershipForm
+    success_url = reverse_lazy('list_users')
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = MembershipForm
+    success_url = reverse_lazy('list_users')

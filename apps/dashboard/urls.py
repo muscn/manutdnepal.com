@@ -45,4 +45,9 @@ urlpatterns = patterns('',
                        url(r'^membership/add/$', users_views.MembershipCreateView.as_view(), name='create_membership'),
                        url(r'^membership/(?P<pk>\d+)/$', users_views.MembershipUpdateView.as_view(),
                            name='update_membership'),
+
+                       url(r'^user/$', users_views.UserListView.as_view(), name='list_users'),
+                       url(r'^user/add/$', users_views.UserCreateView.as_view(), name='create_user'),
+                       url(r'^user/(?P<pk>\d+)/$', users_views.UserUpdateView.as_view(),
+                           name='update_user'),
 )

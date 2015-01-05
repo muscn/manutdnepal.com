@@ -64,8 +64,8 @@ class User(AbstractBaseUser):
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
     def is_member(self):
-        # TODO handle RelatedObjectDoesNotExist
-        return True if self.membership.payment and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False
+        return True if hasattr(self, 'membership') and hasattr(self.membership,
+                                                               'payment') and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['full_name', 'email']
