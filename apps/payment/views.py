@@ -45,3 +45,9 @@ class BankAccountUpdateView(UpdateView):
     model = BankAccount
     form_class = BankAccountForm
     success_url = reverse_lazy('list_bank_accounts')
+
+
+class BankAccountCreateView(CreateView):
+    model = BankAccount
+    form_class = BankAccountForm
+    success_url = reverse_lazy('list_bank_accounts')
