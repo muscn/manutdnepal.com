@@ -55,12 +55,10 @@
     {% endblock %}
 
     <div class="container-fluid breadcrumbs">
-        <div id="bc1" class="btn-group btn-breadcrumb">
-            <a title="Home is where the heart is." href="{% url 'dashboard_index' %}" class="btn btn-default">
-                <i class="fa fa-home"></i> Home</a>
+            <a title="Home is where the heart is." href="{% url 'dashboard_index' %}">
+                <i class="fa fa-home"></i>Home</a>
             {% block breadcrumbs %}
             {% endblock %}
-        </div>
     </div>
 
 <div class="container-fluid">

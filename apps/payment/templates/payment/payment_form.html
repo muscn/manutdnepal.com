@@ -4,8 +4,8 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_payments' %}" class="btn btn-default"><i class="fa fa-money"></i> Payment</a>
-    <span class="btn btn-default"> {{ scenario }} {{ object }}</span>
+    <a href="{% url 'list_payments' %}"><i class="fa fa-money"></i>Payment</a>
+    <span>{{ scenario }} {{ object }}</span>
 {% endblock %}
 
 {% block content %}

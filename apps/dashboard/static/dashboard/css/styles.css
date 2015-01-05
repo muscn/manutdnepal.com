@@ -26,7 +26,32 @@ nav.navbar {
 /* Breadcrumbs */
 
 .breadcrumbs {
-    margin-bottom: 1em;
+    margin: 0 0 1em 1px;
+}
+
+.breadcrumbs > a, .breadcrumbs > span {
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 0.4em 0.8em;
+    float: left;
+    font-size: 0.9em;
+    position: relative;
+    margin-left: -1px;
+}
+
+.breadcrumbs > a:hover, .breadcrumbs > span:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+    text-decoration: none;
+}
+
+.breadcrumbs > a:last-child, .breadcrumbs > span:last-child {
+    font-weight: bold;
+    /*border-right: none;*/
+}
+
+.breadcrumbs .fa{
+    margin-right: 0.3em;
 }
 
 /* Tiles Style */
@@ -58,7 +83,7 @@ a.tile:hover {
     padding-bottom: 0.12em;
 }
 
-.tile span{
+.tile span {
     text-transform: uppercase;
 }
 
