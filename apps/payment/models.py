@@ -42,7 +42,7 @@ class Payment(models.Model):
 
     @property
     def verified(self):
-        return True if self.verified_by else False
+        return True if self.verified_by and self.method else False
 
 
 class BankAccount(models.Model):
