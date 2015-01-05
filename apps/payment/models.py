@@ -14,7 +14,7 @@ class Payment(models.Model):
     remarks = models.TextField(blank=True, null=True)
 
     def delete(self, delete_method=True, *args, **kwargs):
-        if delete_method:
+        if delete_method and self.method:
             self.method.delete(delete_payment=False)
         return super(Payment, self).delete(*args, **kwargs)
 
@@ -65,7 +65,7 @@ class BankDeposit(models.Model):
     payment = models.OneToOneField(Payment, related_name='bank_deposit')
 
     def delete(self, delete_payment=True, *args, **kwargs):
-        if delete_payment:
+        if delete_payment and self.payment:
             self.payment.delete(delete_method=False)
         return super(BankDeposit, self).delete(*args, **kwargs)
 
@@ -82,7 +82,7 @@ class DirectPayment(models.Model):
     payment = models.OneToOneField(Payment, related_name='direct_payment')
 
     def delete(self, delete_payment=True, *args, **kwargs):
-        if delete_payment:
+        if delete_payment and self.payment:
             self.payment.delete(delete_method=False)
         return super(DirectPayment, self).delete(*args, **kwargs)
 
