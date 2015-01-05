@@ -18,29 +18,28 @@
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
+            <th>{% anchor payment__date_time 'Date, Time' %}</th>
             <th>{% anchor bank 'Bank' %}</th>
-            <th>{% anchor bank 'Bank' %}</th>
-            <th>{% anchor payment.amount 'Amount' %}</th>
-{#            <th>{% anchor branch_name 'Branch Name' %}</th>#}
+            <th>{% anchor payment__user 'By' %}</th>
+            <th>{% anchor payment__amount 'Amount' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-{#                        <a href="{% url 'update_bank_account' item.id %}">#}
-                            {{ item.bank }}
-{#                        </a>#}
+                        <a href="{% url 'update_bank_deposit' item.id %}">
+                            {{ item.payment.date_time }}
+                        </a>
                     </td>
                     <td>
-{#                        <a href="{% url 'update_bank_account' item.id %}">#}
-                            {{ item.payment.amount }}
-{#                        </a>#}
+                        {{ item.bank }}
                     </td>
-{#                    <td>#}
-{#                        <a href="{% url 'update_bank_account' item.id %}">#}
-{#                            {{ item.branch_name }}#}
-{#                        </a>#}
-{#                    </td>#}
+                    <td>
+                        {{ item.payment.user.full_name }}
+                    </td>
+                    <td>
+                        {{ item.payment.amount }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -50,7 +49,7 @@
     {% paginate %}
 
     <div class="pull-right">
-        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>
+        <a class="btn btn-success" href="{% url 'create_bank_deposit' %}">New Bank Deposit</a>
     </div>
 
 {% endblock %}

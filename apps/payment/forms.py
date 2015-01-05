@@ -40,6 +40,7 @@ class BankDepositPaymentForm(form):
 
     def __init__(self, *args, **kwargs):
         super(BankDepositPaymentForm, self).__init__(*args, **kwargs)
+        self.fields['bank'].empty_label = None
         if self.instance.payment_id:
             self.initial['amount'] = self.instance.payment.amount
             self.initial['date_time'] = self.instance.payment.date_time
