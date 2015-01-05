@@ -40,6 +40,12 @@ class BankDepositPaymentForm(form):
 
     def __init__(self, *args, **kwargs):
         super(BankDepositPaymentForm, self).__init__(*args, **kwargs)
+        if self.instance.payment_id:
+            self.initial['amount'] = self.instance.payment.amount
+            self.initial['date_time'] = self.instance.payment.date_time
+            self.initial['user'] = self.instance.payment.user
+            self.initial['remarks'] = self.instance.payment.remarks
+
 
     class Meta:
         model = BankDeposit
