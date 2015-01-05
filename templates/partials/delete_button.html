@@ -1,0 +1,5 @@
+{% if object.pk %}
+    <form style="display: inline" method="POST" action="{% url url object.pk %}">
+        {% csrf_token %}<input type="submit" value="Delete" class="btn btn-danger">
+    </form>
+{% endif %}

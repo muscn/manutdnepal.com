@@ -130,3 +130,11 @@ nav.navbar {
     text-decoration: none;
     opacity: 1;
 }
+
+.actions form {
+    display: inline;
+}
+
+.actions.pull-right {
+    margin-top: -2em;
+}

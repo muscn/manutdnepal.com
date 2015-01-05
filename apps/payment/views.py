@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
-from muscn.utils.mixins import UpdateView, CreateView
+from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from .models import Payment, BankAccount
 from .forms import PaymentForm, BankAccountForm
 
@@ -37,6 +37,11 @@ class PaymentCreateView(CreateView):
     success_url = reverse_lazy('list_payments')
 
 
+class PaymentDeleteView(DeleteView):
+    model = Payment
+    success_url = reverse_lazy('list_payments')
+
+
 class BankAccountListView(ListView):
     model = BankAccount
 
@@ -50,4 +55,9 @@ class BankAccountUpdateView(UpdateView):
 class BankAccountCreateView(CreateView):
     model = BankAccount
     form_class = BankAccountForm
+    success_url = reverse_lazy('list_bank_accounts')
+
+
+class BankAccountDeleteView(DeleteView):
+    model = BankAccount
     success_url = reverse_lazy('list_bank_accounts')
