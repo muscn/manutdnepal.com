@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import UpdateView as BaseUpdateView, CreateView as BaseCreateView
+from django.views.generic.edit import UpdateView as BaseUpdateView, CreateView as BaseCreateView, \
+    DeleteView as BaseDeleteView
 
 
 class LoginRequiredMixin(object):
@@ -21,3 +23,10 @@ class CreateView(BaseCreateView):
         context = super(CreateView, self).get_context_data(**kwargs)
         context['scenario'] = 'Create'
         return context
+
+
+class DeleteView(BaseDeleteView):
+    def post(self, request, *args, **kwargs):
+        response = super(DeleteView, self).post(request, *args, **kwargs)
+        messages.success(request, self.object.__class__.__name__ + ' successfully deleted!')
+        return response
