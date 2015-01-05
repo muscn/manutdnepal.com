@@ -97,8 +97,9 @@ class HTML5ModelForm(forms.ModelForm):
 
     def refine(self):
         for (name, field) in self.fields.items():
-            # add HTML5 required attribute for required fields
-            if field.required:
+            file_fields = [forms.fields.ImageField, forms.fields.FileField]
+            # add HTML5 required attribute for required fields, except for file fields which already have a value
+            if field.required and not(field.__class__ in file_fields and getattr(self.instance, name)):
                 field.widget.attrs['required'] = 'required'
 
     def hide_field(self, request):
@@ -114,8 +115,6 @@ class HTML5BootstrapModelForm(HTML5ModelForm):
     def refine(self):
         super(HTML5BootstrapModelForm, self).refine()
         for (name, field) in self.fields.items():
-            # import ipdb
-            # ipdb.set_trace()
             widget = field.widget
             if widget.__class__.__name__ is 'RadioSelect':
                 continue
