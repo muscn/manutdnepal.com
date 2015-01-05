@@ -48,10 +48,22 @@
 
             <input type="submit" class="btn btn-info" value="Save">
 
+            <div class="pull-right">
+                {% if object.verified %}
+                    {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
+                {% else %}
+                    {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
+                {% endif %}
+            </div>
+
         </form>
 
         <div class="col-sm-12 col-lg-6">
-
+            {% if object.verified %}
+                <p> This payment was verified by {{ object.verified_by.full_name }}.</p>
+            {% else %}
+                <p>This payment hasn't been verified.</p>
+            {% endif %}
             <div id="method-details">
 
                 {% if object.method|get_class_name == 'BankDeposit' %}
@@ -66,18 +78,6 @@
                 {% endif %}
 
             </div>
-
-            <div class="actions">
-
-                {% if not object.verified %}
-                    {% include 'partials/action_form.html' with action='Approve' class='success' %}
-                {% endif %}
-                {% if object.verified %}
-                    <p> The payment was verified by {{ object.verified_by.full_name }}.</p>
-                    {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
-                {% endif %}
-            </div>
-
         </div>
 
     </div>
