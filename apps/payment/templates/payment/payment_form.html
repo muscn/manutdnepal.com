@@ -52,7 +52,7 @@
                 {% if object.verified %}
                     {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
                 {% else %}
-                    {% include 'partials/action_form.html' with action='Approve' class='success' %}
+                    {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
                 {% endif %}
             </div>
 
@@ -60,7 +60,7 @@
 
         <div class="col-sm-12 col-lg-6">
             {% if object.verified %}
-                <p> The payment was verified by {{ object.verified_by.full_name }}.</p>
+                <p> This payment was verified by {{ object.verified_by.full_name }}.</p>
             {% else %}
                 <p>This payment hasn't been verified.</p>
             {% endif %}
