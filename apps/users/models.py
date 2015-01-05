@@ -304,7 +304,7 @@ class Membership(models.Model):
     user = models.OneToOneField(User, related_name='membership')
     date_of_birth = models.DateField(null=True)
     gender = models.CharField(null=True, max_length=1, choices=GENDERS)
-    temporary_address = models.TextField(null=True)
+    temporary_address = models.TextField(null=True, blank=True)
     permanent_address = models.TextField(null=True)
     homepage = models.URLField(null=True, blank=True)
     mobile = models.CharField(max_length=50, null=True)
