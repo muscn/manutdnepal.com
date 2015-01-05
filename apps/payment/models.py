@@ -15,11 +15,16 @@ class Payment(models.Model):
 
     @property
     def method(self):
-        return self.bank_deposit or self.direct_payment
+        # methods are related name on one-to-one payment fields on payment methods
+        methods = ('bank_deposit', 'direct_payment')
+        for method in methods:
+            if hasattr(self, method):
+                return getattr(self, method)
 
     @property
     def method_type(self):
-        return self.method.__class__._meta.verbose_name.title()
+        if self.method:
+            return self.method.__class__._meta.verbose_name.title()
 
     @staticmethod
     def create(user, amount, method):
@@ -80,6 +85,6 @@ class DirectPayment(models.Model):
         #
         # class Transaction(models.Model):
         # service = models.ForeignKey(Service)
-        #     transaction_id = models.TextField(max_length=64)
+        # transaction_id = models.TextField(max_length=64)
         #     payment = models.ForeignKey(Payment)
         #     extra_data = models.JSONField()
