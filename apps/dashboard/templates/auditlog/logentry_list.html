@@ -1,0 +1,63 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Audit Log{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'audit_log' %}"><i class="fa fa-bank"></i>Audit Log</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor actor 'Actor' %}</th>
+            <th>Object</th>
+            <th>{% anchor content_type 'Type' %}</th>
+            <th>{% anchor action 'Action' %}</th>
+            <th>{% anchor timestamp 'Timestamp' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        {{ item.actor.full_name }}
+                    </td>
+                    <td>
+                        {{ item.object_repr }}
+                    </td>
+                    <td>
+                        {{ item.content_type }}
+                    </td>
+                    <td>
+                        {% if item.action == 0 %}
+                            Create
+                        {% elif item.action == 1 %}
+                            Update
+                        {% else %}
+                            Delete
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ item.timestamp }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+    <div class="pull-right">
+        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>
+    </div>
+
+{% endblock %}

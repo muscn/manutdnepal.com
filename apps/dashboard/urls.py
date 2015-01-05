@@ -37,4 +37,6 @@ urlpatterns = patterns('',
                            name='update_direct_payment'),
                        url(r'^direct-payment/(?P<pk>\d+)/delete/$', payment_views.DirectPaymentDeleteView.as_view(),
                            name='delete_direct_payment'),
+
+                       url(r'^audit-log/$', views.AuditLogListView.as_view(), name='audit_log'),
 )
