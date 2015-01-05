@@ -3,28 +3,52 @@
 {% block title %} Home {% endblock %}
 
 {% block extrahead %}
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $('.flip-container').mouseenter(function () {
+                    $(this).addClass('open');
+                });
+                $('.flip-container').mouseleave(function () {
+                    $(this).removeClass('open');
+                });
+            });
+
+        });
+    </script>
+
 {% endblock %}
 
 {% block content %}
 
-    <a class="tile red" href="{% url 'list_payments' %}">
-        <i class="fa fa-money"></i>
-        <span>Payment</span>
-    </a>
+    <div class="dashboard-icons">
 
-    <a class="tile orange" href="{% url 'list_payments' %}">
-        <i class="fa fa-users"></i>
-        <span>Membership</span>
-    </a>
+        <div class="tile flip-container" ontouchstart="this.classList.toggle('hover');">
+            <i class="fa fa-money"></i>
 
-    <a class="tile purple" href="{% url 'list_payments' %}">
-        <i class="fa fa-share-alt"></i>
-        <span>Social Media</span>
-    </a>
+            <div class="flip-body">
+                <h2>Payment</h2>
+                <a href="{% url 'list_payments' %}">All Payments</a>
+            </div>
+        </div>
 
-    <a class="tile green" href="{% url 'list_payments' %}">
-        <i class="fa fa-futbol-o"></i>
-        <span>Stats</span>
-    </a>
+        <a class="tile orange" href="{% url 'list_payments' %}">
+            <i class="fa fa-users"></i>
+
+            <h2>Membership</h2>
+        </a>
+
+        <a class="tile purple" href="{% url 'list_payments' %}">
+            <i class="fa fa-share-alt"></i>
+
+            <h2>Social Media</h2>
+        </a>
+
+        <a class="tile green" href="{% url 'list_payments' %}">
+            <i class="fa fa-futbol-o"></i>
+
+            <h2>Stats</h2>
+        </a>
+    </div>
 
 {% endblock %}

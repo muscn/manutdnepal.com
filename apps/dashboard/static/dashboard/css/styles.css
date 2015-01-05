@@ -50,71 +50,69 @@ nav.navbar {
     /*border-right: none;*/
 }
 
-.breadcrumbs .fa{
+.breadcrumbs .fa {
     margin-right: 0.3em;
 }
 
-/* Tiles Style */
+/* Dashboard Icon Styles */
 
-.tile {
-    display: inline-block;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    height: 12em;
+.dashboard-icons {
     text-align: center;
-    width: 15em;
-    margin: 1em;
-    /*background: #333;*/
-    /*color: #333;*/
-    color: #666 !important;
-    padding: 1em;
 }
 
-a.tile:hover {
+.tile {
+    width: 15em;
+    height: 200px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    border: 4px solid #ccc;
+    float: left;
+    color: #333333;
+    margin: 1em;
+}
+
+.tile:hover {
     text-decoration: none;
-    background: #fff;
-    border-color: #eeeeee;
-    /*color: purple;*/
+    color: black;
 }
 
 .tile .fa {
     display: block;
     font-size: 8em;
-    padding-bottom: 0.12em;
+    padding: 0.1em 0;
 }
 
-.tile span {
+.tile h2 {
     text-transform: uppercase;
+    margin: 0;
+    background-color: #cccccc;
+    position: absolute;
+    top: 160px;
+    width: 100%;
+    padding: 0.12em;
 }
 
-/*.tile.purple {*/
-/*background: #5133AB;*/
-/*}*/
+.flip-body {
+    position: absolute;
+    top: 160px;
+    transition: all 300ms linear;
+    width: 100%;
+}
 
-/*.tile.purple:hover {*/
-/*background: #3e2784;*/
-/*}*/
-/*.tile.red {*/
-/*background: #AC193D;*/
-/*}*/
-/*.tile.red:hover {*/
-/*background: #7f132d;*/
-/*}*/
-/*.tile.green {*/
-/*background: #00A600;*/
-/*}*/
-/*.tile.green:hover {*/
-/*background: #007300;*/
-/*}*/
-/*.tile.blue {*/
-/*background: #2672EC;*/
-/*}*/
-/*.tile.blue:hover {*/
-/*background: #125acd;*/
-/*}*/
-/*.tile.orange {*/
-/*background: #DC572E;*/
-/*}*/
-/*.tile.orange:hover {*/
-/*background: #b8431f;*/
-/*}*/
+.flip-container.open .flip-body {
+    top: 0;
+}
+
+.flip-container i.fa {
+    transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+}
+
+.flip-container.open i.fa {
+    opacity: 0;
+}
+
+.flip-body h2 {
+    position: relative;
+    top: 0;
+}
