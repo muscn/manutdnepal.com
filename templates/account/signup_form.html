@@ -2,29 +2,38 @@
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
 
+    {{ form.non_field_errors }}
+
     <p>
         <label for="id_full_name">Full Name</label>
-        <input autofocus="autofocus" class="form-control" id="id_full_name" maxlength="30" name="full_name" type="text">
+        <input autofocus="autofocus" class="form-control" id="id_full_name" maxlength="30" name="full_name" type="text"
+               value="{{ form.full_name.value|default:'' }}">
+        {{ form.full_name.errors }}
     </p>
 
     <p>
         <label for="id_email">{{ form.username.label }}</label>
-        <input class="form-control" id="id_username" maxlength="30" name="username" type="text">
+        <input class="form-control" id="id_username" maxlength="30" name="username" type="text"
+               value="{{ form.username.value|default:'' }}">
+        {{ form.username.errors }}
     </p>
 
     <p>
         <label for="id_email">{{ form.email.label }}</label>
-        <input id="id_email" class="form-control" name="email" type="email">
+        <input id="id_email" class="form-control" name="email" type="email" value="{{ form.email.value|default:'' }}">
+        {{ form.email.errors }}
     </p>
 
     <p>
         <label for="id_email">{{ form.password1.label }}</label>
         <input id="id_password1" class="form-control" name="password1" type="password">
+        {{ form.password1.errors }}
     </p>
 
     <p>
         <label for="id_email">{{ form.password2.label }}</label>
         <input id="id_password2" class="form-control" name="password2" type="password">
+        {{ form.password2.errors }}
         <input id="id_confirmation_key" maxlength="40" name="confirmation_key" type="hidden">
     </p>
 
