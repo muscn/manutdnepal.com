@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.conf import settings
 import datetime
+from auditlog.registry import auditlog
 
 User = settings.AUTH_USER_MODEL
 
@@ -103,3 +104,6 @@ class DirectPayment(models.Model):
         # transaction_id = models.TextField(max_length=64)
         # payment = models.ForeignKey(Payment)
         # extra_data = models.JSONField()
+
+
+auditlog.register(Payment)
