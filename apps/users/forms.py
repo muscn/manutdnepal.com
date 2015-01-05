@@ -18,42 +18,16 @@ class GroupAdminForm(forms.ModelForm):
 
 
 class MembershipForm(HTML5BootstrapModelForm):
-    # SHIRT_SIZES = (
-    # ('S', 'Small'),
-    # ('M', 'Medium'),
-    # ('L', 'Large'),
-    # ('XL', 'Extra Large'),
-    # ('XXL', 'Double Extra Large'),
-    # )
+
     # date_of_birth = HTML5ModelForm.DateTypeInput()
-    SHIRT_SIZES = (
-        ('S', 'S'),
-        ('M', 'M'),
-        ('L', 'L'),
-        ('XL', 'XL'),
-        ('XXL', 'XXL'),
-    )
-    PRESENT_STATUSES = (
-        ('S', 'Student'),
-        ('E', 'Employed'),
-        ('U', 'Unemployed'),
-    )
-    IDENTIFICATION_TYPES = (
-        ('C', 'Citizenship'),
-        ('L', 'License'),
-        ('I', 'Identity Card'),
-    )
-    GENDERS = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Others'),
-    )
-    gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=GENDERS)
-    shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=SHIRT_SIZES)
+
+    gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=Membership.GENDERS)
+    shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
+                                   choices=Membership.SHIRT_SIZES)
     present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-                                       choices=PRESENT_STATUSES)
+                                       choices=Membership.PRESENT_STATUSES)
     identification_type = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-                                            choices=IDENTIFICATION_TYPES)
+                                            choices=Membership.IDENTIFICATION_TYPES)
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
 
     def __init__(self, *args, **kwargs):

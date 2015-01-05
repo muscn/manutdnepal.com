@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
@@ -272,28 +273,60 @@ class User(AbstractBaseUser):
 
 
 class Membership(models.Model):
-    user = models.OneToOneField(User, related_name='membership')
-    date_of_birth = models.DateField(null=True)
-    gender = models.CharField(null=True, max_length=1)
-    temporary_address = models.TextField(null=True)
-    permanent_address = models.TextField(null=True)
-    homepage = models.URLField(null=True, blank=True)
-    mobile = models.CharField(max_length=50, null=True)
-    telephone = models.CharField(max_length=50, null=True, blank=True)
-    identification_type = models.CharField(max_length=50, null=True)
-    identification_file = models.FileField(null=True)
-    shirt_size = models.CharField(max_length=4, null=True)
-    present_status = models.CharField(max_length=1, null=True)
-    registration_date = models.DateField(null=True)
-    approved_date = models.DateField(null=True, blank=True)
-    approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
+    GENDERS = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others'),
+    )
+    IDENTIFICATION_TYPES = (
+        ('C', 'Citizenship'),
+        ('L', 'License'),
+        ('I', 'Identity Card'),
+    )
     MEMBERSHIP_STATUSES = (
         ('P', 'Pending'),
         ('A', 'Active'),
         ('E', 'Expired'),
     )
+    SHIRT_SIZES = (
+        ('S', 'S'),
+        ('M', 'M'),
+        ('L', 'L'),
+        ('XL', 'XL'),
+        ('XXL', 'XXL'),
+    )
+    PRESENT_STATUSES = (
+        ('S', 'Student'),
+        ('E', 'Employed'),
+        ('U', 'Unemployed'),
+    )
+
+    user = models.OneToOneField(User, related_name='membership')
+    date_of_birth = models.DateField(null=True)
+    gender = models.CharField(null=True, max_length=1, choices=GENDERS)
+    temporary_address = models.TextField(null=True)
+    permanent_address = models.TextField(null=True)
+    homepage = models.URLField(null=True, blank=True)
+    mobile = models.CharField(max_length=50, null=True)
+    telephone = models.CharField(max_length=50, null=True, blank=True)
+    identification_type = models.CharField(max_length=50, null=True, choices=IDENTIFICATION_TYPES)
+    identification_file = models.FileField(null=True)
+    shirt_size = models.CharField(max_length=4, null=True, choices=SHIRT_SIZES)
+    present_status = models.CharField(max_length=1, null=True, choices=PRESENT_STATUSES)
+    registration_date = models.DateField(null=True, default=datetime.datetime.now)
+    approved_date = models.DateField(null=True, blank=True)
+    approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
+
     status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
     payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for')
+
+    def save(self, *args, **kwargs):
+        if not self.registration_date:
+            self.registration_date = datetime.datetime.now()
+        if not self.status:
+            self.status = 'P'
+        return super(Membership, self).save(*args, **kwargs)
+
 
     def __unicode__(self):
         return unicode(self.user)
