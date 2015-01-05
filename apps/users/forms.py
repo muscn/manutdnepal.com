@@ -18,7 +18,6 @@ class GroupAdminForm(forms.ModelForm):
 
 
 class MembershipForm(HTML5BootstrapModelForm):
-
     # date_of_birth = HTML5ModelForm.DateTypeInput()
 
     gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=Membership.GENDERS)
@@ -33,7 +32,8 @@ class MembershipForm(HTML5BootstrapModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(MembershipForm, self).__init__(*args, **kwargs)
-        self.fields['full_name'].initial = self.user.full_name
+        if self.user:
+            self.fields['full_name'].initial = self.user.full_name
 
     def clean_full_name(self):
         tokens_length = len(self.cleaned_data.get('full_name', '').split())
@@ -43,7 +43,7 @@ class MembershipForm(HTML5BootstrapModelForm):
 
     class Meta:
         model = Membership
-        exclude = ('status', 'homepage', 'user', 'registration_date')
+        exclude = ('status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment')
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
             'temporary_address': forms.Textarea(

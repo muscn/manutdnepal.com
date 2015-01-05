@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
@@ -10,6 +10,7 @@ from apps.payment.models import BankAccount, BankDeposit, Payment
 from allauth.account.forms import LoginForm, SignupForm
 import datetime
 from django.views.generic.list import ListView
+from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 
 
 def login_register(request):
@@ -141,3 +142,15 @@ def membership_thankyou(request):
 
 class MembershipListView(ListView):
     model = Membership
+
+
+class MembershipCreateView(CreateView):
+    model = Membership
+    form_class = MembershipForm
+    success_url = reverse_lazy('list_memberships')
+
+
+class MembershipUpdateView(UpdateView):
+    model = Membership
+    form_class = MembershipForm
+    success_url = reverse_lazy('list_memberships')

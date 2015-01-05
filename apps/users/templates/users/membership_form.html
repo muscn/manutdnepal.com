@@ -1,0 +1,52 @@
+{% extends 'dashboard_base.html' %}
+{% load filters %}
+
+{% block title %} {{ scenario }} Membership {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_memberships' %}"><i class="fa fa-users"></i>Membership</a>
+    <span>{{ scenario }} {{ object }}</span>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <form method="POST" enctype="multipart/form-data" role="form">
+
+                {% csrf_token %}
+
+{#                <div class="form-group">#}
+{#                    {{ form.bank_name.label_tag }}#}
+{#                    {{ form.bank_name }}#}
+{#                    {{ form.bank_name.errors }}#}
+{#                </div>#}
+{##}
+{#                <div class="form-group date-time">#}
+{#                    {{ form.ac_no.label_tag }}#}
+{#                    {{ form.ac_no }}#}
+{#                    {{ form.ac_no.errors }}#}
+{#                </div>#}
+{##}
+{#                <div class="form-group">#}
+{#                    {{ form.branch_name.label_tag }}#}
+{#                    {{ form.branch_name }}#}
+{#                    {{ form.branch_name.errors }}#}
+{#                </div>#}
+
+                {{ form }}
+
+                <input type="submit" class="btn btn-info" value="Save">
+
+            </form>
+
+            <div class="pull-right actions">
+                {% include 'partials/delete_button.html' with object=object url='delete_bank_account' %}
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
