@@ -1,5 +1,5 @@
 from muscn.utils.forms import HTML5BootstrapModelForm
-from .models import BankDeposit, Payment
+from .models import BankDeposit, Payment, BankAccount
 
 
 class BankDepositForm(HTML5BootstrapModelForm):
@@ -20,3 +20,8 @@ class PaymentForm(HTML5BootstrapModelForm):
         super(PaymentForm, self).__init__(*args, **kwargs)
         self.fields['user'].empty_label = None
         self.fields['user'].widget.choices = self.fields['user'].choices
+
+
+class BankAccountForm(HTML5BootstrapModelForm):
+    class Meta:
+        model = BankAccount

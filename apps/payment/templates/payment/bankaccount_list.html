@@ -26,13 +26,19 @@
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-                        {{ item.bank_name }}
+                        <a href="{% url 'update_bank_account' item.id %}">
+                            {{ item.bank_name }}
+                        </a>
                     </td>
                     <td>
-                        {{ item.ac_no }}
+                        <a href="{% url 'update_bank_account' item.id %}">
+                            {{ item.ac_no }}
+                        </a>
                     </td>
                     <td>
-                        {{ item.branch_name }}
+                        <a href="{% url 'update_bank_account' item.id %}">
+                            {{ item.branch_name }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

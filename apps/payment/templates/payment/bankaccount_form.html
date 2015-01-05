@@ -1,0 +1,45 @@
+{% extends 'dashboard_base.html' %}
+{% load filters %}
+
+{% block title %} {{ scenario }} Bank Account {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_bank_accounts' %}"><i class="fa fa-money"></i>Bank Accounts</a>
+    <span>{{ scenario }} {{ object }}</span>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <form class="col-sm-12 col-lg-6" method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.bank_name.label_tag }}
+                {{ form.bank_name }}
+                {{ form.bank_name.errors }}
+            </div>
+
+            <div class="form-group date-time">
+                {{ form.ac_no.label_tag }}
+                {{ form.ac_no }}
+                {{ form.ac_no.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.branch_name.label_tag }}
+                {{ form.branch_name }}
+                {{ form.branch_name.errors }}
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Save">
+
+        </form>
+
+
+    </div>
+
+{% endblock %}
