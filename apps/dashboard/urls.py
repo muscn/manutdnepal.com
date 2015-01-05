@@ -50,4 +50,6 @@ urlpatterns = patterns('',
                        url(r'^user/add/$', users_views.UserCreateView.as_view(), name='create_user'),
                        url(r'^user/(?P<pk>\d+)/$', users_views.UserUpdateView.as_view(),
                            name='update_user'),
+                       url(r'^direct-user/(?P<pk>\d+)/delete/$', users_views.UserDeleteView.as_view(),
+                           name='delete_user'),
 )

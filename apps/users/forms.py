@@ -78,7 +78,9 @@ class UserForm(HTML5BootstrapModelForm):
     def clean_username(self):
         data = self.cleaned_data
         try:
-            User.objects.get(username=data['username'])
+            user = User.objects.get(username=data['username'])
+            if user == self.instance:
+                return data['username']
         except User.DoesNotExist:
             return data['username']
         raise forms.ValidationError('This username is already taken.')
@@ -86,7 +88,9 @@ class UserForm(HTML5BootstrapModelForm):
     def clean_email(self):
         data = self.cleaned_data
         try:
-            User.objects.get(email=data['email'])
+            user = User.objects.get(email=data['email'])
+            if user == self.instance:
+                return data['email']
         except User.DoesNotExist:
             return data['email']
         raise forms.ValidationError('User with this email address already exists.')
@@ -106,3 +110,21 @@ class UserForm(HTML5BootstrapModelForm):
     class Meta:
         model = User
         exclude = ('last_login', 'is_active', 'is_staff', 'is_superuser', 'groups', 'password')
+
+
+class UserUpdateForm(UserForm):
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+
+    def save(self):
+        data = self.cleaned_data
+        user = self.instance
+        user.username = data['username']
+        user.email = data['email']
+        if data['password1'] != '':
+            user.set_password(data['password1'])
+        user.full_name = data['full_name']
+        user.save()
+        return user

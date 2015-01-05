@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
 from .models import Membership, User
-from .forms import MembershipForm, UserForm
+from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment
 from allauth.account.forms import LoginForm, SignupForm
@@ -168,5 +168,5 @@ class UserCreateView(CreateView):
 
 class UserUpdateView(UpdateView):
     model = User
-    form_class = UserForm
+    form_class = UserUpdateForm
     success_url = reverse_lazy('list_users')
