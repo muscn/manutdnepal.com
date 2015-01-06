@@ -20,9 +20,10 @@
             <thead>
             <th>{% anchor registration_date 'Registration Date' %}</th>
             <th>{% anchor user 'User' %}</th>
-            <th>{% anchor mobile 'Mobile' %}</th>
+            {#            <th>{% anchor mobile 'Mobile' %}</th>#}
             <th>{% anchor approved_by 'Approved By' %}</th>
             <th>{% anchor approved_date 'Approved Date' %}</th>
+            <th>{% anchor payment 'Payment' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
@@ -37,14 +38,23 @@
                             {{ item.user.full_name }}
                         </a>
                     </td>
-                    <td>
-                        {{ item.mobile }}
-                    </td>
+                    {#                    <td>#}
+                    {#                        {{ item.mobile }}#}
+                    {#                    </td>#}
                     <td>
                         {{ item.approved_by }}
                     </td>
                     <td>
                         {{ item.approved_date }}
+                    </td>
+                    <td>
+                        {% if item.payment %}
+                            <a href="{% url 'update_payment' item.payment.id %}">
+                                {{ item.payment }}
+                            </a>
+                        {% else %}
+                            Create Payment
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -54,8 +64,8 @@
 
     {% paginate %}
 
-{#    <div class="pull-right">#}
-{#        <a class="btn btn-success" href="{% url 'create_membership' %}">Add New Membership</a>#}
-{#    </div>#}
+    {#    <div class="pull-right">#}
+    {#        <a class="btn btn-success" href="{% url 'create_membership' %}">Add New Membership</a>#}
+    {#    </div>#}
 
 {% endblock %}
