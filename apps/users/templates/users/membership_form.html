@@ -25,7 +25,11 @@
             </form>
 
             <div class="pull-right actions">
-                {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
+                {% if object.approved %}
+                    {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
+                {% else %}
+                    {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
+                {% endif %}
                 {% include 'partials/delete_button.html' with object=object url='delete_membership' %}
             </div>
         </div>
