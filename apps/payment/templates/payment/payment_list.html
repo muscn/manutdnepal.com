@@ -62,7 +62,7 @@
                     </td>
                     <td>
                         {% if item.verified_by %}
-                            <a href="{% url 'update_user' item.verified_by.id %}">
+                            <a href="{% url 'view_staff' item.verified_by.id %}">
                             {{ item.verified_by.full_name }}
                         {% endif %}
                         </a>

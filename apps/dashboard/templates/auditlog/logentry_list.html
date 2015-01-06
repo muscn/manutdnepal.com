@@ -29,7 +29,7 @@
                 <tr>
                     <td>
                         {% if item.actor %}
-                            <a href="{% url 'update_user' item.actor.id %}">
+                            <a href="{% url 'view_staff' item.actor.id %}">
                                 {{ item.actor.full_name }}
                             </a>
                         {% endif %}
