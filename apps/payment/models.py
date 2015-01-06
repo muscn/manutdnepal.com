@@ -110,3 +110,4 @@ class DirectPayment(models.Model):
 
 
 auditlog.register(Payment)
+auditlog.register(BankAccount)

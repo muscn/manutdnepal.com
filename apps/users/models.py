@@ -10,6 +10,7 @@ from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
 from allauth.account.signals import user_logged_in
 from apps.payment.models import Payment
+from auditlog.registry import auditlog
 
 
 class UserManager(BaseUserManager):
@@ -393,3 +394,6 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
             # picture_url = sociallogin.account.extra_data['picture']
 
         user.save()
+
+
+auditlog.register(Membership)
