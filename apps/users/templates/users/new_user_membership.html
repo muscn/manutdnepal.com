@@ -20,12 +20,14 @@
                     {% include 'users/_user_form.html' with form=user_form %}
                 </div>
 
-                {% include 'users/_membership_form.html' with form=membership_form %}
+                {% include 'users/_membership_form.html' with form=membership_form hide='full_name' %}
+
+                <h2>Payment Details</h2>
 
                 <div role="tabpanel">
 
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
+                    <ul class="nav nav-tabs limit-width" role="tablist">
                         <li role="presentation" class="active"><a href="#direct-payment" aria-controls="direct-payment"
                                                                   role="tab"
                                                                   data-toggle="tab">Direct Payment</a></li>
@@ -36,26 +38,27 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="direct-payment">
+                        <div role="tabpanel" class="tab-pane active limit-width" id="direct-payment">
                             <br>
-                            {% include 'payment/_directpayment_form.html' with form=direct_payment_form %}
+                            {% include 'payment/_directpayment_form.html' with form=direct_payment_form hide='user' %}
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="bank-deposit">
-                            {% include 'payment/_bankdeposit_form.html' with form=direct_payment_form %}
+                        <br>
+
+                        <div role="tabpanel" class="tab-pane limit-width" id="bank-deposit">
+                            {% include 'payment/_bankdeposit_form.html' with form=bank_deposit_form hide='user' %}
+
                         </div>
                     </div>
 
                 </div>
 
                 <input type="submit" class="btn btn-primary" value="Submit">
-                Fields marked with <i class="required"></i> are mandatory.
             </form>
 
             <div class="pull-right actions">
                 {% include 'partials/delete_button.html' with object=object url='delete_membership' %}
             </div>
         </div>
-
 
     </div>
 

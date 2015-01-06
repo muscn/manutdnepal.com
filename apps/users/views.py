@@ -195,7 +195,7 @@ class UserDeleteView(DeleteView):
 def new_user_membership(request):
     user_form = UserForm(prefix='uf')
     member_form = MembershipForm(prefix='mf')
-    bank_deposit_form = BankDepositPaymentForm(prefix='bf')
+    bank_deposit_form = BankDepositPaymentForm()
     direct_payment_form = DirectPaymentPaymentForm(prefix='df')
     if request.POST:
         pass
