@@ -19,6 +19,7 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor registration_date 'Registration Date' %}</th>
+            <th>{% anchor user__devil_no 'Devil No.' %}</th>
             <th>{% anchor user 'User' %}</th>
             {#            <th>{% anchor mobile 'Mobile' %}</th>#}
             <th>{% anchor approved_by 'Approved By' %}</th>
@@ -32,6 +33,9 @@
                         <a href="{% url 'update_membership' item.id %}">
                             {{ item.registration_date }}
                         </a>
+                    </td>
+                    <td>
+                        {{ item.user.devil_no }}
                     </td>
                     <td>
                         <a href="{% url 'update_user' item.user.id %}">
