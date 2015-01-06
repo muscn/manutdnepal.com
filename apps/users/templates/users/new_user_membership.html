@@ -16,8 +16,11 @@
             <form method="POST" enctype="multipart/form-data" role="form">
 
                 {% csrf_token %}
+                <div class="limit-width">
+                    {% include 'users/_user_form.html' with form=user_form %}
+                </div>
 
-                {% include 'users/_user_form.html' with form=user_form %}
+                {% include 'users/_membership_form.html' with form=membership_form %}
 
                 <input type="submit" class="btn btn-primary" value="Submit">
                 Fields marked with <i class="required"></i> are mandatory.
