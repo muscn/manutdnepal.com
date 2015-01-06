@@ -149,6 +149,7 @@ class MembershipCreateView(CreateView):
 
     def get_form(self, form_class):
         form = super(MembershipCreateView, self).get_form(form_class)
+        form.instance.user = User.objects.get(pk=self.kwargs['pk'])
         form.fields['full_name'].initial = form.instance.user.full_name
         return form
 
@@ -162,6 +163,11 @@ class MembershipUpdateView(UpdateView):
         form = super(MembershipUpdateView, self).get_form(form_class)
         form.fields['full_name'].initial = form.instance.user.full_name
         return form
+
+
+class MembershipDeleteView(DeleteView):
+    model = Membership
+    success_url = reverse_lazy('list_memberships')
 
 
 class UserListView(ListView):

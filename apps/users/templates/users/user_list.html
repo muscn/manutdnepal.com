@@ -41,13 +41,15 @@
                     <td>
                         {% if item.membership %}
                             <a href="{% url 'update_membership' item.membership.id %}">
-                            {{ item.membership }}
+                                View Membership
+                            </a>
+                        {% else %}
+                            <a href="{% url 'create_membership' item.id %}">
+                                Create Membership
+                            </a>
                         {% endif %}
                         </a>
                     </td>
-                    {#                    <td>#}
-                    {#                        {{ item.approved_date }}#}
-                    {#                    </td>#}
                 </tr>
             {% endfor %}
             </tbody>
