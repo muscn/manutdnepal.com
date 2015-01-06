@@ -34,14 +34,25 @@
                         </a>
                     </td>
                     <td>
-                        {{ item.user.full_name }}
+                        {% if item.user %}
+                            <a href="{% url 'update_user' item.user.id %}">
+                                {{ item.user.full_name }}
+                            </a>
+                        {% endif %}
                     </td>
                     <td>
                         {{ item.amount }}
                     </td>
                     <td>
                         {% for event in item.payment_for.all %}
-                            {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
+                            {% if event.get_absolute_url %}
+                                <a href="{{ event.get_absolute_url }}">
+                                    {{ event|get_class_name }}
+                                </a>{% if not forloop.last %}, {% endif %}
+                            {% else %}
+                                {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+
                         {% endfor %}
                     </td>
                     <td>
@@ -50,7 +61,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ item.verified_by.full_name }}
+                        {% if item.verified_by %}
+                            <a href="{% url 'update_user' item.verified_by.id %}">
+                            {{ item.verified_by.full_name }}
+                        {% endif %}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
@@ -61,7 +76,7 @@
     {% paginate %}
 
     <div class="pull-right">
-{#        <a class="btn btn-success" href="{% url 'create_payment' %}">Add New Payment</a>#}
+        {#        <a class="btn btn-success" href="{% url 'create_payment' %}">Add New Payment</a>#}
     </div>
 
 {% endblock %}

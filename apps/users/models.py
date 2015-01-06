@@ -1,4 +1,5 @@
 import datetime
+from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
@@ -332,6 +333,9 @@ class Membership(models.Model):
 
     def approved(self):
         return True if self.payment and self.payment.verified and self.approved_by else False
+
+    def get_absolute_url(self):
+        return reverse_lazy('update_membership', kwargs={'pk': self.pk})
 
     def __unicode__(self):
         return unicode(self.user)
