@@ -26,6 +26,7 @@
 
             <div class="pull-right actions">
                 {% if object.approved %}
+                    {% include 'partials/action_form.html' with action='Download Card' class='success' %}
                     {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
                 {% elif object.approvable %}
                     {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
