@@ -198,7 +198,26 @@ def new_user_membership(request):
     bank_deposit_form = BankDepositPaymentForm(prefix='bf')
     direct_payment_form = DirectPaymentPaymentForm(prefix='df')
     if request.POST:
-        pass
+
+        user_form = UserForm(request.POST, request.FILES, prefix='uf')
+        member_form = MembershipForm(request.POST, request.FILES, prefix='mf', exclude='full_name')
+
+        # find out the payment form from the hidden field
+        if request.POST['payment_method'] == 'bank-deposit':
+            bank_deposit_form = BankDepositPaymentForm(request.POST, request.FILES, prefix='bf', exclude='user')
+            payment_form = bank_deposit_form
+        elif request.POST['payment_method'] == 'direct-payment':
+            direct_payment_form = DirectPaymentPaymentForm(request.POST, prefix='df', exclude='user')
+            payment_form = direct_payment_form
+            
+        if user_form.is_valid() and member_form.is_valid() and payment_form.is_valid():
+            user = user_form.save()
+            payment_method = payment_form.save(user=user)
+            membership = member_form.save(commit=False)
+            membership.user = user
+            membership.payment = payment_method.payment
+            membership.save()
+            return redirect(reverse_lazy('list_memberships'))
     context = {
         'user_form': user_form,
         'membership_form': member_form,

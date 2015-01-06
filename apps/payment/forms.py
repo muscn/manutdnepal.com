@@ -25,11 +25,14 @@ class BankDepositPaymentForm(form):
     # verified_by = forms.ModelChoiceField(User.objects.all(), empty_label=None)
     remarks = forms.CharField(widget=forms.Textarea, required=False)
 
-    def save(self, commit=True):
+    def save(self, commit=True, user=None):
         obj = self.instance
         if not obj.payment_id:
             obj.payment = Payment()
-        obj.payment.user = self.cleaned_data['user']
+        if user:
+            obj.payment.user = user
+        else:
+            obj.payment.user = self.cleaned_data['user']
         obj.payment.amount = self.cleaned_data['amount']
         obj.payment.remarks = self.cleaned_data['remarks']
         obj.payment.date_time = self.cleaned_data['date_time']
@@ -58,11 +61,14 @@ class DirectPaymentPaymentForm(form):
     # verified_by = forms.ModelChoiceField(User.objects.all(), empty_label=None)
     remarks = forms.CharField(widget=forms.Textarea, required=False)
 
-    def save(self, commit=True):
+    def save(self, commit=True, user=None):
         obj = self.instance
         if not obj.payment_id:
             obj.payment = Payment()
-        obj.payment.user = self.cleaned_data['user']
+        if user:
+            obj.payment.user = user
+        else:
+            obj.payment.user = self.cleaned_data['user']
         obj.payment.amount = self.cleaned_data['amount']
         obj.payment.remarks = self.cleaned_data['remarks']
         obj.payment.date_time = self.cleaned_data['date_time']
