@@ -33,10 +33,16 @@
                         </a>
                     </td>
                     <td>
-                        {{ item.bank }}
+                        <a href="{% url 'update_bank_account' item.bank.id %}">
+                            {{ item.bank }}
+                        </a>
                     </td>
                     <td>
-                        {{ item.payment.user.full_name }}
+                        {% if item.payment.user %}
+                            <a href="{% url 'update_user' item.payment.user.id %}">
+                                {{ item.payment.user.full_name }}
+                            </a>
+                        {% endif %}
                     </td>
                     <td>
                         {{ item.payment.amount }}

@@ -42,7 +42,12 @@
                     {#                        {{ item.mobile }}#}
                     {#                    </td>#}
                     <td>
-                        {{ item.approved_by }}
+                        {% if item.approved_by %}
+                            <a href="{% url 'update_user' item.approved_by.id %}">
+                                {{ item.approved_by.full_name }}
+                            </a>
+                        {% endif %}
+
                     </td>
                     <td>
                         {{ item.approved_date }}
@@ -53,7 +58,7 @@
                                 {{ item.payment }}
                             </a>
                         {% else %}
-{#                            Create Payment#}
+                            {#                            Create Payment#}
                         {% endif %}
                     </td>
                 </tr>

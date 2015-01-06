@@ -28,7 +28,11 @@
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-                        {{ item.actor.full_name }}
+                        {% if item.actor %}
+                            <a href="{% url 'update_user' item.actor.id %}">
+                                {{ item.actor.full_name }}
+                            </a>
+                        {% endif %}
                     </td>
                     <td>
                         {% if item.action == 2 %}
