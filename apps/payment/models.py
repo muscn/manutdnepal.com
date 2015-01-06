@@ -73,6 +73,9 @@ class BankDeposit(models.Model):
             self.payment.delete(delete_method=False)
         return super(BankDeposit, self).delete(*args, **kwargs)
 
+    def verified(self):
+        return True if self.payment.verified_by else False
+
     def get_absolute_url(self):
         return reverse_lazy('update_bank_deposit', kwargs={'pk': self.pk})
 
@@ -84,6 +87,9 @@ class BankDeposit(models.Model):
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
+
+    def verified(self):
+        return True if self.payment.verified_by else False
 
     def delete(self, delete_payment=True, *args, **kwargs):
         if delete_payment and self.payment:
