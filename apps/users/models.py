@@ -271,6 +271,9 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    class Meta:
+        ordering = ['-id']
+
 
 class Membership(models.Model):
     GENDERS = (
@@ -332,6 +335,9 @@ class Membership(models.Model):
 
     def __unicode__(self):
         return unicode(self.user)
+
+    class Meta:
+        ordering = ['-id']
 
 
 def group_required(*group_names):
