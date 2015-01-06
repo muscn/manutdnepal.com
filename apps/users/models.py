@@ -54,6 +54,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True)
     full_name = models.CharField(max_length=245)
+    devil_no = models.PositiveIntegerField(unique=True, null=True, blank=True)
     email = models.EmailField(
         verbose_name='email address',
         max_length=254,
