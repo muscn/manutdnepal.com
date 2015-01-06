@@ -12,6 +12,15 @@ from allauth.account.signals import user_logged_in
 from apps.payment.models import Payment
 from auditlog.registry import auditlog
 
+# imports for generating card
+from django.conf import settings
+from PIL import ImageFont
+from PIL import Image
+from PIL import ImageDraw
+from urllib import urlretrieve
+import os
+import re
+
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, full_name=''):
@@ -111,25 +120,10 @@ class User(AbstractBaseUser):
         except Group.DoesNotExist:
             return False
 
-    def get_sample_card(self):
-        from django.core.cache import cache
-
-        cached = cache.get('sample_card_' + str(self.id))
-        if cached:
-            return cached
-
-        from django.conf import settings
-        from PIL import ImageFont
-        from PIL import Image
-        from PIL import ImageDraw
-        from urllib import urlretrieve
-        import os
-        import re
-
+    def generate_card(self, devil_number, draw_qr, base_image):
         pk = self.pk
         name = self.full_name
         phone = self.membership.mobile
-        devil_number = u'007'
 
         # The co-ordinates
         devil_number_ending_xy = (744, 68)
@@ -143,8 +137,6 @@ class User(AbstractBaseUser):
         phone_size = 43
 
         # Configuration
-        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
-        draw_qr = True
         # possible values: L, M, Q, H
         qr_error_correction = 'M'
 
@@ -237,11 +229,25 @@ class User(AbstractBaseUser):
             # write qr to image
             img = img.convert('RGBA')
             img.paste(qr, qr_xy, qr)
+            return img
+
+    def get_sample_card(self):
+        from django.core.cache import cache
+
+        cached = cache.get('sample_card_' + str(self.id))
+        if cached:
+            return cached
+
+        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
+        devil_number = u'007'
+        draw_qr = True
+
+        img = self.generate_card(devil_number, draw_qr, base_image)
 
         if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'sample_cards')):
             os.makedirs(os.path.join(settings.MEDIA_ROOT, 'sample_cards'))
 
-        img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(pk) + '.png'))
+        img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.pk) + '.png'))
 
         # img = Image.open(os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_card.jpg'))
         # draw = ImageDraw.Draw(img)
@@ -268,8 +274,8 @@ class User(AbstractBaseUser):
         # import ipdb
         # ipdb.set_trace()
 
-        url = settings.MEDIA_URL + 'sample_cards/' + str(pk) + '.png'
-        cache.set('sample_card_' + str(self.id), url)
+        url = settings.MEDIA_URL + 'sample_cards/' + str(self.pk) + '.png'
+        cache.set('sample_card_' + str(self.pk), url)
         return url
 
     objects = UserManager()
