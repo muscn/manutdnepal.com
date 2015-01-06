@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
@@ -140,6 +141,8 @@ class User(AbstractBaseUser):
         # possible values: L, M, Q, H
         qr_error_correction = 'M'
 
+        devil_number = str(devil_number)
+
         # Pre-process the name
         name = name.upper()
         names = name.split()
@@ -231,6 +234,20 @@ class User(AbstractBaseUser):
             img.paste(qr, qr_xy, qr)
             return img
 
+    def get_card(self):
+        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
+        devil_number = self.devil_no
+        draw_qr = True
+        img = self.generate_card(devil_number, draw_qr, base_image)
+        return img
+
+    def get_card_download(self):
+        card = self.get_card()
+        response = HttpResponse(content_type="image/png")
+        response['Content-Disposition'] = 'attachment; filename=card_' + str(self.devil_no) + '.png'
+        card.save(response, "PNG")
+        return response
+
     def get_sample_card(self):
         from django.core.cache import cache
 
@@ -240,7 +257,7 @@ class User(AbstractBaseUser):
 
         base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
         devil_number = u'007'
-        draw_qr = True
+        draw_qr = False
 
         img = self.generate_card(devil_number, draw_qr, base_image)
 

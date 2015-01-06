@@ -166,6 +166,7 @@ class MembershipUpdateView(UpdateView):
     def post(self, request, *args, **kwargs):
         if 'action' in request.POST:
             obj = self.get_object()
+
             if request.POST['action'] == 'Approve':
                 if not hasattr(obj, 'payment') or not obj.payment:
                     messages.error(request, 'No payment associated with the membership!')
@@ -181,10 +182,13 @@ class MembershipUpdateView(UpdateView):
                         obj.user.save()
                     obj.approved_date = datetime.datetime.now()
                     messages.info(request, 'The membership is approved!')
+                    obj.save()
             elif request.POST['action'] == 'Disprove':
                 obj.approved_by = None
                 messages.info(request, 'The membership is disproved!')
-            obj.save()
+                obj.save()
+            elif request.POST['action'] == 'Download Card':
+                return obj.user.get_card_download()
             return redirect(reverse_lazy('update_membership', kwargs={'pk': obj.pk}))
         else:
             return super(MembershipUpdateView, self).post(request, *args, **kwargs)
