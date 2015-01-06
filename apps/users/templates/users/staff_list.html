@@ -1,0 +1,53 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Staffs {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_staffs' %}"><i class="fa fa-users"></i>Staffs</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor username 'Username' %}</th>
+            <th>{% anchor full_name 'Full Name' %}</th>
+            <th>{% anchor groups 'Groups' %}</th>
+            <th>{% anchor last_login 'Last Login' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr class="{% if item.is_member %}success{% else %}warning{% endif %}">
+                    <td>
+                        <a href="{% url 'update_user' item.id %}">
+                            {{ item.username }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.full_name }}
+                    </td>
+                    <td>
+                        {% for group in item.groups.all %}
+                            {{ group }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                <td>
+                        {{ item.last_login }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+{% endblock %}

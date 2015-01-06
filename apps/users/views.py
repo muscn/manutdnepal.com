@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
+from django.views.generic import TemplateView
 from .models import Membership, User
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
@@ -223,6 +224,15 @@ class UserUpdateView(UpdateView):
 class UserDeleteView(DeleteView):
     model = User
     success_url = reverse_lazy('list_users')
+
+
+class StaffListView(ListView):
+    model = User
+    template_name = 'users/staff_list.html'
+
+    def get_queryset(self):
+        queryset = User.objects.filter(groups__name='Staff')
+        return queryset
 
 
 def new_user_membership(request):
