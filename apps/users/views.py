@@ -11,6 +11,7 @@ from allauth.account.forms import LoginForm, SignupForm
 import datetime
 from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
+from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 
 
 def login_register(request):
@@ -189,3 +190,19 @@ class UserUpdateView(UpdateView):
 class UserDeleteView(DeleteView):
     model = User
     success_url = reverse_lazy('list_users')
+
+
+def new_user_membership(request):
+    user_form = UserForm(prefix='uf')
+    member_form = MembershipForm(prefix='mf')
+    bank_deposit_form = BankDepositPaymentForm(prefix='bf')
+    direct_payment_form = DirectPaymentPaymentForm(prefix='df')
+    if request.POST:
+        pass
+    context = {
+        'user_form': user_form,
+        'membership_form': member_form,
+        'bank_deposit_form': bank_deposit_form,
+        'direct_payment_form': direct_payment_form,
+    }
+    return render(request, 'users/new_user_membership.html', context)

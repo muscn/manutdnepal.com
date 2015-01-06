@@ -1,0 +1,34 @@
+{% extends 'dashboard_base.html' %}
+{% load filters %}
+
+{% block title %} {{ scenario }} New User/Membership {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_memberships' %}"><i class="fa fa-user"></i>Memberships</a>
+    <span>New User/Membership</span>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <form method="POST" enctype="multipart/form-data" role="form">
+
+                {% csrf_token %}
+
+                {% include 'users/_user_form.html' with form=user_form %}
+
+                <input type="submit" class="btn btn-primary" value="Submit">
+                Fields marked with <i class="required"></i> are mandatory.
+            </form>
+
+            <div class="pull-right actions">
+                {% include 'partials/delete_button.html' with object=object url='delete_membership' %}
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
