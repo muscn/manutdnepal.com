@@ -334,6 +334,9 @@ class Membership(models.Model):
     def approved(self):
         return True if self.payment and self.payment.verified and self.approved_by else False
 
+    def approvable(self):
+        return True if self.payment and self.payment.verified else False
+
     def get_absolute_url(self):
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})
 
