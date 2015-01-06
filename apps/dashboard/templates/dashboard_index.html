@@ -18,16 +18,20 @@
             </div>
         </div>
 
+        <div class="tile flip-container" ontouchstart="this.classList.toggle('hover');">
+            <i class="fa fa-users"></i>
+
+            <div class="flip-body">
+                <h2>Users</h2>
+                <a href="{% url 'list_users' %}">Users</a>
+                <a href="{% url 'list_memberships' %}">Memberships</a>
+            </div>
+        </div>
+
         <a class="tile" href="{% url 'audit_log' %}">
             <i class="fa fa-history"></i>
 
             <h2>Audit Log</h2>
-        </a>
-
-        <a class="tile orange" href="{% url 'list_memberships' %}">
-            <i class="fa fa-users"></i>
-
-            <h2>Membership</h2>
         </a>
 
         <a class="tile purple" href="{% url 'list_payments' %}">
