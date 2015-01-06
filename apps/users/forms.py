@@ -39,6 +39,8 @@ class MembershipForm(HTML5BootstrapModelForm):
         tokens_length = len(self.cleaned_data.get('full_name', '').split())
         if 0 < tokens_length < 2:
             raise forms.ValidationError("Please provide your full name!")
+        self.instance.user.full_name = self.cleaned_data['full_name']
+        self.instance.user.save()
         return self.cleaned_data['full_name']
 
     class Meta:

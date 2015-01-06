@@ -80,8 +80,6 @@ def membership_form(request):
         form = MembershipForm(request.POST, request.FILES, instance=item, user=user)
         if form.is_valid():
             form.save()
-            user.full_name = form.cleaned_data['full_name']
-            user.save()
             return redirect(reverse('membership_payment'))
     else:
         form = MembershipForm(instance=item, user=request.user)
@@ -149,11 +147,21 @@ class MembershipCreateView(CreateView):
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
 
+    def get_form(self, form_class):
+        form = super(MembershipCreateView, self).get_form(form_class)
+        form.fields['full_name'].initial = form.instance.user.full_name
+        return form
+
 
 class MembershipUpdateView(UpdateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
+
+    def get_form(self, form_class):
+        form = super(MembershipUpdateView, self).get_form(form_class)
+        form.fields['full_name'].initial = form.instance.user.full_name
+        return form
 
 
 class UserListView(ListView):
