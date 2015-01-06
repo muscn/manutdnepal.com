@@ -12,6 +12,7 @@ import datetime
 from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
+from apps.users import membership_settings
 
 
 def login_register(request):
@@ -195,8 +196,13 @@ class UserDeleteView(DeleteView):
 def new_user_membership(request):
     user_form = UserForm(prefix='uf')
     member_form = MembershipForm(prefix='mf')
-    bank_deposit_form = BankDepositPaymentForm(prefix='bf')
-    direct_payment_form = DirectPaymentPaymentForm(prefix='df')
+
+    payment_initial = {
+        'amount': membership_settings.membership_fee,
+        'date_time': datetime.datetime.now()
+    }
+    bank_deposit_form = BankDepositPaymentForm(prefix='bf', initial=payment_initial)
+    direct_payment_form = DirectPaymentPaymentForm(prefix='df', initial=payment_initial)
     if request.POST:
 
         user_form = UserForm(request.POST, request.FILES, prefix='uf')
@@ -209,7 +215,7 @@ def new_user_membership(request):
         elif request.POST['payment_method'] == 'direct-payment':
             direct_payment_form = DirectPaymentPaymentForm(request.POST, prefix='df', exclude='user')
             payment_form = direct_payment_form
-            
+
         if user_form.is_valid() and member_form.is_valid() and payment_form.is_valid():
             user = user_form.save()
             payment_method = payment_form.save(user=user)
