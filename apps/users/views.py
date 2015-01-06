@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
@@ -160,6 +161,27 @@ class MembershipUpdateView(UpdateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
+
+    def post(self, request, *args, **kwargs):
+        if 'action' in request.POST:
+            obj = self.get_object()
+            if request.POST['action'] == 'Approve':
+                if not hasattr(obj, 'payment') or not obj.payment:
+                    messages.error(request, 'No payment associated with the membership!')
+                elif not obj.payment.verified:
+                    messages.error(request, 'Associated payment hasn\'t been verified!')
+                else:
+                    obj.approved_by = request.user
+                    obj.approved_date = datetime.datetime.now()
+                    messages.info(request, 'The membership is approved!')
+            elif request.POST['action'] == 'Disprove':
+                obj.approved_by = None
+                messages.info(request, 'The membership is disproved!')
+            obj.save()
+            return redirect(reverse_lazy('update_membership', kwargs={'pk': obj.pk}))
+        else:
+            return super(MembershipUpdateView, self).post(request, *args, **kwargs)
+
 
     def get_form(self, form_class):
         form = super(MembershipUpdateView, self).get_form(form_class)
