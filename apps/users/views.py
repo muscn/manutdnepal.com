@@ -170,3 +170,8 @@ class UserUpdateView(UpdateView):
     model = User
     form_class = UserUpdateForm
     success_url = reverse_lazy('list_users')
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('list_users')

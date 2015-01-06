@@ -28,7 +28,9 @@
             {% for item in paginated_objects %}
                 <tr class="{% if item.is_member %}success{% else %}warning{% endif %}">
                     <td>
-                        {{ item.username }}
+                        <a href="{% url 'update_user' item.id %}">
+                            {{ item.username }}
+                        </a>
                     </td>
                     <td>
                         {{ item.full_name }}
@@ -37,11 +39,15 @@
                         {{ item.email }}
                     </td>
                     <td>
-                        {{ item.membership }}
+                        {% if item.membership %}
+                            <a href="{% url 'update_membership' item.membership.id %}">
+                            {{ item.membership }}
+                        {% endif %}
+                        </a>
                     </td>
-{#                    <td>#}
-{#                        {{ item.approved_date }}#}
-{#                    </td>#}
+                    {#                    <td>#}
+                    {#                        {{ item.approved_date }}#}
+                    {#                    </td>#}
                 </tr>
             {% endfor %}
             </tbody>
@@ -51,7 +57,7 @@
     {% paginate %}
 
     <div class="pull-right">
-        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>
+        <a class="btn btn-success" href="{% url 'create_user' %}">Add New User</a>
     </div>
 
 {% endblock %}
