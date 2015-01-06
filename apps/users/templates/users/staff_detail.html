@@ -1,0 +1,229 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} {{ object }} {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_staffs' %}"><i class="fa fa-users"></i>Staffs</a>
+    <span>{{ object }}</span>
+{% endblock %}
+
+{% block content %}
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Phone</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ object.username }}</td>
+            <td>{{ object.full_name }}</td>
+            <td>{{ object.email }}</td>
+            <td>{{ object.membership.mobile }}</td>
+            <td>{{ object.membership.phone }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>Verified Payments</h1>
+
+    {% autosort payments_verified as sorted_payments %}
+    {% autopaginate sorted_payments 5 as paginated_payments %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor date_time 'Date, Time' %}</th>
+            <th>{% anchor user 'By' %}</th>
+            <th>{% anchor amount 'Amount' %}</th>
+            <th>{% anchor list_payment_for 'For' %}</th>
+            <th>{% anchor method_type 'Method' %}</th>
+            <th>{% anchor verified_by 'Verified By' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_payments %}
+                <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
+                    <td>
+                        <a href="{% url 'update_payment' item.id %}">
+                            {{ item.date_time }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if item.user %}
+                            <a href="{% url 'update_user' item.user.id %}">
+                                {{ item.user.full_name }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ item.amount }}
+                    </td>
+                    <td>
+                        {% for event in item.payment_for.all %}
+                            {% if event.get_absolute_url %}
+                                <a href="{{ event.get_absolute_url }}">
+                                    {{ event|get_class_name }}
+                                </a>{% if not forloop.last %}, {% endif %}
+                            {% else %}
+                                {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if item.method %}
+                            <a href="{{ item.method.get_absolute_url }}">{{ item.method_type }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.verified_by %}
+                            <a href="{% url 'update_user' item.verified_by.id %}">
+                            {{ item.verified_by.full_name }}
+                        {% endif %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+
+    <h1>Approved Memberships</h1>
+
+    {% autosort memberships_approved as sorted_memberships %}
+    {% autopaginate sorted_memberships 5 as paginated_memberships %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor registration_date 'Registration Date' %}</th>
+            <th>{% anchor user__devil_no 'Devil No.' %}</th>
+            <th>{% anchor user 'User' %}</th>
+            {#            <th>{% anchor mobile 'Mobile' %}</th>#}
+            <th>{% anchor approved_by 'Approved By' %}</th>
+            <th>{% anchor approved_date 'Approved Date' %}</th>
+            <th>{% anchor payment 'Payment' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_memberships %}
+                <tr class="{% if item.approved %}success{% else %}warning{% endif %}">
+                    <td>
+                        <a href="{% url 'update_membership' item.id %}">
+                            {{ item.registration_date }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.user.devil_no }}
+                    </td>
+                    <td>
+                        <a href="{% url 'update_user' item.user.id %}">
+                            {{ item.user.full_name }}
+                        </a>
+                    </td>
+                    {#                    <td>#}
+                    {#                        {{ item.mobile }}#}
+                    {#                    </td>#}
+                    <td>
+                        {% if item.approved_by %}
+                            <a href="{% url 'update_user' item.approved_by.id %}">
+                                {{ item.approved_by.full_name }}
+                            </a>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        {{ item.approved_date }}
+                    </td>
+                    <td>
+                        {% if item.payment %}
+                            <a href="{% url 'update_payment' item.payment.id %}">
+                                {{ item.payment }}
+                            </a>
+                        {% else %}
+                            {#                            Create Payment#}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+
+
+    <h1>Audit Log</h1>
+
+    {% autosort audit_log as sorted_logs %}
+    {% autopaginate sorted_logs 5 as paginated_logs %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor actor 'Actor' %}</th>
+            <th>{% anchor object_repr 'Object' %}</th>
+            <th>{% anchor content_type 'Type' %}</th>
+            <th>{% anchor action 'Action' %}</th>
+            <th>{% anchor timestamp 'Timestamp' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_logs %}
+                <tr>
+                    <td>
+                        {% if item.actor %}
+                            <a href="{% url 'update_user' item.actor.id %}">
+                                {{ item.actor.full_name }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.action == 2 %}
+                            {{ item.object_repr }}
+                        {% else %}
+                            {% if item.get_object.get_absolute_url %}
+                                <a href="{{ item.get_object.get_absolute_url }}">{{ item.object_repr }}</a>
+                            {% else %}
+                                {{ item.object_repr }}
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ item.content_type }}
+                    </td>
+                    <td>
+                        {% if item.action == 0 %}
+                            Create
+                        {% elif item.action == 1 %}
+                            Update
+                        {% else %}
+                            Delete
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ item.timestamp }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+
+{% endblock %}

@@ -58,4 +58,5 @@ urlpatterns = patterns('',
                            name='delete_user'),
 
                        url(r'^staff/$', users_views.StaffListView.as_view(), name='list_staffs'),
+                       url(r'^staff/(?P<pk>\d+)/$', users_views.StaffDetailView.as_view(), name='view_staff'),
 )

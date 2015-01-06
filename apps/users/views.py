@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from .models import Membership, User
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
@@ -16,6 +16,7 @@ from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 from apps.users import membership_settings
 from django.db.models import Max
+from auditlog.models import LogEntry
 
 
 def login_register(request):
@@ -233,6 +234,23 @@ class StaffListView(ListView):
     def get_queryset(self):
         queryset = User.objects.filter(groups__name='Staff')
         return queryset
+
+
+class StaffDetailView(DetailView):
+    model = User
+    template_name = 'users/staff_detail.html'
+
+    def get_queryset(self):
+        queryset = User.objects.filter(groups__name='Staff')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(StaffDetailView, self).get_context_data(**kwargs)
+        staff = self.get_object()
+        context['memberships_approved'] = staff.memberships_approved.all()
+        context['payments_verified'] = staff.verified_payments.all()
+        context['audit_log'] = LogEntry.objects.filter(actor=staff)
+        return context
 
 
 def new_user_membership(request):
