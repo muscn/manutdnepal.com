@@ -14,6 +14,7 @@ from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 from apps.users import membership_settings
+from django.db.models import Max
 
 
 def login_register(request):
@@ -172,6 +173,12 @@ class MembershipUpdateView(UpdateView):
                     messages.error(request, 'Associated payment hasn\'t been verified!')
                 else:
                     obj.approved_by = request.user
+                    if not obj.user.devil_no:
+                        max_devil_no = User.objects.aggregate(Max('devil_no'))['devil_no__max']
+                        if max_devil_no is None:
+                            max_devil_no = 100
+                        obj.user.devil_no = max_devil_no + 1
+                        obj.user.save()
                     obj.approved_date = datetime.datetime.now()
                     messages.info(request, 'The membership is approved!')
             elif request.POST['action'] == 'Disprove':
@@ -181,7 +188,6 @@ class MembershipUpdateView(UpdateView):
             return redirect(reverse_lazy('update_membership', kwargs={'pk': obj.pk}))
         else:
             return super(MembershipUpdateView, self).post(request, *args, **kwargs)
-
 
     def get_form(self, form_class):
         form = super(MembershipUpdateView, self).get_form(form_class)
