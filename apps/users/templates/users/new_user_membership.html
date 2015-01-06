@@ -6,6 +6,14 @@
 {% block extrahead %}
     {% include 'partials/selectize.html' %}
     {% include 'partials/datetimepicker.html' %}
+    <script>
+        var disable_required_on_hidden_tabcontent = function (e) {
+            $(':input[required]:hidden').removeAttr('required').addClass('wasrequired');
+            $('.wasrequired:visible').removeClass('wasrequired').prop('required', 'required');
+        }
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', disable_required_on_hidden_tabcontent);
+        $(document).on('ready', disable_required_on_hidden_tabcontent);
+    </script>
 {% endblock %}
 
 {% block breadcrumbs %}
