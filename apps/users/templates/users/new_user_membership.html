@@ -8,6 +8,11 @@
     {% include 'partials/datetimepicker.html' %}
     <script>
         var disable_required_on_hidden_tabcontent = function (e) {
+            // change value of hidden payment_method input
+            if (typeof($(e.currentTarget).attr('aria-controls')) != 'undefined') {
+                $('input[name="payment_method"]').val($(e.currentTarget).attr('aria-controls'))
+            }
+            // disable required attribute in elements within hidden tabs
             $(':input[required]:hidden').removeAttr('required').addClass('wasrequired');
             $('.wasrequired:visible').removeClass('wasrequired').prop('required', 'required');
         }
@@ -65,6 +70,7 @@
 
                 </div>
 
+                <input type="hidden" name="payment_method" value="direct-payment">
                 <input type="submit" class="btn btn-primary" value="Submit">
             </form>
 
