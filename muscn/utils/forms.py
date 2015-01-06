@@ -92,14 +92,17 @@ class HTML5ModelForm(forms.ModelForm):
         input_type = 'time'
 
     def __init__(self, *args, **kwargs):
+        self.exclude = kwargs.pop('exclude', None)
         super(HTML5ModelForm, self).__init__(*args, **kwargs)
+        if self.exclude:
+            del self.fields[self.exclude]
         self.refine()
 
     def refine(self):
         for (name, field) in self.fields.items():
             file_fields = [forms.fields.ImageField, forms.fields.FileField]
             # add HTML5 required attribute for required fields, except for file fields which already have a value
-            if field.required and not(field.__class__ in file_fields and getattr(self.instance, name)):
+            if field.required and not (field.__class__ in file_fields and getattr(self.instance, name)):
                 field.widget.attrs['required'] = 'required'
 
     def hide_field(self, request):
