@@ -235,7 +235,7 @@ class User(AbstractBaseUser):
         return img
 
     def get_card(self):
-        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
+        base_image = os.path.join(settings.BASE_DIR, 'private', 'empty_card.jpg')
         devil_number = self.devil_no
         draw_qr = True
         img = self.generate_card(devil_number, draw_qr, base_image)
@@ -261,35 +261,12 @@ class User(AbstractBaseUser):
 
         img = self.generate_card(devil_number, draw_qr, base_image)
 
+        img.thumbnail((530, 325), Image.ANTIALIAS)
+
         if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'sample_cards')):
             os.makedirs(os.path.join(settings.MEDIA_ROOT, 'sample_cards'))
 
-        img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.pk) + '.png'))
-
-        # img = Image.open(os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_card.jpg'))
-        # draw = ImageDraw.Draw(img)
-        # # write devil number
-        # font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-ThinItalic.otf'), 19)
-        # draw.text((613, 75), "#007", (255, 255, 255), font=font)
-        # # write name
-        # font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Regular.otf'), 19)
-        # draw.text((433, 438), self.full_name, (255, 255, 255), font=font)
-        # # write phone number
-        # font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Regular.otf'), 19)
-        # draw.text((643, 521), self.membership.mobile, (255, 255, 255), font=font)
-        # # download qr
-        # # if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'qrs')):
-        # # os.makedirs(os.path.join(settings.MEDIA_ROOT, 'qrs'))
-        # # urlretrieve('http://api.qrserver.com/v1/create-qr-code/?data=http://manutd.org.np/007&size=160x160&ecc=H',
-        # #             os.path.join(settings.MEDIA_ROOT, 'qrs', str(self.id) + '.png'))
-        # # qr = Image.open(os.path.join(settings.MEDIA_ROOT, 'qrs', str(self.id) + '.png'))
-        # # write qr to image
-        # # draw.bitmap((65, 302), qr)
-        # if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'sample_cards')):
-        # os.makedirs(os.path.join(settings.MEDIA_ROOT, 'sample_cards'))
-        # img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.id) + '.jpg'))
-        # import ipdb
-        # ipdb.set_trace()
+        img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.pk) + '.png'), optimize=True)
 
         url = settings.MEDIA_URL + 'sample_cards/' + str(self.pk) + '.png'
         cache.set('sample_card_' + str(self.pk), url)
