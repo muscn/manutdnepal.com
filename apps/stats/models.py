@@ -173,9 +173,9 @@ class Goal(models.Model):
 # class Card(models.Model):
 # player = models.ForeignKey(Player)
 # time = models.PositiveIntegerField()
-#     match = models.ForeignKey(Match)
+# match = models.ForeignKey(Match)
 #
-#     class Meta:
+# class Meta:
 #         abstract = True
 
 
@@ -266,3 +266,9 @@ class Injury(models.Model):
 
     class Meta:
         verbose_name_plural = 'Injuries'
+
+
+class Quote(models.Model):
+    text = models.TextField()
+    by = models.CharField(max_length=255, null=True, blank=True)
+    enabled = models.BooleanField(default=True)
