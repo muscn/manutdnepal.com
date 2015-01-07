@@ -77,7 +77,7 @@ nav.navbar {
     color: black;
 }
 
-.tile .fa {
+.tile>.fa {
     display: block;
     font-size: 8em;
     padding: 0.1em 0;
@@ -104,11 +104,11 @@ nav.navbar {
     top: 0;
 }
 
-.flip-container i.fa {
+.flip-container>i.fa {
     transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 }
 
-.flip-container.open i.fa {
+.flip-container.open>i.fa {
     opacity: 0;
 }
 
