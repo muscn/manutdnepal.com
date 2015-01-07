@@ -26,7 +26,9 @@
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-                        {{ item.text }}
+                        <a href="{% url 'update_quote' item.id %}">
+                            {{ item.excerpt }}
+                        </a>
                     </td>
                     <td>
                         {{ item.by }}
@@ -34,7 +36,6 @@
                     <td>
                         {{ item.enabled }}
                     </td>
-                    <td></td>
                 </tr>
             {% endfor %}
             </tbody>

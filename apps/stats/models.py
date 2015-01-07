@@ -176,7 +176,7 @@ class Goal(models.Model):
 # match = models.ForeignKey(Match)
 #
 # class Meta:
-#         abstract = True
+# abstract = True
 
 
 class YellowCard(models.Model):
@@ -272,3 +272,9 @@ class Quote(models.Model):
     text = models.TextField()
     by = models.CharField(max_length=255, null=True, blank=True)
     enabled = models.BooleanField(default=True)
+
+    def excerpt(self):
+        txt = self.text
+        if len(txt) < 101:
+            return txt
+        return txt[0:98] + ' ...'

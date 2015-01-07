@@ -1,11 +1,11 @@
 {% extends 'dashboard_base.html' %}
 {% load filters %}
 
-{% block title %} {{ scenario }} Bank Account {% endblock %}
+{% block title %} {{ scenario }} Quote {% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_bank_accounts' %}"><i class="fa fa-money"></i>Bank Accounts</a>
+    <a href="{% url 'list_quotes' %}"><i class="fa fa-money"></i>Quotes</a>
     <span>{{ scenario }} {{ object }}</span>
 {% endblock %}
 
@@ -13,26 +13,26 @@
 
     <div class="row">
         <div class="col-sm-12 col-lg-6">
-            <form method="POST">
+            <form method="POST" role="form">
 
                 {% csrf_token %}
 
                 <div class="form-group">
-                    {{ form.bank_name.label_tag }}
-                    {{ form.bank_name }}
-                    {{ form.bank_name.errors }}
+                    {{ form.text.label_tag }}
+                    {{ form.text }}
+                    {{ form.text.errors }}
                 </div>
 
                 <div class="form-group date-time">
-                    {{ form.ac_no.label_tag }}
-                    {{ form.ac_no }}
-                    {{ form.ac_no.errors }}
+                    {{ form.by.label_tag }}
+                    {{ form.by }}
+                    {{ form.by.errors }}
                 </div>
 
                 <div class="form-group">
-                    {{ form.branch_name.label_tag }}
-                    {{ form.branch_name }}
-                    {{ form.branch_name.errors }}
+                    {{ form.enabled.label_tag }}
+                    {{ form.enabled }}
+                    {{ form.enabled.errors }}
                 </div>
 
                 <input type="submit" class="btn btn-info" value="Save">

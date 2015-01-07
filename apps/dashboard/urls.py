@@ -65,4 +65,5 @@ urlpatterns = patterns('',
 
                        url(r'^quote/$', stats_views.QuoteListView.as_view(), name='list_quotes'),
                        url(r'^quote/add/$', stats_views.QuoteCreateView.as_view(), name='create_quote'),
+                       url(r'^quote/(?P<pk>\d+)/$', stats_views.QuoteUpdateView.as_view(), name='update_quote'),
 )

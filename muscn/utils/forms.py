@@ -119,7 +119,8 @@ class HTML5BootstrapModelForm(HTML5ModelForm):
         super(HTML5BootstrapModelForm, self).refine()
         for (name, field) in self.fields.items():
             widget = field.widget
-            if widget.__class__.__name__ is 'RadioSelect':
+            exclude_form_control = ['CheckboxInput', 'RadioSelect']
+            if widget.__class__.__name__ in exclude_form_control:
                 continue
             if 'class' in widget.attrs:
                 widget.attrs['class'] += ' form-control'
