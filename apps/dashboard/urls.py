@@ -62,4 +62,7 @@ urlpatterns = patterns('',
                        url(r'^staff/(?P<pk>\d+)/$', users_views.StaffDetailView.as_view(), name='view_staff'),
 
                        url(r'^injury/$', stats_views.InjuryListView.as_view(), name='list_injuries'),
+
+                       url(r'^quote/$', stats_views.QuoteListView.as_view(), name='list_quotes'),
+                       url(r'^quote/add/$', stats_views.QuoteCreateView.as_view(), name='create_quote'),
 )

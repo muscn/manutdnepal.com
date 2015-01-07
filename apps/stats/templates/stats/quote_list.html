@@ -1,0 +1,50 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Quotes {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_quotes' %}"><i class="fa fa-bank"></i>Quotes</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>Quote</th>
+            <th>{% anchor by 'By' %}</th>
+            <th>{% anchor enabled 'Enabled' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        {{ item.text }}
+                    </td>
+                    <td>
+                        {{ item.by }}
+                    </td>
+                    <td>
+                        {{ item.enabled }}
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+    <div class="pull-right">
+        <a class="btn btn-success" href="{% url 'create_quote' %}">Add Quote</a>
+    </div>
+
+{% endblock %}
