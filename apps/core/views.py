@@ -13,6 +13,8 @@ def clear_cache(request):
     from django.http import HttpResponseRedirect
     from django.contrib import messages
 
+    cache.clear()
+
     try:
         cache._cache.flush_all()
     except AttributeError:
