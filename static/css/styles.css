@@ -66,6 +66,7 @@ footer {
 @media only screen and (max-width: 991px) {
     footer .about-pages, footer .social-links {
         text-align: center;
+        padding-bottom: 0.6em;
     }
 }
 
