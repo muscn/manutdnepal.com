@@ -232,7 +232,7 @@ class User(AbstractBaseUser):
             # write qr to image
             img = img.convert('RGBA')
             img.paste(qr, qr_xy, qr)
-            return img
+        return img
 
     def get_card(self):
         base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
@@ -255,7 +255,7 @@ class User(AbstractBaseUser):
         if cached:
             return cached
 
-        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked.jpg')
+        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_with_qr.png')
         devil_number = u'007'
         draw_qr = False
 
