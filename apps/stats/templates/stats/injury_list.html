@@ -1,0 +1,51 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Injuries {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_injuries' %}"><i class="fa fa-bank"></i>Injuries</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor player 'Player' %}</th>
+            <th>{% anchor type 'Injury' %}</th>
+            <th>{% anchor injury_date 'Injury Date' %}</th>
+            <th>{% anchor return_date 'Return Date' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+    <div class="pull-right">
+{#        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>#}
+    </div>
+
+{% endblock %}

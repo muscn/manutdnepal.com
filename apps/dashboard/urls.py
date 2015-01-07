@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 from . import views
 from apps.payment import views as payment_views
 from apps.users import views as users_views
+from apps.stats import views as stats_views
 
 
 urlpatterns = patterns('',
@@ -59,4 +60,6 @@ urlpatterns = patterns('',
 
                        url(r'^staff/$', users_views.StaffListView.as_view(), name='list_staffs'),
                        url(r'^staff/(?P<pk>\d+)/$', users_views.StaffDetailView.as_view(), name='view_staff'),
+
+                       url(r'^injury/$', stats_views.InjuryListView.as_view(), name='list_injuries'),
 )

@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'apps.payment',
     'apps.page',
     'apps.dashboard',
+    'apps.stats',
 
 )
 
