@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from muscn.utils.countries import CountryField
+from jsonfield import JSONField
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -231,9 +232,9 @@ class StatSet(models.Model):
 
 
 # class PlayerStatLine(models.Model):
-#     """ Used for collecting the stat line for a player in a game """
+# """ Used for collecting the stat line for a player in a game """
 #
-#     player = models.ForeignKey(Player)
+# player = models.ForeignKey(Player)
 #     match = models.ForeignKey(Match)
 #     shots = models.IntegerField(default=0)
 #     shots_on_goal = models.IntegerField(default=0)
@@ -278,3 +279,9 @@ class Quote(models.Model):
         if len(txt) < 101:
             return txt
         return txt[0:98] + ' ...'
+
+
+class SeasonData(models.Model):
+    year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
+    summary = JSONField()
+    matches = JSONField()
