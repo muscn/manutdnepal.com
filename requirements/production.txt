@@ -11,6 +11,8 @@ django-froala-editor
 linaro-django-pagination
 webstack-django-sorting
 django-auditlog
+pip install jsonfield
+
 
 #production-only
 gunicorn
