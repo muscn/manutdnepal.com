@@ -1,57 +1,4 @@
-from lxml import html
-import requests
-
-
-class Scraper(object):
-    data = {}
-
-    @classmethod
-    def start(cls):
-        cls.scrape()
-        cls.save()
-
-    @classmethod
-    def get_root_tree(cls):
-        print 'Retrieving root URL: ' + cls.url + ' ...'
-        page = requests.get(cls.url)
-        tree = html.fromstring(page.text)
-        return tree
-
-    @classmethod
-    def get_wiki_cell_content(cls, td):
-        if td.getchildren():
-            last_child = td.getchildren()[-1]
-            if last_child.tag == 'sup':
-                try:
-                    last_child = td.getchildren()[-2]
-                except IndexError:
-                    return td.text
-            if last_child.getchildren():
-                last_child = last_child.getchildren()[-1]
-                if last_child.tag == 'sup':
-                    last_child = td.getchildren()[-2]
-            ret = last_child.text_content()
-        else:
-            ret = td.text_content()
-        if 'n/a' in ret or ret == '':
-            return None
-        return ret
-
-    @classmethod
-    def gwcc(cls, *args):
-        return cls.get_wiki_cell_content(*args)
-
-    @classmethod
-    def get_style(cls, el, style_property):
-        try:
-            all_styles = el.attrib['style']
-        except KeyError:
-            return None
-        styles = all_styles.split(';')
-        for style in styles:
-            css_property, value = style.split(':')
-            if css_property == style_property:
-                return value
+from .base import Scraper
 
 
 class SeasonDataScraper(Scraper):
@@ -156,7 +103,7 @@ class SeasonDataScraper(Scraper):
                         dct[year] = data
 
         cls.data = dct
-        print 'Scraped!'
+
 
     @classmethod
     def save(cls):
@@ -166,4 +113,3 @@ class SeasonDataScraper(Scraper):
             season_data, created = SeasonData.objects.get_or_create(year=season)
             season_data.summary = data
             season_data.save()
-        print 'Saved!'
