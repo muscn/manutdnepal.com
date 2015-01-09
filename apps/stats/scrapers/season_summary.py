@@ -3,7 +3,6 @@ import requests
 
 
 class Scraper(object):
-
     data = {}
 
     @classmethod
@@ -84,10 +83,8 @@ class SeasonDataScraper(Scraper):
             columns = row.getchildren()
             if columns:
                 year = columns[0].text_content()[0:4]
-                if columns[0].xpath('a'):
-
-                    data = {'wiki_url': columns[0].xpath('a')[0].attrib['href']}
-
+                if columns[0].xpath('.//a'):
+                    data = {'wiki_url': columns[0].xpath('.//a')[0].attrib['href']}
                     if cls.gwcc(columns[1]):
                         data['division'] = cls.gwcc(columns[1])
                     if cls.gwcc(columns[2]):
@@ -154,7 +151,6 @@ class SeasonDataScraper(Scraper):
                         data['top_score'] = cls.gwcc(columns[15])
 
                     dct[year] = data
-
 
         cls.data = dct
         print 'Scraped!'

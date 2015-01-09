@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse_lazy
 from django.db import models
 import datetime
 from muscn.utils.countries import CountryField
@@ -241,11 +242,11 @@ class StatSet(models.Model):
 # minutes = models.IntegerField(default=0)
 # goals = models.IntegerField(default=0)
 # assists = models.IntegerField(default=0)
-#     fouls_committed = models.IntegerField(default=0)
-#     fouls_suffered = models.IntegerField(default=0)
-#     corners = models.IntegerField(default=0)
-#     offsides = models.IntegerField(default=0)
-#     saves = models.IntegerField(default=0)
+# fouls_committed = models.IntegerField(default=0)
+# fouls_suffered = models.IntegerField(default=0)
+# corners = models.IntegerField(default=0)
+# offsides = models.IntegerField(default=0)
+# saves = models.IntegerField(default=0)
 #     goals_against = models.IntegerField(default=0)
 #
 #     def __unicode__(self):
@@ -288,10 +289,13 @@ class SeasonData(models.Model):
 
     @property
     def slug(self):
-        return str(self.year) + '-' + str(int(str(self.year)[-2:]) + 1)
+        return str(self.year) + '-' + str("{0:02d}".format(int(str(self.year + 1)[-2:])))
+
+    def get_absolute_url(self):
+        return reverse_lazy('view_seasondata', kwargs={'year': self.year, 'year1': str(self.year + 1)[-2:]})
 
     def __unicode__(self):
-        return unicode(self.year)
+        return unicode(self.slug)
 
     class Meta:
         verbose_name_plural = 'Seasons Data'

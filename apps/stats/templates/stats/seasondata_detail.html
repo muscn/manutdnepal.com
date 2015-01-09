@@ -8,39 +8,51 @@
         <h1>
             Season {{ object.slug }}
         </h1>
-
-        <h3>Division: {{ object.summary.division|key }}</h3>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Pos</th>
-                <th>P</th>
-                <th>W</th>
-                <th>D</th>
-                <th>L</th>
-                <th>GF</th>
-                <th>GA</th>
-                <th>Pts</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{ object.summary.Pos.value }}</td>
-                <td>{{ object.summary.P }}</td>
-                <td>{{ object.summary.W }}</td>
-                <td>{{ object.summary.D }}</td>
-                <td>{{ object.summary.L }}</td>
-                <td>{{ object.summary.F }}</td>
-                <td>{{ object.summary.A }}</td>
-                <td>{{ object.summary.Pts }}</td>
-            </tr>
-            </tbody>
-        </table>
+        {% if object.summary.division %}
+            <h3>{{ object.summary.division|key }}
+                <small>
+                    [<a href="">All Matches & Results</a>]
+                </small>
+            </h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>P</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>Pts</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ object.summary.Pos.value }}
+                        {% if object.summary.Pos.remarks == 'Relegated' or object.summary.Pos.remarks == 'Promoted' %}
+                            [{{ object.summary.Pos.remarks }}]
+                        {% endif %}
+                    </td>
+                    <td>{{ object.summary.P }}</td>
+                    <td>{{ object.summary.W }}</td>
+                    <td>{{ object.summary.D }}</td>
+                    <td>{{ object.summary.L }}</td>
+                    <td>{{ object.summary.F }}</td>
+                    <td>{{ object.summary.A }}</td>
+                    <td>{{ object.summary.Pts }}</td>
+                </tr>
+                </tbody>
+            </table>
+        {% endif %}
 
         <div>
             <h3>Domestic Cups</h3>
             {% if object.summary.FA %}
                 <strong>FA Cup</strong>: {{ object.summary.FA.value|key }}
+                <span>
+                    [<a href="">All Matches & Results</a>]
+                </span>
                 <br>
             {% endif %}
 

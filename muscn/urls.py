@@ -19,7 +19,7 @@ urlpatterns = patterns('',
                        (r'dashboard/', include('apps.dashboard.urls')),
 
                        url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
-                       url(r'^season/(?P<year>[\d]{4})-[\d]{2}/$', stats_views.SeasonDataDetailView.as_view(),
-                           name='view_season'),
+                       url(r'^season/(?P<year>[\d]{4})-(?P<year1>[\d]{2})/$', stats_views.SeasonDataDetailView.as_view(),
+                           name='view_seasondata'),
                        (r'', include('apps.page.urls')),
 )

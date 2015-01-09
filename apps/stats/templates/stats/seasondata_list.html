@@ -8,7 +8,9 @@
 
         <ul>
             {% for season in epl_seasons %}
-                <li>{{ season }}</li>
+                <li>
+                    <a href="{{ season.get_absolute_url }}">{{ season }}</a>
+                </li>
             {% endfor %}
         </ul>
 
@@ -16,7 +18,9 @@
 
         <ul>
             {% for season in pre_epl_seasons %}
-                <li>{{ season }}</li>
+                <li>
+                    <a href="{{ season.get_absolute_url }}">{{ season }}</a>
+                </li>
             {% endfor %}
         </ul>
 
