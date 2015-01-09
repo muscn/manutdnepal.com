@@ -1,4 +1,5 @@
 from django.template import Library
+import re
 
 register = Library()
 
@@ -40,3 +41,8 @@ def key(value):
     if value in dct:
         return dct[value]
     return value
+
+@register.filter
+def get_cardinal(value):
+    pattern = '(\d*).*'
+    return int(re.match(pattern, value).groups()[0])

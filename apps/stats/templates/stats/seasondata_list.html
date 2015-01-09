@@ -7,23 +7,47 @@
 {% block extrahead %}
     <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    {#    <link rel="stylesheet" type="text/css"#}
+    {#          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>#}
     <link rel="stylesheet" type="text/css"
-          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>
+          href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+
     <script>
         $(document).ready(function () {
             $('table').DataTable({
                 paging: false,
-                "aaSorting": []
+                "aaSorting": [],
+                {#                "aoColumns": [#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    null,#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null#}
+                {#                ]#}
             });
         });
+
+
     </script>
 
 {% endblock %}
 
 {% block content %}
+
     <div class="container-fluid">
 
-
+        <h1>All Seasons</h1>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -63,7 +87,8 @@
                     <td>{{ object.summary.F }}</td>
                     <td>{{ object.summary.A }}</td>
                     <td>{{ object.summary.Pts }}</td>
-                    <td{% if object.summary.Pos.remarks %} class=
+                    <td data-order="{{ object.summary.Pos.value|get_cardinal }}" {% if object.summary.Pos.remarks %}
+                        class=
                         {{ object.summary.Pos.remarks|lower }}{% endif %}>{{ object.summary.Pos.value }}
                     </td>
                     <td{% if object.summary.FA.remarks %} class=
@@ -85,11 +110,11 @@
                     <td>{{ object.summary.top_score }}</td>
                 </tr>
             {% endfor %}
-{#            <tr>#}
-{#                <th colspan="10">#}
-{#                    Pre- Premier League Seasons#}
-{#                </th>#}
-{#            </tr>#}
+            {#            <tr>#}
+            {#                <th colspan="10">#}
+            {#                    Pre- Premier League Seasons#}
+            {#                </th>#}
+            {#            </tr>#}
 
             {% for object in pre_epl_seasons %}
                 <tr>
