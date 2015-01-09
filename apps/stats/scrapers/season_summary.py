@@ -101,22 +101,42 @@ class SeasonDataScraper(Scraper):
                         if cls.get_style(columns[9], 'background-color'):
                             data['Pos']['remarks'] = cls.get_remark_from_cell(columns[9])
                     if cls.gwcc(columns[10]):
-                        data['FA'] = cls.gwcc(columns[10])
+                        data['FA'] = {'value': cls.gwcc(columns[10])}
+                        if cls.get_style(columns[10], 'background-color'):
+                            data['FA']['remarks'] = cls.get_remark_from_cell(columns[10])
                     if cls.gwcc(columns[11]):
-                        data['League'] = cls.gwcc(columns[11])
+                        data['League'] = {'value': cls.gwcc(columns[11])}
+                        if cls.get_style(columns[11], 'background-color'):
+                            data['League']['remarks'] = cls.get_remark_from_cell(columns[11])
                     if cls.gwcc(columns[12]):
                         data['Community'] = cls.gwcc(columns[12])
+                        data['Community'] = {'value': cls.gwcc(columns[12])}
+                        if cls.get_style(columns[12], 'background-color'):
+                            data['Community']['remarks'] = cls.get_remark_from_cell(columns[12])
                     if cls.gwcc(columns[13]):
-
                         # test for multiple achievements
                         if columns[13].xpath('*/ul'):
+                            # if year == '1991':
+                            # import ipdb
+                            #     ipdb.set_trace()
                             achievements = []
                             achievements_li = columns[13].xpath('*/ul')[0].getchildren()
                             for achievement_li in achievements_li:
-                                achievements.append(achievement_li.text_content().replace(u'\u2013', '-'))
+                                result = achievement_li.text_content().strip()
+                                result_splitted = result.split(u'\u2013')
+                                achievement = {'cup': result_splitted[0].strip(), 'value': result_splitted[1].strip()}
+                                if achievement_li.getchildren() and achievement_li.getchildren()[0].tag == 'div':
+                                    achievement['remarks'] = cls.get_remark_from_cell(achievement_li.getchildren()[0])
+                                achievements.append(achievement)
+                            data['International'] = achievements
                         else:
-                            data['UEFA'] = [columns[13].getchildren()[1].text_content().replace(u'\u2013', '-')]
-
+                            result = columns[13].getchildren()[1].text_content().strip()
+                            result_splitted = result.split(u'\u2013')
+                            data['International'] = [
+                                {'cup': result_splitted[0].strip(), 'value': result_splitted[1].strip()}
+                            ]
+                            if cls.get_style(columns[13], 'background-color'):
+                                data['International'][0]['remarks'] = cls.get_remark_from_cell(columns[13])
                     dct[year] = data
 
         import ipdb
