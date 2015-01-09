@@ -53,7 +53,7 @@
             {% if object.summary.FA %}
                 <strong>FA Cup</strong>: {{ object.summary.FA.value|key }}
                 <span>
-                    [<a href="">All Matches & Results</a>]
+                    [<a href="{{ object.get_absolute_url }}fa-cup/">All Matches & Results</a>]
                 </span>
                 <br>
             {% endif %}
