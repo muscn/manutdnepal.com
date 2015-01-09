@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from muscn.utils.mixins import CreateView, UpdateView
-from .models import Injury, Quote, SeasonData
+from .models import Injury, Quote, SeasonData, CompetitionYearMatches, Competition, CompetitionYear
 from .forms import InjuryForm, QuoteForm
 
 
@@ -44,3 +44,13 @@ class SeasonDataDetailView(DetailView):
 
     def get_object(self):
         return get_object_or_404(SeasonData, year=self.kwargs['year'])
+
+
+class SeasonCompetitionView(DetailView):
+    model = CompetitionYearMatches
+
+    def get_object(self):
+        competition_year = get_object_or_404(CompetitionYear, year=self.kwargs['year'],
+                                             competition__slug=self.kwargs['competition'])
+        return get_object_or_404(CompetitionYearMatches, competition_year=competition_year)
+

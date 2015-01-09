@@ -37,12 +37,20 @@ def key(value):
         'R4': 'Round 4',
         'R5': 'Round 5',
         'R6': 'Round 6',
+        'H': 'Home',
+        'A': 'Away',
     }
     if value in dct:
         return dct[value]
     return value
 
+
 @register.filter
 def get_cardinal(value):
+    if value == '':
+        return value
     pattern = '(\d*).*'
-    return int(re.match(pattern, value).groups()[0])
+    matches = re.match(pattern, value).groups()
+    if matches:
+        return int(matches[0])
+    return value

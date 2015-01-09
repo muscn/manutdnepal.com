@@ -19,8 +19,13 @@ class FACupScraper(Scraper):
                     year = row[1]
                     if not year in dct:
                         dct[year] = []
-                    del row[1]
-                    dct[year].append(row)
+                    if cls.club in row[2]:
+                        ha = 'H'
+                        opponent = row[3]
+                    else:
+                        ha = 'A'
+                        opponent = row[2]
+                    dct[year].append([row[0], ha, opponent, row[4]])
 
         cls.data = dct
 
