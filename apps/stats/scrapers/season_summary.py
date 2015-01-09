@@ -155,9 +155,15 @@ class SeasonDataScraper(Scraper):
 
                     dct[year] = data
 
+
         cls.data = dct
+        print 'Scraped!'
 
     @classmethod
     def save(cls):
-        import ipdb
-        ipdb.set_trace()
+        from apps.stats.models import SeasonData
+        for season, data in cls.data.iteritems():
+            season_data, created = SeasonData.objects.get_or_create(year=season)
+            season_data.summary = data
+            season_data.save()
+        print 'Saved!'
