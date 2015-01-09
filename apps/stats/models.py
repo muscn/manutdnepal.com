@@ -235,7 +235,7 @@ class StatSet(models.Model):
 # """ Used for collecting the stat line for a player in a game """
 #
 # player = models.ForeignKey(Player)
-#     match = models.ForeignKey(Match)
+# match = models.ForeignKey(Match)
 #     shots = models.IntegerField(default=0)
 #     shots_on_goal = models.IntegerField(default=0)
 #     minutes = models.IntegerField(default=0)
@@ -285,3 +285,9 @@ class SeasonData(models.Model):
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
     summary = JSONField()
     matches = JSONField()
+
+    def __unicode__(self):
+        return unicode(self.year)
+
+    class Meta:
+        verbose_name_plural = 'Seasons Data'
