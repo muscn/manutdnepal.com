@@ -288,6 +288,10 @@ class SeasonData(models.Model):
     matches = JSONField(blank=True, null=True)
 
     @property
+    def gd(self):
+        return int(self.summary['F']) - int(self.summary['A'])
+
+    @property
     def slug(self):
         return str(self.year) + '-' + str("{0:02d}".format(int(str(self.year + 1)[-2:])))
 

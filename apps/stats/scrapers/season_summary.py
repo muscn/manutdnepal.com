@@ -152,7 +152,8 @@ class SeasonDataScraper(Scraper):
                     if cls.gwcc(columns[15]):
                         data['top_score'] = cls.gwcc(columns[15])
 
-                    dct[year] = data
+                    if 'division' in data and data['division'] != 'Not held':
+                        dct[year] = data
 
         cls.data = dct
         print 'Scraped!'
