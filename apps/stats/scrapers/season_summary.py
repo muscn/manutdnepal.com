@@ -34,9 +34,37 @@ class Scraper(object):
     def gwcc(cls, *args):
         return cls.get_wiki_cell_content(*args)
 
+    @classmethod
+    def get_style(cls, el, style_property):
+        try:
+            all_styles = el.attrib['style']
+        except KeyError:
+            return None
+        styles = all_styles.split(';')
+        for style in styles:
+            css_property, value = style.split(':')
+            if css_property == style_property:
+                return value
+
 
 class SeasonDataScraper(Scraper):
     url = 'http://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._seasons'
+
+    @classmethod
+    def get_remark_from_bgcolor(cls, bgcolor):
+        dct = {
+            '#DDD': 'Runners-up',
+            '#FCC': 'Relegated',
+            '#FE2': 'Champions',
+            '#DFD': 'Promoted',
+        }
+        if bgcolor in dct:
+            return dct[bgcolor]
+        return bgcolor
+
+    @classmethod
+    def get_remark_from_cell(cls, cell):
+        return cls.get_remark_from_bgcolor(cls.get_style(cell, 'background-color'))
 
     @classmethod
     def scrape(cls):
@@ -69,7 +97,9 @@ class SeasonDataScraper(Scraper):
                     if cls.gwcc(columns[8]):
                         data['Pts'] = cls.gwcc(columns[8])
                     if cls.gwcc(columns[9]):
-                        data['Pos'] = cls.gwcc(columns[9])
+                        data['Pos'] = {'value': cls.gwcc(columns[9])}
+                        if cls.get_style(columns[9], 'background-color'):
+                            data['Pos']['remarks'] = cls.get_remark_from_cell(columns[9])
                     if cls.gwcc(columns[10]):
                         data['FA'] = cls.gwcc(columns[10])
                     if cls.gwcc(columns[11]):
