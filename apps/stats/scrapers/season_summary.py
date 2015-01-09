@@ -144,6 +144,8 @@ class SeasonDataScraper(Scraper):
                         players = []
                         player_links = columns[14].xpath('.//a')
                         for player_link in player_links:
+                            if player_link.getparent().tag == 'sup':
+                                continue
                             players.append({'name': player_link.text_content(), 'wiki_url': player_link.attrib['href']})
                         data['top_scorers'] = players
 
@@ -158,6 +160,7 @@ class SeasonDataScraper(Scraper):
     @classmethod
     def save(cls):
         from apps.stats.models import SeasonData
+
         for season, data in cls.data.iteritems():
             season_data, created = SeasonData.objects.get_or_create(year=season)
             season_data.summary = data
