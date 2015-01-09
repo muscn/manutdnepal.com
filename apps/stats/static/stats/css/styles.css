@@ -1,0 +1,18 @@
+td.champions:before {
+    content: "\f091";
+    padding-right: 0.3em;
+}
+
+td.relegated:before {
+    content: "\f149";
+    padding-right: 0.3em;
+}
+
+td.promoted:before {
+    content: "\f148";
+    padding-right: 0.3em;
+}
+
+div.legends:after {
+    content: ' | ';
+}

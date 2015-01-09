@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% load filters %}
+{% load staticfiles %}
 
 {% block title %} All Seasons {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+{% endblock %}
 
 {% block content %}
     <div class="container-fluid">
@@ -112,24 +117,12 @@
             </tbody>
         </table>
 
-
-        <ul>
-            {% for season in epl_seasons %}
-                <li>
-                    <a href="{{ season.get_absolute_url }}">{{ season }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-
-        <h2>Pre - Premier League Seasons</h2>
-
-        <ul>
-            {% for season in pre_epl_seasons %}
-                <li>
-                    <a href="{{ season.get_absolute_url }}">{{ season }}</a>
-                </li>
-            {% endfor %}
+        <ul class="legends">
+            <li><i class="fa fa-trophy"></i> = Champions</li>
+            <li><i class="fa fa-level-up"></i> = Promoted</li>
+            <li><i class="fa fa-level-down"></i> = Relegated</li>
         </ul>
 
     </div>
 {% endblock %}
+
