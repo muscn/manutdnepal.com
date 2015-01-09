@@ -7,6 +7,11 @@ class Scraper(object):
     data = {}
 
     @classmethod
+    def start(cls):
+        cls.scrape()
+        cls.save()
+
+    @classmethod
     def get_root_tree(cls):
         print 'Retrieving root URL: ' + cls.url + ' ...'
         page = requests.get(cls.url)
@@ -119,9 +124,6 @@ class SeasonDataScraper(Scraper):
                     if cls.gwcc(columns[13]):
                         # test for multiple achievements
                         if columns[13].xpath('*/ul'):
-                            # if year == '1991':
-                            # import ipdb
-                            #     ipdb.set_trace()
                             achievements = []
                             achievements_li = columns[13].xpath('*/ul')[0].getchildren()
                             for achievement_li in achievements_li:
@@ -153,9 +155,9 @@ class SeasonDataScraper(Scraper):
 
                     dct[year] = data
 
-        cls.data = data
+        cls.data = dct
 
-        @classmethod
-        def save(cls):
-            import ipdb
-            ipdb.set_trace()
+    @classmethod
+    def save(cls):
+        import ipdb
+        ipdb.set_trace()
