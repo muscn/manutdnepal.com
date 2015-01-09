@@ -283,8 +283,8 @@ class Quote(models.Model):
 
 class SeasonData(models.Model):
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
-    summary = JSONField()
-    matches = JSONField()
+    summary = JSONField(blank=True, null=True)
+    matches = JSONField(blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.year)
