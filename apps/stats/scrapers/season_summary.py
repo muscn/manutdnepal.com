@@ -3,6 +3,9 @@ import requests
 
 
 class Scraper(object):
+
+    data = {}
+
     @classmethod
     def get_root_tree(cls):
         print 'Retrieving root URL: ' + cls.url + ' ...'
@@ -137,8 +140,22 @@ class SeasonDataScraper(Scraper):
                             ]
                             if cls.get_style(columns[13], 'background-color'):
                                 data['International'][0]['remarks'] = cls.get_remark_from_cell(columns[13])
+
+                    if cls.gwcc(columns[14]):
+                        players = []
+                        player_links = columns[14].xpath('.//a')
+                        for player_link in player_links:
+                            players.append({'name': player_link.text_content(), 'wiki_url': player_link.attrib['href']})
+                        data['top_scorers'] = players
+
+                    if cls.gwcc(columns[15]):
+                        data['top_score'] = cls.gwcc(columns[15])
+
                     dct[year] = data
 
-        import ipdb
+        cls.data = data
 
-        ipdb.set_trace()
+        @classmethod
+        def save(cls):
+            import ipdb
+            ipdb.set_trace()
