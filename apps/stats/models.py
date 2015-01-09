@@ -247,7 +247,7 @@ class StatSet(models.Model):
 # corners = models.IntegerField(default=0)
 # offsides = models.IntegerField(default=0)
 # saves = models.IntegerField(default=0)
-#     goals_against = models.IntegerField(default=0)
+# goals_against = models.IntegerField(default=0)
 #
 #     def __unicode__(self):
 #         return u'Stats for %s' % self.player
@@ -285,7 +285,6 @@ class Quote(models.Model):
 class SeasonData(models.Model):
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
     summary = JSONField(blank=True, null=True)
-    matches = JSONField(blank=True, null=True)
 
     @property
     def gd(self):
@@ -303,3 +302,8 @@ class SeasonData(models.Model):
 
     class Meta:
         verbose_name_plural = 'Seasons Data'
+
+
+class CompetitionYearMatches(models.Model):
+    competition_year = models.ForeignKey(CompetitionYear)
+    matches = JSONField()
