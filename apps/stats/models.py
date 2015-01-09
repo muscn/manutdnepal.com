@@ -14,10 +14,16 @@ class Competition(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
 
+    def __unicode__(self):
+        return self.name
+
 
 class CompetitionYear(models.Model):
     competition = models.ForeignKey(Competition, related_name='seasons')
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+
+    def __unicode__(self):
+        return unicode(self.competition) + ' - ' + unicode(self.year)
 
 
 # # Fixtured
@@ -249,8 +255,8 @@ class StatSet(models.Model):
 # saves = models.IntegerField(default=0)
 # goals_against = models.IntegerField(default=0)
 #
-#     def __unicode__(self):
-#         return u'Stats for %s' % self.player
+# def __unicode__(self):
+# return u'Stats for %s' % self.player
 
 # Formation
 # Position
@@ -306,4 +312,7 @@ class SeasonData(models.Model):
 
 class CompetitionYearMatches(models.Model):
     competition_year = models.ForeignKey(CompetitionYear)
-    matches = JSONField()
+    matches_data = JSONField()
+
+    def __unicode__(self):
+        return unicode(self.competition_year)
