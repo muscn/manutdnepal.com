@@ -236,11 +236,11 @@ class StatSet(models.Model):
 #
 # player = models.ForeignKey(Player)
 # match = models.ForeignKey(Match)
-#     shots = models.IntegerField(default=0)
-#     shots_on_goal = models.IntegerField(default=0)
-#     minutes = models.IntegerField(default=0)
-#     goals = models.IntegerField(default=0)
-#     assists = models.IntegerField(default=0)
+# shots = models.IntegerField(default=0)
+# shots_on_goal = models.IntegerField(default=0)
+# minutes = models.IntegerField(default=0)
+# goals = models.IntegerField(default=0)
+# assists = models.IntegerField(default=0)
 #     fouls_committed = models.IntegerField(default=0)
 #     fouls_suffered = models.IntegerField(default=0)
 #     corners = models.IntegerField(default=0)
@@ -285,6 +285,10 @@ class SeasonData(models.Model):
     year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
     summary = JSONField(blank=True, null=True)
     matches = JSONField(blank=True, null=True)
+
+    @property
+    def slug(self):
+        return str(self.year) + '-' + str(int(str(self.year)[-2:]) + 1)
 
     def __unicode__(self):
         return unicode(self.year)

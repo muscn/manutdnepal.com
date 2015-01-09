@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic import ListView
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView
 from muscn.utils.mixins import CreateView, UpdateView
 from .models import Injury, Quote, SeasonData
 from .forms import InjuryForm, QuoteForm
@@ -36,3 +37,10 @@ class SeasonDataListView(ListView):
         context['epl_seasons'] = epl_seasons
         context['pre_epl_seasons'] = pre_epl_seasons
         return context
+
+
+class SeasonDataDetailView(DetailView):
+    model = SeasonData
+
+    def get_object(self):
+        return get_object_or_404(SeasonData, year=self.kwargs['year'])
