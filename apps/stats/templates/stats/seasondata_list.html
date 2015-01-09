@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} All Seasons {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+
+
+        <ul>
+            {% for season in epl_seasons %}
+                <li>{{ season }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Pre - Premier League Seasons</h2>
+
+        <ul>
+            {% for season in pre_epl_seasons %}
+                <li>{{ season }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+{% endblock %}
