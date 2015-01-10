@@ -12,7 +12,6 @@
 
     <div class="container-fluid">
         <h1>{{ object }}</h1>
-        {{ object.id }}
         <table class="table table-bordered">
             <thead>
             <th>Date</th>
@@ -24,7 +23,6 @@
                 <th>Attendance</th>
             {% endif %}
             </thead>
-            {{ object.matches_data }}
             <tbody>
             {% for match in object.matches_data %}
                 <tr class="{{ match|result }}">
