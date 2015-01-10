@@ -29,14 +29,14 @@ class QuoteUpdateView(UpdateView):
 class SeasonDataListView(ListView):
     model = SeasonData
 
-    def get_context_data(self, **kwargs):
-        context = super(SeasonDataListView, self).get_context_data(**kwargs)
-        qs = self.get_queryset()
-        epl_seasons = qs.filter(year__gt=1991).order_by('-year')
-        pre_epl_seasons = qs.filter(year__lt=1992).order_by('-year')
-        context['epl_seasons'] = epl_seasons
-        context['pre_epl_seasons'] = pre_epl_seasons
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(SeasonDataListView, self).get_context_data(**kwargs)
+    #     qs = self.get_queryset()
+    #     epl_seasons = qs.filter(year__gt=1991).order_by('-year')
+    #     pre_epl_seasons = qs.filter(year__lt=1992).order_by('-year')
+    #     context['epl_seasons'] = epl_seasons
+    #     context['pre_epl_seasons'] = pre_epl_seasons
+    #     return context
 
 
 class SeasonDataDetailView(DetailView):

@@ -308,6 +308,7 @@ class SeasonData(models.Model):
 
     class Meta:
         verbose_name_plural = 'Seasons Data'
+        ordering = ('-year', )
 
 
 class CompetitionYearMatches(models.Model):
