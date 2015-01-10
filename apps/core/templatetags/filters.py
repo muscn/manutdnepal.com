@@ -39,6 +39,8 @@ def key(value):
         'R6': 'Round 6',
         'H': 'Home',
         'A': 'Away',
+        's': 'Semi-finals',
+        'f': 'Final',
     }
     if value in dct:
         return dct[value]
@@ -54,3 +56,33 @@ def get_cardinal(value):
     if matches:
         return int(matches[0])
     return value
+
+
+@register.filter
+def has_key(lst, key):
+    for item in lst:
+        if key in item:
+            return True
+    return False
+
+
+@register.filter
+def winner(match):
+    if match['hg'] == match['ag']:
+        return 'draw'
+    if int(match['hg']) > int(match['ag']):
+        return 'H'
+    return 'A'
+
+
+@register.filter
+def result(match):
+    res = winner(match)
+    if res == 'draw':
+        return 'draw'
+    if res == match['ha']:
+        return 'won'
+    return 'lost'
+
+
+

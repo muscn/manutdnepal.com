@@ -1,28 +1,68 @@
 {% extends 'base.html' %}
 {% load filters %}
+{% load staticfiles %}
 
 {% block title %} {{ object }} {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+{% endblock %}
 
 {% block content %}
 
     <div class="container-fluid">
         <h1>{{ object }}</h1>
-
+        {{ object.id }}
         <table class="table table-bordered">
             <thead>
             <th>Date</th>
+            <th>Round</th>
             <th>Opponent</th>
             <th>Home/Away</th>
             <th>Result</th>
+            {% if object.matches_data|has_key:'attendance' %}
+                <th>Attendance</th>
+            {% endif %}
             </thead>
-
+            {{ object.matches_data }}
             <tbody>
             {% for match in object.matches_data %}
-                <tr>
-                    <td>{{ match.0 }}</td>
-                    <td>{{ match.2 }}</td>
-                    <td>{{ match.1|key }}</td>
-                    <td>{{ match.3 }}</td>
+                <tr class="{{ match|result }}">
+                    <td>{{ match.date }}</td>
+                    <td>{{ match.round|key }}</td>
+                    <td>{{ match.opponent }}</td>
+                    <td>
+                        {% if match.neutral %}
+                            Neutral
+                        {% else %}
+                            {{ match.ha|key }}
+                            {% if match.tie %}
+                                [{{ match.tie|upper }}]
+                            {% endif %}
+                        {% endif %}
+                        {% if match.venue %}
+                            <br>
+                            {{ match.venue }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if match.hg == 'NA' %}
+                            {{ match.result }}
+                        {% else %}
+                            {{ match.hg }} - {{ match.ag }}
+                        {% endif %}
+                        {% if match.notes %}
+                            <br>
+                            [{{ match.notes }}]
+                        {% endif %}
+                        {% if match.nonmatch %}
+                            <br>
+                            [{{ match.nonmatch }}]
+                        {% endif %}
+                    </td>
+                    {% if object.matches_data|has_key:'attendance' %}
+                        <td>{{ match.attendance }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

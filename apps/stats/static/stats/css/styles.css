@@ -16,3 +16,12 @@ td.promoted:before {
 div.legends:after {
     content: ' | ';
 }
+
+tr.won {
+    background-color: #DDFFDD;
+
+}
+
+tr.lost {
+    background-color: #FFDDDD;
+}

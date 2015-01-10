@@ -27,22 +27,24 @@ class FACupScraper(Scraper):
                         opponent = row[2]
                     datum = {'date': row[0], 'ha': ha, 'opponent': opponent, 'hg': row[5], 'ag': row[6],
                              'round': row[7]}
+                    if row[5] == 'NA':
+                        datum['result'] = row[4]
                     if row[8].startswith('replay'):
                         datum['tie'] = row[8]
-                    if row[8] == 'yes':
+                    if row[9] == 'yes':
                         datum['et'] = True
                     if row[9] == 'yes':
-                        datum['hp'] = row[11]
-                        datum['ap'] = row[12]
-                    if row[13] != 'NA':
-                        datum['venue'] = row[13]
+                        datum['hp'] = row[12]
+                        datum['ap'] = row[13]
                     if row[14] != 'NA':
-                        datum['attendance'] = row[14]
+                        datum['venue'] = row[14]
                     if row[15] != 'NA':
-                        datum['nonmatch'] = row[15]
+                        datum['attendance'] = row[15]
                     if row[16] != 'NA':
-                        datum['notes'] = row[16]
-                    if row[17] == 'yes':
+                        datum['nonmatch'] = row[16]
+                    if row[17] != 'NA':
+                        datum['notes'] = row[17]
+                    if row[18] == 'yes':
                         datum['neutral'] = True
                     dct[year].append(datum)
 
