@@ -30,6 +30,10 @@ class SeasonDataScraper(Scraper):
             columns = row.getchildren()
             if columns:
                 year = columns[0].text_content()[0:4]
+                # if year == '1886':
+                # import ipdb
+                #
+                #     ipdb.set_trace()
                 if columns[0].xpath('.//a'):
                     data = {'wiki_url': columns[0].xpath('.//a')[0].attrib['href']}
                     if cls.gwcc(columns[1]):
@@ -99,11 +103,12 @@ class SeasonDataScraper(Scraper):
                     if cls.gwcc(columns[15]):
                         data['top_score'] = cls.gwcc(columns[15])
 
-                    if 'division' in data and data['division'] != 'Not held':
+                    if 'division' in data and data['division'] == 'Not held':
+                        pass
+                    else:
                         dct[year] = data
 
         cls.data = dct
-
 
     @classmethod
     def save(cls):
