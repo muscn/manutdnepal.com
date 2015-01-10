@@ -25,7 +25,26 @@ class FACupScraper(Scraper):
                     else:
                         ha = 'A'
                         opponent = row[2]
-                    dct[year].append([row[0], ha, opponent, row[4]])
+                    datum = {'date': row[0], 'ha': ha, 'opponent': opponent, 'hg': row[5], 'ag': row[6],
+                             'round': row[7]}
+                    if row[8].startswith('replay'):
+                        datum['tie'] = row[8]
+                    if row[8] == 'yes':
+                        datum['et'] = True
+                    if row[9] == 'yes':
+                        datum['hp'] = row[11]
+                        datum['ap'] = row[12]
+                    if row[13] != 'NA':
+                        datum['venue'] = row[13]
+                    if row[14] != 'NA':
+                        datum['attendance'] = row[14]
+                    if row[15] != 'NA':
+                        datum['nonmatch'] = row[15]
+                    if row[16] != 'NA':
+                        datum['notes'] = row[16]
+                    if row[17] == 'yes':
+                        datum['neutral'] = True
+                    dct[year].append(datum)
 
         cls.data = dct
 
