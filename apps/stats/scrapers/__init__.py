@@ -3,5 +3,5 @@ from facup import FACupScraper
 
 available_scrapers = {
     'season_summary': SeasonDataScraper,
-    'facup': FACupScraper,
+    'fa_cup': FACupScraper,
 }
