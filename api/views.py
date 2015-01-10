@@ -1,5 +1,7 @@
+import json
 from users.models import User
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.renderers import JSONRenderer
@@ -48,6 +50,28 @@ def users(request, id=None):
     elif request.method == "DELETE":
         user_object.delete()
         return HttpResponse(status=204)
+
+
+@csrf_exempt
+def user_login(request):
+    if request.method == 'POST':
+        post_data = JSONParser().parse(request)
+
+        username = post_data.get('username')
+        password = post_data.get('password')
+
+        login_status = authenticate(username=username, password=password)
+        if login_status:
+            status = dict(
+                success=True
+            )
+        else:
+            status = dict(
+                success=False
+            )
+
+        status = json.dumps(status)
+        return HttpResponse(status)
 
 
 def index(request):

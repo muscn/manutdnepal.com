@@ -18,6 +18,7 @@ def create_user():
     data = dict(
         username="bunkdeath",
         full_name="Amrit Kshetri",
+        password="changeme",
         email="bunkdeath@gmail.com"
     )
 
@@ -77,11 +78,32 @@ def delete_user(id):
 
     print r.text
 
-create_user()
-get_users()
-print "\n--------------------------------------------------\n"
-get_users(2)
-print "\n--------------------------------------------------\n"
-update_users(2)
-print "\n--------------------------------------------------\n"
-delete_user(2)
+# create_user()
+# get_users()
+# print "\n--------------------------------------------------\n"
+# get_users(2)
+# print "\n--------------------------------------------------\n"
+# update_users(2)
+# print "\n--------------------------------------------------\n"
+# delete_user(3)
+
+
+def login():
+    from base64 import b64encode
+
+    print "login"
+    url = "%s/%s/" % (HOST, "login")
+    data = dict(username="admin", password="changeme")
+    # data = dict(username="admin", password="pbkdf2_sha256$12000$x42qd6ucHd5j$UJkso2p4gQ1ZoIj3A60Lies/Uinrfuj4/XMmIlEJTjk=")
+
+    data = json.dumps(data)
+
+    print "request url  : %s" % url
+    print "request data : %s" % data
+    r = requests.post(url, data=data)
+    print r.text
+    debug_to_file(r.text)
+    # import pdb
+    # pdb.set_trace()
+
+login()
