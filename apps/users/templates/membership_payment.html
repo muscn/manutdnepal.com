@@ -40,7 +40,7 @@
             {#                {% endfor %}#}
             {#            </ul>#}
 
-            <form method="POST" enctype="multipart/form-data" role="form" class="limit-width">
+            <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
                 {% csrf_token %}
                 {{ bank_deposit_form.non_field_errors }}
 

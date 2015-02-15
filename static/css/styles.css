@@ -142,6 +142,10 @@ form ul li {
     max-width: 350px;
 }
 
+.payment-form {
+    max-width: 380px;
+}
+
 .required label:after {
     content: '*';
     color: red;
