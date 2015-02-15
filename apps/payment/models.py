@@ -60,7 +60,7 @@ class BankAccount(models.Model):
     branch_name = models.CharField(max_length=255, blank=True, null=True)
 
     def __unicode__(self):
-        return self.bank_name + ' Account (A/C No.: ' + str(self.ac_no) + ' )'
+        return self.bank_name + ' (A/C No.: ' + str(self.ac_no) + ' )'
 
 
 class BankDeposit(models.Model):
