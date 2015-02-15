@@ -72,7 +72,7 @@ footer {
 }
 
 @media only screen and (max-width: 991px) {
-    footer .about-pages, footer .social-links {
+    footer div.container div.row div{
         text-align: center;
         padding-bottom: 0.6em;
     }
