@@ -100,6 +100,19 @@ footer {
     background: #e64522;
 }
 
+.githubBtn:before {
+    content: "\f113";
+}
+
+.githubBtn{
+    background: #888;
+}
+
+.githubBtn:hover{
+    color: #888;
+}
+
+
 .twitterBtn {
     background: #00ABE3;
 }
