@@ -46,7 +46,8 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/representatives" class="secondary small button">Representatives</a></li>
+                            <li><a href="/representatives/" class="secondary small button">Representatives</a></li>
+                            <li><a href="/privileges/" class="secondary small button">Privileges</a></li>
                         {% if request.user.is_authenticated %}
                             {% if request.user.membership %}
                                 {% if request.user.is_member %}
