@@ -30,6 +30,11 @@ nav.navbar {
     text-transform: uppercase;
 }
 
+.nopadding {
+   padding: 0 !important;
+   /*margin: 0 !important;*/
+}
+
 /* Footer */
 
 #container {
@@ -46,9 +51,12 @@ nav.navbar {
 
 footer {
     background-color: #f5f5f5;
-    border-top: 1px solid #e54d36;
-    margin-top: 10px;
+    margin: 50px 0;
     padding: 1em;
+}
+
+.footer-links {
+    padding: 0;
 }
 
 .footer-links a:hover {
