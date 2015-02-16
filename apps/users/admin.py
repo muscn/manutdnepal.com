@@ -115,6 +115,7 @@ class DecadeBornListFilter(admin.SimpleListFilter):
         return (
             ('80s', _('in the eighties')),
             ('90s', _('in the nineties')),
+            ('2000s', _('in 2000s')),
         )
 
     def queryset(self, request, queryset):
@@ -131,6 +132,8 @@ class DecadeBornListFilter(admin.SimpleListFilter):
         if self.value() == '90s':
             return queryset.filter(date_of_birth__gte=date(1990, 1, 1),
                                    date_of_birth__lte=date(1999, 12, 31))
+        if self.value() == '2000s':
+            return queryset.filter(date_of_birth__gte=date(1999, 12, 31))
 
 
 class MembershipAdmin(admin.ModelAdmin):
