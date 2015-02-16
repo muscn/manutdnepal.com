@@ -94,6 +94,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_staff',
                                   'is_superuser')}),
     )
+    search_fields = ('full_name', 'username', 'email', 'devil_no')
 
 
 class DecadeBornListFilter(admin.SimpleListFilter):
@@ -137,6 +138,7 @@ class DecadeBornListFilter(admin.SimpleListFilter):
 
 
 class MembershipAdmin(admin.ModelAdmin):
+    # list_display =
     list_filter = ('gender', 'present_status', 'shirt_size', DecadeBornListFilter)
 
 
