@@ -315,7 +315,7 @@ class Membership(models.Model):
     homepage = models.URLField(null=True, blank=True)
     mobile = models.CharField(max_length=50, null=True)
     telephone = models.CharField(max_length=50, null=True, blank=True)
-    identification_type = models.CharField(max_length=50, null=True, choices=IDENTIFICATION_TYPES)
+    # identification_type = models.CharField(max_length=50, null=True, choices=IDENTIFICATION_TYPES)
     identification_file = models.FileField(null=True, upload_to='identification_files/')
     shirt_size = models.CharField(max_length=4, null=True, choices=SHIRT_SIZES)
     present_status = models.CharField(max_length=1, null=True, choices=PRESENT_STATUSES)
