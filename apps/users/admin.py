@@ -139,7 +139,9 @@ class DecadeBornListFilter(admin.SimpleListFilter):
 
 class MembershipAdmin(admin.ModelAdmin):
     # list_display =
-    list_filter = ('gender', 'present_status', 'shirt_size', DecadeBornListFilter)
+    list_filter = ('gender',
+                   # 'present_status', 'shirt_size',
+                   DecadeBornListFilter)
 
 
 admin.site.register(Membership, MembershipAdmin)
