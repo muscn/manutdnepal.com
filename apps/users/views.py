@@ -1,22 +1,25 @@
+import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import DetailView
+from allauth.account.forms import LoginForm, SignupForm
+from django.views.generic.list import ListView
+from django.db.models import Max
+from auditlog.models import LogEntry
+
 from .models import Membership, User
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment
-from allauth.account.forms import LoginForm, SignupForm
-import datetime
-from django.views.generic.list import ListView
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 from apps.users import membership_settings
-from django.db.models import Max
-from auditlog.models import LogEntry
+from django.contrib import messages
 
 
 def login_register(request):
@@ -291,3 +294,16 @@ def new_user_membership(request):
         'direct_payment_form': direct_payment_form,
     }
     return render(request, 'users/new_user_membership.html', context)
+
+
+def esewa_success(request):
+    # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
+    import ipdb
+
+    ipdb.set_trace()
+
+
+def esewa_failure(request):
+    # {u'q': [u'fu']}
+    messages.error(request, 'Esewa transaction failed or cancelled!')
+    return redirect('membership_payment')

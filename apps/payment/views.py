@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
+
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from .models import Payment, BankAccount, BankDeposit, DirectPayment
 from .forms import PaymentForm, BankAccountForm, BankDepositPaymentForm, DirectPaymentPaymentForm

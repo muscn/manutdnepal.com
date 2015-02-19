@@ -1,8 +1,12 @@
+import datetime
+
 from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.conf import settings
-import datetime
 from auditlog.registry import auditlog
+
+from apps.payment.esewa import EsewaTransaction
+
 
 User = settings.AUTH_USER_MODEL
 
@@ -113,6 +117,15 @@ class DirectPayment(models.Model):
         # transaction_id = models.TextField(max_length=64)
         # payment = models.ForeignKey(Payment)
         # extra_data = models.JSONField()
+
+
+class EsewaPayment(EsewaTransaction):
+    payment = models.OneToOneField(Payment, related_name='esewa_payment')
+
+    def delete(self, delete_payment=True, *args, **kwargs):
+        if delete_payment and self.payment:
+            self.payment.delete(delete_method=False)
+        return super(EsewaPayment, self).delete(*args, **kwargs)
 
 
 auditlog.register(Payment)
