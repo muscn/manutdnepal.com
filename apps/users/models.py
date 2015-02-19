@@ -1,4 +1,5 @@
 import datetime
+
 from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -8,10 +9,11 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
-from allauth.account.signals import user_signed_up
 from allauth.account.signals import user_logged_in
-from apps.payment.models import Payment
 from auditlog.registry import auditlog
+
+from apps.payment.models import Payment
+
 
 # imports for generating card
 from django.conf import settings
