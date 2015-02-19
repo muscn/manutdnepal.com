@@ -1,6 +1,5 @@
 import datetime
 
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
@@ -11,15 +10,15 @@ from allauth.account.forms import LoginForm, SignupForm
 from django.views.generic.list import ListView
 from django.db.models import Max
 from auditlog.models import LogEntry
+from django.contrib import messages
 
 from .models import Membership, User
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
-from apps.payment.models import BankAccount, Payment
+from apps.payment.models import BankAccount, Payment, EsewaPayment
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 from apps.users import membership_settings
-from django.contrib import messages
 
 
 def login_register(request):
@@ -298,12 +297,25 @@ def new_user_membership(request):
 
 def esewa_success(request):
     # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
-    import ipdb
-
-    ipdb.set_trace()
+    response = dict(request.GET)
+    membership = request.user.membership
+    payment = Payment(user=request.user, amount=membership_settings.membership_fee)
+    payment.save()
+    esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0])
+    esewa_payment.payment = payment
+    esewa_payment.save()
+    if esewa_payment.verify():
+        esewa_payment.save()
+        membership.payment = payment
+        membership.save()
+        messages.success(request, 'Membership fee received via eSewa.')
+        return redirect(reverse('membership_thankyou'))
+    else:
+        messages.error(request, 'Payment via eSewa failed!')
+        return redirect('membership_payment')
 
 
 def esewa_failure(request):
     # {u'q': [u'fu']}
-    messages.error(request, 'Esewa transaction failed or cancelled!')
+    messages.error(request, 'eSewa transaction failed or cancelled!')
     return redirect('membership_payment')

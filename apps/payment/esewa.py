@@ -36,12 +36,20 @@ class EsewaTransaction(models.Model):
         if self.details:
             return self.details
         kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd}
-        response = requests.get(self.transaction_url+'?' + urllib.urlencode(kwargs))
+        url = self.transaction_url+'?' + urllib.urlencode(kwargs)
+        response = requests.get(url)
         self.details = response.json()
+        return self.details
 
     def refresh_details(self):
         self.clear_details()
         return self.get_details()
+
+    def verify(self):
+        details = self.get_details()
+        if details['code'] == '00' and float(details['txnDetail']['amt']) == self.amount:
+            return True
+        return False
 
     class Meta:
         abstract = True

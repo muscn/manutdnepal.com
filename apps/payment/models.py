@@ -121,6 +121,16 @@ class DirectPayment(models.Model):
 
 class EsewaPayment(EsewaTransaction):
     payment = models.OneToOneField(Payment, related_name='esewa_payment')
+    # amount = None
+
+    # class Amount(object):
+    #     def __get__(self, instance, owner):
+    #         return self.payment.amount
+    #
+    #     def __set__(self, obj, val):
+    #         obj.payment.amount = val
+
+    # amount = Amount()
 
     def delete(self, delete_payment=True, *args, **kwargs):
         if delete_payment and self.payment:
