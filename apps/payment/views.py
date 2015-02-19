@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic.list import ListView
 
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
-from .models import Payment, BankAccount, BankDeposit, DirectPayment
+from .models import Payment, BankAccount, BankDeposit, DirectPayment, EsewaPayment
 from .forms import PaymentForm, BankAccountForm, BankDepositPaymentForm, DirectPaymentPaymentForm
 
 
@@ -104,3 +104,7 @@ class DirectPaymentUpdateView(UpdateView):
 class DirectPaymentDeleteView(DeleteView):
     model = DirectPayment
     success_url = reverse_lazy('list_direct_payments')
+
+
+class EsewaPaymentListView(ListView):
+    model = EsewaPayment
