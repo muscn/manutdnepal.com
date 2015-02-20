@@ -13,7 +13,6 @@
                 <a target="_blank" href="http://www.helpnepal.net/donate">How about some donations?</a>
             </div>
 
-
         {% elif request.user.membership.payment %}
 
             <div class="alert alert-success" role="alert">
@@ -29,7 +28,8 @@
             <div class="alert alert-success" role="alert">
                 Thank you! Your membership request has been received. Please make a payment of
                 Rs. {{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }} via one of the following
-                means to complete the membership process.
+                means to complete the membership process. OR <a href="{% url 'membership_form' %}">Go back and correct
+                your membership details.</a>
             </div>
 
 
@@ -87,8 +87,8 @@
                         <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
                                type="hidden" name="fu">
                         Pay via:
-{#                        <input value="eSewa" type="submit">#}
-                        <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit" />
+                        {#                        <input value="eSewa" type="submit">#}
+                        <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
                     </form>
 
 

@@ -58,11 +58,11 @@ def logout(request, next_page=None):
 def membership_form(request):
     user = request.user
     try:
-        membership = user.membership
-        return redirect(reverse('membership_payment'))
+        item = user.membership
+        # return redirect(reverse('membership_payment'))
     except Membership.DoesNotExist:
-        pass
-    item = Membership(user=user)
+        item = Membership(user=user)
+    # item = Membership(user=user)
     accounts = sorted(user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
     for account in accounts:
         if account.provider == 'facebook':
