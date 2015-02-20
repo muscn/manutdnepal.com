@@ -1,4 +1,4 @@
-.radio{
+.radio {
     margin-top: auto;
 }
 
@@ -66,11 +66,11 @@ form.signup {
     max-width: 225px;
 }
 
-#wrapper-login-register form.login input{
+#wrapper-login-register form.login input {
     max-width: 300px;
 }
 
-#wrapper-login-register .smGlobalBtn, #wrapper-login .smGlobalBtn{
+#wrapper-login-register .smGlobalBtn, #wrapper-login .smGlobalBtn {
     line-height: 2em;
     width: 2em;
     font-size: 1.6em;
