@@ -47,6 +47,7 @@ class EsewaTransaction(models.Model):
 
     def verify(self):
         details = self.get_details()
+        print details
         if details['code'] == '00' and float(details['txnDetail']['amt']) == self.amount:
             return True
         return False

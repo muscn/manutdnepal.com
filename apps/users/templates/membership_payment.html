@@ -86,7 +86,7 @@
                                type="hidden" name="su">
                         <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
                                type="hidden" name="fu">
-                        Pay via:
+                        <h2 style="display:inline">Pay via:</h2>
                         {#                        <input value="eSewa" type="submit">#}
                         <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
                     </form>
