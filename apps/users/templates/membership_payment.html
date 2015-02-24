@@ -72,7 +72,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form action="http://dev.esewa.com.np/epay/main" method="POST">
+                    <form action="http://esewa.com.np/epay/main" method="POST">
                         <input value="{{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }}"
                                name="tAmt" type="hidden">
                         <input value="{{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }}"
@@ -80,7 +80,7 @@
                         <input value="0" name="txAmt" type="hidden">
                         <input value="0" name="psc" type="hidden">
                         <input value="0" name="pdc" type="hidden">
-                        <input value="manchester" name="scd" type="hidden">
+                        <input value="manutd" name="scd" type="hidden">
                         <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
                         <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
                                type="hidden" name="su">
