@@ -111,4 +111,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-ESEWA_SCD = 'manchester'
+ESEWA_SCD = 'manutd'
