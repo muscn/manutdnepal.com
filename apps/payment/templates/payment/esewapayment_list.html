@@ -20,6 +20,7 @@
             <thead>
             <th>{% anchor payment__date_time 'Date, Time' %}</th>
             <th>User</th>
+            <th>Txn Code</th>
             <th>PID</th>
             <th>Ref ID</th>
             <th>{% anchor payment__user 'Paid By' %}</th>
@@ -30,18 +31,19 @@
             {% for item in paginated_objects %}
                 <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
                     <td>
-                        <a href="{% url 'update_direct_payment' item.id %}">
-                            {{ item.payment.date_time }}
-                        </a>
+                        {{ item.payment.date_time }}
                     </td>
                     <td>
                         {{ item.details.txnDetail.payerId }}
                     </td>
                     <td>
-                        {{ item.details.txnDetail.pid }}
+                        {{ item.details.txnDetail.txnCode }}
                     </td>
                     <td>
-                        {{ item.details.txnDetail.txnCode }}
+                        {{ item.pid }}
+                    </td>
+                    <td>
+                        {{ item.ref_id }}
                     </td>
                     <td>
                         {% if item.payment.user %}

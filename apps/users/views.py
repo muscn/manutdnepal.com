@@ -300,11 +300,11 @@ def esewa_success(request):
     response = dict(request.GET)
     membership = request.user.membership
     payment = Payment(user=request.user, amount=membership_settings.membership_fee)
-    payment.save()
-    esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0])
-    esewa_payment.payment = payment
-    esewa_payment.save()
+    esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0], ref_id=response['refId'][0])
     if esewa_payment.verify():
+        payment.save()
+        esewa_payment.payment = payment
+        esewa_payment.get_details()
         esewa_payment.save()
         membership.payment = payment
         membership.save()

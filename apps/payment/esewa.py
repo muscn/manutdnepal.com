@@ -10,10 +10,12 @@ from jsonfield import JSONField
 class EsewaTransaction(models.Model):
     amount = models.FloatField()
     pid = models.CharField(max_length=255)
+    ref_id = models.CharField(max_length=25)
     tax_amount = models.FloatField(default=0)
     service_charge = models.FloatField(default=0)
     delivery_charge = models.FloatField(default=0)
     datetime = models.DateTimeField(default=datetime.now)
+
     details = JSONField()
 
     def __init__(self, *args, **kwargs):
@@ -36,9 +38,9 @@ class EsewaTransaction(models.Model):
         if self.details:
             return self.details
         kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd}
-        url = self.transaction_url+'?' + urllib.urlencode(kwargs)
-        response = requests.get(url)
-        self.details = response.json()
+        url = self.transaction_url + '?' + urllib.urlencode(kwargs)
+        self.details = requests.get(url).json()
+        print self.details
         return self.details
 
     def refresh_details(self):
@@ -46,9 +48,10 @@ class EsewaTransaction(models.Model):
         return self.get_details()
 
     def verify(self):
-        details = self.get_details()
-        print details
-        if details['code'] == '00' and float(details['txnDetail']['amt']) == self.amount:
+        kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd, 'rid': self.ref_id}
+        url = self.verification_url + '?' + urllib.urlencode(kwargs)
+        response = requests.get(url)
+        if 'Success' in response.content or 'success' in response.content:
             return True
         return False
 
