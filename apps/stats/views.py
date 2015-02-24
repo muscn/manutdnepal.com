@@ -1,36 +1,38 @@
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
+
+from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView
-from .models import Injury, Quote, SeasonData, CompetitionYearMatches, Competition, CompetitionYear
-from .forms import InjuryForm, QuoteForm
+from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear
+from .forms import QuoteForm
 
 
-class InjuryListView(ListView):
+class InjuryListView(StaffOnlyMixin, ListView):
     model = Injury
 
 
-class QuoteListView(ListView):
+class QuoteListView(StaffOnlyMixin, ListView):
     model = Quote
 
 
-class QuoteCreateView(CreateView):
-    model = Quote
-    form_class = QuoteForm
-    success_url = reverse_lazy('list_quotes')
-
-
-class QuoteUpdateView(UpdateView):
+class QuoteCreateView(StaffOnlyMixin, CreateView):
     model = Quote
     form_class = QuoteForm
     success_url = reverse_lazy('list_quotes')
 
 
-class SeasonDataListView(ListView):
+class QuoteUpdateView(StaffOnlyMixin, UpdateView):
+    model = Quote
+    form_class = QuoteForm
+    success_url = reverse_lazy('list_quotes')
+
+
+class SeasonDataListView(StaffOnlyMixin, ListView):
     model = SeasonData
 
     # def get_context_data(self, **kwargs):
-    #     context = super(SeasonDataListView, self).get_context_data(**kwargs)
+    # context = super(SeasonDataListView, self).get_context_data(**kwargs)
     #     qs = self.get_queryset()
     #     epl_seasons = qs.filter(year__gt=1991).order_by('-year')
     #     pre_epl_seasons = qs.filter(year__lt=1992).order_by('-year')
@@ -39,14 +41,14 @@ class SeasonDataListView(ListView):
     #     return context
 
 
-class SeasonDataDetailView(DetailView):
+class SeasonDataDetailView(StaffOnlyMixin, DetailView):
     model = SeasonData
 
     def get_object(self):
         return get_object_or_404(SeasonData, year=self.kwargs['year'])
 
 
-class SeasonCompetitionView(DetailView):
+class SeasonCompetitionView(StaffOnlyMixin, DetailView):
     model = CompetitionYearMatches
 
     def get_object(self):

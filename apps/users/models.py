@@ -351,6 +351,17 @@ class Membership(models.Model):
         ordering = ['-id']
 
 
+class StaffOnlyMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        u = request.user
+        if u.is_authenticated():
+            # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
+            # return True
+            if bool(u.groups.filter(name='Staff')):
+                return super(StaffOnlyMixin, self).dispatch(request, *args, **kwargs)
+        raise PermissionDenied()
+
+
 def group_required(*group_names):
     """Requires user membership in at least one of the groups passed in."""
 

@@ -12,7 +12,7 @@ from django.db.models import Max
 from auditlog.models import LogEntry
 from django.contrib import messages
 
-from .models import Membership, User
+from .models import Membership, User, StaffOnlyMixin, group_required
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment
@@ -146,11 +146,11 @@ def membership_thankyou(request):
     })
 
 
-class MembershipListView(ListView):
+class MembershipListView(StaffOnlyMixin, ListView):
     model = Membership
 
 
-class MembershipCreateView(CreateView):
+class MembershipCreateView(StaffOnlyMixin, CreateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
@@ -162,7 +162,7 @@ class MembershipCreateView(CreateView):
         return form
 
 
-class MembershipUpdateView(UpdateView):
+class MembershipUpdateView(StaffOnlyMixin, UpdateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
@@ -203,33 +203,33 @@ class MembershipUpdateView(UpdateView):
         return form
 
 
-class MembershipDeleteView(DeleteView):
+class MembershipDeleteView(StaffOnlyMixin, DeleteView):
     model = Membership
     success_url = reverse_lazy('list_memberships')
 
 
-class UserListView(ListView):
+class UserListView(StaffOnlyMixin, ListView):
     model = User
 
 
-class UserCreateView(CreateView):
+class UserCreateView(StaffOnlyMixin, CreateView):
     model = User
     form_class = UserForm
     success_url = reverse_lazy('list_users')
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(StaffOnlyMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     success_url = reverse_lazy('list_users')
 
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(StaffOnlyMixin, DeleteView):
     model = User
     success_url = reverse_lazy('list_users')
 
 
-class StaffListView(ListView):
+class StaffListView(StaffOnlyMixin, ListView):
     model = User
     template_name = 'users/staff_list.html'
 
@@ -238,7 +238,7 @@ class StaffListView(ListView):
         return queryset
 
 
-class StaffDetailView(DetailView):
+class StaffDetailView(StaffOnlyMixin, DetailView):
     model = User
     template_name = 'users/staff_detail.html'
 
@@ -255,6 +255,7 @@ class StaffDetailView(DetailView):
         return context
 
 
+@group_required('Staff')
 def new_user_membership(request):
     user_form = UserForm(prefix='uf')
     member_form = MembershipForm(prefix='mf')
