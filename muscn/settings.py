@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'linaro_django_pagination',
     'webstack_django_sorting',
     'auditlog',
+    'smuggler',
 
     'apps.core',
     'apps.users',
