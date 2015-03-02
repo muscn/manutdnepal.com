@@ -34,7 +34,7 @@
         <label for="id_email">{{ form.password2.label }}</label>
         <input id="id_password2" class="form-control" name="password2" type="password">
         {{ form.password2.errors }}
-        <input id="id_confirmation_key" maxlength="40" name="confirmation_key" type="hidden">
+        <input id="id_confirmation_key" name="confirmation_key" type="hidden">
     </p>
 
     {% if redirect_field_value %}
