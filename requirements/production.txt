@@ -13,6 +13,7 @@ webstack-django-sorting
 django-auditlog
 jsonfield
 lxml
+django-smuggler
 
 #production-only
 gunicorn
