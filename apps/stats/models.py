@@ -3,6 +3,7 @@ from django.db import models
 import datetime
 from muscn.utils.countries import CountryField
 from jsonfield import JSONField
+from muscn.utils.forms import unique_slugify
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -90,9 +91,18 @@ class TeamYear(models.Model):
 
 class Person(models.Model):
     name = models.CharField(max_length=254)
-    slug = models.CharField(max_length=254)
+    slug = models.SlugField(max_length=254, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to='/photos/', blank=True, null=True)
+    height = models.FloatField(blank=True, null=True)
+    weight = models.FloatField(blank=True, null=True)
+    birth_place = models.CharField(max_length=255, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        unique_slugify(self, self.name)
+        super(Person, self).save(*args, **kwargs)
+
+
     # fmh
     # favored_person = models.ForeignKey('Person')
     # favored_team = models.ForeignKey(Team)
@@ -102,8 +112,12 @@ class Person(models.Model):
 
 
 class Player(Person):
+    squad_no = models.PositiveIntegerField(blank=True, null=True)
     nationality = CountryField()
     favored_position = models.CharField(max_length=4, blank=True, null=True)
+    previous_club = models.CharField(max_length=255, blank=True, null=True)
+    on_loan = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     def get_contract_expiry_date(self):
         pass
