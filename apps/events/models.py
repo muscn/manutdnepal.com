@@ -1,6 +1,7 @@
 from django.db import models
 from froala_editor.fields import FroalaField
 from muscn.utils.forms import unique_slugify
+from muscn.utils.location import LocationField
 
 
 class Event(models.Model):
@@ -14,6 +15,7 @@ class Event(models.Model):
     enabled = models.BooleanField(default=True)
     description = FroalaField()
     image = models.ImageField(blank=True, null=True)
+    location = LocationField(blank=True, max_length=255)
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.title)
