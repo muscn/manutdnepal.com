@@ -760,3 +760,9 @@ class CountryField(models.CharField):
 
     def get_internal_type(self):
         return "CharField"
+
+def get_a2_from_a3(a3):
+    global a3_name
+    a3_name = a3
+    import ipdb
+    ipdb.set_trace()
