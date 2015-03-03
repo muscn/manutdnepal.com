@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'apps.page',
     'apps.dashboard',
     'apps.stats',
+    'apps.events',
 
 )
 
