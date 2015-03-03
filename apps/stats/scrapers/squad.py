@@ -30,6 +30,8 @@ class SquadScraper(Scraper):
                     dct['date_of_birth'] = columns[6].text_content().strip()
                     dct['birth_place'] = columns[7].text_content().strip()
                     dct['previous_club'] = columns[8].text_content().strip()
+                    if dct['previous_club'] == 'None':
+                        dct['previous_club'] = None
                     if columns[1].getchildren() and columns[1].getchildren()[0].tag == 'i':
                         dct['on_loan'] = True
                     if dct['name'] == 'Name':

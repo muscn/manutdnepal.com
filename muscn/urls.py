@@ -32,6 +32,7 @@ urlpatterns = patterns('',
                            stats_views.SeasonDataDetailView.as_view(),
                            name='view_seasondata'),
                        url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
+                       url(r'^squad/$', stats_views.SquadListView.as_view(), name='list_squad'),
 
                        (r'', include('apps.page.urls')),
 )

@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 
 from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView
-from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear
+from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player
 from .forms import QuoteForm
 
 
@@ -28,7 +28,7 @@ class QuoteUpdateView(StaffOnlyMixin, UpdateView):
     success_url = reverse_lazy('list_quotes')
 
 
-class SeasonDataListView(StaffOnlyMixin, ListView):
+class SeasonDataListView(ListView):
     model = SeasonData
 
     # def get_context_data(self, **kwargs):
@@ -41,14 +41,14 @@ class SeasonDataListView(StaffOnlyMixin, ListView):
     #     return context
 
 
-class SeasonDataDetailView(StaffOnlyMixin, DetailView):
+class SeasonDataDetailView(DetailView):
     model = SeasonData
 
     def get_object(self):
         return get_object_or_404(SeasonData, year=self.kwargs['year'])
 
 
-class SeasonCompetitionView(StaffOnlyMixin, DetailView):
+class SeasonCompetitionView(DetailView):
     model = CompetitionYearMatches
 
     def get_object(self):
@@ -56,3 +56,7 @@ class SeasonCompetitionView(StaffOnlyMixin, DetailView):
                                              competition__slug=self.kwargs['competition'])
         return get_object_or_404(CompetitionYearMatches, competition_year=competition_year)
 
+
+class SquadListView(ListView):
+    queryset = Player.objects.filter(active=True)
+    template_name = 'stats/squad.html'

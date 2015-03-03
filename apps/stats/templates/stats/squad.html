@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block title %} Squad {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    {#    <link rel="stylesheet" type="text/css"#}
+    {#          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>#}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                paging: false,
+                "aaSorting": [],
+                {#                "aoColumns": [#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    null,#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null#}
+                {#                ]#}
+            });
+        });
+
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <h1>Current Squad</h1>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Nationality</th>
+                <th>Position</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Date of Birth</th>
+                <th>Birth Place</th>
+                <th>Previous Club</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td>
+                        {{ object.squad_no|default:'' }}
+                    </td>
+                    <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
+                    <td>{{ object.get_nationality_display }}</td>
+                    <td>{{ object.favored_position }}</td>
+                    <td>{{ object.height }} m</td>
+                    <td>{{ object.weight }} kgs</td>
+                    <td>{{ object.date_of_birth }}</td>
+                    <td>{{ object.birth_place }}</td>
+                    <td>
+                        {{ object.previous_club }}
+                        {% if object.on_loan %}
+                            (On Loan)
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
+
