@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from froala_editor.fields import FroalaField
 from muscn.utils.forms import unique_slugify
@@ -20,6 +21,9 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         unique_slugify(self, self.title)
         super(Event, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('view_event', kwargs={'slug': self.slug})
 
     def __unicode__(self):
         return self.title

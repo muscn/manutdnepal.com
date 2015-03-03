@@ -6,6 +6,42 @@
 
 {% block extrahead %}
     <link href="{% static "events/events.css" %}" rel="stylesheet" type="text/css">
+    <style>
+        #map-canvas {
+            height: 500px;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
+    <script>
+        var map;
+        function initialize() {
+            var myLatlng = new google.maps.LatLng({{ event.location }});
+            var mapOptions = {
+                zoom: 18,
+                center: myLatlng
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+
+
+            var infowindow = new google.maps.InfoWindow({
+                content: '{{ event.venue }}'
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: '{{ event.venue }}'
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -40,7 +76,13 @@
 
 
             </div>
+
+
         </div>
+
+        <h3>Map:</h3>
+
+        <div id="map-canvas"></div>
 
 
     </div>
