@@ -32,6 +32,7 @@ INSTALLED_APPS = (
     'linaro_django_pagination',
     'webstack_django_sorting',
     'auditlog',
+    'smuggler',
 
     'apps.core',
     'apps.users',
@@ -76,7 +77,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'muscn.urls'
 WSGI_APPLICATION = 'muscn.wsgi.application'
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -110,3 +111,5 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+ESEWA_SCD = 'manutd'

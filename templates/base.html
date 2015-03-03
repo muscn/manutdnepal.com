@@ -9,8 +9,21 @@
             {% block title %}{% endblock %} | Manchester United Supporters' Club Nepal
         {% endblock %}
     </title>
-    {#    <link rel="canonical" href="http://manutdnepal.com/">#}
-    {#    <link rel="canonical" href="http://manutd.org.np/">#}
+    <link rel="canonical" href="http://manutd.org.np"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Manchester United Supporters' Club Nepal"/>
+    <meta property="og:description"
+          content="Welcome to the official website of Manchester United Supporters' Club - Nepal"/>
+    <meta property="og:url" content="http://manutd.org.np"/>
+    <meta property="og:site_name" content="Manchester United Supporters' Club Nepal"/>
+    <meta property="fb:admins" content="1627112045"/>
+    <meta property="og:image" content="http://manutd.org.np{% static "img/logo.png" %}"/>
+
+
+    <meta name="description" content="Welcome to the official website of Manchester United Supporters' Club - Nepal">
+    <meta name="keywords"
+          content="MUSCN, Manchester United Nepal, Manchester United Fans Nepal, Manchester United Supporters' Club Nepal, Man Utd Nepal, MUFC Nepal">
 
     <link rel="icon" type="image/png" href="{% block favicon_url %}{% static 'img/favicon.ico' %}{% endblock %}"/>
 
@@ -27,48 +40,52 @@
 </head>
 <body>
 <div id="container">
-    {% block navbar %}
+    <header>
+        {% block navbar %}
 
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">
-                        <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters' Club,
-                        Nepal</a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#navbarCollapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="nav navbar-nav navbar-right">
-
-                        {% if request.user.is_authenticated %}
-                            {% if request.user.membership %}
-                                {% if request.user.is_member %}
-                                    <li><a>✓</a></li>
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">
+                            <img class="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters'
+                            Club,
+                            Nepal</a>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbarCollapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="/representatives/" class="secondary small button">Representatives</a></li>
+                            <li><a href="/privileges/" class="secondary small button">Privileges</a></li>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.membership %}
+                                    {% if request.user.is_member %}
+                                        <li><a>✓</a></li>
+                                    {% endif %}
+                                {% else %}
+                                    <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
+                                        Membership</a>
+                                    </li>
                                 {% endif %}
+                                <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
                             {% else %}
-                                <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
-                                    Membership</a>
-                                </li>
+                                <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
+                                <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
                             {% endif %}
-                            <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
-                        {% else %}
-                            <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
-                            <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
-                        {% endif %}
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <!-- /.container-fluid -->
-        </nav>
-    {% endblock %}
+                <!-- /.container-fluid -->
+            </nav>
+        {% endblock %}
+    </header>
     {% block content %}
     {% endblock %}
 
@@ -76,8 +93,6 @@
 </div>
 
 {% include '_footer.html' %}
-
-</div>
 
 </body>
 </html>

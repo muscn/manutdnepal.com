@@ -1,22 +1,24 @@
-from django.contrib import messages
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
-from django.views.generic import TemplateView, DetailView
-from .models import Membership, User
+from django.views.generic import DetailView
+from allauth.account.forms import LoginForm, SignupForm
+from django.views.generic.list import ListView
+from django.db.models import Max
+from auditlog.models import LogEntry
+from django.contrib import messages
+
+from .models import Membership, User, StaffOnlyMixin, group_required
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
-from apps.payment.models import BankAccount, Payment
-from allauth.account.forms import LoginForm, SignupForm
-import datetime
-from django.views.generic.list import ListView
+from apps.payment.models import BankAccount, Payment, EsewaPayment
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 from apps.users import membership_settings
-from django.db.models import Max
-from auditlog.models import LogEntry
 
 
 def login_register(request):
@@ -56,11 +58,11 @@ def logout(request, next_page=None):
 def membership_form(request):
     user = request.user
     try:
-        membership = user.membership
-        return redirect(reverse('membership_payment'))
+        item = user.membership
+        # return redirect(reverse('membership_payment'))
     except Membership.DoesNotExist:
-        pass
-    item = Membership(user=user)
+        item = Membership(user=user)
+    # item = Membership(user=user)
     accounts = sorted(user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
     for account in accounts:
         if account.provider == 'facebook':
@@ -144,11 +146,11 @@ def membership_thankyou(request):
     })
 
 
-class MembershipListView(ListView):
+class MembershipListView(StaffOnlyMixin, ListView):
     model = Membership
 
 
-class MembershipCreateView(CreateView):
+class MembershipCreateView(StaffOnlyMixin, CreateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
@@ -160,7 +162,7 @@ class MembershipCreateView(CreateView):
         return form
 
 
-class MembershipUpdateView(UpdateView):
+class MembershipUpdateView(StaffOnlyMixin, UpdateView):
     model = Membership
     form_class = MembershipForm
     success_url = reverse_lazy('list_memberships')
@@ -201,33 +203,33 @@ class MembershipUpdateView(UpdateView):
         return form
 
 
-class MembershipDeleteView(DeleteView):
+class MembershipDeleteView(StaffOnlyMixin, DeleteView):
     model = Membership
     success_url = reverse_lazy('list_memberships')
 
 
-class UserListView(ListView):
+class UserListView(StaffOnlyMixin, ListView):
     model = User
 
 
-class UserCreateView(CreateView):
+class UserCreateView(StaffOnlyMixin, CreateView):
     model = User
     form_class = UserForm
     success_url = reverse_lazy('list_users')
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(StaffOnlyMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     success_url = reverse_lazy('list_users')
 
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(StaffOnlyMixin, DeleteView):
     model = User
     success_url = reverse_lazy('list_users')
 
 
-class StaffListView(ListView):
+class StaffListView(StaffOnlyMixin, ListView):
     model = User
     template_name = 'users/staff_list.html'
 
@@ -236,7 +238,7 @@ class StaffListView(ListView):
         return queryset
 
 
-class StaffDetailView(DetailView):
+class StaffDetailView(StaffOnlyMixin, DetailView):
     model = User
     template_name = 'users/staff_detail.html'
 
@@ -253,6 +255,7 @@ class StaffDetailView(DetailView):
         return context
 
 
+@group_required('Staff')
 def new_user_membership(request):
     user_form = UserForm(prefix='uf')
     member_form = MembershipForm(prefix='mf')
@@ -291,3 +294,29 @@ def new_user_membership(request):
         'direct_payment_form': direct_payment_form,
     }
     return render(request, 'users/new_user_membership.html', context)
+
+
+def esewa_success(request):
+    # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
+    response = dict(request.GET)
+    membership = request.user.membership
+    payment = Payment(user=request.user, amount=membership_settings.membership_fee)
+    esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0], ref_id=response['refId'][0])
+    if esewa_payment.verify():
+        payment.save()
+        esewa_payment.payment = payment
+        esewa_payment.get_details()
+        esewa_payment.save()
+        membership.payment = payment
+        membership.save()
+        messages.success(request, 'Membership fee received via eSewa.')
+        return redirect(reverse('membership_thankyou'))
+    else:
+        messages.error(request, 'Payment via eSewa failed!')
+        return redirect('membership_payment')
+
+
+def esewa_failure(request):
+    # {u'q': [u'fu']}
+    messages.error(request, 'eSewa transaction failed or cancelled!')
+    return redirect('membership_payment')

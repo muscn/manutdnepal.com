@@ -1,4 +1,5 @@
 import datetime
+
 from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -8,10 +9,11 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
-from allauth.account.signals import user_signed_up
 from allauth.account.signals import user_logged_in
-from apps.payment.models import Payment
 from auditlog.registry import auditlog
+
+from apps.payment.models import Payment
+
 
 # imports for generating card
 from django.conf import settings
@@ -256,7 +258,7 @@ class User(AbstractBaseUser):
             return cached
 
         base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_with_qr.png')
-        devil_number = u'007'
+        devil_number = u'195'
         draw_qr = False
 
         img = self.generate_card(devil_number, draw_qr, base_image)
@@ -315,10 +317,10 @@ class Membership(models.Model):
     homepage = models.URLField(null=True, blank=True)
     mobile = models.CharField(max_length=50, null=True)
     telephone = models.CharField(max_length=50, null=True, blank=True)
-    identification_type = models.CharField(max_length=50, null=True, choices=IDENTIFICATION_TYPES)
+    # identification_type = models.CharField(max_length=50, null=True, choices=IDENTIFICATION_TYPES)
     identification_file = models.FileField(null=True, upload_to='identification_files/')
-    shirt_size = models.CharField(max_length=4, null=True, choices=SHIRT_SIZES)
-    present_status = models.CharField(max_length=1, null=True, choices=PRESENT_STATUSES)
+    # shirt_size = models.CharField(max_length=4, null=True, choices=SHIRT_SIZES)
+    # present_status = models.CharField(max_length=1, null=True, choices=PRESENT_STATUSES)
     registration_date = models.DateField(null=True, default=datetime.datetime.now)
     approved_date = models.DateField(null=True, blank=True)
     approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
@@ -347,6 +349,17 @@ class Membership(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+
+class StaffOnlyMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        u = request.user
+        if u.is_authenticated():
+            # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
+            # return True
+            if bool(u.groups.filter(name='Staff')):
+                return super(StaffOnlyMixin, self).dispatch(request, *args, **kwargs)
+        raise PermissionDenied()
 
 
 def group_required(*group_names):

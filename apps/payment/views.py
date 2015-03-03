@@ -2,16 +2,18 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
+
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
-from .models import Payment, BankAccount, BankDeposit, DirectPayment
+from .models import Payment, BankAccount, BankDeposit, DirectPayment, EsewaPayment
 from .forms import PaymentForm, BankAccountForm, BankDepositPaymentForm, DirectPaymentPaymentForm
+from apps.users.models import StaffOnlyMixin
 
 
-class PaymentListView(ListView):
+class PaymentListView(StaffOnlyMixin, ListView):
     model = Payment
 
 
-class PaymentUpdateView(UpdateView):
+class PaymentUpdateView(StaffOnlyMixin, UpdateView):
     model = Payment
     form_class = PaymentForm
     success_url = reverse_lazy('list_payments')
@@ -31,75 +33,79 @@ class PaymentUpdateView(UpdateView):
             return super(PaymentUpdateView, self).post(request, *args, **kwargs)
 
 
-class PaymentCreateView(CreateView):
+class PaymentCreateView(StaffOnlyMixin, CreateView):
     model = Payment
     form_class = PaymentForm
     success_url = reverse_lazy('list_payments')
 
 
-class PaymentDeleteView(DeleteView):
+class PaymentDeleteView(StaffOnlyMixin, DeleteView):
     model = Payment
     success_url = reverse_lazy('list_payments')
 
 
-class BankAccountListView(ListView):
+class BankAccountListView(StaffOnlyMixin, ListView):
     model = BankAccount
 
 
-class BankAccountUpdateView(UpdateView):
-    model = BankAccount
-    form_class = BankAccountForm
-    success_url = reverse_lazy('list_bank_accounts')
-
-
-class BankAccountCreateView(CreateView):
+class BankAccountUpdateView(StaffOnlyMixin, UpdateView):
     model = BankAccount
     form_class = BankAccountForm
     success_url = reverse_lazy('list_bank_accounts')
 
 
-class BankAccountDeleteView(DeleteView):
+class BankAccountCreateView(StaffOnlyMixin, CreateView):
+    model = BankAccount
+    form_class = BankAccountForm
+    success_url = reverse_lazy('list_bank_accounts')
+
+
+class BankAccountDeleteView(StaffOnlyMixin, DeleteView):
     model = BankAccount
     success_url = reverse_lazy('list_bank_accounts')
 
 
-class BankDepositListView(ListView):
+class BankDepositListView(StaffOnlyMixin, ListView):
     model = BankDeposit
 
 
-class BankDepositCreateView(CreateView):
-    model = BankDeposit
-    form_class = BankDepositPaymentForm
-    success_url = reverse_lazy('list_bank_deposits')
-
-
-class BankDepositUpdateView(UpdateView):
+class BankDepositCreateView(StaffOnlyMixin, CreateView):
     model = BankDeposit
     form_class = BankDepositPaymentForm
     success_url = reverse_lazy('list_bank_deposits')
 
 
-class BankDepositDeleteView(DeleteView):
+class BankDepositUpdateView(StaffOnlyMixin, UpdateView):
+    model = BankDeposit
+    form_class = BankDepositPaymentForm
+    success_url = reverse_lazy('list_bank_deposits')
+
+
+class BankDepositDeleteView(StaffOnlyMixin, DeleteView):
     model = BankDeposit
     success_url = reverse_lazy('list_bank_deposits')
 
 
-class DirectPaymentListView(ListView):
+class DirectPaymentListView(StaffOnlyMixin, ListView):
     model = DirectPayment
 
 
-class DirectPaymentCreateView(CreateView):
-    model = DirectPayment
-    form_class = DirectPaymentPaymentForm
-    success_url = reverse_lazy('list_direct_payments')
-
-
-class DirectPaymentUpdateView(UpdateView):
+class DirectPaymentCreateView(StaffOnlyMixin, CreateView):
     model = DirectPayment
     form_class = DirectPaymentPaymentForm
     success_url = reverse_lazy('list_direct_payments')
 
 
-class DirectPaymentDeleteView(DeleteView):
+class DirectPaymentUpdateView(StaffOnlyMixin, UpdateView):
+    model = DirectPayment
+    form_class = DirectPaymentPaymentForm
+    success_url = reverse_lazy('list_direct_payments')
+
+
+class DirectPaymentDeleteView(StaffOnlyMixin, DeleteView):
     model = DirectPayment
     success_url = reverse_lazy('list_direct_payments')
+
+
+class EsewaPaymentListView(StaffOnlyMixin, ListView):
+    model = EsewaPayment

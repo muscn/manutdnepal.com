@@ -1,0 +1,72 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Esewa Payments {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_esewa_payments' %}"><i class="fa fa-money"></i>Esewa Payments</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor payment__date_time 'Date, Time' %}</th>
+            <th>User</th>
+            <th>Txn Code</th>
+            <th>PID</th>
+            <th>Ref ID</th>
+            <th>{% anchor payment__user 'Paid By' %}</th>
+            <th>{% anchor payment__amount 'Amount' %}</th>
+            <th>Payment</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
+                    <td>
+                        {{ item.payment.date_time }}
+                    </td>
+                    <td>
+                        {{ item.details.txnDetail.payerId }}
+                    </td>
+                    <td>
+                        {{ item.details.txnDetail.txnCode }}
+                    </td>
+                    <td>
+                        {{ item.pid }}
+                    </td>
+                    <td>
+                        {{ item.ref_id }}
+                    </td>
+                    <td>
+                        {% if item.payment.user %}
+                            <a href="{% url 'update_user' item.payment.user.id %}">
+                                {{ item.payment.user.full_name }}
+                            </a>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        {{ item.payment.amount }}
+                    </td>
+                    <td>
+                        {% if item.payment %}
+                            <a href="{% url 'update_payment' item.payment.id %}">View/Update</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+{% endblock %}

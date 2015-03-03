@@ -21,12 +21,12 @@ class MembershipForm(HTML5BootstrapModelForm):
     # date_of_birth = HTML5ModelForm.DateTypeInput()
 
     gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=Membership.GENDERS)
-    shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-                                   choices=Membership.SHIRT_SIZES)
-    present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-                                       choices=Membership.PRESENT_STATUSES)
-    identification_type = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-                                            choices=Membership.IDENTIFICATION_TYPES)
+    # shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
+    #                                choices=Membership.SHIRT_SIZES)
+    # present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
+    #                                    choices=Membership.PRESENT_STATUSES)
+    # identification_type = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
+    #                                         choices=Membership.IDENTIFICATION_TYPES)
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
 
     def __init__(self, *args, **kwargs):

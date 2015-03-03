@@ -60,31 +60,33 @@
 
 <div class="section">
     <div class="row form-group">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            {{ form.identification_type.label_tag }}<i class="required"></i>
-
-            <div class="radio">{{ form.identification_type }}</div>
-            {{ form.identification_type.errors }}
-        </div>
+        {#        <div class="col-xs-12 col-sm-6 col-md-6">#}
+        {#            {{ form.identification_type.label_tag }}<i class="required"></i>#}
+        {##}
+        {#            <div class="radio">{{ form.identification_type }}</div>#}
+        {#            {{ form.identification_type.errors }}#}
+        {#        </div>#}
         <div class="col-xs-12 col-sm-6 col-md-6 required">
             {{ form.identification_file.label_tag }}
             {{ form.identification_file }}
-            {{ form.identification_type.errors }}
+            {{ form.identification_file.errors }}
+            <span class="help-text">(Your citizenship, passport, driving license or other identification certificate)</span>
         </div>
     </div>
 
-    <div class="row form-group">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            {{ form.present_status.label_tag }}<i class="required"></i>
+    {#    <div class="row form-group">#}
+    {#        <div class="col-xs-12 col-sm-6 col-md-6">#}
+    {#            {{ form.present_status.label_tag }}<i class="required"></i>#}
+    {##}
+    {#            <div class="radio">{{ form.present_status }}</div>#}
+    {#            {{ form.present_status.errors }}#}
+    {#        </div>#}
+    {#        <div class="col-xs-12 col-sm-6 col-md-6">#}
+    {#            {{ form.shirt_size.label_tag }}<i class="required"></i>#}
+    {##}
+    {#            <div class="radio">{{ form.shirt_size }}</div>#}
+    {#            {{ form.shirt_size.errors }}#}
+    {#        </div>#}
+    {#    </div>#}
 
-            <div class="radio">{{ form.present_status }}</div>
-            {{ form.present_status.errors }}
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            {{ form.shirt_size.label_tag }}<i class="required"></i>
-
-            <div class="radio">{{ form.shirt_size }}</div>
-            {{ form.shirt_size.errors }}
-        </div>
-    </div>
 </div>

@@ -9,6 +9,8 @@
 {% block content %}
     <div class="container-fluid" id="wrapper-membership-form">
 
+    {{ form.errors }}
+
         <div class="social-accounts">
             {% get_social_accounts user as accounts %}
             {#        {% if not accounts.twitter or accounts.facebook or accounts.google %}#}
@@ -32,7 +34,7 @@
             {% csrf_token %}
 
             {% include 'users/_membership_form.html' with form=form object=object %}
-            
+
             <br/>
             <input type="submit" class="btn btn-primary" value="Submit">
             Fields marked with <i class="required"></i> are mandatory.

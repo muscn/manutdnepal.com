@@ -30,6 +30,11 @@ nav.navbar {
     text-transform: uppercase;
 }
 
+.nopadding {
+   padding: 0 !important;
+   /*margin: 0 !important;*/
+}
+
 /* Footer */
 
 #container {
@@ -46,9 +51,12 @@ nav.navbar {
 
 footer {
     background-color: #f5f5f5;
-    border-top: 1px solid #e54d36;
-    margin-top: 10px;
+    margin-top: 150px;
     padding: 1em;
+}
+
+.footer-links {
+    padding: 0;
 }
 
 .footer-links a:hover {
@@ -64,7 +72,7 @@ footer {
 }
 
 @media only screen and (max-width: 991px) {
-    footer .about-pages, footer .social-links {
+    footer div.container div.row div{
         text-align: center;
         padding-bottom: 0.6em;
     }
@@ -91,6 +99,19 @@ footer {
 .googleBtn {
     background: #e64522;
 }
+
+.githubBtn:before {
+    content: "\f113";
+}
+
+.githubBtn{
+    background: #888;
+}
+
+.githubBtn:hover{
+    color: #888;
+}
+
 
 .twitterBtn {
     background: #00ABE3;
@@ -142,6 +163,10 @@ form ul li {
     max-width: 350px;
 }
 
+.payment-form {
+    max-width: 380px;
+}
+
 .required label:after {
     content: '*';
     color: red;
@@ -152,4 +177,7 @@ i.required:after {
     color: red;
 }
 
-/* Media queries */
+.help-text{
+    opacity: 0.65;
+    font-size: 90%;
+}
