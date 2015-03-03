@@ -1,4 +1,5 @@
 from django.db import models
+from froala_editor.fields import FroalaField
 from muscn.utils.forms import unique_slugify
 
 
@@ -11,7 +12,7 @@ class Event(models.Model):
     whole_day_event = models.BooleanField(default=False)
     venue = models.TextField()
     enabled = models.BooleanField(default=True)
-    description = models.TextField()
+    description = FroalaField()
     image = models.ImageField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
