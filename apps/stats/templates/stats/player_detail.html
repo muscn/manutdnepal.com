@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block title %} {{ object }} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>
+            {{ object }}
+        </h1>
+
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                {% if object.image %}
+                    <img class="img-responsive" src="{{ object.image.url }}">
+                {% endif %}
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <table class="table table-bordered table-nonfluid">
+                    <tr>
+                        <th>Squad No.</th>
+                        <td>{{ object.squad_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date of Birth</th>
+                        <td>{{ object.date_of_birth }}</td>
+                    </tr>
+                    <tr>
+                        <th>Birth Place</th>
+                        <td>{{ object.birth_place }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nationality</th>
+                        <td>{{ object.get_nationality_display }}</td>
+                    </tr>
+                    <tr>
+                        <th>Height</th>
+                        <td>{{ object.height }} m</td>
+                    </tr>
+                    <tr>
+                        <th>Weight</th>
+                        <td>{{ object.weight }} kgs</td>
+                    </tr>
+                    <tr>
+                        <th>Favored Position</th>
+                        <td>{{ object.favored_position }}</td>
+                    </tr>
+                    <tr>
+                        <th>Previous Club</th>
+                        <td>{{ object.previous_club }}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

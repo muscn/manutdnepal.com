@@ -60,3 +60,6 @@ class SeasonCompetitionView(DetailView):
 class SquadListView(ListView):
     queryset = Player.objects.filter(active=True)
     template_name = 'stats/squad.html'
+
+class PlayerDetailView(DetailView):
+    model = Player

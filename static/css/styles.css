@@ -181,3 +181,7 @@ i.required:after {
     opacity: 0.65;
     font-size: 90%;
 }
+
+.table-nonfluid {
+   width: auto !important;
+}
