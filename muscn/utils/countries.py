@@ -501,6 +501,8 @@ FULL_DATA = [
      "itu": "QAT", "name": "Qatar", "num": 634},
     {"a2": "MZ", "a3": "MOZ", "continent": "AF", "continent_name": "Africa", "fifa": "MOZ", "id": "MOZ", "ioc": "MZ",
      "itu": "MOZ", "name": "Mozambique", "num": 508},
+    {"a2": "EN", "a3": "ENG", "name": "England"},
+    {"a2": "ND", "a3": "NIR", "name": "Northern Ireland"},
 ]
 
 # http://xml.coverpages.org/country3166.html
@@ -761,8 +763,20 @@ class CountryField(models.CharField):
     def get_internal_type(self):
         return "CharField"
 
+
 def get_a2_from_a3(a3):
-    global a3_name
-    a3_name = a3
-    import ipdb
-    ipdb.set_trace()
+    matches = [item for item in FULL_DATA if item["a3"] == a3]
+
+    if not matches:
+        matches = [item for item in FULL_DATA if item.get('fifa') == a3]
+    if not matches:
+        matches = [item for item in FULL_DATA if item.get('itu') == a3]
+
+    if matches:
+        a2 = matches[0]['a2']
+        if [i for i, v in enumerate(COUNTRIES) if v[0] == a2]:
+            return a2
+        else:
+            raise Exception('No country with a2 code ' + a2)
+    else:
+        raise Exception('No country with a3 code ' + a3)

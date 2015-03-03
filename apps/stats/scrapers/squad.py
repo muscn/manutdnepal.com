@@ -1,6 +1,7 @@
+import datetime
+
 from .base import Scraper
 from apps.stats.models import Player
-import datetime
 from muscn.utils.countries import get_a2_from_a3
 
 
@@ -19,6 +20,8 @@ class SquadScraper(Scraper):
             if columns:
                 try:
                     dct['no'] = columns[0].text_content().strip()
+                    if dct['no'] == '':
+                        dct['no'] = None
                     dct['name'] = columns[1].text_content().strip()
                     dct['country'] = columns[2].text_content().strip()
                     dct['position'] = columns[3].text_content().strip()
@@ -38,15 +41,23 @@ class SquadScraper(Scraper):
 
     @classmethod
     def save(cls):
+        Player.objects.all().update(active=False)
         for datum in cls.data:
             player, created = Player.objects.get_or_create(name=datum['name'])
             player.squad_no = datum['no']
             player.height = datum['height']
-            player.height = datum['weight']
+            player.weight = datum['weight']
             player.birth_place = datum['birth_place']
             player.previous_club = datum['previous_club']
             player.favored_position = datum['position']
             player.date_of_birth = datetime.datetime.strptime(datum['date_of_birth'], '%d-%m-%y')
             player.nationality = get_a2_from_a3(datum['country'])
-            import ipdb
-            ipdb.set_trace()
+            if datum.get('on_loan'):
+                player.on_loan = True
+            player.active = True
+            try:
+                player.save()
+            except ValueError:
+                import ipdb
+
+                ipdb.set_trace()

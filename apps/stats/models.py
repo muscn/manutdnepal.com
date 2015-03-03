@@ -107,6 +107,9 @@ class Person(models.Model):
     # favored_person = models.ForeignKey('Person')
     # favored_team = models.ForeignKey(Team)
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         abstract = True
 
