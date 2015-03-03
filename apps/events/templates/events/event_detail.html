@@ -26,13 +26,13 @@
 
 
             var infowindow = new google.maps.InfoWindow({
-                content: '{{ event.venue }}'
+                content: "{{ event.venue|linebreaks }}"
             });
 
             var marker = new google.maps.Marker({
                 position: myLatlng,
                 map: map,
-                title: '{{ event.venue }}'
+                title: "{{ event.venue|linebreaks }}"
             });
             google.maps.event.addListener(marker, 'click', function () {
                 infowindow.open(map, marker);

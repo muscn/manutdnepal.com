@@ -1,5 +1,8 @@
-from django.template import Library
 import re
+
+from django.template import Library
+from django.utils.safestring import mark_safe
+
 
 register = Library()
 
@@ -85,4 +88,6 @@ def result(match):
     return 'lost'
 
 
-
+@register.filter
+def linebreaks(obj):
+    return mark_safe(obj.replace("\n", "<br>").replace("\r", ""))
