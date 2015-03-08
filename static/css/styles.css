@@ -1,5 +1,4 @@
 /*
-Brand Color:
 #e54d36
 */
 
@@ -210,14 +209,42 @@ img.overlaid {
     opacity: .4;
 }
 
+.section.stats.row {
+    margin-top: -2em;
+}
+
 .stats-block {
-    /*margin-right: 1em;*/
     background-color: #ddd;
     min-height: 20em;
     border-top: 0.5em solid #e54d36;
 }
 
-.section.stats.row {
-    margin-top: -2em;
+.stats-block h2 {
+    color: #e54d36;
+    padding: 0 0.5em;
+}
 
+.next-match .fixture {
+    text-align: center;
+}
+
+.next-match .datetime {
+    color: #e54d36;
+}
+
+.next-match .date {
+    font-size: 4em;
+}
+
+.next-match .month {
+    margin-top: -1.5em;
+}
+
+.next-match .date sup {
+    font-size: 0.5em;
+    text-transform: uppercase;
+}
+
+.next-match .opponent-crest img {
+    height: 8em;
 }
