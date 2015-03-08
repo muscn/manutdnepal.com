@@ -62,6 +62,8 @@ class Team(models.Model):
     stadium = models.ForeignKey(Stadium, related_name='teams')
     foundation_date = models.DateField(blank=True, null=True)
     crest = models.ImageField(upload_to='/crests/', blank=True, null=True)
+    color = models.CharField(max_length=255)
+    wiki = models.CharField(max_length=255)
 
     def get_derby_teams(self):
         # stadium -> city -> stadiums -> teams
