@@ -22,17 +22,19 @@ body {
 }
 
 nav.navbar {
-    border-bottom: 1px solid #e54d36;
+    border-bottom: 1px solid #111111;
+    background-color: #e54d36;
+    margin-bottom: 0;
 }
 
 .navbar-default .navbar-brand {
-    color: #e54d36;
+    color: #ffffff;
     text-transform: uppercase;
 }
 
 .nopadding {
-   padding: 0 !important;
-   /*margin: 0 !important;*/
+    padding: 0 !important;
+    /*margin: 0 !important;*/
 }
 
 /* Footer */
@@ -72,7 +74,7 @@ footer {
 }
 
 @media only screen and (max-width: 991px) {
-    footer div.container div.row div{
+    footer div.container div.row div {
         text-align: center;
         padding-bottom: 0.6em;
     }
@@ -104,14 +106,13 @@ footer {
     content: "\f113";
 }
 
-.githubBtn{
+.githubBtn {
     background: #888;
 }
 
-.githubBtn:hover{
+.githubBtn:hover {
     color: #888;
 }
-
 
 .twitterBtn {
     background: #00ABE3;
@@ -177,11 +178,46 @@ i.required:after {
     color: red;
 }
 
-.help-text{
+.help-text {
     opacity: 0.65;
     font-size: 90%;
 }
 
 .table-nonfluid {
-   width: auto !important;
+    width: auto !important;
+}
+
+img.overlaid {
+    background: rgba(255, 0, 0, 0.25);
+}
+
+.section.featured {
+    position: relative;
+}
+
+.featured img {
+    max-height: 500px;
+    width: 100%;
+}
+
+.overlay {
+    background: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .4;
+}
+
+.stats-block {
+    /*margin-right: 1em;*/
+    background-color: #ddd;
+    min-height: 20em;
+    border-top: 0.5em solid #e54d36;
+}
+
+.section.stats.row {
+    margin-top: -2em;
+
 }
