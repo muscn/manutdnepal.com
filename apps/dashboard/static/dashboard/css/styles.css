@@ -138,3 +138,6 @@ nav.navbar {
 .actions.pull-right {
     margin-top: -2em;
 }
+.breadcrumbs form input{
+    float: right;
+}
