@@ -11,6 +11,7 @@ from django.views.generic.list import ListView
 from django.db.models import Max
 from auditlog.models import LogEntry
 from django.contrib import messages
+from django.db.models import Q
 
 from .models import Membership, User, StaffOnlyMixin, group_required
 from .forms import MembershipForm, UserForm, UserUpdateForm
@@ -210,6 +211,19 @@ class MembershipDeleteView(StaffOnlyMixin, DeleteView):
 
 class UserListView(StaffOnlyMixin, ListView):
     model = User
+
+    def get(self, request, *args, **kwargs):
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            self.queryset = User.objects.filter(
+                Q(username__contains=q) |
+                Q(full_name__contains=q) |
+                Q(email__contains=q) |
+                Q(devil_no__contains=q) |
+                Q(membership__telephone__contains=q) |
+                Q(membership__mobile__contains=q)
+            )
+        return super(UserListView, self).get(request, *args, **kwargs)
 
 
 class UserCreateView(StaffOnlyMixin, CreateView):
