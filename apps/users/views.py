@@ -347,3 +347,7 @@ def esewa_failure(request):
     # {u'q': [u'fu']}
     messages.error(request, 'eSewa transaction failed or cancelled!')
     return redirect('membership_payment')
+
+def download_all_cards(request):
+    filtered = [x for x in Membership.objects.all() if x.approved()]
+    

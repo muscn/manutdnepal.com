@@ -53,6 +53,7 @@ urlpatterns = patterns('',
                        url(r'^delete-membership/(?P<pk>\d+)/delete/$', users_views.MembershipDeleteView.as_view(),
                            name='delete_membership'),
                        url(r'^membership/add/$', users_views.new_user_membership, name='new_membership'),
+                       url(r'^membership/download/$', users_views.download_all_cards, name='download_all_cards'),
 
                        url(r'^user/$', users_views.UserListView.as_view(), name='list_users'),
                        url(r'^user/add/$', users_views.UserCreateView.as_view(), name='create_user'),
