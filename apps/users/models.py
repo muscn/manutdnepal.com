@@ -141,7 +141,7 @@ class User(AbstractBaseUser):
 
         # Configuration
         # possible values: L, M, Q, H
-        qr_error_correction = 'M'
+        qr_error_correction = 'H'
 
         devil_number = str(devil_number)
 
