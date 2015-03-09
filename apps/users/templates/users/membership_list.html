@@ -38,7 +38,14 @@
                         </a>
                     </td>
                     <td>
-                        {{ item.user.devil_no }}
+                        {% if item.user.devil_no %}
+                            <form action="{% url 'update_membership' item.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="Download Card">
+                                <input type="submit" value="{{ item.user.devil_no }}">
+                            </form>
+
+                        {% endif %}
                     </td>
                     <td>
                         <a href="{% url 'update_user' item.user.id %}">

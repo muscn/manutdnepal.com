@@ -350,4 +350,3 @@ def esewa_failure(request):
 
 def download_all_cards(request):
     filtered = [x for x in Membership.objects.all() if x.approved()]
-    
