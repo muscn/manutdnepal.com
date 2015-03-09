@@ -15,19 +15,21 @@ body {
 /*Navbar styles*/
 
 .navbar .logo {
-    height: 70px;
+    height: 50px;
+    /*height: 70px;*/
     display: inline-block;
     margin-top: -15px;
 }
 
 nav.navbar {
-    border-bottom: 1px solid #111111;
-    background-color: #e54d36;
+    /*border-bottom: 1px solid #111111;*/
+    /*background-color: #e54d36;*/
+    border-bottom: 1px solid #e54d36;
     margin-bottom: 0;
 }
 
 .navbar-default .navbar-brand {
-    color: #ffffff;
+    /*color: #ffffff;*/
     text-transform: uppercase;
 }
 
