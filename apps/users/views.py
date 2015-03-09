@@ -150,6 +150,19 @@ def membership_thankyou(request):
 class MembershipListView(StaffOnlyMixin, ListView):
     model = Membership
 
+    def get(self, request, *args, **kwargs):
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            self.queryset = Membership.objects.filter(
+                Q(user__username__contains=q) |
+                Q(user__full_name__contains=q) |
+                Q(user__email__contains=q) |
+                Q(user__devil_no__contains=q) |
+                Q(telephone__contains=q) |
+                Q(mobile__contains=q)
+            )
+        return super(MembershipListView, self).get(request, *args, **kwargs)
+
 
 class MembershipCreateView(StaffOnlyMixin, CreateView):
     model = Membership

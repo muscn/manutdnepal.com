@@ -8,6 +8,9 @@
 {% block breadcrumbs %}
     {{ block.super }}
     <a href="{% url 'list_memberships' %}"><i class="fa fa-user"></i>Memberships</a>
+    <form>
+        <input type="text" name="q" placeholder="Search...">
+    </form>
 {% endblock %}
 
 {% block content %}
