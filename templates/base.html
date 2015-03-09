@@ -61,8 +61,30 @@
                     </div>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="/representatives/" class="secondary small button">Representatives</a></li>
-                            <li><a href="/privileges/" class="secondary small button">Privileges</a></li>
+                            <li><a href="{% url 'list_events' %}">Events</a></li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false">MUSCN <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
+                                    <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
+                                </ul>
+                            </li>
+                        <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false">MUFC <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'list_squad' %}">History</a></li>
+                                    <li><a href="{% url 'list_squad' %}">Squad</a></li>
+                                    <li><a href="{% url 'list_seasons' %}">Seasons</a></li>
+                                    <li><a href="{% url 'list_squad' %}">Quotes</a></li>
+                                    <li><a href="{% url 'list_squad' %}">Injuries</a></li>
+                                </ul>
+                            </li>
                             {% if request.user.is_authenticated %}
                                 {% if request.user.membership %}
                                     {% if request.user.is_member %}
