@@ -26,7 +26,7 @@ class Payment(models.Model):
     @property
     def method(self):
         # methods are related name on one-to-one payment fields on payment methods
-        methods = ('bank_deposit', 'direct_payment')
+        methods = ('bank_deposit', 'direct_payment', 'esewa_payment')
         for method in methods:
             if hasattr(self, method):
                 return getattr(self, method)
@@ -131,6 +131,9 @@ class EsewaPayment(EsewaTransaction):
     #         obj.payment.amount = val
 
     # amount = Amount()
+
+    def get_absolute_url(self):
+        return reverse_lazy('update_payment', kwargs={'pk': self.payment.pk})
 
     def delete(self, delete_payment=True, *args, **kwargs):
         if delete_payment and self.payment:

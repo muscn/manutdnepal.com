@@ -52,7 +52,8 @@
 
             <div class="pull-right actions">
                 {% if object.method %}
-                    <a href="{{ object.method.get_absolute_url }}" class="btn btn-info">View/Update {{ object.method_type }}</a>
+                    <a href="{{ object.method.get_absolute_url }}"
+                       class="btn btn-info">View/Update {{ object.method_type }}</a>
                 {% endif %}
                 {% if object.verified %}
                     {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
@@ -81,6 +82,8 @@
                     </div>
                 {% elif object.method|get_class_name == 'DirectPayment' %}
                     <h3>Directly paid to {{ object.method.received_by.full_name }}.</h3>
+                {% elif object.method|get_class_name == 'EsewaPayment' %}
+                    Paid via eSewa
                 {% endif %}
 
             </div>
