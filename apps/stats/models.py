@@ -62,8 +62,8 @@ class Team(models.Model):
     stadium = models.ForeignKey(Stadium, related_name='teams')
     foundation_date = models.DateField(blank=True, null=True)
     crest = models.ImageField(upload_to='/crests/', blank=True, null=True)
-    color = models.CharField(max_length=255)
-    wiki = models.CharField(max_length=255)
+    color = models.CharField(max_length=255, blank=True, null=True)
+    wiki = models.CharField(max_length=255, blank=True, null=True)
 
     def get_derby_teams(self):
         # stadium -> city -> stadiums -> teams
@@ -338,3 +338,12 @@ class CompetitionYearMatches(models.Model):
 
     def __unicode__(self):
         return unicode(self.competition_year)
+
+
+class Fixture(models.Model):
+    opponent = models.ForeignKey(Team)
+    is_home_game = models.BooleanField(default=True)
+    datetime = models.DateTimeField()
+    competition_year = models.ForeignKey(CompetitionYear)
+    round = models.CharField(max_length=255, blank=True, null=True)
+    venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
