@@ -61,9 +61,14 @@
                     <div class="date-month">{{ event.start|date:"M" }}</div>
                     <div class="date-day">{{ event.start.date.day }}</div>
                 </div>
-
-
-                <strong>Starts:</strong> {{ event.start }}<br/>
+            
+                {% if event.whole_day_event %}
+                    <strong>Date:</strong>
+                    {{ event.start.date }}<br/>
+                {% else %}
+                    <strong>Starts:</strong>
+                    {{ event.start }}<br/>
+                {% endif %}
                 {% if event.end %}
                     <strong>Ends:</strong> {{ event.end }}<br/>
                 {% endif %}
