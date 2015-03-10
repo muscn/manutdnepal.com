@@ -5,7 +5,7 @@ from apps.events.models import Event
 
 
 class EventsList(ListView):
-    queryset = Event.objects.filter(enabled=True)
+    queryset = Event.objects.filter(enabled=True).order_by('-start')
 
 
 class EventDetail(DetailView):
