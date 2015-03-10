@@ -1,9 +1,12 @@
+import datetime
+
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
-import datetime
-from muscn.utils.countries import CountryField
 from jsonfield import JSONField
+
+from muscn.utils.countries import CountryField
 from muscn.utils.forms import unique_slugify
+
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -51,7 +54,10 @@ class Stadium(models.Model):
     capacity = models.PositiveIntegerField(blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    image = models.ImageField(upload_to='/stadiums/', blank=True, null=True)
+    image = models.ImageField(upload_to='stadiums/', blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)
@@ -66,9 +72,12 @@ class Team(models.Model):
     nick_name = models.CharField(max_length=50, blank=True, null=True)
     stadium = models.ForeignKey(Stadium, related_name='teams')
     foundation_date = models.DateField(blank=True, null=True)
-    crest = models.ImageField(upload_to='/crests/', blank=True, null=True)
+    crest = models.ImageField(upload_to='crests/', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)
     wiki = models.CharField(max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
 
     def get_derby_teams(self):
         # stadium -> city -> stadiums -> teams
@@ -353,3 +362,22 @@ class Fixture(models.Model):
     round = models.CharField(max_length=255, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
     broadcast_on = models.CharField(max_length=255, blank=True, null=True)
+
+    @staticmethod
+    def get_next_match():
+        return None
+
+    def get_venue(self):
+        if self.venue:
+            return self.venue
+        elif self.is_home_game:
+            return 'Old Trafford'
+        else:
+            return self.opponent.stadium.name
+
+
+    def __unicode__(self):
+        ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
+        if datetime.datetime.now() > self.datetime:
+            ret = '[PAST] ' + ret
+        return ret

@@ -12,6 +12,11 @@ admin.site.register(Quote)
 admin.site.register(SeasonData)
 admin.site.register(CompetitionYearMatches)
 admin.site.register(Player)
-admin.site.register(Fixture)
+# admin.site.register(Fixture)
 admin.site.register(Team)
 admin.site.register(Stadium)
+
+class FixtureAdmin(admin.ModelAdmin):
+    model = Fixture
+
+admin.site.register(Fixture, FixtureAdmin)
