@@ -347,3 +347,4 @@ class Fixture(models.Model):
     competition_year = models.ForeignKey(CompetitionYear)
     round = models.CharField(max_length=255, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
+    broadcast_on = models.CharField(max_length=255, blank=True, null=True)
