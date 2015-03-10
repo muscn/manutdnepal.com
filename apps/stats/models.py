@@ -51,6 +51,7 @@ class Stadium(models.Model):
     capacity = models.PositiveIntegerField(blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+    image = models.ImageField(upload_to='/stadiums/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)
