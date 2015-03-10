@@ -46,11 +46,15 @@ class City(models.Model):
 # Fixtured
 class Stadium(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
-    city = models.ForeignKey(City, related_name='stadiums')
+    slug = models.SlugField(max_length=255, blank=True, null=True)
+    city = models.ForeignKey(City, related_name='stadiums', blank=True, null=True)
     capacity = models.PositiveIntegerField(blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        unique_slugify(self, self.name)
+        super(Stadium, self).save(*args, **kwargs)
 
 
 # Fixtured
