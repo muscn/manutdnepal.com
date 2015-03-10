@@ -1,9 +1,15 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 
+from apps.stats.models import Fixture
+
 
 def home(request):
-    return render(request, 'home.html')
+    next_match = Fixture.get_next_match()
+    context = {
+        'next_match': next_match,
+    }
+    return render(request, 'home.html', context)
 
 
 @user_passes_test(lambda u: u.is_superuser)

@@ -6,6 +6,7 @@ from jsonfield import JSONField
 
 from muscn.utils.countries import CountryField
 from muscn.utils.forms import unique_slugify
+from muscn.utils.npt import utc_to_local
 
 
 YEAR_CHOICES = []
@@ -363,9 +364,25 @@ class Fixture(models.Model):
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
     broadcast_on = models.CharField(max_length=255, blank=True, null=True)
 
-    @staticmethod
-    def get_next_match():
-        return None
+    @classmethod
+    def get_next_match(cls):
+        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]
+
+    def npt(self):
+        return utc_to_local(self.datetime)
+
+    def time_remaining(self):
+        # local_match_time = utc_to_local(self.datetime).replace(tzinfo=None)
+        delta = self.datetime - datetime.datetime.utcnow()
+        dhm = (delta.days, delta.seconds // 3600, (delta.seconds // 60) % 60)
+        return dhm
+
+    @property
+    def title(self):
+        if self.is_home_game:
+            return 'Man United vs. ' + unicode(self.opponent)
+        else:
+            return unicode(self.opponent) + ' vs. Man United'
 
     def get_venue(self):
         if self.venue:
@@ -377,6 +394,7 @@ class Fixture(models.Model):
 
 
     def __unicode__(self):
+        return self.title
         ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
         if datetime.datetime.now() > self.datetime:
             ret = '[PAST] ' + ret

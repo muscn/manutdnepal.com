@@ -17,31 +17,40 @@
                     <h2>NEXT MATCH</h2>
 
                     <div class="fixture text-center">
-                        <div class="match">Man United vs. Arsenal</div>
-                        <div class="venue">Old Trafford</div>
-                        <div class="competition">FA Cup - Quarterfinal</div>
+                        <div class="match">{{ next_match.title }}</div>
+                        <div class="venue">{{ next_match.get_venue }}</div>
+                        <div class="competition">
+                            {{ next_match.competition_year.competition }}
+                            {% if next_match.round %}
+                                - {{ next_match.round }}
+                            {% endif %}
+                        </div>
                     </div>
                     <br>
+
                     <div class="row text-center">
                         <div class="datetime col-xs-6">
                             <span class="date">10<sup>th</sup></span>
 
-                            <div class="month">March</div>
-                            <div class="time">19:45 GMT</div>
-                            <div class="time">01:30 NPT</div>
+                            <div class="month">{{ next_match.npt|date:'F' }}</div>
+                            <div class="time">{{ next_match.npt|date:'P' }} NPT</div>
+
                         </div>
                         <div class="opponent-crest col-xs-6">
                             <img class="img-responsive"
-                                 src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/200px-Arsenal_FC.svg.png">
+                                 src="{{ next_match.opponent.crest.url }}">
                         </div>
                     </div>
+{#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
                     <br/>
+
                     <div class="countdown row text-center">
                         <div class="text col-xs-5">Time until<br/>next match</div>
                         <div class="timer col-xs-7 row">
-                            <span class="days col-xs-4">44</span>
-                            <span class="days col-xs-4">22</span>
-                            <span class="days col-xs-4">27</span>
+
+                            <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
+                            <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
+                            <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
                         </div>
                     </div>
                     <div class="countdown-footer row text-center">
@@ -57,6 +66,7 @@
             <div class="col-md-3">
                 <div class="stats-block">
                     <h2>RECENT RESULTS</h2>
+                    {{ next_match }}
                 </div>
             </div>
             <div class="col-md-3">
