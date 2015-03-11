@@ -1,11 +1,14 @@
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
+from django.core.cache import cache
 
 from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player
 from .forms import QuoteForm
+
+from apps.stats.models import get_latest_epl_standings
 
 
 class InjuryListView(StaffOnlyMixin, ListView):
@@ -33,8 +36,8 @@ class SeasonDataListView(ListView):
 
     # def get_context_data(self, **kwargs):
     # context = super(SeasonDataListView, self).get_context_data(**kwargs)
-    #     qs = self.get_queryset()
-    #     epl_seasons = qs.filter(year__gt=1991).order_by('-year')
+    # qs = self.get_queryset()
+    # epl_seasons = qs.filter(year__gt=1991).order_by('-year')
     #     pre_epl_seasons = qs.filter(year__lt=1992).order_by('-year')
     #     context['epl_seasons'] = epl_seasons
     #     context['pre_epl_seasons'] = pre_epl_seasons
@@ -61,5 +64,16 @@ class SquadListView(ListView):
     queryset = Player.objects.filter(active=True)
     template_name = 'stats/squad.html'
 
+
 class PlayerDetailView(DetailView):
     model = Player
+
+
+def epl_table(request):
+    standings = cache.get('epl_standings')
+    if not standings:
+        standings = get_latest_epl_standings()
+    context = {
+        'standings': standings,
+    }
+    return render(request, 'stats/epl_table.html', context)

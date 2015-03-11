@@ -2,16 +2,16 @@ import datetime
 import urllib
 import json
 
-from django.conf import settings
-from django.core.cache import cache
-
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from jsonfield import JSONField
+from django.conf import settings
 
 from muscn.utils.countries import CountryField
 from muscn.utils.forms import unique_slugify
 from muscn.utils.npt import utc_to_local
+
+from django.core.cache import cache
 
 
 YEAR_CHOICES = []
@@ -405,7 +405,7 @@ class Fixture(models.Model):
         # return self.title
         ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
         if datetime.datetime.now() > self.datetime:
-            ret = '[PAST] ' + ret
+            ret += '[PAST] '
         return ret
 
 
@@ -427,15 +427,19 @@ class MatchResult(models.Model):
             return unicode(self.fixture.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
                 self.mufc_score) + ' ' + 'Man United'
 
-
     def __unicode__(self):
         return unicode(self.fixture.title)
 
 
 def get_latest_epl_standings():
+    print 'Retrieving table from API'
     link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
     f = urllib.urlopen(link)
     standings = f.read()
     standings_loaded = json.loads(standings)
+    from django_redis import get_redis_connection
+    con = get_redis_connection("default")
+    con.set('epl_standings', standings_loaded)
     cache.set('epl_standings', standings_loaded)
-    return cache.get('epl_standings')
+    con.persist(':' + settings.CACHE_DB_NUMBER + ':' + 'epl_standings')
+    return standings_loaded

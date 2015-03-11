@@ -37,6 +37,7 @@ urlpatterns = patterns('',
                        url(r'^squad/$', stats_views.SquadListView.as_view(), name='list_squad'),
                        url(r'^player/(?P<slug>[a-zA-Z0-9_.-]+)/$', stats_views.PlayerDetailView.as_view(),
                            name='view_player'),
+                       url(r'^epl-table/$', stats_views.epl_table, name='epl_table'),
 
                        (r'', include('apps.page.urls')),
 )
