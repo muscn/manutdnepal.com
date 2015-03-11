@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
-    Fixture, Team, Stadium
+    Fixture, Team, Stadium, MatchResult
 
 
 admin.site.register(Injury)
@@ -15,6 +15,7 @@ admin.site.register(Player)
 # admin.site.register(Fixture)
 admin.site.register(Team)
 admin.site.register(Stadium)
+admin.site.register(MatchResult)
 
 class FixtureAdmin(admin.ModelAdmin):
     model = Fixture

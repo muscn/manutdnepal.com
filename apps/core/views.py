@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 
-from apps.stats.models import Fixture
+from apps.stats.models import Fixture, MatchResult
 
 
 def home(request):
     next_match = Fixture.get_next_match()
+    recent_results = MatchResult.recent_results();
     context = {
         'next_match': next_match,
+        'recent_results': recent_results
     }
     return render(request, 'home.html', context)
 

@@ -1,4 +1,9 @@
 import datetime
+import urllib
+import json
+
+from django.conf import settings
+from django.core.cache import cache
 
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
@@ -402,3 +407,35 @@ class Fixture(models.Model):
         if datetime.datetime.now() > self.datetime:
             ret = '[PAST] ' + ret
         return ret
+
+
+class MatchResult(models.Model):
+    fixture = models.ForeignKey(Fixture)
+    mufc_score = models.PositiveIntegerField(default=0)
+    opponent_score = models.PositiveIntegerField(default=0)
+
+    @classmethod
+    def recent_results(cls):
+        return cls.objects.all().order_by('-fixture__datetime')[0:10]
+
+    @property
+    def title(self):
+        if self.fixture.is_home_game:
+            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(self.opponent_score) + ' ' + unicode(
+                self.fixture.opponent)
+        else:
+            return unicode(self.fixture.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
+                self.mufc_score) + ' ' + 'Man United'
+
+
+    def __unicode__(self):
+        return unicode(self.fixture.title)
+
+
+def get_latest_epl_standings():
+    link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
+    f = urllib.urlopen(link)
+    standings = f.read()
+    standings_loaded = json.loads(standings)
+    cache.set('epl_standings', standings_loaded)
+    return cache.get('epl_standings')
