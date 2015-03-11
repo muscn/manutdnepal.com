@@ -366,7 +366,10 @@ class Fixture(models.Model):
 
     @classmethod
     def get_next_match(cls):
-        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]
+        try:
+            return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]
+        except IndexError:
+            return None
 
     def npt(self):
         return utc_to_local(self.datetime)
@@ -394,7 +397,7 @@ class Fixture(models.Model):
 
 
     def __unicode__(self):
-        return self.title
+        # return self.title
         ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
         if datetime.datetime.now() > self.datetime:
             ret = '[PAST] ' + ret
