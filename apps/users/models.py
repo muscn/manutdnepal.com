@@ -411,3 +411,21 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
 
 
 auditlog.register(Membership)
+
+
+def get_members_summary():
+    from docx import Document
+
+    document = Document()
+    document.add_page_break()
+    members = Membership.objects.filter(user__devil_no__isnull=False)
+    for member in members:
+        p = document.add_paragraph('')
+        p.add_run('#' + str(member.user.devil_no))
+        p.add_run('\n')
+        p.add_run(member.user.full_name)
+        p.add_run('\n')
+        p.add_run(member.mobile)
+        document.add_page_break()
+    document.save('/tmp/members.docx')
+
