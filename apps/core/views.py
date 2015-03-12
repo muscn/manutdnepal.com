@@ -1,15 +1,20 @@
+from django.core.cache import cache
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 
-from apps.stats.models import Fixture, MatchResult
+from apps.stats.models import Fixture, MatchResult, get_latest_epl_standings
 
 
 def home(request):
     next_match = Fixture.get_next_match()
-    recent_results = MatchResult.recent_results();
+    recent_results = MatchResult.recent_results()
+    standings = cache.get('epl_standings')
+    if not standings:
+        standings = get_latest_epl_standings()
     context = {
         'next_match': next_match,
-        'recent_results': recent_results
+        'recent_results': recent_results,
+        'standings': standings['teams'][:10]
     }
     return render(request, 'home.html', context)
 

@@ -74,7 +74,7 @@
                     <div class="results text-center">
                         {% for result in recent_results %}
                             <div class="result">
-                            {{ result.title }}
+                                {{ result.title }}
                             </div>
                         {% endfor %}
                     </div>
@@ -83,6 +83,29 @@
             <div class="col-md-3">
                 <div class="stats-block">
                     <h2>LEAGUE TABLE</h2>
+                    <table class="epl-table table table-bordered">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Club</th>
+                            <th>P</th>
+                            <th>GD</th>
+                            <th>Pts</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for team in standings %}
+                            <tr>
+                                <td>{{ team.stand_position }}</td>
+                                <td>{{ team.stand_team_name }}</td>
+                                <td>{{ team.stand_overall_gp }}</td>
+                                <td>{{ team.stand_gd }}</td>
+                                <td>{{ team.stand_points }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="col-md-3">
