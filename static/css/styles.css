@@ -27,7 +27,7 @@ nav.navbar {
     border-bottom: 1px solid #e54d36;
     margin-bottom: 0;
     background-color: #e54d36;
-    color: #fff; 
+    color: #fff;
 }
 
 .navbar-default .navbar-brand {
@@ -42,8 +42,6 @@ nav.navbar .dropdown-menu a {
 #navbarCollapse a {
     color: #fff;
 }
-
-
 
 .nopadding {
     padding: 0 !important;
