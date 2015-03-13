@@ -35,9 +35,15 @@ nav.navbar {
     text-transform: uppercase;
 }
 
+nav.navbar .dropdown-menu a {
+    color: black !important;
+}
+
 #navbarCollapse a {
     color: #fff;
 }
+
+
 
 .nopadding {
     padding: 0 !important;
@@ -256,3 +262,4 @@ img.overlaid {
 .next-match .opponent-crest img {
     height: 8em;
 }
+
