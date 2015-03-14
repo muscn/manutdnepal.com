@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load filters %}
+
+{% block title %} {{ object.user.full_name }}{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>
+            {{ object.user.full_name }}
+        </h1>
+
+    This profile is private. Public profiles aren't enabled yet!
+
+
+        
+{% endblock %}
