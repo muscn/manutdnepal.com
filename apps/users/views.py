@@ -1,8 +1,10 @@
 import datetime
+from django.http import Http404
+
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
 from django.views.generic import DetailView
@@ -348,5 +350,20 @@ def esewa_failure(request):
     messages.error(request, 'eSewa transaction failed or cancelled!')
     return redirect('membership_payment')
 
+
 def download_all_cards(request):
     filtered = [x for x in Membership.objects.all() if x.approved()]
+
+
+def devil_no_handler(request, devil_no):
+    if devil_no < 100:
+        print devil_no
+        raise 404('Member does not exist!')
+    user = get_object_or_404(User, devil_no=devil_no)
+    return redirect(reverse_lazy('view_member_profile', kwargs={'slug': user.username}))
+
+
+class MemberProfileView(DetailView):
+    model = Membership
+    slug_field = 'user__username'
+
