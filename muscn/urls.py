@@ -9,7 +9,7 @@ urlpatterns = patterns('',
                        # url(r'^$', 'core.views.home', name='home'),
                        url(r'^$', 'apps.users.views.login_register', name='login_register'),
                        url(r'^(?P<devil_no>[0-9]+)/$', 'apps.users.views.devil_no_handler', name='devil_no'),
-                       url(r'^m/(?P<slug>[a-z0-9_.-]+)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
+                       url(r'^m/(?P<slug>[a-zA-Z0-9_.-]+)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
 
                        (r'^admin/settings/', include('dbsettings.urls')),
                        url(r'admin/clear-cache/', 'apps.core.views.clear_cache', name='clear_cache'),

@@ -356,9 +356,8 @@ def download_all_cards(request):
 
 
 def devil_no_handler(request, devil_no):
-    if devil_no < 100:
-        print devil_no
-        raise 404('Member does not exist!')
+    if int(devil_no) < 100:
+        raise Http404('Member does not exist!')
     user = get_object_or_404(User, devil_no=devil_no)
     return redirect(reverse_lazy('view_member_profile', kwargs={'slug': user.username}))
 
