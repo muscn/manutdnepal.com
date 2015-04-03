@@ -477,7 +477,7 @@ def get_members_summary():
 def initialize_card_statuses():
     memberships = Membership.objects.all()
     for membership in memberships:
-        if hasattr(membership, 'card_status'):
+        if hasattr(membership, 'card_status') or not membership.user.devil_no:
             continue
         card_status = CardStatus(membership=membership, status=3)
         card_status.save()

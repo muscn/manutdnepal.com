@@ -14,7 +14,7 @@ from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
 
-from .models import Membership, User, StaffOnlyMixin, group_required
+from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment
@@ -220,6 +220,9 @@ class MembershipUpdateView(StaffOnlyMixin, UpdateView):
                     obj.approved_date = datetime.datetime.now()
                     messages.info(request, 'The membership is approved!')
                     obj.save()
+                    if not hasattr(obj, 'card_status'):
+                        card_status = CardStatus(membership=obj, status=1)
+                        card_status.save()
             elif request.POST['action'] == 'Disprove':
                 obj.approved_by = None
                 messages.info(request, 'The membership is disproved!')
