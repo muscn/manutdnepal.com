@@ -78,10 +78,16 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
-    # @property
+    @property
+    def card_status(self):
+        if hasattr(self, 'membership') and hasattr(self.membership, 'card_status'):
+            return self.membership.get_card_status()
+        return ''
+
+    @property
     def membership_status(self):
         if self.devil_no:
-            return 'Member' + ' - ' + self.membership.get_card_status()
+            return 'Member'
         try:
             if self.membership:
                 # if self.id == 9:

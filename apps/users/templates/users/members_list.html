@@ -17,16 +17,20 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor user 'Member' %}</th>
-            <th>{% anchor membership_status 'Status' %}</th>
+            <th>{% anchor membership_status 'Membership Status' %}</th>
+            <th>{% anchor card_status 'Card Status' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-                        {{ item.id}}-{{ item.full_name }}
+                        {{ item.full_name }}
                     </td>
                     <td>
                         {{ item.membership_status }}
+                    </td>
+                    <td>
+                        {{ item.card_status }}
                     </td>
                 </tr>
             {% endfor %}
