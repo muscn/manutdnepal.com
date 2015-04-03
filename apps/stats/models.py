@@ -73,10 +73,10 @@ class Stadium(models.Model):
 # Fixtured
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    short_name = models.CharField(max_length=10)
+    short_name = models.CharField(max_length=10, blank=True, null=True)
     alternative_names = models.CharField(max_length=255, blank=True, null=True)
     nick_name = models.CharField(max_length=50, blank=True, null=True)
-    stadium = models.ForeignKey(Stadium, related_name='teams')
+    stadium = models.ForeignKey(Stadium, related_name='teams', blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
     crest = models.ImageField(upload_to='crests/', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)

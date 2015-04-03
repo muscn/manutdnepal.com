@@ -1,6 +1,3 @@
-import urllib
-import json
-
 
 
 class FixturesScraper():
