@@ -152,18 +152,18 @@ class PublicMembershipListView(ListView):
     model = User
     template_name = 'users/members_list.html'
 
-    # def get(self, request, *args, **kwargs):
-    #     if 'q' in self.request.GET:
-    #         q = self.request.GET['q']
-    #         self.queryset = Membership.objects.filter(
-    #             Q(user__username__contains=q) |
-    #             Q(user__full_name__contains=q) |
-    #             Q(user__email__contains=q) |
-    #             Q(user__devil_no__contains=q) |
-    #             Q(telephone__contains=q) |
-    #             Q(mobile__contains=q)
-    #         )
-    #     return super(PublicMembershipListView, self).get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            self.queryset = User.objects.filter(
+                Q(username__icontains=q) |
+                Q(full_name__icontains=q) |
+                Q(email__icontains=q) |
+                Q(devil_no__contains=q) |
+                Q(membership__telephone__contains=q) |
+                Q(membership__mobile__contains=q)
+            )
+        return super(PublicMembershipListView, self).get(request, *args, **kwargs)
 
 
 class MembershipListView(StaffOnlyMixin, ListView):
@@ -173,9 +173,9 @@ class MembershipListView(StaffOnlyMixin, ListView):
         if 'q' in self.request.GET:
             q = self.request.GET['q']
             self.queryset = Membership.objects.filter(
-                Q(user__username__contains=q) |
-                Q(user__full_name__contains=q) |
-                Q(user__email__contains=q) |
+                Q(user__username__icontains=q) |
+                Q(user__full_name__icontains=q) |
+                Q(user__email__icontains=q) |
                 Q(user__devil_no__contains=q) |
                 Q(telephone__contains=q) |
                 Q(mobile__contains=q)
@@ -251,9 +251,9 @@ class UserListView(StaffOnlyMixin, ListView):
         if 'q' in self.request.GET:
             q = self.request.GET['q']
             self.queryset = User.objects.filter(
-                Q(username__contains=q) |
-                Q(full_name__contains=q) |
-                Q(email__contains=q) |
+                Q(username__icontains=q) |
+                Q(full_name__icontains=q) |
+                Q(email__icontains=q) |
                 Q(devil_no__contains=q) |
                 Q(membership__telephone__contains=q) |
                 Q(membership__mobile__contains=q)

@@ -9,6 +9,10 @@
 {% block content %}
 
     <br>
+    <form>
+        <input type="text" name="q" placeholder="Search...">
+    </form>
+    <br>
 
     {% autosort object_list as sorted_objects %}
     {% autopaginate sorted_objects 20 as paginated_objects %}
