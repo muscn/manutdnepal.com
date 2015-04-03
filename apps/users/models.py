@@ -78,6 +78,23 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
+    # @property
+    def membership_status(self):
+        if self.devil_no:
+            return 'Member'
+        try:
+            if self.membership:
+                # if self.id == 9:
+                #     import ipdb
+                #     ipdb.set_trace()
+                if not self.membership.payment:
+                    return 'Payment information not received'
+                if not self.membership.payment.verified:
+                    return 'Payment not verified'
+                return 'Membership not verified'
+        except Membership.DoesNotExist:
+            return 'Membership not applied'
+
     def is_member(self):
         return True if hasattr(self, 'membership') and hasattr(self.membership,
                                                                'payment') and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False

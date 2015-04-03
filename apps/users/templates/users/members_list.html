@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Memberships {% endblock %}
+
+
+{% block content %}
+
+    <br>
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor user 'Member' %}</th>
+            <th>{% anchor membership_status 'Status' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        {{ item.id}}-{{ item.full_name }}
+                    </td>
+                    <td>
+                        {{ item.membership_status }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+{% endblock %}

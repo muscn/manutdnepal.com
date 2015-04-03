@@ -1,7 +1,6 @@
 import datetime
+
 from django.http import Http404
-
-
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -147,6 +146,24 @@ def membership_thankyou(request):
         'membership': membership,
         'base_template': 'base.html',
     })
+
+
+class PublicMembershipListView(ListView):
+    model = User
+    template_name = 'users/members_list.html'
+
+    # def get(self, request, *args, **kwargs):
+    #     if 'q' in self.request.GET:
+    #         q = self.request.GET['q']
+    #         self.queryset = Membership.objects.filter(
+    #             Q(user__username__contains=q) |
+    #             Q(user__full_name__contains=q) |
+    #             Q(user__email__contains=q) |
+    #             Q(user__devil_no__contains=q) |
+    #             Q(telephone__contains=q) |
+    #             Q(mobile__contains=q)
+    #         )
+    #     return super(PublicMembershipListView, self).get(request, *args, **kwargs)
 
 
 class MembershipListView(StaffOnlyMixin, ListView):

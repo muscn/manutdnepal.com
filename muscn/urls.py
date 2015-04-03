@@ -25,6 +25,10 @@ urlpatterns = patterns('',
                            name='membership_payment_esewa_failure'),
                        url(r'^membership/thankyou/$', 'apps.users.views.membership_thankyou',
                            name='membership_thankyou'),
+
+                       url(r'^members/$', user_views.PublicMembershipListView.as_view(), name='list_members'),
+
+
                        url(r'^staging-home/$', 'apps.core.views.home', name='home'),
 
                        (r'dashboard/', include('apps.dashboard.urls')),
