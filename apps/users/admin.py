@@ -144,6 +144,10 @@ class MembershipAdmin(admin.ModelAdmin):
                    DecadeBornListFilter)
 
 
+class CardStatusAdmin(admin.ModelAdmin):
+    search_fields = ('membership__user__full_name',)
+
+
 admin.site.register(Membership, MembershipAdmin)
 
 admin.site.register(User, CustomUserAdmin)
@@ -156,5 +160,5 @@ from django.contrib.auth.models import Group
 
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
-admin.site.register(CardStatus)
+admin.site.register(CardStatus, CardStatusAdmin)
 
