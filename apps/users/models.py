@@ -81,11 +81,11 @@ class User(AbstractBaseUser):
     # @property
     def membership_status(self):
         if self.devil_no:
-            return 'Member'
+            return 'Member' + ' - ' + self.membership.get_card_status()
         try:
             if self.membership:
                 # if self.id == 9:
-                #     import ipdb
+                # import ipdb
                 #     ipdb.set_trace()
                 if not self.membership.payment:
                     return 'Payment information not received'
@@ -358,6 +358,9 @@ class Membership(models.Model):
     def approvable(self):
         return True if self.payment and self.payment.verified else False
 
+    def get_card_status(self):
+        return 'Delivered'
+
     def get_absolute_url(self):
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})
 
@@ -366,6 +369,17 @@ class Membership(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+
+class CardStatus(models.Model):
+    membership = models.OneToOneField(Membership, related_name='card_status')
+    STATUSES = (
+        (1, 'Awaiting Print'),
+        (2, 'Printed'),
+        (3, 'Delivered'),
+    )
+    status = models.PositiveIntegerField(choices=STATUSES, default=1)
+    remarks = models.CharField(max_length=255, null=True, blank=True)
 
 
 class StaffOnlyMixin(object):
