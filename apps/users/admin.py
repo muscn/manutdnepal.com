@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserCha
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from apps.users.models import User, GroupProxy, Membership
+from apps.users.models import User, GroupProxy, Membership, CardStatus
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -156,4 +156,5 @@ from django.contrib.auth.models import Group
 
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
+admin.site.register(CardStatus)
 

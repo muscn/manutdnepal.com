@@ -86,7 +86,7 @@ class User(AbstractBaseUser):
             if self.membership:
                 # if self.id == 9:
                 # import ipdb
-                #     ipdb.set_trace()
+                # ipdb.set_trace()
                 if not self.membership.payment:
                     return 'Payment information not received'
                 if not self.membership.payment.verified:
@@ -381,6 +381,9 @@ class CardStatus(models.Model):
     status = models.PositiveIntegerField(choices=STATUSES, default=1)
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = 'Card Statuses'
+
 
 class StaffOnlyMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -442,6 +445,7 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
 
 
 auditlog.register(Membership)
+auditlog.register(CardStatus)
 
 
 def get_members_summary():
@@ -460,3 +464,11 @@ def get_members_summary():
         document.add_page_break()
     document.save('/tmp/members.docx')
 
+
+def initialize_card_statuses():
+    memberships = Membership.objects.all()
+    for membership in memberships:
+        if hasattr(membership, 'card_status'):
+            continue
+        card_status = CardStatus(membership=membership, status=3)
+        card_status.save()
