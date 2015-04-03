@@ -359,7 +359,7 @@ class Membership(models.Model):
         return True if self.payment and self.payment.verified else False
 
     def get_card_status(self):
-        return 'Delivered'
+        return self.card_status.get_status()
 
     def get_absolute_url(self):
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})
@@ -380,6 +380,15 @@ class CardStatus(models.Model):
     )
     status = models.PositiveIntegerField(choices=STATUSES, default=1)
     remarks = models.CharField(max_length=255, null=True, blank=True)
+
+    def get_status(self):
+        ret = self.get_status_display()
+        if self.remarks:
+            ret += ' [' + self.remarks + ']'
+        return ret
+
+    def __unicode__(self):
+        return self.membership.user.full_name + ' - ' + self.get_status()
 
     class Meta:
         verbose_name_plural = 'Card Statuses'
