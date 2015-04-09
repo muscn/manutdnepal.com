@@ -141,5 +141,7 @@ class EsewaPayment(EsewaTransaction):
         return super(EsewaPayment, self).delete(*args, **kwargs)
 
 
-auditlog.register(Payment)
+auditlog.register(DirectPayment)
+auditlog.register(EsewaPayment)
+auditlog.register(BankDeposit)
 auditlog.register(BankAccount)

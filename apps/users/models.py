@@ -349,7 +349,7 @@ class Membership(models.Model):
     approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
 
     status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
-    payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for')
+    payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for', on_delete=models.SET_NULL)
 
     def save(self, *args, **kwargs):
         if not self.registration_date:
