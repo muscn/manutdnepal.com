@@ -72,7 +72,10 @@
                                 {{ item.payment }}
                             </a>
                         {% else %}
-                            {#                            Create Payment#}
+
+                            <a href="{% url 'create_direct_payment_for_membership' item.id %}">
+                                Create Payment
+                            </a>
                         {% endif %}
                     </td>
                 </tr>

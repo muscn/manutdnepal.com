@@ -17,7 +17,7 @@ from django.db.models import Q
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
-from apps.payment.models import BankAccount, Payment, EsewaPayment
+from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
 from apps.users import membership_settings
@@ -386,3 +386,23 @@ class MemberProfileView(DetailView):
     model = Membership
     slug_field = 'user__username'
 
+
+class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
+    model = DirectPayment
+    form_class = DirectPaymentPaymentForm
+    # success_url = reverse_lazy('list_memberships')
+
+    def get_success_url(self):
+        return reverse_lazy('update_direct_payment', kwargs={'pk': self.object.id})
+
+    def get_initial(self):
+        membership = get_object_or_404(Membership, id=self.kwargs['pk'])
+        return {'amount': membership_settings.membership_fee, 'received_by': self.request.user, 'user': membership.user,
+                'date_time': datetime.datetime.now(), 'remarks': 'For Membership'}
+
+    def form_valid(self, form):
+        membership = get_object_or_404(Membership, id=self.kwargs['pk'])
+        ret = super(DirectPaymentForMembershipCreateView, self).form_valid(form)
+        membership.payment = form.instance.payment
+        membership.save()
+        return ret
