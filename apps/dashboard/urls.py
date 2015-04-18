@@ -30,6 +30,8 @@ urlpatterns = patterns('',
                            name='update_bank_deposit'),
                        url(r'^bank-deposit/(?P<pk>\d+)/delete/$', payment_views.BankDepositDeleteView.as_view(),
                            name='delete_bank_deposit'),
+                       url(r'^move-direct/(?P<pk>\d+)/$', payment_views.move_bank_to_direct_payment,
+                           name='move_bank_to_direct_payment'),
 
                        url(r'^direct-payment/$', payment_views.DirectPaymentListView.as_view(),
                            name='list_direct_payments'),

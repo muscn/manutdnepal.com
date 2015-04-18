@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
@@ -109,3 +109,17 @@ class DirectPaymentDeleteView(StaffOnlyMixin, DeleteView):
 
 class EsewaPaymentListView(StaffOnlyMixin, ListView):
     model = EsewaPayment
+
+def move_bank_to_direct_payment(request, pk=None):
+    bank_deposit = BankDeposit.objects.get(pk=pk)
+    direct = DirectPayment()
+    direct.payment = bank_deposit.payment
+    direct.receipt_image = bank_deposit.voucher_image
+    direct.receipt_no = 0
+    direct.save()
+    #proxy payment, deleted while bank_deposit is deleted
+    payment = Payment(amount=100, user=request.user)
+    payment.save()
+    bank_deposit.payment = payment
+    bank_deposit.delete()
+    return redirect(reverse('update_direct_payment', kwargs={'pk': direct.id}))

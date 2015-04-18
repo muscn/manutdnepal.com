@@ -55,6 +55,20 @@
             </div>
         </div>
 
+    <div class="col-sm-12 col-lg-6">
+            {% if object.payment.verified %}
+                <p> This payment was verified by {{ object.verified_by.full_name }}.</p>
+            {% else %}
+                <p>This payment hasn't been verified.</p>
+            {% endif %}
+            <div id="method-details">
+
+
+                    <img class="img-responsive" src="{{ object.receipt_image.url }}">
+
+            </div>
+        </div>
+
 
     </div>
 

@@ -62,8 +62,6 @@ class DirectPaymentPaymentForm(form):
     remarks = forms.CharField(widget=forms.Textarea, required=False)
 
     def save(self, commit=True, user=None):
-        import ipdb
-        ipdb.set_trace()
         obj = self.instance
         if not obj.payment_id:
             obj.payment = Payment()
