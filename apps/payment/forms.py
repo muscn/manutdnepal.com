@@ -62,6 +62,8 @@ class DirectPaymentPaymentForm(form):
     remarks = forms.CharField(widget=forms.Textarea, required=False)
 
     def save(self, commit=True, user=None):
+        import ipdb
+        ipdb.set_trace()
         obj = self.instance
         if not obj.payment_id:
             obj.payment = Payment()
@@ -77,6 +79,7 @@ class DirectPaymentPaymentForm(form):
         return super(DirectPaymentPaymentForm, self).save(commit=True)
 
     def __init__(self, *args, **kwargs):
+
         super(DirectPaymentPaymentForm, self).__init__(*args, **kwargs)
         # self.fields['received_by'].empty_label = None
         if self.instance.payment_id:
@@ -88,6 +91,31 @@ class DirectPaymentPaymentForm(form):
     class Meta:
         model = DirectPayment
         exclude = ('payment', )
+
+
+class DirectPaymentReceiptForm(form):
+
+    def save(self, commit=True, user=None, payment=None):
+        obj = self.instance
+        obj.payment = payment
+        obj.payment.user = user
+        obj.payment.remarks = 'For Membership. R#:' + str(obj.receipt_no)
+        obj.payment.save()
+        obj.payment_id = obj.payment.id
+        return super(DirectPaymentReceiptForm, self).save(commit=True)
+
+    def __init__(self, *args, **kwargs):
+        super(DirectPaymentReceiptForm, self).__init__(*args, **kwargs)
+        if self.instance.payment_id:
+            self.initial['amount'] = self.instance.payment.amount
+            self.initial['date_time'] = self.instance.payment.date_time
+            self.initial['user'] = self.instance.payment.user
+            self.initial['remarks'] = self.instance.payment.remarks
+
+    class Meta:
+        model = DirectPayment
+        exclude = ('payment', 'received_by')
+
 
 
 class PaymentForm(form):

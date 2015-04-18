@@ -46,6 +46,29 @@
                 <div class="panel-body">
                     <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
                         {% csrf_token %}
+                        {{ direct_payment_form.non_field_errors }}
+
+                        <div class="form-group">
+                            {{ direct_payment_form.receipt_no.label_tag }}
+                            {{ direct_payment_form.receipt_no }}
+                            {{ direct_payment_form.receipt_no.errors }}
+                        </div>
+
+                        <input type="hidden" name="method" value="direct">
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center"><h3>OR</h3></div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
+                        {% csrf_token %}
                         {{ bank_deposit_form.non_field_errors }}
 
                         <div class="form-group">
@@ -59,6 +82,8 @@
                             {{ bank_deposit_form.voucher_image }}
                             {{ bank_deposit_form.voucher_image.errors }}
                         </div>
+
+                        <input type="hidden" name="method" value="bank">
 
                         <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -84,13 +109,15 @@
                             <input value="0" name="pdc" type="hidden">
                             <input value="manutd" name="scd" type="hidden">
                             <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
-                            <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
+                            <input value="http://
+                                    {{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
                                    type="hidden" name="su">
-                            <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
+                            <input value="http://
+                                    {{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
                                    type="hidden" name="fu">
 
                             <h2 style="display:inline">Pay via:</h2>
-{#                            <input value="eSewa" type="submit">#}
+                            {#                            <input value="eSewa" type="submit">#}
                             <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
                         </form>
 

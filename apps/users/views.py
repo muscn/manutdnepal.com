@@ -19,7 +19,7 @@ from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
-from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
+from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm, DirectPaymentReceiptForm
 from apps.users import membership_settings
 
 
@@ -111,24 +111,33 @@ def membership_payment(request):
     except Membership.DoesNotExist:
         return redirect(reverse('membership_form'))
     if request.POST:
-        # TODO handle other payment methods
-        bank_deposit_form = BankDepositForm(request.POST, request.FILES)
         from apps.users import membership_settings
 
         payment = Payment(user=request.user, amount=membership_settings.membership_fee)
-        payment.save()
-        bank_deposit = bank_deposit_form.save(commit=False)
-        bank_deposit.payment = payment
-        bank_deposit.save()
+        if request.POST.get('method') == 'direct':
+            direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
+            if direct_payment_form.is_valid():
+                # payment.save()
+                direct_payment = direct_payment_form.save(commit=False, user=request.user, payment=payment)
+                # direct_payment.payment = payment
+                direct_payment.save()
+        elif request.POST.get('method') == 'bank':
+            bank_deposit_form = BankDepositForm(request.POST, request.FILES)
+            bank_deposit = bank_deposit_form.save(commit=False)
+            payment.save()
+            bank_deposit.payment = payment
+            bank_deposit.save()
         membership.payment = payment
         membership.save()
         return redirect(reverse('membership_thankyou'))
     else:
         bank_deposit_form = BankDepositForm()
+        direct_payment_form = DirectPaymentPaymentForm()
     bank_accounts = BankAccount.objects.all()
     return render(request, 'membership_payment.html', {
         'membership': membership,
         'bank_deposit_form': bank_deposit_form,
+        'direct_payment_form': direct_payment_form,
         'bank_accounts': bank_accounts,
         'base_template': 'base.html',
     })
