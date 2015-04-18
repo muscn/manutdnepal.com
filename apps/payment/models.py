@@ -91,6 +91,7 @@ class BankDeposit(models.Model):
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
+    receipt_no = models.PositiveIntegerField(null=True, unique=True)
 
     def verified(self):
         return True if self.payment.verified_by else False
