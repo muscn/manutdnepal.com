@@ -68,8 +68,9 @@
                     </td>
                     <td>
                         {% if item.payment %}
-                            <a href="{% url 'update_payment' item.payment.id %}">
+                            <a href="{{ item.payment.method.get_absolute_url }}">
                                 {{ item.payment }}
+
                             </a>
                         {% else %}
 
