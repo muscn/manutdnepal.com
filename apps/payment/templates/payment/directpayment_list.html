@@ -18,6 +18,7 @@
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
+            <th>{% anchor receipt_no 'Receipt No' %}</th>
             <th>{% anchor payment__date_time 'Date, Time' %}</th>
             <th>{% anchor received_by 'Received By' %}</th>
             <th>{% anchor payment__user 'Paid By' %}</th>
@@ -27,6 +28,11 @@
             <tbody>
             {% for item in paginated_objects %}
                 <tr class="{% if item.verified %}success{% else %}warning{% endif %}">
+                    <td>
+                        <a href="{% url 'update_direct_payment' item.id %}">
+                            {{ item.receipt_no }}
+                        </a>
+                    </td>
                     <td>
                         <a href="{% url 'update_direct_payment' item.id %}">
                             {{ item.payment.date_time }}
