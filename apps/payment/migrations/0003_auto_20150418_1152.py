@@ -19,18 +19,18 @@ class Migration(migrations.Migration):
             field=models.PositiveIntegerField(unique=True, null=True),
             preserve_default=True,
         ),
-        migrations.AlterField(
-            model_name='bankdeposit',
-            name='payment',
-            field=models.OneToOneField(related_name='bank_deposit', to='payment.Payment'),
-            preserve_default=True,
-        ),
-        migrations.AlterField(
-            model_name='directpayment',
-            name='payment',
-            field=models.OneToOneField(related_name='direct_payment', to='payment.Payment'),
-            preserve_default=True,
-        ),
+        # migrations.AlterField(
+        #     model_name='bankdeposit',
+        #     name='payment',
+        #     field=models.OneToOneField(related_name='bank_deposit', to='payment.Payment'),
+        #     preserve_default=True,
+        # ),
+        # migrations.AlterField(
+        #     model_name='directpayment',
+        #     name='payment',
+        #     field=models.OneToOneField(related_name='direct_payment', to='payment.Payment'),
+        #     preserve_default=True,
+        # ),
         migrations.AlterField(
             model_name='payment',
             name='date_time',
