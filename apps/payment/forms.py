@@ -78,7 +78,7 @@ class DirectPaymentPaymentForm(form):
 
     def __init__(self, *args, **kwargs):
         super(DirectPaymentPaymentForm, self).__init__(*args, **kwargs)
-        self.fields['received_by'].empty_label = None
+        # self.fields['received_by'].empty_label = None
         if self.instance.payment_id:
             self.initial['amount'] = self.instance.payment.amount
             self.initial['date_time'] = self.instance.payment.date_time

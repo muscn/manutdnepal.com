@@ -1,4 +1,10 @@
 <div class="form-group">
+    {{ form.receipt_no.label_tag }}
+    {{ form.receipt_no }}
+    {{ form.receipt_no.errors }}
+</div>
+
+<div class="form-group">
     {{ form.received_by.label_tag }}
     {{ form.received_by }}
     {{ form.received_by.errors }}
@@ -22,6 +28,12 @@
     {{ form.amount.label_tag }}
     {{ form.amount }}
     {{ form.amount.errors }}
+</div>
+
+<div class="form-group">
+    {{ form.receipt_image.label_tag }}
+    {{ form.receipt_image }}
+    {{ form.receipt_image.errors }}
 </div>
 
 <div class="form-group">

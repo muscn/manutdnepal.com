@@ -89,7 +89,7 @@ class BankDeposit(models.Model):
 
 
 class DirectPayment(models.Model):
-    received_by = models.ForeignKey(User, null=True)
+    received_by = models.ForeignKey(User, null=True, blank=True)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
     receipt_no = models.PositiveIntegerField(null=True, unique=True)
     receipt_image = models.ImageField(upload_to='receipt_images/', null=True, blank=True)
