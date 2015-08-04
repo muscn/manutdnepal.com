@@ -1,8 +1,9 @@
 import datetime
 
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout
 from django.views.generic import DetailView
@@ -13,12 +14,12 @@ from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
 
-from .models import Membership, User, StaffOnlyMixin, group_required
+from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
-from apps.payment.models import BankAccount, Payment, EsewaPayment
+from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
-from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm
+from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm, DirectPaymentReceiptForm
 from apps.users import membership_settings
 
 
@@ -110,24 +111,33 @@ def membership_payment(request):
     except Membership.DoesNotExist:
         return redirect(reverse('membership_form'))
     if request.POST:
-        # TODO handle other payment methods
-        bank_deposit_form = BankDepositForm(request.POST, request.FILES)
         from apps.users import membership_settings
 
         payment = Payment(user=request.user, amount=membership_settings.membership_fee)
-        payment.save()
-        bank_deposit = bank_deposit_form.save(commit=False)
-        bank_deposit.payment = payment
-        bank_deposit.save()
+        if request.POST.get('method') == 'direct':
+            direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
+            if direct_payment_form.is_valid():
+                # payment.save()
+                direct_payment = direct_payment_form.save(commit=False, user=request.user, payment=payment)
+                # direct_payment.payment = payment
+                direct_payment.save()
+        elif request.POST.get('method') == 'bank':
+            bank_deposit_form = BankDepositForm(request.POST, request.FILES)
+            bank_deposit = bank_deposit_form.save(commit=False)
+            payment.save()
+            bank_deposit.payment = payment
+            bank_deposit.save()
         membership.payment = payment
         membership.save()
         return redirect(reverse('membership_thankyou'))
     else:
         bank_deposit_form = BankDepositForm()
+        direct_payment_form = DirectPaymentPaymentForm()
     bank_accounts = BankAccount.objects.all()
     return render(request, 'membership_payment.html', {
         'membership': membership,
         'bank_deposit_form': bank_deposit_form,
+        'direct_payment_form': direct_payment_form,
         'bank_accounts': bank_accounts,
         'base_template': 'base.html',
     })
@@ -147,6 +157,24 @@ def membership_thankyou(request):
     })
 
 
+class PublicMembershipListView(ListView):
+    model = User
+    template_name = 'users/members_list.html'
+
+    def get(self, request, *args, **kwargs):
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            self.queryset = User.objects.filter(
+                Q(username__icontains=q) |
+                Q(full_name__icontains=q) |
+                Q(email__icontains=q) |
+                Q(devil_no__contains=q) |
+                Q(membership__telephone__contains=q) |
+                Q(membership__mobile__contains=q)
+            )
+        return super(PublicMembershipListView, self).get(request, *args, **kwargs)
+
+
 class MembershipListView(StaffOnlyMixin, ListView):
     model = Membership
 
@@ -154,9 +182,9 @@ class MembershipListView(StaffOnlyMixin, ListView):
         if 'q' in self.request.GET:
             q = self.request.GET['q']
             self.queryset = Membership.objects.filter(
-                Q(user__username__contains=q) |
-                Q(user__full_name__contains=q) |
-                Q(user__email__contains=q) |
+                Q(user__username__icontains=q) |
+                Q(user__full_name__icontains=q) |
+                Q(user__email__icontains=q) |
                 Q(user__devil_no__contains=q) |
                 Q(telephone__contains=q) |
                 Q(mobile__contains=q)
@@ -201,6 +229,9 @@ class MembershipUpdateView(StaffOnlyMixin, UpdateView):
                     obj.approved_date = datetime.datetime.now()
                     messages.info(request, 'The membership is approved!')
                     obj.save()
+                    if not hasattr(obj, 'card_status'):
+                        card_status = CardStatus(membership=obj, status=1)
+                        card_status.save()
             elif request.POST['action'] == 'Disprove':
                 obj.approved_by = None
                 messages.info(request, 'The membership is disproved!')
@@ -229,9 +260,9 @@ class UserListView(StaffOnlyMixin, ListView):
         if 'q' in self.request.GET:
             q = self.request.GET['q']
             self.queryset = User.objects.filter(
-                Q(username__contains=q) |
-                Q(full_name__contains=q) |
-                Q(email__contains=q) |
+                Q(username__icontains=q) |
+                Q(full_name__icontains=q) |
+                Q(email__icontains=q) |
                 Q(devil_no__contains=q) |
                 Q(membership__telephone__contains=q) |
                 Q(membership__mobile__contains=q)
@@ -348,5 +379,39 @@ def esewa_failure(request):
     messages.error(request, 'eSewa transaction failed or cancelled!')
     return redirect('membership_payment')
 
+
 def download_all_cards(request):
     filtered = [x for x in Membership.objects.all() if x.approved()]
+
+
+def devil_no_handler(request, devil_no):
+    if int(devil_no) < 100:
+        raise Http404('Member does not exist!')
+    user = get_object_or_404(User, devil_no=devil_no)
+    return redirect(reverse_lazy('view_member_profile', kwargs={'slug': user.username}))
+
+
+class MemberProfileView(DetailView):
+    model = Membership
+    slug_field = 'user__username'
+
+
+class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
+    model = DirectPayment
+    form_class = DirectPaymentPaymentForm
+    # success_url = reverse_lazy('list_memberships')
+
+    def get_success_url(self):
+        return reverse_lazy('update_direct_payment', kwargs={'pk': self.object.id})
+
+    def get_initial(self):
+        membership = get_object_or_404(Membership, id=self.kwargs['pk'])
+        return {'amount': membership_settings.membership_fee, 'received_by': self.request.user, 'user': membership.user,
+                'date_time': datetime.datetime.now(), 'remarks': 'For Membership'}
+
+    def form_valid(self, form):
+        membership = get_object_or_404(Membership, id=self.kwargs['pk'])
+        ret = super(DirectPaymentForMembershipCreateView, self).form_valid(form)
+        membership.payment = form.instance.payment
+        membership.save()
+        return ret

@@ -1,9 +1,18 @@
+import datetime
+import urllib
+import json
+
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
-import datetime
-from muscn.utils.countries import CountryField
 from jsonfield import JSONField
+from django.conf import settings
+
+from muscn.utils.countries import CountryField
 from muscn.utils.forms import unique_slugify
+from muscn.utils.npt import utc_to_local
+
+from django.core.cache import cache
+
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -46,24 +55,35 @@ class City(models.Model):
 # Fixtured
 class Stadium(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
-    city = models.ForeignKey(City, related_name='stadiums')
+    slug = models.SlugField(max_length=255, blank=True, null=True)
+    city = models.ForeignKey(City, related_name='stadiums', blank=True, null=True)
     capacity = models.PositiveIntegerField(blank=True, null=True)
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+    image = models.ImageField(upload_to='stadiums/', blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        unique_slugify(self, self.name)
+        super(Stadium, self).save(*args, **kwargs)
 
 
 # Fixtured
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    short_name = models.CharField(max_length=10)
+    short_name = models.CharField(max_length=10, blank=True, null=True)
     alternative_names = models.CharField(max_length=255, blank=True, null=True)
     nick_name = models.CharField(max_length=50, blank=True, null=True)
-    stadium = models.ForeignKey(Stadium, related_name='teams')
+    stadium = models.ForeignKey(Stadium, related_name='teams', blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
-    crest = models.ImageField(upload_to='/crests/', blank=True, null=True)
-    color = models.CharField(max_length=255)
-    wiki = models.CharField(max_length=255)
+    crest = models.ImageField(upload_to='crests/', blank=True, null=True)
+    color = models.CharField(max_length=255, blank=True, null=True)
+    wiki = models.CharField(max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
 
     def get_derby_teams(self):
         # stadium -> city -> stadiums -> teams
@@ -338,3 +358,84 @@ class CompetitionYearMatches(models.Model):
 
     def __unicode__(self):
         return unicode(self.competition_year)
+
+
+class Fixture(models.Model):
+    opponent = models.ForeignKey(Team)
+    is_home_game = models.BooleanField(default=True)
+    datetime = models.DateTimeField()
+    competition_year = models.ForeignKey(CompetitionYear)
+    round = models.CharField(max_length=255, blank=True, null=True)
+    venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
+    broadcast_on = models.CharField(max_length=255, blank=True, null=True)
+
+    @classmethod
+    def get_next_match(cls):
+        try:
+            return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]
+        except IndexError:
+            return None
+
+    def npt(self):
+        return utc_to_local(self.datetime)
+
+    def time_remaining(self):
+        # local_match_time = utc_to_local(self.datetime).replace(tzinfo=None)
+        delta = self.datetime - datetime.datetime.utcnow()
+        dhm = (delta.days, delta.seconds // 3600, (delta.seconds // 60) % 60)
+        return dhm
+
+    @property
+    def title(self):
+        if self.is_home_game:
+            return 'Man United vs. ' + unicode(self.opponent)
+        else:
+            return unicode(self.opponent) + ' vs. Man United'
+
+    def get_venue(self):
+        if self.venue:
+            return self.venue
+        elif self.is_home_game:
+            return 'Old Trafford'
+        else:
+            return self.opponent.stadium.name
+
+
+    def __unicode__(self):
+        # return self.title
+        ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
+        if datetime.datetime.now() > self.datetime:
+            ret += '[PAST] '
+        return ret
+
+
+class MatchResult(models.Model):
+    fixture = models.ForeignKey(Fixture)
+    mufc_score = models.PositiveIntegerField(default=0)
+    opponent_score = models.PositiveIntegerField(default=0)
+
+    @classmethod
+    def recent_results(cls):
+        return cls.objects.all().order_by('-fixture__datetime')[0:10]
+
+    @property
+    def title(self):
+        if self.fixture.is_home_game:
+            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(self.opponent_score) + ' ' + unicode(
+                self.fixture.opponent)
+        else:
+            return unicode(self.fixture.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
+                self.mufc_score) + ' ' + 'Man United'
+
+    def __unicode__(self):
+        return unicode(self.fixture.title)
+
+
+def get_latest_epl_standings():
+    print 'Retrieving table from API'
+    link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
+    f = urllib.urlopen(link)
+    standings = f.read()
+    standings_loaded = json.loads(standings)
+    cache.set('epl_standings', standings_loaded, timeout=None)
+    return standings_loaded

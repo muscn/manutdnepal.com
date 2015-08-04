@@ -78,6 +78,29 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
+    @property
+    def card_status(self):
+        if hasattr(self, 'membership') and hasattr(self.membership, 'card_status'):
+            return self.membership.get_card_status()
+        return ''
+
+    @property
+    def membership_status(self):
+        if self.devil_no:
+            return 'Member'
+        try:
+            if self.membership:
+                # if self.id == 9:
+                # import ipdb
+                # ipdb.set_trace()
+                if not self.membership.payment:
+                    return 'Payment information not received'
+                if not self.membership.payment.verified:
+                    return 'Payment not verified'
+                return 'Membership not verified'
+        except Membership.DoesNotExist:
+            return 'Membership not applied'
+
     def is_member(self):
         return True if hasattr(self, 'membership') and hasattr(self.membership,
                                                                'payment') and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False
@@ -326,7 +349,7 @@ class Membership(models.Model):
     approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
 
     status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
-    payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for')
+    payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for', on_delete=models.SET_NULL)
 
     def save(self, *args, **kwargs):
         if not self.registration_date:
@@ -341,6 +364,9 @@ class Membership(models.Model):
     def approvable(self):
         return True if self.payment and self.payment.verified else False
 
+    def get_card_status(self):
+        return self.card_status.get_status()
+
     def get_absolute_url(self):
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})
 
@@ -349,6 +375,29 @@ class Membership(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+
+class CardStatus(models.Model):
+    membership = models.OneToOneField(Membership, related_name='card_status')
+    STATUSES = (
+        (1, 'Awaiting Print'),
+        (2, 'Printed'),
+        (3, 'Delivered'),
+    )
+    status = models.PositiveIntegerField(choices=STATUSES, default=1)
+    remarks = models.CharField(max_length=255, null=True, blank=True)
+
+    def get_status(self):
+        ret = self.get_status_display()
+        if self.remarks:
+            ret += ' [' + self.remarks + ']'
+        return ret
+
+    def __unicode__(self):
+        return self.membership.user.full_name + ' - ' + self.get_status()
+
+    class Meta:
+        verbose_name_plural = 'Card Statuses'
 
 
 class StaffOnlyMixin(object):
@@ -411,3 +460,30 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
 
 
 auditlog.register(Membership)
+auditlog.register(CardStatus)
+
+
+def get_members_summary():
+    from docx import Document
+
+    document = Document()
+    document.add_page_break()
+    members = Membership.objects.filter(user__devil_no__isnull=False)
+    for member in members:
+        p = document.add_paragraph('')
+        p.add_run('#' + str(member.user.devil_no))
+        p.add_run('\n')
+        p.add_run(member.user.full_name)
+        p.add_run('\n')
+        p.add_run(member.mobile)
+        document.add_page_break()
+    document.save('/tmp/members.docx')
+
+
+def initialize_card_statuses():
+    memberships = Membership.objects.all()
+    for membership in memberships:
+        if hasattr(membership, 'card_status') or not membership.user.devil_no:
+            continue
+        card_status = CardStatus(membership=membership, status=3)
+        card_status.save()

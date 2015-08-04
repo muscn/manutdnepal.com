@@ -1,10 +1,21 @@
 from lxml import html
 import requests
 import os
+import urllib
+import json
 
 
 class Scraper(object):
     data = {}
+
+    @classmethod
+    def get_url_content(cls, url):
+        return urllib.urlopen(url).read()
+
+    @classmethod
+    def get_json_from_url(cls, url):
+        return json.loads(urllib.urlopen(url).read())
+
 
     @classmethod
     def download(cls, url=None, path=None):

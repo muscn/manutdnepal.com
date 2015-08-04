@@ -2,11 +2,15 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from apps.stats import views as stats_views
+from apps.users import views as user_views
 
 
 urlpatterns = patterns('',
                        # url(r'^$', 'core.views.home', name='home'),
                        url(r'^$', 'apps.users.views.login_register', name='login_register'),
+                       url(r'^(?P<devil_no>[0-9]+)/$', 'apps.users.views.devil_no_handler', name='devil_no'),
+                       url(r'^m/(?P<slug>[a-zA-Z0-9_.-]+)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
+
                        (r'^admin/settings/', include('dbsettings.urls')),
                        url(r'admin/clear-cache/', 'apps.core.views.clear_cache', name='clear_cache'),
                        (r'^admin/', include('smuggler.urls')),  # before admin url patterns!
@@ -21,6 +25,10 @@ urlpatterns = patterns('',
                            name='membership_payment_esewa_failure'),
                        url(r'^membership/thankyou/$', 'apps.users.views.membership_thankyou',
                            name='membership_thankyou'),
+
+                       url(r'^members/$', user_views.PublicMembershipListView.as_view(), name='list_members'),
+
+
                        url(r'^staging-home/$', 'apps.core.views.home', name='home'),
 
                        (r'dashboard/', include('apps.dashboard.urls')),
@@ -37,6 +45,7 @@ urlpatterns = patterns('',
                        url(r'^squad/$', stats_views.SquadListView.as_view(), name='list_squad'),
                        url(r'^player/(?P<slug>[a-zA-Z0-9_.-]+)/$', stats_views.PlayerDetailView.as_view(),
                            name='view_player'),
+                       url(r'^epl-table/$', stats_views.epl_table, name='epl_table'),
 
                        (r'', include('apps.page.urls')),
 )

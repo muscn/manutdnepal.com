@@ -23,8 +23,15 @@
                         <div class="date-day">{{ event.start.date.day }}</div>
                     </div>
                     <h2><a href="{{ event.get_absolute_url }}">{{ event }}</a></h2>
+                    {% if event.whole_day_event %}
+                        <strong>Date:</strong>
+                        {{ event.start.date }}<br/>
+                    {% else %}
+                        <strong>Starts:</strong>
+                        {{ event.start }}<br/>
+                    {% endif %}
 
-                    <strong>Starts:</strong> {{ event.start }}<br/>
+
                     <strong>Venue:</strong> {{ event.venue }}
 
 

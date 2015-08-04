@@ -30,6 +30,7 @@
 
             <div class="pull-right actions">
                 {% if object.payment %}
+                    <a href="{% url 'move_bank_to_direct_payment' object.id %}" class="btn btn-info">Move as Direct Payment</a>
                     <a href="{% url 'update_payment' object.payment.id %}" class="btn btn-info">View/Update Payment</a>
                 {% endif %}
                 {% if object.payment.verified %}

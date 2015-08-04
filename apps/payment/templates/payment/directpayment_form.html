@@ -20,9 +20,13 @@
         <div class="col-sm-12 col-lg-6">
             <form method="POST" enctype="multipart/form-data" role="form">
 
+                {{ form.errors }}
+
                 {% csrf_token %}
 
+
                 {% include 'payment/_directpayment_form.html' with form=form %}
+
 
                 <input type="submit" class="btn btn-info" value="Save">
 
@@ -46,6 +50,21 @@
                     </form>
                 {% endif %}
                 {% include 'partials/delete_button.html' with object=object url='delete_direct_payment' %}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-lg-6">
+            {% if object.payment.verified %}
+                <p> This payment was verified by {{ object.verified_by.full_name }}.</p>
+            {% else %}
+                <p>This payment hasn't been verified.</p>
+            {% endif %}
+            <div id="method-details">
+
+                {% if object.receipt_image %}
+                    <img class="img-responsive" src="{{ object.receipt_image.url }}">
+                {% endif %}
+
             </div>
         </div>
 

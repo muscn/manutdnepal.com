@@ -26,11 +26,21 @@ nav.navbar {
     /*background-color: #e54d36;*/
     border-bottom: 1px solid #e54d36;
     margin-bottom: 0;
+    background-color: #e54d36;
+    color: #fff;
 }
 
 .navbar-default .navbar-brand {
-    /*color: #ffffff;*/
+    color: #ffffff;
     text-transform: uppercase;
+}
+
+nav.navbar .dropdown-menu a {
+    color: black !important;
+}
+
+#navbarCollapse a {
+    color: #fff;
 }
 
 .nopadding {
@@ -250,3 +260,4 @@ img.overlaid {
 .next-match .opponent-crest img {
     height: 8em;
 }
+

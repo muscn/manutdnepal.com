@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block title %} EPL Table {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    {#    <link rel="stylesheet" type="text/css"#}
+    {#          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>#}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                paging: false,
+                "aaSorting": [],
+                {#                "aoColumns": [#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    null,#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    { "sType": 'numeric' },#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null,#}
+                {#                    null#}
+                {#                ]#}
+            });
+        });
+
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <h1>EPL Table</h1>
+
+        <table class="epl-table table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+{#                <th></th>#}
+                <th>Club</th>
+                <th>P</th>
+                <th>W</th>
+                <th>D</th>
+                <th>L</th>
+                <th>GS</th>
+                <th>GA</th>
+                <th>GD</th>
+                <th>Recent Form</th>
+                <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for team in standings.teams %}
+                <tr>
+{#                <td>{{ team.stand_status }}</td>#}
+                <td>{{ team.stand_position }}</td>
+                <td>{{ team.stand_team_name }}</td>
+                <td>{{ team.stand_overall_gp }}</td>
+                <td>{{ team.stand_overall_w }}</td>
+                <td>{{ team.stand_overall_d }}</td>
+                <td>{{ team.stand_overall_l }}</td>
+                <td>{{ team.stand_overall_gs }}</td>
+                <td>{{ team.stand_overall_ga }}</td>
+
+                    <td>{{ team.stand_gd }}</td>
+                    <td>{{ team.stand_recent_form }}</td>
+                <td>{{ team.stand_points }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+
+            </tr>
+        </table>
+
+    </div>
+{% endblock %}
+

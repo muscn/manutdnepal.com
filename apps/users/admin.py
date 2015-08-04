@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserCha
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from apps.users.models import User, GroupProxy, Membership
+from apps.users.models import User, GroupProxy, Membership, CardStatus
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -144,6 +144,10 @@ class MembershipAdmin(admin.ModelAdmin):
                    DecadeBornListFilter)
 
 
+class CardStatusAdmin(admin.ModelAdmin):
+    search_fields = ('membership__user__full_name',)
+
+
 admin.site.register(Membership, MembershipAdmin)
 
 admin.site.register(User, CustomUserAdmin)
@@ -156,4 +160,5 @@ from django.contrib.auth.models import Group
 
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
+admin.site.register(CardStatus, CardStatusAdmin)
 
