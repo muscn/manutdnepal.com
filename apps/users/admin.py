@@ -146,6 +146,7 @@ class MembershipAdmin(admin.ModelAdmin):
 
 class CardStatusAdmin(admin.ModelAdmin):
     search_fields = ('membership__user__full_name',)
+    list_filter = ('status',)
 
 
 admin.site.register(Membership, MembershipAdmin)
