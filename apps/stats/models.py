@@ -21,7 +21,7 @@ class Competition(models.Model):
 
 class CompetitionYear(models.Model):
     competition = models.ForeignKey(Competition, related_name='seasons')
-    year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+    year = models.IntegerField('Year', choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 
     def __unicode__(self):
         return unicode(self.competition) + ' - ' + unicode(self.year)
@@ -84,7 +84,7 @@ class Team(models.Model):
 
 class TeamYear(models.Model):
     team = models.ForeignKey(Team, related_name='seasons')
-    year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
+    year = models.IntegerField('Year', choices=YEAR_CHOICES)
     # color codes, hex probably
     home_color = models.CharField(max_length=10, null=True, blank=True)
     away_color = models.CharField(max_length=10, null=True, blank=True)
@@ -310,7 +310,7 @@ class Quote(models.Model):
 
 
 class SeasonData(models.Model):
-    year = models.IntegerField('Year', max_length=4, choices=YEAR_CHOICES)
+    year = models.IntegerField('Year', choices=YEAR_CHOICES)
     summary = JSONField(blank=True, null=True)
 
     @property
