@@ -67,18 +67,10 @@ TEMPLATES = [
                 'django.core.context_processors.media',
                 # 'django.core.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
-
-                # allauth specific context processors
-                "allauth.account.context_processors.account",
-                "allauth.socialaccount.context_processors.socialaccount",
             ],
         },
     },
 ]
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-
-)
 
 ROOT_URLCONF = 'muscn.urls'
 WSGI_APPLICATION = 'muscn.wsgi.application'
