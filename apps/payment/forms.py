@@ -93,6 +93,7 @@ class DirectPaymentPaymentForm(form):
 class PaymentForm(form):
     class Meta:
         model = Payment
+        exclude = ()
 
     def __init__(self, *args, **kwargs):
         super(PaymentForm, self).__init__(*args, **kwargs)
@@ -103,3 +104,4 @@ class PaymentForm(form):
 class BankAccountForm(form):
     class Meta:
         model = BankAccount
+        exclude = ()
