@@ -166,6 +166,7 @@ class CardStatusAdmin(admin.ModelAdmin):
         return obj.membership.user.devil_no
 
     get_devil_no.short_description = 'Devil #'
+    get_devil_no.admin_order_field = 'membership__user__devil_no'
 
 
 admin.site.register(Membership, MembershipAdmin)
