@@ -158,7 +158,7 @@ class CardStatusAdmin(admin.ModelAdmin):
     list_filter = ('status',)
 
     def get_membership(self, obj):
-        url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=(obj.pk,))
+        url = reverse('admin:%s_%s_change' % (obj.membership._meta.app_label, obj.membership._meta.model_name), args=(obj.membership.pk,))
         return u'<a href="%s">%s</a>' % (url, obj.membership.user.full_name)
 
     get_membership.short_description = 'Membership'
