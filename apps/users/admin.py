@@ -158,7 +158,7 @@ class CardStatusAdmin(admin.ModelAdmin):
     list_filter = ('status',)
 
     def get_membership(self, obj):
-        return url_to_edit_object(obj.membership)
+        return url_to_edit_object(obj.membership.user.full_name)
 
     get_membership.short_description = 'Membership'
     get_membership.allow_tags = True
