@@ -83,6 +83,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = ((None,
                   {'fields': ('full_name',
                               'username',
+                              'devil_no',
                               'email',
                               'password',
                               'is_active',
