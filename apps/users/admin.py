@@ -9,12 +9,12 @@ from django.utils.translation import ugettext_lazy as _
 
 from apps.users.models import User, GroupProxy, Membership, CardStatus
 
+
 def url_to_edit_object(obj):
     if not obj:
         return 'None'
     url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=(obj.pk,))
     return u'<a href="%s">%s</a>' % (url, obj.__unicode__())
-
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -154,11 +154,12 @@ class MembershipAdmin(admin.ModelAdmin):
 
 class CardStatusAdmin(admin.ModelAdmin):
     list_display = ('get_devil_no', 'get_membership', 'status')
-    search_fields = ('membership__user__full_name',)
+    search_fields = ('membership__user__full_name', 'membership__user__devil_no')
     list_filter = ('status',)
 
     def get_membership(self, obj):
         return url_to_edit_object(obj.membership)
+
     get_membership.short_description = 'Membership'
     get_membership.allow_tags = True
 
