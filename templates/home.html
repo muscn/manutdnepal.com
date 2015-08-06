@@ -12,7 +12,7 @@
                  src="http://placehold.it/1600x500">
         </div>
         <div class="section stats row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="stats-block next-match">
                     <h2>NEXT MATCH</h2>
                     {% if next_match %}
@@ -67,7 +67,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="stats-block">
                     <h2>RECENT RESULTS</h2>
 
@@ -80,35 +80,35 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stats-block">
-                    <h2>LEAGUE TABLE</h2>
-                    <table class="epl-table table table-bordered">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Club</th>
-                            <th>P</th>
-                            <th>GD</th>
-                            <th>Pts</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for team in standings %}
-                            <tr>
-                                <td>{{ team.stand_position }}</td>
-                                <td>{{ team.stand_team_name }}</td>
-                                <td>{{ team.stand_overall_gp }}</td>
-                                <td>{{ team.stand_gd }}</td>
-                                <td>{{ team.stand_points }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="col-md-3">
+{#            <div class="col-md-3">#}
+{#                <div class="stats-block">#}
+{#                    <h2>LEAGUE TABLE</h2>#}
+{#                    <table class="epl-table table table-bordered">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <th></th>#}
+{#                            <th>Club</th>#}
+{#                            <th>P</th>#}
+{#                            <th>GD</th>#}
+{#                            <th>Pts</th>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        {% for team in standings %}#}
+{#                            <tr>#}
+{#                                <td>{{ team.stand_position }}</td>#}
+{#                                <td>{{ team.stand_team_name }}</td>#}
+{#                                <td>{{ team.stand_overall_gp }}</td>#}
+{#                                <td>{{ team.stand_gd }}</td>#}
+{#                                <td>{{ team.stand_points }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                        </tbody>#}
+{#                        </tr>#}
+{#                    </table>#}
+{#                </div>#}
+{#            </div>#}
+            <div class="col-md-4">
                 <div class="stats-block">
                     <h2>LEAGUE TABLE</h2>
                 </div>
