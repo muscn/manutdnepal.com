@@ -158,7 +158,8 @@ class CardStatusAdmin(admin.ModelAdmin):
     list_filter = ('status',)
 
     def get_membership(self, obj):
-        return url_to_edit_object(obj.membership.user.full_name)
+        url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=(obj.pk,))
+        return u'<a href="%s">%s</a>' % (url, obj.membership.user.full_name)
 
     get_membership.short_description = 'Membership'
     get_membership.allow_tags = True
