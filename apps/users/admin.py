@@ -4,9 +4,17 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserChangeForm, \
     UserCreationForm as DjangoUserCreationForm
 from django import forms
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from apps.users.models import User, GroupProxy, Membership, CardStatus
+
+def url_to_edit_object(obj):
+    if not obj:
+        return 'None'
+    url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=(obj.pk,))
+    return u'<a href="%s">%s</a>' % (url, obj.__unicode__())
+
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -82,10 +90,10 @@ class CustomUserAdmin(UserAdmin):
                               'is_superuser',
                               'last_login',
                               'groups')}),
-    )
+                 )
     add_fieldsets = ((None,
                       {'classes': ('wide',
-                      ),
+                                   ),
                        'fields': ('username',
                                   'email',
                                   'password1',
@@ -93,7 +101,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_active',
                                   'is_staff',
                                   'is_superuser')}),
-    )
+                     )
     search_fields = ('full_name', 'username', 'email', 'devil_no')
 
 
@@ -145,8 +153,19 @@ class MembershipAdmin(admin.ModelAdmin):
 
 
 class CardStatusAdmin(admin.ModelAdmin):
+    list_display = ('get_devil_no', 'get_membership', 'status')
     search_fields = ('membership__user__full_name',)
     list_filter = ('status',)
+
+    def get_membership(self, obj):
+        return url_to_edit_object(obj.membership)
+    get_membership.short_description = 'Membership'
+    get_membership.allow_tags = True
+
+    def get_devil_no(self, obj):
+        return obj.membership.user.devil_no
+
+    get_devil_no.short_description = 'Devil #'
 
 
 admin.site.register(Membership, MembershipAdmin)
@@ -162,4 +181,3 @@ from django.contrib.auth.models import Group
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
 admin.site.register(CardStatus, CardStatusAdmin)
-
