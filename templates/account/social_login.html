@@ -1,5 +1,6 @@
 {% load socialaccount %}
-{% if socialaccount.providers %}
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
             <div class='row'>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <h2 class="connect-with">Connect with</h2>
@@ -10,7 +11,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="social-buttons limit-width">
                         <div class="row">
-                            {% for provider in socialaccount.providers %}
+                            {% for provider in socialaccount_providers %}
                                 {% if provider.id == "openid" %}
                                     {% for brand in provider.get_brands %}
                                         <a title="{{ brand.name }}"
