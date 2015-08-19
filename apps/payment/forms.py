@@ -31,6 +31,8 @@ class BankDepositPaymentForm(form):
             user = self.cleaned_data['user']
         if not obj.payment_id:
             payment = Payment()
+        else:
+            payment = obj.payment
         payment.user = user
         payment.amount = self.cleaned_data['amount']
         payment.remarks = self.cleaned_data['remarks']
@@ -67,6 +69,8 @@ class DirectPaymentPaymentForm(form):
             user = self.cleaned_data['user']
         if not obj.payment_id:
             payment = Payment()
+        else:
+            payment = obj.payment
         payment.user = user
         payment.amount = self.cleaned_data['amount']
         payment.remarks = self.cleaned_data['remarks']
