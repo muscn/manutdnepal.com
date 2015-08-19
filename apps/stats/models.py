@@ -417,6 +417,9 @@ class Fixture(models.Model):
             ret += '[PAST] '
         return ret
 
+    class Meta:
+        ordering = ('datetime',)
+
 
 class MatchResult(models.Model):
     fixture = models.ForeignKey(Fixture)

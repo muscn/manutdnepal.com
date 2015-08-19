@@ -22,5 +22,7 @@ admin.site.register(MatchResult)
 
 class FixtureAdmin(admin.ModelAdmin):
     model = Fixture
+    list_display = ('opponent', 'is_home_game', 'datetime', 'competition_year', 'venue')
+    list_filter = ('is_home_game',)
 
 admin.site.register(Fixture, FixtureAdmin)
