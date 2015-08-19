@@ -39,7 +39,15 @@ class FixturesScraper(Scraper):
             competition_name = splits[1].strip()
             if competition_name == u'English Barclays Premier League':
                 competition = Competition.objects.get(name='English Premier League')
-            competition_year = CompetitionYear.objects.get(competition=competition, year=year)
+            else:
+                try:
+                    competition = Competition.objects.get(name=competition_name)
+                except Competition.DoesNotExist:
+                    raise Exception('Please add a competition with name : ' + competition_name)
+            try:
+                competition_year = CompetitionYear.objects.get(competition=competition, year=year)
+            except CompetitionYear.DoesNotExist:
+                raise Exception('Please add a competition year with name and year : ' + competition_name + ' , ' + year)
             fixture.competition_year = competition_year
             if splits[0][:17] == 'Manchester United':
                 fixture.is_home_game = True
