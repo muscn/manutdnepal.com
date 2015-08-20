@@ -261,3 +261,7 @@ img.overlaid {
     /*height: 8em;*/
 }
 
+.auto-width{
+    width: auto!important;
+}
+

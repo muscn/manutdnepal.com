@@ -5,7 +5,7 @@ from django.core.cache import cache
 
 from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView
-from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player
+from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture
 from .forms import QuoteForm
 
 from apps.stats.models import get_latest_epl_standings
@@ -77,3 +77,10 @@ def epl_table(request):
         'standings': standings,
     }
     return render(request, 'stats/epl_table.html', context)
+
+def fixtures(request):
+    upcoming_fixtures = Fixture.get_upcoming().select_related()
+    context = {
+        'fixtures': upcoming_fixtures,
+    }
+    return render(request, 'stats/fixtures.html', context)

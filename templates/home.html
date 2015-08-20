@@ -41,8 +41,7 @@
                             </div>
                             <div class="opponent-crest col-xs-6">
                                 {% thumbnail next_match.opponent.get_crest "100x100" format="PNG" as im %}
-                                <img class="img-responsive"
-                                     src="{{ im.url }}">
+                                <img class="img-responsive" src="{{ im.url }}">
                                 {% endthumbnail %}
                             </div>
                         </div>

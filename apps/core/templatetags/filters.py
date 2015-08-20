@@ -4,7 +4,6 @@ import importlib
 from django.template import Library
 from django.utils.safestring import mark_safe
 
-
 register = Library()
 
 
@@ -93,6 +92,7 @@ def result(match):
 def linebreaks(obj):
     return mark_safe(obj.replace("\n", "<br>").replace("\r", ""))
 
+
 @register.filter
 def parse(path):
     to_import = '.'.join(path.split('.')[:-2])
@@ -102,3 +102,10 @@ def parse(path):
     attr_name = path.split('.')[-1]
     val = getattr(group, attr_name)
     return val
+
+
+@register.assignment_tag
+def get_mufc():
+    from apps.stats.models import Team
+
+    return Team.objects.get(name='Manchester United')
