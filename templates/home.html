@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n  thumbnail %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
@@ -40,8 +40,10 @@
 
                             </div>
                             <div class="opponent-crest col-xs-6">
+                                {% thumbnail next_match.opponent.get_crest "100x100" format="PNG" as im %}
                                 <img class="img-responsive"
-                                     src="{{ next_match.opponent.get_crest_url }}">
+                                     src="{{ im.url }}">
+                                {% endthumbnail %}
                             </div>
                         </div>
                         {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}

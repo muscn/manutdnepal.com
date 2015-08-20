@@ -14,7 +14,9 @@ django-auditlog
 jsonfield
 lxml
 django-smuggler
-icalendar
+ics
+wikipedia
+sorl-thumbnail
 
 #dev only
 django-debug-toolbar
