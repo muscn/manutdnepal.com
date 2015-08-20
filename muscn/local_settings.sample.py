@@ -1,3 +1,14 @@
+from settings import *
+
+from logging import config
+import sys
+
+DEBUG = True
+ALLOWED_HOSTS = []
+SITE_ID = 1
+SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd2f<3'
+TEMPLATE_DEBUG = DEBUG
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -21,10 +32,6 @@ STATIC_ROOT = '/var/www/html/static/muscn/'
 MEDIA_ROOT = '/var/www/html/static/muscn/media'
 MEDIA_URL = 'http://localhost/static/muscn/media/'
 
-import os
-from logging import config
-import sys
-
 LOGGING = {
     'version': 1,
     'handlers': {
@@ -40,24 +47,11 @@ LOGGING = {
 }
 config.dictConfig(LOGGING)
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-SITE_ID = 1
-SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd2f<3'
-
-DEBUG = True
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
-from settings import *
 
 INSTALLED_APPS += (
     # 'debug_toolbar',
-)
-
-MIDDLEWARE_CLASSES += (
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 # CACHES = {
@@ -78,5 +72,3 @@ MIDDLEWARE_CLASSES += (
 #     # is highly recommended
 #     'socket_timeout': 3,
 # }
-
-ACCOUNT_EMAIL_VERIFICATION = "none"

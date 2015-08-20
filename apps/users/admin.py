@@ -4,9 +4,17 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserChangeForm, \
     UserCreationForm as DjangoUserCreationForm
 from django import forms
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from apps.users.models import User, GroupProxy, Membership, CardStatus
+
+
+def url_to_edit_object(obj):
+    if not obj:
+        return 'None'
+    url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=(obj.pk,))
+    return u'<a href="%s">%s</a>' % (url, obj.__unicode__())
 
 
 class UserCreationForm(DjangoUserCreationForm):
@@ -75,6 +83,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = ((None,
                   {'fields': ('full_name',
                               'username',
+                              'devil_no',
                               'email',
                               'password',
                               'is_active',
@@ -82,10 +91,10 @@ class CustomUserAdmin(UserAdmin):
                               'is_superuser',
                               'last_login',
                               'groups')}),
-    )
+                 )
     add_fieldsets = ((None,
                       {'classes': ('wide',
-                      ),
+                                   ),
                        'fields': ('username',
                                   'email',
                                   'password1',
@@ -93,7 +102,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_active',
                                   'is_staff',
                                   'is_superuser')}),
-    )
+                     )
     search_fields = ('full_name', 'username', 'email', 'devil_no')
 
 
@@ -145,8 +154,22 @@ class MembershipAdmin(admin.ModelAdmin):
 
 
 class CardStatusAdmin(admin.ModelAdmin):
-    search_fields = ('membership__user__full_name',)
+    list_display = ('get_devil_no', 'get_membership', 'status')
+    search_fields = ('membership__user__full_name', 'membership__user__devil_no')
     list_filter = ('status',)
+
+    def get_membership(self, obj):
+        url = reverse('admin:%s_%s_change' % (obj.membership._meta.app_label, obj.membership._meta.model_name), args=(obj.membership.pk,))
+        return u'<a href="%s">%s</a>' % (url, obj.membership.user.full_name)
+
+    get_membership.short_description = 'Membership'
+    get_membership.allow_tags = True
+
+    def get_devil_no(self, obj):
+        return obj.membership.user.devil_no
+
+    get_devil_no.short_description = 'Devil #'
+    get_devil_no.admin_order_field = 'membership__user__devil_no'
 
 
 admin.site.register(Membership, MembershipAdmin)
@@ -162,4 +185,3 @@ from django.contrib.auth.models import Group
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
 admin.site.register(CardStatus, CardStatusAdmin)
-
