@@ -13,7 +13,6 @@ from muscn.utils.npt import utc_to_local
 
 from django.core.cache import cache
 
-
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
     YEAR_CHOICES.append((r, r))
@@ -100,6 +99,13 @@ class Team(models.Model):
 
     def get_staffs_by_year(self, year):
         pass
+
+    @classmethod
+    def get(cls, name):
+        try:
+            return Team.objects.get(name=name)
+        except Team.DoesNotExist:
+            return Team.objects.get(alternative_names__icontains='|' + name + '|')
 
 
 class TeamYear(models.Model):
@@ -349,7 +355,7 @@ class SeasonData(models.Model):
 
     class Meta:
         verbose_name_plural = 'Seasons Data'
-        ordering = ('-year', )
+        ordering = ('-year',)
 
 
 class CompetitionYearMatches(models.Model):
@@ -368,6 +374,10 @@ class Fixture(models.Model):
     round = models.CharField(max_length=255, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
     broadcast_on = models.CharField(max_length=255, blank=True, null=True)
+
+    @classmethod
+    def get_upcoming(cls):
+        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')
 
     @classmethod
     def get_next_match(cls):
@@ -400,13 +410,15 @@ class Fixture(models.Model):
         else:
             return self.opponent.stadium.name
 
-
     def __unicode__(self):
         # return self.title
         ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
         if datetime.datetime.now() > self.datetime:
             ret += '[PAST] '
         return ret
+
+    class Meta:
+        ordering = ('datetime',)
 
 
 class MatchResult(models.Model):

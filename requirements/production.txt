@@ -14,6 +14,7 @@ django-auditlog
 jsonfield
 lxml
 django-smuggler
+icalendar
 
 #production-only
 gunicorn
