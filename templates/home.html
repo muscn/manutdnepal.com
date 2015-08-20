@@ -25,8 +25,9 @@
                                     - {{ next_match.round }}
                                 {% endif %}
                             </span>
-
-                            <div class="channel">Live on {{ next_match.broadcast_on }}</div>
+                            {% if next_match.broadcast_on %}
+                                <div class="channel">Live on {{ next_match.broadcast_on }}</div>
+                            {% endif %}
                         </div>
                         <br>
 
@@ -40,7 +41,7 @@
                             </div>
                             <div class="opponent-crest col-xs-6">
                                 <img class="img-responsive"
-                                     src="{{ next_match.opponent.crest.url }}">
+                                     src="{{ next_match.opponent.get_crest_url }}">
                             </div>
                         </div>
                         {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
@@ -80,34 +81,34 @@
                     </div>
                 </div>
             </div>
-{#            <div class="col-md-3">#}
-{#                <div class="stats-block">#}
-{#                    <h2>LEAGUE TABLE</h2>#}
-{#                    <table class="epl-table table table-bordered">#}
-{#                        <thead>#}
-{#                        <tr>#}
-{#                            <th></th>#}
-{#                            <th>Club</th>#}
-{#                            <th>P</th>#}
-{#                            <th>GD</th>#}
-{#                            <th>Pts</th>#}
-{#                        </tr>#}
-{#                        </thead>#}
-{#                        <tbody>#}
-{#                        {% for team in standings %}#}
-{#                            <tr>#}
-{#                                <td>{{ team.stand_position }}</td>#}
-{#                                <td>{{ team.stand_team_name }}</td>#}
-{#                                <td>{{ team.stand_overall_gp }}</td>#}
-{#                                <td>{{ team.stand_gd }}</td>#}
-{#                                <td>{{ team.stand_points }}</td>#}
-{#                            </tr>#}
-{#                        {% endfor %}#}
-{#                        </tbody>#}
-{#                        </tr>#}
-{#                    </table>#}
-{#                </div>#}
-{#            </div>#}
+            {#            <div class="col-md-3">#}
+            {#                <div class="stats-block">#}
+            {#                    <h2>LEAGUE TABLE</h2>#}
+            {#                    <table class="epl-table table table-bordered">#}
+            {#                        <thead>#}
+            {#                        <tr>#}
+            {#                            <th></th>#}
+            {#                            <th>Club</th>#}
+            {#                            <th>P</th>#}
+            {#                            <th>GD</th>#}
+            {#                            <th>Pts</th>#}
+            {#                        </tr>#}
+            {#                        </thead>#}
+            {#                        <tbody>#}
+            {#                        {% for team in standings %}#}
+            {#                            <tr>#}
+            {#                                <td>{{ team.stand_position }}</td>#}
+            {#                                <td>{{ team.stand_team_name }}</td>#}
+            {#                                <td>{{ team.stand_overall_gp }}</td>#}
+            {#                                <td>{{ team.stand_gd }}</td>#}
+            {#                                <td>{{ team.stand_points }}</td>#}
+            {#                            </tr>#}
+            {#                        {% endfor %}#}
+            {#                        </tbody>#}
+            {#                        </tr>#}
+            {#                    </table>#}
+            {#                </div>#}
+            {#            </div>#}
             <div class="col-md-4">
                 <div class="stats-block">
                     <h2>LEAGUE TABLE</h2>

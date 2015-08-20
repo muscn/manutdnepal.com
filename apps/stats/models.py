@@ -2,6 +2,10 @@ import datetime
 import urllib
 import json
 
+import wikipedia
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from jsonfield import JSONField
@@ -77,9 +81,37 @@ class Team(models.Model):
     nick_name = models.CharField(max_length=50, blank=True, null=True)
     stadium = models.ForeignKey(Stadium, related_name='teams', blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
-    crest = models.ImageField(upload_to='crests/', blank=True, null=True)
+    crest = models.FileField(upload_to='crests/', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)
     wiki = models.CharField(max_length=255, blank=True, null=True)
+
+    def get_wiki(self):
+        if not self.wiki:
+            search_results = wikipedia.search(self.name + ' football club', results=1)
+            if not search_results:
+                return None
+            self.wiki = search_results[0]
+            self.save()
+        return self.wiki
+
+    def get_crest(self):
+        if not self.crest:
+            wiki = self.get_wiki()
+            url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
+            image_data = json.loads(urllib.urlopen(url).read())
+            data = image_data['query']['pages'].itervalues().next()
+            image_name = data['pageimage'] + '.png'
+            image_url = data['thumbnail']['source']
+            img_temp = NamedTemporaryFile(delete=True)
+            img_temp.write(urllib.urlopen(image_url).read())
+            img_temp.flush()
+            self.crest.save(image_name, File(img_temp))
+        return self.crest
+
+    def get_crest_url(self):
+        if self.get_crest():
+            return self.crest.url
+        return None
 
     def __unicode__(self):
         return self.name
