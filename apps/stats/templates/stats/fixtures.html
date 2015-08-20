@@ -10,48 +10,46 @@
         <h1>Fixtures</h1>
 
         <div class="table-responsive">
-            <table class="table auto-width">
+            <table class="table auto-width table-centered">
                 {% thumbnail mufc.get_crest "35x35" format="PNG" as mufc_crest %}
                     {% for fixture in fixtures %}
                         <tr>
-                            <td>{{ fixture.datetime }}</td>
-                            <td>{{ fixture.competition_year.competition }}</td>
                             <td>
-                                <div class="row">
-                                    {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
-                                        {% if fixture.is_home_game %}
-                                            <div class="col-md-5">
-                                                <img src="{{ mufc_crest.url }}">
-                                                <br/>
-                                                United
-                                            </div>
-                                            <div class="col-md-2">
-                                                v
-                                            </div>
-                                            <div class="col-md-5">
-                                                <img src="{{ opponent_crest.url }}">
-                                                <br/>
-                                                {{ fixture.opponent.name }}
-                                            </div>
-                                        {% else %}
-                                            <div class="col-md-5">
-                                                <img src="{{ opponent_crest.url }}">
-                                                <br/>
-                                                {{ fixture.opponent.name }}
-                                            </div>
-                                            <div class="col-md-2">
-                                                v
-                                            </div>
-                                            <div class="col-md-5">
-                                                <img src="{{ mufc_crest.url }}">
-                                                <br/>United
-                                            </div>
-                                        {% endif %}
-                                    {% endthumbnail %}
-                                </div>
+                                <span class="date">{{ fixture.datetime.day }} {{ fixture.datetime|date:'M' }} {{ fixture.datetime|date:'Y' }}</span>
+                                <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
                             </td>
+                            <td>{{ fixture.competition_year.competition }}</td>
+                            {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
+                                {% if fixture.is_home_game %}
+                                    <td class="centered bold left-bordered">
+                                        <img src="{{ mufc_crest.url }}">
+                                        <br/>
+                                        United
+                                    </td>
+                                    <td class="bold">
+                                        vs
+                                    </td>
+                                    <td class="centered bold right-bordered">
+                                        <img src="{{ opponent_crest.url }}">
+                                        <br/>
+                                        {{ fixture.opponent.name }}
+                                    </td>
+                                {% else %}
+                                    <td class="centered bold left-bordered  ">
+                                        <img src="{{ opponent_crest.url }}">
+                                        <br/>
+                                        {{ fixture.opponent.name }}
+                                    </td>
+                                    <td class="bold">
+                                        vs
+                                    </td>
+                                    <td class="centered bold right-bordered">
+                                        <img src="{{ mufc_crest.url }}">
+                                        <br/>United
+                                    </td>
+                                {% endif %}
+                            {% endthumbnail %}
                             <td>{{ fixture.venue }}</td>
-                            <td>{{ fixture.datetime }}</td>
                         </tr>
                     {% endfor %}
                 {% endthumbnail %}

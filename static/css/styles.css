@@ -265,3 +265,32 @@ img.overlaid {
     width: auto!important;
 }
 
+.centered{
+    text-align: center;
+    margin: 0 auto;
+}
+
+table.table-centered td{
+    vertical-align: middle!important;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+/*.left-bordered{*/
+    /*border-left: 1px solid #cccccc;*/
+/*}*/
+
+/*.right-bordered{*/
+    /*border-right: 1px solid #cccccc;*/
+/*}*/
+
+td.bold{
+    background: #f8f8f8;
+}
+
+.table-responsive
+{
+    overflow-x: auto;
+}
