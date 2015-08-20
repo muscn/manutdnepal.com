@@ -27,6 +27,7 @@
             {#            <th>{% anchor mobile 'Mobile' %}</th>#}
             <th>{% anchor approved_by 'Approved By' %}</th>
             <th>{% anchor approved_date 'Approved Date' %}</th>
+            <th>{% anchor card_status__status 'Card Status' %}</th>
             <th>{% anchor payment 'Payment' %}</th>
             </thead>
             <tbody>
@@ -65,6 +66,9 @@
                     </td>
                     <td>
                         {{ item.approved_date }}
+                    </td>
+                    <td>
+                        {{ item.card_status.get_status_display }}
                     </td>
                     <td>
                         {% if item.payment %}

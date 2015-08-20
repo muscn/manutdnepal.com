@@ -27,17 +27,19 @@ class BankDepositPaymentForm(form):
 
     def save(self, commit=True, user=None):
         obj = self.instance
+        if not user:
+            user = self.cleaned_data['user']
         if not obj.payment_id:
-            obj.payment = Payment()
-        if user:
-            obj.payment.user = user
+            payment = Payment()
         else:
-            obj.payment.user = self.cleaned_data['user']
-        obj.payment.amount = self.cleaned_data['amount']
-        obj.payment.remarks = self.cleaned_data['remarks']
-        obj.payment.date_time = self.cleaned_data['date_time']
-        obj.payment.save()
-        obj.payment_id = obj.payment.id
+            payment = obj.payment
+        payment.user = user
+        payment.amount = self.cleaned_data['amount']
+        payment.remarks = self.cleaned_data['remarks']
+        payment.date_time = self.cleaned_data['date_time']
+        payment.save()
+        obj.payment_id = payment.id
+        obj.save()
         return super(BankDepositPaymentForm, self).save(commit=True)
 
     def __init__(self, *args, **kwargs):
@@ -63,21 +65,22 @@ class DirectPaymentPaymentForm(form):
 
     def save(self, commit=True, user=None):
         obj = self.instance
+        if not user:
+            user = self.cleaned_data['user']
         if not obj.payment_id:
-            obj.payment = Payment()
-        if user:
-            obj.payment.user = user
+            payment = Payment()
         else:
-            obj.payment.user = self.cleaned_data['user']
-        obj.payment.amount = self.cleaned_data['amount']
-        obj.payment.remarks = self.cleaned_data['remarks']
-        obj.payment.date_time = self.cleaned_data['date_time']
-        obj.payment.save()
-        obj.payment_id = obj.payment.id
+            payment = obj.payment
+        payment.user = user
+        payment.amount = self.cleaned_data['amount']
+        payment.remarks = self.cleaned_data['remarks']
+        payment.date_time = self.cleaned_data['date_time']
+        payment.save()
+        obj.payment_id = payment.id
+        obj.save()
         return super(DirectPaymentPaymentForm, self).save(commit=True)
 
     def __init__(self, *args, **kwargs):
-
         super(DirectPaymentPaymentForm, self).__init__(*args, **kwargs)
         # self.fields['received_by'].empty_label = None
         if self.instance.payment_id:

@@ -281,7 +281,7 @@ class User(AbstractBaseUser):
             return cached
 
         base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_with_qr.png')
-        devil_number = u'195'
+        devil_number = u'392'
         draw_qr = False
 
         img = self.generate_card(devil_number, draw_qr, base_image)

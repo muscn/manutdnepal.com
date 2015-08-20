@@ -50,6 +50,25 @@
             </div>
         </div>
 
+    <div class="col-sm-12 col-lg-6">
+            {% if object.verified %}
+                <p> This payment was verified by {{ object.payment.verified_by.full_name }}.</p>
+            {% else %}
+                <p>This payment hasn't been verified.</p>
+            {% endif %}
+
+
+
+                    <div class="bank-deposit">
+                        <h3><i class="fa fa-bank"></i> Bank Deposit</h3>
+                        <a href="{{ object.voucher_image.url }}" alt="Click to view full image" target="_blank">
+                            <img class="img-responsive" src="{{ object.voucher_image.url }}">
+                        </a>
+                    </div>
+
+
+
+        </div>
 
     </div>
 
