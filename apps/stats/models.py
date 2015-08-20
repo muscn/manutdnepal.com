@@ -406,6 +406,9 @@ class Fixture(models.Model):
     round = models.CharField(max_length=255, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
     broadcast_on = models.CharField(max_length=255, blank=True, null=True)
+    mufc_score = models.PositiveIntegerField(null=True, blank=True)
+    opponent_score = models.PositiveIntegerField(null=True, blank=True)
+    remarks = models.CharField(max_length=255, null=True, blank=True)
 
     @classmethod
     def get_upcoming(cls):
