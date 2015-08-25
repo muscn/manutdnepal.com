@@ -415,6 +415,10 @@ class Fixture(models.Model):
         return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')
 
     @classmethod
+    def results(cls):
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('datetime')
+
+    @classmethod
     def get_next_match(cls):
         try:
             return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]

@@ -80,7 +80,9 @@ def epl_table(request):
 
 def fixtures(request):
     upcoming_fixtures = Fixture.get_upcoming().select_related()
+    results = Fixture.results().select_related()
     context = {
         'fixtures': upcoming_fixtures,
+        'results': results,
     }
     return render(request, 'stats/fixtures.html', context)
