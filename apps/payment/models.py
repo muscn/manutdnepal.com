@@ -134,6 +134,9 @@ class EsewaPayment(EsewaTransaction):
 
     # amount = Amount()
 
+    def __unicode__(self):
+        return unicode(self.payment.user) + ' - ' + unicode(self.payment.amount)
+
     def get_absolute_url(self):
         return reverse_lazy('update_payment', kwargs={'pk': self.payment.pk})
 
