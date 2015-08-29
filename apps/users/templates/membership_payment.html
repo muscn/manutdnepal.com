@@ -109,11 +109,9 @@
                             <input value="0" name="pdc" type="hidden">
                             <input value="manutd" name="scd" type="hidden">
                             <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
-                            <input value="http://
-                                    {{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
+                            <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
                                    type="hidden" name="su">
-                            <input value="http://
-                                    {{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
+                            <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
                                    type="hidden" name="fu">
 
                             <h2 style="display:inline">Pay via:</h2>
