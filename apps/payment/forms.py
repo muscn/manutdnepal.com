@@ -98,11 +98,11 @@ class DirectPaymentReceiptForm(form):
 
     def save(self, commit=True, user=None, payment=None):
         obj = self.instance
-        obj.payment = payment
-        obj.payment.user = user
-        obj.payment.remarks = 'For Membership. R#:' + str(obj.receipt_no)
-        obj.payment.save()
-        obj.payment_id = obj.payment.id
+        payment.user = user
+        payment.remarks = 'For Membership. R#:' + str(obj.receipt_no)
+        payment.save()
+        obj.payment_id = payment.id
+        obj.save()
         return super(DirectPaymentReceiptForm, self).save(commit=True)
 
     def __init__(self, *args, **kwargs):
