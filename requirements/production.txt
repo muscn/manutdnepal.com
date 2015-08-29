@@ -3,7 +3,6 @@ Django
 psycopg2
 django-allauth
 Pillow
-django-cacheops
 django-redis
 django-mptt
 django-froala-editor
@@ -14,7 +13,9 @@ django-auditlog
 jsonfield
 lxml
 django-smuggler
-icalendar
+ics
+wikipedia
+sorl-thumbnail
 
 #production-only
 gunicorn

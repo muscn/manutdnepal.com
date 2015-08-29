@@ -3,7 +3,6 @@ Django
 psycopg2
 django-allauth
 Pillow
-django-cacheops
 django-redis
 django-mptt
 django-froala-editor
