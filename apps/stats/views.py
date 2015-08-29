@@ -8,8 +8,6 @@ from muscn.utils.mixins import CreateView, UpdateView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture
 from .forms import QuoteForm
 
-from apps.stats.models import get_latest_epl_standings
-
 
 class InjuryListView(StaffOnlyMixin, ListView):
     model = Injury
@@ -71,8 +69,6 @@ class PlayerDetailView(DetailView):
 
 def epl_table(request):
     standings = cache.get('epl_standings')
-    if not standings:
-        standings = get_latest_epl_standings()
     context = {
         'standings': standings,
     }
