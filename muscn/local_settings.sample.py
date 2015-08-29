@@ -11,21 +11,14 @@ TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'muscn',
+        'USER': 'muscn',
+        'PASSWORD': 'muscn',
+        'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',  # Set to empty string for default.
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'muscn',
-#         'USER': 'muscn',
-#         'PASSWORD': 'muscn',
-#         'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '',  # Set to empty string for default.
-#     }
-# }
 
 STATIC_URL = '/static/muscn/'
 STATIC_ROOT = '/var/www/html/static/muscn/'
@@ -72,3 +65,18 @@ INSTALLED_APPS += (
 #     # is highly recommended
 #     'socket_timeout': 3,
 # }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+BROKER_URL = 'redis://localhost:6379/0'
+
+FOOTBALL_API_KEY = 'xxxxxxxxxxxxxxxxxxxxx'
+ACCOUNT_EMAIL_VERIFICATION = "none"

@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'auditlog',
     'smuggler',
     'sorl.thumbnail',
+    'djcelery',
 
     'apps.core',
     'apps.users',
@@ -106,3 +107,20 @@ MESSAGE_TAGS = {
 }
 
 ESEWA_SCD = 'manutd'
+
+from datetime import timedelta
+
+CELERYBEAT_SCHEDULE = {
+    'add-every-30-seconds': {
+        'task': 'apps.stats.tasks.add',
+        'schedule': timedelta(seconds=30),
+        # 'args': (16, 16)
+    },
+}
+
+import djcelery
+djcelery.setup_loader()
+CELERY_TIMEZONE = 'UTC'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
