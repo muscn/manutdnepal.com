@@ -57,6 +57,9 @@ class Payment(models.Model):
     def verified(self):
         return True if self.verified_by and self.method else False
 
+    class Meta:
+        ordering = ('-date_time',)
+
 
 class BankAccount(models.Model):
     bank_name = models.CharField(max_length=255)
