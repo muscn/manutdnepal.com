@@ -483,11 +483,12 @@ class MatchResult(models.Model):
 
 
 def get_latest_epl_standings():
+    print datetime.datetime.now().isoformat()
     print 'Retrieving table from API'
     link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
     f = urllib.urlopen(link)
     standings = f.read()
-    print standings
     standings_loaded = json.loads(standings)
+    print standings_loaded['ERROR']
     cache.set('epl_standings', standings_loaded, timeout=None)
     return standings_loaded
