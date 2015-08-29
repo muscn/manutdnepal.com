@@ -487,6 +487,7 @@ def get_latest_epl_standings():
     link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
     f = urllib.urlopen(link)
     standings = f.read()
+    print standings
     standings_loaded = json.loads(standings)
     cache.set('epl_standings', standings_loaded, timeout=None)
     return standings_loaded
