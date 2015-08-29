@@ -54,21 +54,10 @@ INSTALLED_APPS += (
     # 'debug_toolbar',
 )
 
-# CACHES = {
-# 'default': {
-# 'BACKEND': 'redis_cache.cache.RedisCache',
-# 'LOCATION': '127.0.0.1:6379:3',
-#         'OPTIONS': {
-#             # 'PASSWORD': 'secretpassword',  # Optional
-#         }
-#     }
-# }
-#
-# CACHEOPS_REDIS = {
-#     'host': 'localhost',  # redis-server is on same machine
-#     'port': 6379,  # default redis port
-#     'db': 1,  # SELECT non-default redis database
-#     # using separate redis db or redis instance
-#     # is highly recommended
-#     'socket_timeout': 3,
-# }
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '127.0.0.1:6379',
+    }
+}
+
