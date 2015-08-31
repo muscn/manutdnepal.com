@@ -479,6 +479,12 @@ class Goal(models.Model):
     time = models.PositiveIntegerField(blank=True, null=True)
     match = models.ForeignKey(Fixture, related_name='goals')
 
+    def __unicode__(self):
+        ret_str = unicode(self.scorer) + ' against ' + unicode(self.match.opponent)
+        if self.time:
+            ret_str = ret_str + ' at ' + unicode(self.time) + "'"
+        return ret_str
+
 
 class MatchResult(models.Model):
     fixture = models.ForeignKey(Fixture)
