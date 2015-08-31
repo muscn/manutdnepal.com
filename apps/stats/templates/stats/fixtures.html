@@ -93,7 +93,7 @@
                                             {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
                                                 {% if fixture.is_home_game %}
                                                     <td class="centered bold left-bordered">
-                                                        <img src="{{ mufc_crest.url }}">
+                                                        <img src="{{ mufc_crest.url }}" alt="MUFC">
                                                         <br/>
                                                         United
                                                     </td>
@@ -101,13 +101,15 @@
                                                         vs
                                                     </td>
                                                     <td class="centered bold right-bordered">
-                                                        <img src="{{ opponent_crest.url }}">
+                                                        <img src="{{ opponent_crest.url }}"
+                                                             alt="{{ fixture.opponent.short_name }}">
                                                         <br/>
                                                         {{ fixture.opponent.name }}
                                                     </td>
                                                 {% else %}
                                                     <td class="centered bold left-bordered  ">
-                                                        <img src="{{ opponent_crest.url }}">
+                                                        <img src="{{ opponent_crest.url }}"
+                                                             alt="{{ fixture.opponent.short_name  }}">
                                                         <br/>
                                                         {{ fixture.opponent.name }}
                                                     </td>
