@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
-    Fixture, Team, Stadium, MatchResult
+    Fixture, Team, Goal
 
 class TeamAdmin(admin.ModelAdmin):
     search_fields = ('name', 'short_name', 'alternative_names', 'nick_name')
 
-
+admin.site.register(Goal)
 admin.site.register(Injury)
 admin.site.register(Competition)
 admin.site.register(CompetitionYear)

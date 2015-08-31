@@ -248,15 +248,6 @@ class Match(models.Model):
 
 # Match Events
 
-class Goal(models.Model):
-    scorer = models.ForeignKey(Player, related_name='goals')
-    assist_by = models.ForeignKey(Player, related_name='assists', blank=True, null=True)
-    penalty = models.BooleanField(default=False)
-    own_goal = models.BooleanField(default=False)
-    time = models.PositiveIntegerField()
-    match = models.ForeignKey(Match, related_name='goals')
-
-
 # class Card(models.Model):
 # player = models.ForeignKey(Player)
 # time = models.PositiveIntegerField()
@@ -478,6 +469,15 @@ class Fixture(models.Model):
 
     class Meta:
         ordering = ('datetime',)
+
+
+class Goal(models.Model):
+    scorer = models.ForeignKey(Player, related_name='goals')
+    assist_by = models.ForeignKey(Player, related_name='assists', blank=True, null=True)
+    penalty = models.BooleanField(default=False)
+    own_goal = models.BooleanField(default=False)
+    time = models.PositiveIntegerField(blank=True, null=True)
+    match = models.ForeignKey(Fixture, related_name='goals')
 
 
 class MatchResult(models.Model):
