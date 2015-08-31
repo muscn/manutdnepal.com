@@ -7,7 +7,7 @@ from apps.stats.models import Fixture, MatchResult
 
 def home(request):
     next_match = Fixture.get_next_match()
-    recent_results = MatchResult.recent_results()
+    recent_results = Fixture.recent_results()
     # standings = cache.get('epl_standings')
     context = {
         'next_match': next_match,

@@ -419,6 +419,26 @@ class Fixture(models.Model):
         return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('datetime')
 
     @classmethod
+    def recent_results(cls):
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:5]
+
+    def score(self):
+        if self.is_home_game:
+            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(self.opponent_score) + ' ' + unicode(
+                self.opponent)
+        else:
+            return unicode(self.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
+                self.mufc_score) + ' Man United'
+
+    def result(self):
+        if self.mufc_score == self.opponent_score:
+            return 0
+        elif self.mufc_score > self.opponent_score:
+            return 1
+        else:
+            return -1
+
+    @classmethod
     def get_next_match(cls):
         try:
             return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]
@@ -464,10 +484,6 @@ class MatchResult(models.Model):
     fixture = models.ForeignKey(Fixture)
     mufc_score = models.PositiveIntegerField(default=0)
     opponent_score = models.PositiveIntegerField(default=0)
-
-    @classmethod
-    def recent_results(cls):
-        return cls.objects.all().order_by('-fixture__datetime')[0:10]
 
     @property
     def title(self):
