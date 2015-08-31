@@ -221,6 +221,14 @@ img.overlaid {
     opacity: .4;
 }
 
+.call-to-action {
+    min-height: 8em;
+}
+
+.call-to-action h2{
+    text-align: center  ;
+}
+
 .section.stats.row {
     margin-top: -2em;
 }
