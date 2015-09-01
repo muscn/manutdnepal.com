@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'webstack_django_sorting',
     'auditlog',
     'smuggler',
+    'sorl.thumbnail',
 
     'apps.core',
     'apps.users',

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n  thumbnail %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
@@ -7,12 +7,15 @@
 
 {% block content %}
     <div class="container">
-        <div class="section featured row">
-            <img class="img-responsive"
-                 src="http://placehold.it/1600x500">
+        {#        <div class="section featured row">#}
+        {#            <img class="img-responsive"#}
+        {#                 src="http://placehold.it/1600x500">#}
+        {#        </div>#}
+        <div class="section call-to-action row">
+            <h2>Apply for 2015/16 MUSCN Membership</h2>
         </div>
         <div class="section stats row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="stats-block next-match">
                     <h2>NEXT MATCH</h2>
                     {% if next_match %}
@@ -25,22 +28,24 @@
                                     - {{ next_match.round }}
                                 {% endif %}
                             </span>
-
-                            <div class="channel">Live on {{ next_match.broadcast_on }}</div>
+                            {% if next_match.broadcast_on %}
+                                <div class="channel">Live on {{ next_match.broadcast_on }}</div>
+                            {% endif %}
                         </div>
                         <br>
 
                         <div class="row text-center">
                             <div class="datetime col-xs-6">
-                                <span class="date">{{ next_match.npt.day }}</span>
+                                <span class="date">{{ next_match.datetime.day }}</span>
 
-                                <div class="month">{{ next_match.npt|date:'F' }}</div>
-                                <div class="time">{{ next_match.npt|date:'P' }} NPT</div>
+                                <div class="month">{{ next_match.datetime|date:'F' }}</div>
+                                <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
 
                             </div>
                             <div class="opponent-crest col-xs-6">
-                                <img class="img-responsive"
-                                     src="{{ next_match.opponent.crest.url }}">
+                                {% thumbnail next_match.opponent.get_crest "100x100" format="PNG" as im %}
+                                    <img class="img-responsive" src="{{ im.url }}">
+                                {% endthumbnail %}
                             </div>
                         </div>
                         {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
@@ -67,48 +72,48 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="stats-block">
                     <h2>RECENT RESULTS</h2>
 
-                    <div class="results text-center">
+                    <div class="results block-content">
                         {% for result in recent_results %}
                             <div class="result">
-                                {{ result.title }}
+                                <i class="result{{ result.result }}"></i> {{ result.score }}
                             </div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
-{#            <div class="col-md-3">#}
-{#                <div class="stats-block">#}
-{#                    <h2>LEAGUE TABLE</h2>#}
-{#                    <table class="epl-table table table-bordered">#}
-{#                        <thead>#}
-{#                        <tr>#}
-{#                            <th></th>#}
-{#                            <th>Club</th>#}
-{#                            <th>P</th>#}
-{#                            <th>GD</th>#}
-{#                            <th>Pts</th>#}
-{#                        </tr>#}
-{#                        </thead>#}
-{#                        <tbody>#}
-{#                        {% for team in standings %}#}
-{#                            <tr>#}
-{#                                <td>{{ team.stand_position }}</td>#}
-{#                                <td>{{ team.stand_team_name }}</td>#}
-{#                                <td>{{ team.stand_overall_gp }}</td>#}
-{#                                <td>{{ team.stand_gd }}</td>#}
-{#                                <td>{{ team.stand_points }}</td>#}
-{#                            </tr>#}
-{#                        {% endfor %}#}
-{#                        </tbody>#}
-{#                        </tr>#}
-{#                    </table>#}
-{#                </div>#}
-{#            </div>#}
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <div class="stats-block">
+                    <h2>LEAGUE TABLE</h2>
+                    <table class="epl-table table table-bordered">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Club</th>
+                            <th>P</th>
+                            <th>GD</th>
+                            <th>Pts</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for team in standings %}
+                            <tr>
+                                <td>{{ team.stand_position }}</td>
+                                <td>{{ team.stand_team_name }}</td>
+                                <td>{{ team.stand_overall_gp }}</td>
+                                <td>{{ team.stand_gd }}</td>
+                                <td>{{ team.stand_points }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3">
                 <div class="stats-block">
                     <h2>LEAGUE TABLE</h2>
                 </div>

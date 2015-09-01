@@ -19,4 +19,10 @@ vi app/local_settings.py # configure your settings here, database, static & medi
 ./manage.py runserver
 ```
 
+### 3. Add cronjobs
+```
+crontab -e
+*/5 * * * * source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape table > /home/muscn/logs/cronjob.log
+```
+
 ### 3. Rejoice!

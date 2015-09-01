@@ -57,6 +57,9 @@ class Payment(models.Model):
     def verified(self):
         return True if self.verified_by and self.method else False
 
+    class Meta:
+        ordering = ('-date_time',)
+
 
 class BankAccount(models.Model):
     bank_name = models.CharField(max_length=255)
@@ -133,6 +136,9 @@ class EsewaPayment(EsewaTransaction):
     #         obj.payment.amount = val
 
     # amount = Amount()
+
+    def __unicode__(self):
+        return unicode(self.payment.user) + ' - ' + unicode(self.payment.amount)
 
     def get_absolute_url(self):
         return reverse_lazy('update_payment', kwargs={'pk': self.payment.pk})

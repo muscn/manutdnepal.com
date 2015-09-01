@@ -221,6 +221,14 @@ img.overlaid {
     opacity: .4;
 }
 
+.call-to-action {
+    min-height: 8em;
+}
+
+.call-to-action h2 {
+    text-align: center;
+}
+
 .section.stats.row {
     margin-top: -2em;
 }
@@ -258,6 +266,67 @@ img.overlaid {
 }
 
 .next-match .opponent-crest img {
-    height: 8em;
+    /*height: 8em;*/
 }
 
+.stats-block .result {
+    padding-top: 1em;
+}
+
+i.result1 {
+    width: 0.5em;
+    height: 0.5em;
+    display: inline-block;
+    background-color: green;
+}
+
+i.result0 {
+    width: 0.5em;
+    height: 0.5em;
+    display: inline-block;
+    background-color: yellow;
+}
+
+i.result-1 {
+    width: 0.5em;
+    height: 0.5em;
+    display: inline-block;
+    background-color: red;
+}
+
+.block-content {
+    padding-left: 1em;
+}
+
+.auto-width {
+    width: auto !important;
+}
+
+.centered {
+    text-align: center;
+    margin: 0 auto;
+}
+
+table.table-centered td {
+    vertical-align: middle !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/*.left-bordered{*/
+/*border-left: 1px solid #cccccc;*/
+/*}*/
+
+/*.right-bordered{*/
+/*border-right: 1px solid #cccccc;*/
+/*}*/
+
+td.bold {
+    background: #f8f8f8;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}

@@ -2,6 +2,10 @@ import datetime
 import urllib
 import json
 
+import wikipedia
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from jsonfield import JSONField
@@ -77,9 +81,37 @@ class Team(models.Model):
     nick_name = models.CharField(max_length=50, blank=True, null=True)
     stadium = models.ForeignKey(Stadium, related_name='teams', blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
-    crest = models.ImageField(upload_to='crests/', blank=True, null=True)
+    crest = models.FileField(upload_to='crests/', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)
     wiki = models.CharField(max_length=255, blank=True, null=True)
+
+    def get_wiki(self):
+        if not self.wiki:
+            search_results = wikipedia.search(self.name + ' football club', results=1)
+            if not search_results:
+                return None
+            self.wiki = search_results[0]
+            self.save()
+        return self.wiki
+
+    def get_crest(self):
+        if not self.crest:
+            wiki = self.get_wiki()
+            url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
+            image_data = json.loads(urllib.urlopen(url).read())
+            data = image_data['query']['pages'].itervalues().next()
+            image_name = data['pageimage'] + '.png'
+            image_url = data['thumbnail']['source']
+            img_temp = NamedTemporaryFile(delete=True)
+            img_temp.write(urllib.urlopen(image_url).read())
+            img_temp.flush()
+            self.crest.save(image_name, File(img_temp))
+        return self.crest
+
+    def get_crest_url(self):
+        if self.get_crest():
+            return self.crest.url
+        return None
 
     def __unicode__(self):
         return self.name
@@ -374,10 +406,37 @@ class Fixture(models.Model):
     round = models.CharField(max_length=255, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
     broadcast_on = models.CharField(max_length=255, blank=True, null=True)
+    mufc_score = models.PositiveIntegerField(null=True, blank=True)
+    opponent_score = models.PositiveIntegerField(null=True, blank=True)
+    remarks = models.CharField(max_length=255, null=True, blank=True)
 
     @classmethod
     def get_upcoming(cls):
         return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')
+
+    @classmethod
+    def results(cls):
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('datetime')
+
+    @classmethod
+    def recent_results(cls):
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:5]
+
+    def score(self):
+        if self.is_home_game:
+            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(self.opponent_score) + ' ' + unicode(
+                self.opponent)
+        else:
+            return unicode(self.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
+                self.mufc_score) + ' Man United'
+
+    def result(self):
+        if self.mufc_score == self.opponent_score:
+            return 0
+        elif self.mufc_score > self.opponent_score:
+            return 1
+        else:
+            return -1
 
     @classmethod
     def get_next_match(cls):
@@ -426,10 +485,6 @@ class MatchResult(models.Model):
     mufc_score = models.PositiveIntegerField(default=0)
     opponent_score = models.PositiveIntegerField(default=0)
 
-    @classmethod
-    def recent_results(cls):
-        return cls.objects.all().order_by('-fixture__datetime')[0:10]
-
     @property
     def title(self):
         if self.fixture.is_home_game:
@@ -444,10 +499,12 @@ class MatchResult(models.Model):
 
 
 def get_latest_epl_standings():
+    print datetime.datetime.now().isoformat()
     print 'Retrieving table from API'
     link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
     f = urllib.urlopen(link)
     standings = f.read()
     standings_loaded = json.loads(standings)
+    print standings_loaded['ERROR']
     cache.set('epl_standings', standings_loaded, timeout=None)
     return standings_loaded
