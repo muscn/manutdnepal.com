@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
@@ -78,10 +79,10 @@ def epl_table(request):
 def scorers(request):
     from django.conf import settings
 
-    goals = Goal.objects.all()
-    competition_years = CompetitionYear.objects.all()
-    competition_dct = {}
-    competitions = {}
+    goals = Goal.objects.all().select_related()
+    competition_years = CompetitionYear.objects.all().select_related()
+    competition_dct = OrderedDict()
+    competitions = OrderedDict()
     for competition_year in competition_years:
         if competition_year.year == settings.YEAR:
             competition_dct[competition_year.competition_id] = 0

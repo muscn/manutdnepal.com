@@ -48,6 +48,9 @@ class CompetitionYear(models.Model):
     def __unicode__(self):
         return unicode(self.competition) + ' - ' + unicode(self.year)
 
+    class Meta:
+        ordering = ('competition__order',)
+
 
 # # Fixtured
 # class Country(models.Model):
