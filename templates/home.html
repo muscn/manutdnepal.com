@@ -6,6 +6,16 @@
 {% endblock %}
 
 {% block content %}
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=745752022186281";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
     <div class="container">
 
         {#        <div class="section featured row">#}
@@ -132,6 +142,18 @@
                     </tbody>
                     </tr>
                 </table>
+            </div>
+
+            <div class="stats-block">
+                <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="timeline"
+                     data-small-header="true" data-adapt-container-width="true" data-hide-cover="false"
+                     data-show-facepile="true" data-height="362">
+                    <div class="fb-xfbml-parse-ignore">
+                        <blockquote cite="https://www.facebook.com/muscnepal"><a
+                                href="https://www.facebook.com/muscnepal">Manchester United Supporters&#039; Club,
+                            Nepal</a></blockquote>
+                    </div>
+                </div>
             </div>
 
         </div>
