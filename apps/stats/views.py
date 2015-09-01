@@ -87,7 +87,7 @@ def scorers(request):
         if competition_year.year == settings.YEAR:
             competition_dct[competition_year.competition_id] = 0
             competitions[competition_year.competition_id] = competition_year.competition.name
-    players = {}
+    players = OrderedDict()
     for goal in goals:
         competition_id = goal.match.competition_year.competition_id
         if goal.scorer not in players:
@@ -96,6 +96,7 @@ def scorers(request):
             players[goal.scorer]['total'] = 0
         players[goal.scorer]['competitions'][competition_id] += 1
         players[goal.scorer]['total'] += 1
+    players = OrderedDict(sorted(players.items(), key=lambda item: item[1]['total'], reverse=True))
     context = {
         'players': players,
         'competitions': competitions
