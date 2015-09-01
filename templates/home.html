@@ -7,136 +7,132 @@
 
 {% block content %}
     <div class="container">
+
         {#        <div class="section featured row">#}
         {#            <img class="img-responsive"#}
         {#                 src="http://placehold.it/1600x500">#}
         {#        </div>#}
+
         <div class="section call-to-action row">
             <h2>Apply for 2015/16 MUSCN Membership</h2>
         </div>
-        <div class="section stats row">
-            <div class="col-md-3">
-                <div class="stats-block next-match">
-                    <h2>NEXT MATCH</h2>
-                    {% if next_match %}
-                        <div class="fixture text-center">
-                            <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
-                            <span class="venue">{{ next_match.get_venue }}</span> |
+
+        <div class="section stats">
+            <div class="stats-block next-match">
+                <h2>NEXT MATCH</h2>
+                {% if next_match %}
+                    <div class="fixture text-center">
+                        <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
+                        <span class="venue">{{ next_match.get_venue }}</span> |
                             <span class="competition">
                                 {{ next_match.competition_year.competition }}
                                 {% if next_match.round %}
                                     - {{ next_match.round }}
                                 {% endif %}
                             </span>
-                            {% if next_match.broadcast_on %}
-                                <div class="channel">Live on {{ next_match.broadcast_on }}</div>
-                            {% endif %}
-                        </div>
-                        <br>
-
-                        <div class="row text-center">
-                            <div class="datetime col-xs-6">
-                                <span class="date">{{ next_match.datetime.day }}</span>
-
-                                <div class="month">{{ next_match.datetime|date:'F' }}</div>
-                                <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
-
-                            </div>
-                            <div class="opponent-crest col-xs-6">
-                                {% thumbnail next_match.opponent.get_crest "100x100" format="PNG" as im %}
-                                    <img class="img-responsive" src="{{ im.url }}">
-                                {% endthumbnail %}
-                            </div>
-                        </div>
-                        {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
-                        <br/>
-
-                        <div class="countdown row text-center">
-                            <div class="text col-xs-5">Time until<br/>next match</div>
-                            <div class="timer col-xs-7 row">
-                                <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
-                                <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
-                                <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
-                            </div>
-                        </div>
-                        <div class="countdown-footer row text-center">
-                            <div class="text col-xs-5"></div>
-                            <div class="timer col-xs-7 row">
-                                <span class="days col-xs-4 text-center">days</span>
-                                <span class="days col-xs-4">hours</span>
-                                <span class="days col-xs-4">mins</span>
-                            </div>
-                        </div>
-                    {% else %}
-                        <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-block">
-                    <h2>RECENT RESULTS</h2>
-
-                    <div class="results block-content">
-                        {% for result in recent_results %}
-                            <div class="result">
-                                <i class="result{{ result.result }}"></i> {{ result.score }}
-                            </div>
-                        {% endfor %}
+                        {% if next_match.broadcast_on %}
+                            <div class="channel">Live on {{ next_match.broadcast_on }}</div>
+                        {% endif %}
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-block">
-                    <h2>LEAGUE TABLE</h2>
-                    <table class="epl-table table table-bordered">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Club</th>
-                            <th>P</th>
-                            <th>GD</th>
-                            <th>Pts</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for team in standings %}
-                            <tr>
-                                <td>{{ team.stand_position }}</td>
-                                <td>{{ team.stand_team_name }}</td>
-                                <td>{{ team.stand_overall_gp }}</td>
-                                <td>{{ team.stand_gd }}</td>
-                                <td>{{ team.stand_points }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-block">
-                    <h2>Top Scorers</h2>
+                    <br>
 
-                    <table class="top-scorers table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Player</th>
-                            <th>Goals</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for player, score in players.items %}
-                            <tr>
-                                <td>{{ player.name }}</td>
-                                <td>{{ score}}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        </tr>
-                    </table>
+                    <div class="row text-center">
+                        <div class="datetime col-xs-6">
+                            <span class="date">{{ next_match.datetime.day }}</span>
+
+                            <div class="month">{{ next_match.datetime|date:'F' }}</div>
+                            <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
+
+                        </div>
+                        <div class="opponent-crest col-xs-6">
+                            {% thumbnail next_match.opponent.get_crest "100x100" format="PNG" as im %}
+                                <img class="img-responsive" src="{{ im.url }}">
+                            {% endthumbnail %}
+                        </div>
+                    </div>
+                    {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
+                    <br/>
+
+                    <div class="countdown row text-center">
+                        <div class="text col-xs-5">Time until<br/>next match</div>
+                        <div class="timer col-xs-7 row">
+                            <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
+                            <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
+                            <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
+                        </div>
+                    </div>
+                    <div class="countdown-footer row text-center">
+                        <div class="text col-xs-5"></div>
+                        <div class="timer col-xs-7 row">
+                            <span class="days col-xs-4 text-center">days</span>
+                            <span class="days col-xs-4">hours</span>
+                            <span class="days col-xs-4">mins</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>
+                {% endif %}
+            </div>
+
+            <div class="stats-block">
+                <h2>RECENT RESULTS</h2>
+
+                <div class="results block-content">
+                    {% for result in recent_results %}
+                        <div class="result">
+                            <i class="result{{ result.result }}"></i> {{ result.score }}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
 
+            <div class="stats-block">
+                <h2>LEAGUE TABLE</h2>
+                <table class="epl-table table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Club</th>
+                        <th>P</th>
+                        <th>GD</th>
+                        <th>Pts</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for team in standings %}
+                        <tr>
+                            <td>{{ team.stand_position }}</td>
+                            <td>{{ team.stand_team_name }}</td>
+                            <td>{{ team.stand_overall_gp }}</td>
+                            <td>{{ team.stand_gd }}</td>
+                            <td>{{ team.stand_points }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="stats-block">
+                <h2>Top Scorers</h2>
+                <table class="top-scorers table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Goals</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player, score in players.items %}
+                        <tr>
+                            <td>{{ player.name }}</td>
+                            <td>{{ score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
 
         </div>
     </div>

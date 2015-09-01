@@ -235,8 +235,11 @@ img.overlaid {
 
 .stats-block {
     background-color: #ddd;
-    min-height: 20em;
+    min-height: 23em;
     border-top: 0.5em solid #e54d36;
+    width: 20em;
+    float: left;
+    margin: 2em 0 0 2em;
 }
 
 .stats-block h2 {
