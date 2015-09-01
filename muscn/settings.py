@@ -106,3 +106,5 @@ MESSAGE_TAGS = {
 }
 
 ESEWA_SCD = 'manutd'
+
+YEAR = 2015

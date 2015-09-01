@@ -5,7 +5,6 @@ from django.conf import settings
 from apps.stats import views as stats_views
 from apps.users import views as user_views
 
-
 urlpatterns = patterns('',
                        # url(r'^$', 'core.views.home', name='home'),
                        url(r'^$', 'apps.users.views.login_register', name='login_register'),
@@ -29,7 +28,6 @@ urlpatterns = patterns('',
 
                        url(r'^members/$', user_views.PublicMembershipListView.as_view(), name='list_members'),
 
-
                        url(r'^staging-home/$', 'apps.core.views.home', name='home'),
 
                        (r'dashboard/', include('apps.dashboard.urls')),
@@ -49,9 +47,9 @@ urlpatterns = patterns('',
                        url(r'^epl-table/$', stats_views.epl_table, name='epl_table'),
                        url(r'^fixtures/$', stats_views.fixtures, name='fixtures'),
                        url(r'^results/$', stats_views.fixtures, name='results'),
-
+                       url(r'^top-scorers/$', stats_views.scorers, name='scorers'),
                        (r'', include('apps.page.urls')),
-)
+                       )
 
 if settings.DEBUG:
     urlpatterns += patterns('',

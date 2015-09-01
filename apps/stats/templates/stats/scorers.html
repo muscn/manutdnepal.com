@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block title %} EPL Table {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    {#    <link rel="stylesheet" type="text/css"#}
+    {#          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>#}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+
+    <script>
+        {#        $(document).ready(function () {#}
+        {#            $('table').DataTable({#}
+        {#                paging: false,#}
+        {#                "aaSorting": [],#}
+        {#                "aoColumns": [#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    null,#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    { "sType": 'numeric' },#}
+        {#                    null,#}
+        {#                    null,#}
+        {#                    null,#}
+        {#                    null,#}
+        {#                    null,#}
+        {#                    null#}
+        {#                ]#}
+        {#            });#}
+        {#        });#}
+
+
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <h1>Top Scorers</h1>
+
+        <table class="top-scorers table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Player</th>
+                {% for key, competition in competitions.items %}
+                    <th>{{ competition }}</th>
+                {% endfor %}
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for player, data in players.items %}
+                <tr>
+                <td>{{ player.squad_no }}</td>
+                    <td>{{ player.name }}</td>
+                    {% for key, competition_score in data.competitions.items %}
+                        <td>{{ competition_score }}</td>
+                    {% endfor %}
+                    <td>{{ data.total }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+
+            </tr>
+        </table>
+
+    </div>
+{% endblock %}
+

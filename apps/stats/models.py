@@ -25,10 +25,20 @@ for r in range(1890, (datetime.datetime.now().year + 1)):
 # Fixtured
 class Competition(models.Model):
     name = models.CharField(max_length=255)
+    short_name = models.CharField(max_length=10, null=True, blank=True)
     slug = models.SlugField(max_length=255)
+    order = models.IntegerField(default=0)
+
+    def get_short_name(self):
+        if self.short_name:
+            return self.short_name
+        return self.name
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ('order',)
 
 
 class CompetitionYear(models.Model):
