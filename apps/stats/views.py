@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
@@ -6,7 +5,8 @@ from django.core.cache import cache
 
 from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView
-from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, Goal, Competition
+from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
+    get_top_scorers, get_top_scorers_summary
 from .forms import QuoteForm
 
 
@@ -77,30 +77,7 @@ def epl_table(request):
 
 
 def scorers(request):
-    from django.conf import settings
-
-    goals = Goal.objects.all().select_related()
-    competition_years = CompetitionYear.objects.all().select_related()
-    competition_dct = OrderedDict()
-    competitions = OrderedDict()
-    for competition_year in competition_years:
-        if competition_year.year == settings.YEAR:
-            competition_dct[competition_year.competition_id] = 0
-            competitions[competition_year.competition_id] = competition_year.competition.name
-    players = OrderedDict()
-    for goal in goals:
-        competition_id = goal.match.competition_year.competition_id
-        if goal.scorer not in players:
-            players[goal.scorer] = {}
-            players[goal.scorer]['competitions'] = competition_dct.copy()
-            players[goal.scorer]['total'] = 0
-        players[goal.scorer]['competitions'][competition_id] += 1
-        players[goal.scorer]['total'] += 1
-    players = OrderedDict(sorted(players.items(), key=lambda item: item[1]['total'], reverse=True))
-    context = {
-        'players': players,
-        'competitions': competitions
-    }
+    context = get_top_scorers()
     return render(request, 'stats/scorers.html', context)
 
 

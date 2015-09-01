@@ -115,7 +115,25 @@
             </div>
             <div class="col-md-3">
                 <div class="stats-block">
-                    <h2>LEAGUE TABLE</h2>
+                    <h2>Top Scorers</h2>
+
+                    <table class="top-scorers table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Goals</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for player, score in players.items %}
+                            <tr>
+                                <td>{{ player.name }}</td>
+                                <td>{{ score}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        </tr>
+                    </table>
                 </div>
             </div>
 

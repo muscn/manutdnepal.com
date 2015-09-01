@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import datetime
 import urllib
 import json
@@ -416,15 +417,15 @@ class Fixture(models.Model):
 
     @classmethod
     def get_upcoming(cls):
-        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')
+        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
 
     @classmethod
     def results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('datetime')
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('datetime').select_related()
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:5]
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:5].select_related()
 
     def score(self):
         if self.is_home_game:
@@ -445,7 +446,7 @@ class Fixture(models.Model):
     @classmethod
     def get_next_match(cls):
         try:
-            return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1][0]
+            return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1].select_related()[0]
         except IndexError:
             return None
 
@@ -515,6 +516,44 @@ class MatchResult(models.Model):
 
     def __unicode__(self):
         return unicode(self.fixture.title)
+
+
+def get_top_scorers():
+    from django.conf import settings
+
+    goals = Goal.objects.all().select_related()
+    competition_years = CompetitionYear.objects.all().select_related()
+    competition_dct = OrderedDict()
+    competitions = OrderedDict()
+    for competition_year in competition_years:
+        if competition_year.year == settings.YEAR:
+            competition_dct[competition_year.competition_id] = 0
+            competitions[competition_year.competition_id] = competition_year.competition.name
+    players = OrderedDict()
+    for goal in goals:
+        competition_id = goal.match.competition_year.competition_id
+        if goal.scorer not in players:
+            players[goal.scorer] = {}
+            players[goal.scorer]['competitions'] = competition_dct.copy()
+            players[goal.scorer]['total'] = 0
+        players[goal.scorer]['competitions'][competition_id] += 1
+        players[goal.scorer]['total'] += 1
+    players = OrderedDict(sorted(players.items(), key=lambda item: item[1]['total'], reverse=True))
+    context = {
+        'players': players,
+        'competitions': competitions
+    }
+    return context
+
+def get_top_scorers_summary():
+    goals = Goal.objects.all().select_related()
+    players = OrderedDict()
+    for goal in goals:
+        if goal.scorer not in players:
+            players[goal.scorer] = 0
+        players[goal.scorer] += 1
+    players = OrderedDict(sorted(players.items(), key=lambda item: item, reverse=True))
+    return players
 
 
 def get_latest_epl_standings():
