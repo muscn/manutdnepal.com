@@ -35,7 +35,7 @@
 
         <div class="section stats">
             <div class="stats-block next-match">
-                <h2>NEXT MATCH</h2>
+                <h2><a href="{% url 'fixtures' %}">NEXT MATCH</a></h2>
                 {% if next_match %}
                     <div class="fixture text-center">
                         <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
@@ -91,7 +91,7 @@
             </div>
 
             <div class="stats-block">
-                <h2>RECENT RESULTS</h2>
+                <h2><a href="{% url 'results' %}">RECENT RESULTS</a></h2>
 
                 <div class="results block-content">
                     {% for result in recent_results %}
@@ -103,7 +103,7 @@
             </div>
 
             <div class="stats-block">
-                <h2>LEAGUE TABLE</h2>
+                <h2><a href="{% url 'epl_table' %}">LEAGUE TABLE</a></h2>
                 <table class="epl-table table">
                     <thead>
                     <tr>
@@ -130,7 +130,7 @@
             </div>
 
             <div class="stats-block">
-                <h2>Top Scorers</h2>
+                <h2><a href="{% url 'scorers' %}">TOP SCORERS</a></h2>
                 <table class="top-scorers table table-bordered">
                     <thead>
                     <tr>
@@ -151,7 +151,7 @@
             </div>
 
             <div class="stats-block">
-                <h2>Injuries</h2>
+                <h2><a href="{% url 'injuries' %}">INJURIES</a></h2>
                 <table class="top-scorers table table-bordered">
                     <thead>
                     <tr>
@@ -221,6 +221,10 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="quote section">
+            <blockquote>Haha</blockquote>
         </div>
     </div>
 
