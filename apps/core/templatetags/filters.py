@@ -3,6 +3,7 @@ import importlib
 
 from django.template import Library
 from django.utils.safestring import mark_safe
+from apps.stats.models import Quote
 
 register = Library()
 
@@ -109,3 +110,8 @@ def get_mufc():
     from apps.stats.models import Team
 
     return Team.objects.get(name='Manchester United')
+
+
+@register.assignment_tag
+def get_random_quote():
+    return Quote.random()

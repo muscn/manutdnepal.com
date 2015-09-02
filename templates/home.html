@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n  thumbnail staticfiles %}
+{% load i18n  thumbnail staticfiles filters %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
@@ -223,8 +223,12 @@
 
         </div>
 
-        <div class="quote section">
-            <blockquote>Haha</blockquote>
+        <div class="quote-block section">
+            {% get_random_quote as quote %}
+            <div class="quote">
+                <blockquote>{{ quote.text }}</blockquote>
+                <div class="by">{{ quote.by }}</div>
+            </div>
         </div>
     </div>
 

@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import datetime
 from datetime import timedelta
+from random import randint
 import urllib
 import json
 
@@ -10,6 +11,7 @@ from django.core.files.temp import NamedTemporaryFile
 
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
+from django.db.models import Count
 from jsonfield import JSONField
 from django.conf import settings
 
@@ -382,6 +384,15 @@ class Quote(models.Model):
         if len(txt) < 101:
             return txt
         return txt[0:98] + ' ...'
+
+    @classmethod
+    def random(cls):
+        count = cls.objects.aggregate(count=Count('id'))['count']
+        random_index = randint(0, count - 1)
+        return cls.objects.all()[random_index]
+
+    def __unicode__(self):
+        return unicode(self.by) + ' : ' + self.excerpt()
 
 
 class SeasonData(models.Model):
