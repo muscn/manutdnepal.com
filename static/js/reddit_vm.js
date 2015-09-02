@@ -6,8 +6,8 @@ $(function () {
         'allow_internal': false,
         'upvoted_only': true,
     }
-    vm = new RedditVM(config);
-    ko.applyBindings(vm);
+    var reddit_vm = new RedditVM(config);
+    ko.applyBindings(reddit_vm, $('#reddit-block')[0]);
 });
 
 function ThreadVM(data) {

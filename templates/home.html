@@ -8,6 +8,7 @@
 {% block extrahead %}
     <script src="{% static "js/ko.min.js" %}"></script>
     <script src="{% static "js/reddit_vm.js" %}"></script>
+    <script src="{% static "js/news.js" %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,10 +24,10 @@
 
     <div class="container">
 
-{#        <div class="section featured row">#}
-{#            <img class="img-responsive"#}
-{#                 src="http://placehold.it/1600x500">#}
-{#        </div>#}
+        {#        <div class="section featured row">#}
+        {#            <img class="img-responsive"#}
+        {#                 src="http://placehold.it/1600x500">#}
+        {#        </div>#}
 
         <div class="section call-to-action row">
             <h2>Apply for 2015/16 MUSCN Membership</h2>
@@ -172,7 +173,7 @@
                 </table>
             </div>
 
-            <div class="stats-block">
+            <div class="stats-block" id="reddit-block">
                 <h2>From Reddit</h2>
 
                 <div id="reddit-content" data-bind="foreach: threads">
@@ -191,19 +192,20 @@
                                 <span data-bind="visible: sticky">[STICKY] </span>
                                 <span data-bind="text: title"></span>
                             </a></h5>
-
-                            {#                            <div class="meta">#}
-                            {#                                <a data-bind="attr:{'href': permalink}"><span class="datetime" data-bind="text: date_str"></span></a>#}
-                            {#                                by <a data-bind="attr: {'href': author_url}, text:author"></a>#}
-                            {#                                | Score: <span data-bind="text: score"></span>#}
-                            {#                                | <a data-bind="attr:{'href': permalink}"><span class="datetime"#}
-                            {#                                                                                data-bind="text: num_comments"></span>#}
-                            {#                                comments</a>#}
-                            {#                <span class="source" data-bind="visible: !internal">| Source: <span#}
-                            {#                        data-bind="text: domain"></span></span>#}
-                            {#                            </div>#}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="stats-block" id="news-block">
+                <h2>News</h2>
+
+                <div id="news-content" data-bind="foreach: entries" class="block-content">
+                    <div class="news-item">
+                        <a data-bind="attr: {'href': link}, text: title"></a>
+                    </div>
+
+
                 </div>
             </div>
 

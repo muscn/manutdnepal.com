@@ -365,3 +365,7 @@ td.bold {
 .highlight{
     color: #e54d36;
 }
+
+#news-content .news-item{
+    margin-bottom: 0.5em;
+}
