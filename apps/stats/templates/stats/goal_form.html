@@ -1,0 +1,66 @@
+{% extends 'dashboard_base.html' %}
+{% load filters %}
+
+{% block title %} {{ scenario }} Goal {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_goals' %}"><i class="fa fa-futbol-o"></i>Goals</a>
+    <span>{{ scenario }} {{ object }}</span>
+{% endblock %}
+
+{% block extrahead %}
+    {% include 'partials/selectize.html' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <form method="POST" role="form">
+
+                {% csrf_token %}
+
+                <div class="form-group required">
+                    {{ form.scorer.label_tag }}
+                    {{ form.scorer }}
+                    {{ form.scorer.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.assist_by.label_tag }}
+                    {{ form.assist_by }}
+                    {{ form.assist_by.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.penalty.label_tag }}
+                    {{ form.penalty }}
+                    {{ form.penalty.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.time.label_tag }}
+                    {{ form.time }}
+                    {{ form.time.errors }}
+                </div>
+
+                <div class="form-group required">
+                    {{ form.match.label_tag }}
+                    {{ form.match }}
+                    {{ form.match.errors }}
+                </div>
+
+                <input type="submit" class="btn btn-info" value="Save">
+
+            </form>
+
+            <div class="pull-right actions">
+                {% include 'partials/delete_button.html' with object=object url='delete_goal' %}
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

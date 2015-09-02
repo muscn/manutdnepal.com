@@ -6,8 +6,8 @@ from django.core.cache import cache
 from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView, DeleteView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
-    get_top_scorers, get_top_scorers_summary
-from .forms import QuoteForm, InjuryForm, ResultForm
+    get_top_scorers, get_top_scorers_summary, Goal
+from .forms import QuoteForm, InjuryForm, ResultForm, GoalForm
 
 
 class InjuryListView(StaffOnlyMixin, ListView):
@@ -76,6 +76,25 @@ class FixtureUpdateView(StaffOnlyMixin, UpdateView):
     queryset = Fixture.get_upcoming()
     form_class = ResultForm
     success_url = reverse_lazy('list_fixtures')
+
+class GoalListView(StaffOnlyMixin, ListView):
+    model = Goal
+
+class GoalCreateView(StaffOnlyMixin, CreateView):
+    model = Goal
+    form_class = GoalForm
+    success_url = reverse_lazy('list_goals')
+
+
+class GoalUpdateView(StaffOnlyMixin, UpdateView):
+    model = Goal
+    form_class = GoalForm
+    success_url = reverse_lazy('list_goals')
+
+
+class GoalDeleteView(StaffOnlyMixin, DeleteView):
+    model = Goal
+    success_url = reverse_lazy('list_goals')
 
 
 class SeasonDataListView(ListView):

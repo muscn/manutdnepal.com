@@ -1,0 +1,59 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Goals {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_goals' %}"><i class="fa fa-futbol-o"></i>Goals</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor scorer 'Scorer' %}</th>
+            <th>{% anchor assist_by 'Assist' %}</th>
+            <th>{% anchor time 'Time' %}</th>
+            <th>{% anchor match 'Match' %}</th>
+            <th>{% anchor match__competition_year 'Competition' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        <a href="{% url 'update_goal' item.id %}">
+                            {{ item.scorer }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.assist_by }}
+                    </td>
+                    <td>
+                        {{ item.time }}
+                    </td>
+                    <td>
+                        {{ item.match.title }}
+                    </td>
+                <td>
+                        {{ item.match.competition_year }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+    <div class="pull-right">
+        <a class="btn btn-success" href="{% url 'create_goal' %}">Add Goal</a>
+    </div>
+
+{% endblock %}

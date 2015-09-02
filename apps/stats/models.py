@@ -502,8 +502,8 @@ class Fixture(models.Model):
     def __unicode__(self):
         # return self.title
         ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
-        if datetime.datetime.now() > self.datetime:
-            ret += '[PAST] '
+        # if datetime.datetime.now() > self.datetime:
+        #     ret += '[PAST] '
         return ret
 
     class Meta:

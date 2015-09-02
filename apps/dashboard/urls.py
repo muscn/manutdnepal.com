@@ -81,6 +81,12 @@ urlpatterns = patterns('',
                        url(r'^fixture/$', stats_views.FixtureListView.as_view(), name='list_fixtures'),
                        url(r'^fixture/(?P<pk>\d+)/$', stats_views.FixtureUpdateView.as_view(), name='update_fixture'),
 
+                       url(r'^goal/$', stats_views.GoalListView.as_view(), name='list_goals'),
+                       url(r'^goal/add/$', stats_views.GoalCreateView.as_view(), name='create_goal'),
+                       url(r'^goal/(?P<pk>\d+)/$', stats_views.GoalUpdateView.as_view(), name='update_goal'),
+                       url(r'^goal/(?P<pk>\d+)/delete/$', stats_views.GoalDeleteView.as_view(),
+                           name='delete_goal'),
+
                        url(r'^quote/$', stats_views.QuoteListView.as_view(), name='list_quotes'),
                        url(r'^quote/add/$', stats_views.QuoteCreateView.as_view(), name='create_quote'),
                        url(r'^quote/(?P<pk>\d+)/$', stats_views.QuoteUpdateView.as_view(), name='update_quote'),
