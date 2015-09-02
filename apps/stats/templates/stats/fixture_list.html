@@ -1,0 +1,47 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Fixtures {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_fixtures' %}"><i class="fa fa-calendar-o"></i>Fixtures</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>Fixture</th>
+            <th>Date</th>
+            <th>Venue</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        <a href="{% url 'update_fixture' item.id %}">
+                            {{ item.title }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.datetime }}
+                    </td>
+                    <td>
+                        {{ item.venue }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+{% endblock %}

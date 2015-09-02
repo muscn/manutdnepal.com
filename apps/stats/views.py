@@ -66,6 +66,18 @@ class ResultUpdateView(StaffOnlyMixin, UpdateView):
     template_name = 'stats/result_form.html'
 
 
+class FixtureListView(StaffOnlyMixin, ListView):
+    model = Fixture
+    queryset = Fixture.get_upcoming()
+
+
+class FixtureUpdateView(StaffOnlyMixin, UpdateView):
+    model = Fixture
+    queryset = Fixture.get_upcoming()
+    form_class = ResultForm
+    success_url = reverse_lazy('list_fixtures')
+
+
 class SeasonDataListView(ListView):
     model = SeasonData
 

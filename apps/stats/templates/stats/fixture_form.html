@@ -1,11 +1,11 @@
 {% extends 'dashboard_base.html' %}
 {% load filters %}
 
-{% block title %} {{ scenario }} Result {% endblock %}
+{% block title %} {{ scenario }} Fixture {% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_results' %}"><i class="fa fa-list-ol"></i>Results</a>
+    <a href="{% url 'list_fixtures' %}"><i class="fa fa-calendar-o"></i>Fixtures</a>
     <span>{{ scenario }} {{ object }}</span>
 {% endblock %}
 
@@ -17,16 +17,16 @@
 
                 {% csrf_token %}
 
-                <div class="form-group required">
-                    {{ form.mufc_score.label_tag }}
-                    {{ form.mufc_score }}
-                    {{ form.mufc_score.errors }}
+                <div class="form-group">
+                    {{ form.round.label_tag }}
+                    {{ form.round }}
+                    {{ form.round.errors }}
                 </div>
 
-                <div class="form-group required">
-                    {{ form.opponent_score.label_tag }}
-                    {{ form.opponent_score }}
-                    {{ form.opponent_score.errors }}
+                <div class="form-group">
+                    {{ form.broadcast_on.label_tag }}
+                    {{ form.broadcast_on }}
+                    {{ form.broadcast_on.errors }}
                 </div>
 
                 <div class="form-group">
