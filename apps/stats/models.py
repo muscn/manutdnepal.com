@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import datetime
+from datetime import timedelta
 import urllib
 import json
 
@@ -358,7 +359,7 @@ class Injury(models.Model):
 
     @classmethod
     def get_current_injuries(cls):
-        return Injury.objects.filter(return_date__gt=datetime.date.today()).order_by('return_date').select_related()
+        return Injury.objects.filter(return_date__gte=datetime.date.today()).order_by('return_date').select_related()
 
     @classmethod
     def get_past_injuries(cls):
