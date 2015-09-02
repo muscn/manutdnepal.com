@@ -361,3 +361,7 @@ td.bold {
     background-color: #cccccc;
     display: inline-block;
 }
+
+.highlight{
+    color: #e54d36;
+}

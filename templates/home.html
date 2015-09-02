@@ -115,7 +115,7 @@
                     </thead>
                     <tbody>
                     {% for team in standings %}
-                        <tr>
+                        <tr {% if team.stand_team_name == 'Manchester United' %}class=highlight{% endif %}>
                             <td>{{ team.stand_position }}</td>
                             <td>{{ team.stand_team_name }}</td>
                             <td>{{ team.stand_overall_gp }}</td>
