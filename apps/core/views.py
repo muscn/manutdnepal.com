@@ -2,7 +2,7 @@ from django.core.cache import cache
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 
-from apps.stats.models import Fixture, MatchResult, get_top_scorers_summary
+from apps.stats.models import Fixture, get_top_scorers_summary, Injury
 
 
 def home(request):
@@ -14,14 +14,14 @@ def home(request):
     else:
         standings_summary = []
     top_scorers = get_top_scorers_summary()
+    injuries = Injury.get_current_injuries()
     context = {
         'next_match': next_match,
         'recent_results': recent_results,
         'standings': standings_summary,
         'players': top_scorers,
+        'injuries': injuries,
     }
-    # import ipdb
-    # ipdb.set_trace()
     return render(request, 'home.html', context)
 
 

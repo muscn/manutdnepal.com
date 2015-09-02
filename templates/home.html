@@ -145,6 +145,29 @@
             </div>
 
             <div class="stats-block">
+                <h2>Injuries</h2>
+                <table class="top-scorers table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Injury</th>
+                        <th>Return</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for injury in injuries %}
+                        <tr>
+                            <td>{{ injury.player.name }}</td>
+                            <td>{{ injury.type }}</td>
+                            <td>{{ injury.return_date }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="stats-block">
                 <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="timeline"
                      data-small-header="true" data-adapt-container-width="true" data-hide-cover="false"
                      data-show-facepile="true" data-height="362">
