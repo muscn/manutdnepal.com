@@ -564,7 +564,7 @@ def get_top_scorers_summary():
         if goal.scorer not in players:
             players[goal.scorer] = 0
         players[goal.scorer] += 1
-    players = OrderedDict(sorted(players.items(), key=lambda item: item, reverse=True))
+    players = OrderedDict(sorted(players.items(), key=lambda item: item[1], reverse=True))
     return players
 
 
