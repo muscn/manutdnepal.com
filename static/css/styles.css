@@ -333,3 +333,31 @@ td.bold {
 .table-responsive {
     overflow-x: auto;
 }
+
+.reddit-thread .text {
+    margin-left: 85px;
+    max-height: 2.5em;
+    overflow: hidden;
+}
+
+.reddit-thread .meta {
+    opacity: 0.75;
+}
+
+.reddit-thread img {
+    width: 70px;
+    margin-right: 15px;
+    max-height: 3em;
+}
+
+.reddit-thread {
+    padding: 3px 15px;
+    /*height: 85px;*/
+}
+
+.reddit-thread .thumbnail-placeholder {
+    width: 70px;
+    height: 70px;
+    background-color: #cccccc;
+    display: inline-block;
+}

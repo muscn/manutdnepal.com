@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
-{% load i18n  thumbnail %}
+{% load i18n  thumbnail staticfiles %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
+{% endblock %}
+
+{% block extrahead %}
+    <script src="{% static "js/ko.min.js" %}"></script>
+    <script src="{% static "js/reddit_vm.js" %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,10 +23,10 @@
 
     <div class="container">
 
-        {#        <div class="section featured row">#}
-        {#            <img class="img-responsive"#}
-        {#                 src="http://placehold.it/1600x500">#}
-        {#        </div>#}
+{#        <div class="section featured row">#}
+{#            <img class="img-responsive"#}
+{#                 src="http://placehold.it/1600x500">#}
+{#        </div>#}
 
         <div class="section call-to-action row">
             <h2>Apply for 2015/16 MUSCN Membership</h2>
@@ -165,6 +170,41 @@
                     </tbody>
                     </tr>
                 </table>
+            </div>
+
+            <div class="stats-block">
+                <h2>From Reddit</h2>
+
+                <div id="reddit-content" data-bind="foreach: threads">
+                    <div class="reddit-thread row">
+                        <!-- ko if:internal -->
+                        <span class="thumbnail-placeholder pull-left"></span>
+                        <!-- /ko -->
+
+                        <!-- ko if:!internal -->
+                        <img data-bind="attr: {'src': thumbnail}" class="pull-left">
+                        <!-- /ko -->
+
+                        <div class="text">
+                            <h5><a data-bind="attr: {'href': url, 'title': selftext}" target="_blank">
+                                <span data-bind="visible: over_18">[NSFW] </span>
+                                <span data-bind="visible: sticky">[STICKY] </span>
+                                <span data-bind="text: title"></span>
+                            </a></h5>
+
+                            {#                            <div class="meta">#}
+                            {#                                <a data-bind="attr:{'href': permalink}"><span class="datetime" data-bind="text: date_str"></span></a>#}
+                            {#                                by <a data-bind="attr: {'href': author_url}, text:author"></a>#}
+                            {#                                | Score: <span data-bind="text: score"></span>#}
+                            {#                                | <a data-bind="attr:{'href': permalink}"><span class="datetime"#}
+                            {#                                                                                data-bind="text: num_comments"></span>#}
+                            {#                                comments</a>#}
+                            {#                <span class="source" data-bind="visible: !internal">| Source: <span#}
+                            {#                        data-bind="text: domain"></span></span>#}
+                            {#                            </div>#}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="stats-block">
