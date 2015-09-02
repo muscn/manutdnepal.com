@@ -348,7 +348,7 @@ class StatSet(models.Model):
 
 class Injury(models.Model):
     player = models.ForeignKey(Player, related_name='injuries')
-    injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
+    # injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
     # Ankle, Illness, Shoulder, Finger,
     type = models.CharField(max_length=100, null=True, blank=True)
     injury_date = models.DateField(null=True, blank=True)
@@ -356,8 +356,19 @@ class Injury(models.Model):
     return_date_confirmed = models.BooleanField(default=True)
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
+    @classmethod
+    def get_current_injuries(cls):
+        return Injury.objects.filter(return_date__gt=datetime.date.today()).order_by('return_date').select_related()
+
+    @classmethod
+    def get_past_injuries(cls):
+        return Injury.objects.filter(return_date__lt=datetime.date.today()).order_by('-return_date').select_related()
+
     class Meta:
         verbose_name_plural = 'Injuries'
+
+    def __unicode__(self):
+        return unicode(self.player) + ' - ' + unicode(self.type)
 
 
 class Quote(models.Model):

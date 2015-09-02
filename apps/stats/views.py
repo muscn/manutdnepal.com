@@ -81,6 +81,14 @@ def scorers(request):
     return render(request, 'stats/scorers.html', context)
 
 
+def injuries(request):
+    context = {
+        'current_injuries': Injury.get_current_injuries(),
+        'past_injuries': Injury.get_past_injuries(),
+    }
+    return render(request, 'stats/injuries.html', context)
+
+
 def fixtures(request):
     upcoming_fixtures = Fixture.get_upcoming().select_related()
     results = Fixture.results().select_related()

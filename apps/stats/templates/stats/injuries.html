@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block title %} Injuries {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+    <script>
+        {#        $(document).ready(function () {#}
+        {#            $('table').DataTable({#}
+        {#                paging: false,#}
+        {#                aaSorting: [],#}
+        {#            });#}
+        {#        });#}
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <h1>Current Injuries</h1>
+
+        <table class="injuries-table table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Player</th>
+                <th>Injury</th>
+                <th>Injury Date</th>
+                <th>Expected Return Date</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for injury in current_injuries %}
+                <tr>
+                    <td>{{ injury.player.squad_no }}</td>
+                    <td>{{ injury.player.name }}</td>
+                    <td>
+                        {{ injury.type }}
+                        {% if injury.remarks %}
+                            [{{ injury.remarks }}]
+                        {% endif %}
+                    </td>
+                    <td>{{ injury.injury_date }}</td>
+                    <td>
+                        {{ injury.return_date }}
+                        {% if injury.return_date_confirmed %}
+                            [Confirmed]
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </tr>
+        </table>
+
+        <h1>Past Injuries</h1>
+
+        <table class="injuries-table table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Player</th>
+                <th>Injury</th>
+                <th>Injury Date</th>
+                <th>Return Date</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for injury in past_injuries %}
+                <tr>
+                    <td>{{ injury.player.squad_no }}</td>
+                    <td>{{ injury.player.name }}</td>
+                    <td>{{ injury.type }}</td>
+                    <td>{{ injury.injury_date }}</td>
+                    <td>{{ injury.return_date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </tr>
+        </table>
+
+    </div>
+{% endblock %}
+

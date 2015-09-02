@@ -48,6 +48,7 @@ urlpatterns = patterns('',
                        url(r'^fixtures/$', stats_views.fixtures, name='fixtures'),
                        url(r'^results/$', stats_views.fixtures, name='results'),
                        url(r'^top-scorers/$', stats_views.scorers, name='scorers'),
+                       url(r'^injuries/$', stats_views.injuries, name='injuries'),
                        (r'', include('apps.page.urls')),
                        )
 
