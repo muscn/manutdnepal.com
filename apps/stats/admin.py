@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
-    Fixture, Team, Goal
+    Fixture, Team, Goal, Stadium
 
 class TeamAdmin(admin.ModelAdmin):
     search_fields = ('name', 'short_name', 'alternative_names', 'nick_name')
@@ -17,7 +17,7 @@ admin.site.register(SeasonData)
 admin.site.register(Player)
 # admin.site.register(Fixture)
 admin.site.register(Team, TeamAdmin)
-# admin.site.register(Stadium)
+admin.site.register(Stadium)
 # admin.site.register(MatchResult)
 
 class FixtureAdmin(admin.ModelAdmin):
