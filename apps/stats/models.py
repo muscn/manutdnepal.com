@@ -480,7 +480,7 @@ class Fixture(models.Model):
 
     def time_remaining(self):
         # local_match_time = utc_to_local(self.datetime).replace(tzinfo=None)
-        delta = self.datetime - datetime.datetime.utcnow()
+        delta = self.datetime - datetime.datetime.now()
         dhm = (delta.days, delta.seconds // 3600, (delta.seconds // 60) % 60)
         return dhm
 
