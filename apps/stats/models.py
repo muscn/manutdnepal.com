@@ -388,6 +388,8 @@ class Quote(models.Model):
     @classmethod
     def random(cls):
         count = cls.objects.aggregate(count=Count('id'))['count']
+        if not count:
+            return None
         random_index = randint(0, count - 1)
         return cls.objects.all()[random_index]
 
@@ -567,6 +569,7 @@ def get_top_scorers():
         'competitions': competitions
     }
     return context
+
 
 def get_top_scorers_summary():
     goals = Goal.objects.all().select_related()
