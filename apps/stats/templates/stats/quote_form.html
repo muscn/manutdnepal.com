@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_quotes' %}"><i class="fa fa-money"></i>Quotes</a>
+    <a href="{% url 'list_quotes' %}"><i class="fa fa-quote-left"></i>Quotes</a>
     <span>{{ scenario }} {{ object }}</span>
 {% endblock %}
 
@@ -17,7 +17,7 @@
 
                 {% csrf_token %}
 
-                <div class="form-group">
+                <div class="form-group required">
                     {{ form.text.label_tag }}
                     {{ form.text }}
                     {{ form.text.errors }}
@@ -40,7 +40,7 @@
             </form>
 
             <div class="pull-right actions">
-                {% include 'partials/delete_button.html' with object=object url='delete_bank_account' %}
+                {% include 'partials/delete_button.html' with object=object url='delete_quote' %}
             </div>
         </div>
 

@@ -34,7 +34,6 @@ class InjuryDeleteView(StaffOnlyMixin, DeleteView):
 class QuoteListView(StaffOnlyMixin, ListView):
     model = Quote
 
-
 class QuoteCreateView(StaffOnlyMixin, CreateView):
     model = Quote
     form_class = QuoteForm
@@ -44,6 +43,10 @@ class QuoteCreateView(StaffOnlyMixin, CreateView):
 class QuoteUpdateView(StaffOnlyMixin, UpdateView):
     model = Quote
     form_class = QuoteForm
+    success_url = reverse_lazy('list_quotes')
+
+class QuoteDeleteView(StaffOnlyMixin, DeleteView):
+    model = Quote
     success_url = reverse_lazy('list_quotes')
 
 
