@@ -1,0 +1,47 @@
+{% extends 'dashboard_base.html' %}
+{% load filters %}
+
+{% block title %} {{ scenario }} Result {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_results' %}"><i class="fa fa-list-ol"></i>Results</a>
+    <span>{{ scenario }} {{ object }}</span>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <form method="POST" role="form">
+
+                {% csrf_token %}
+
+                <div class="form-group required">
+                    {{ form.mufc_score.label_tag }}
+                    {{ form.mufc_score }}
+                    {{ form.mufc_score.errors }}
+                </div>
+
+                <div class="form-group date-time required">
+                    {{ form.opponent_score.label_tag }}
+                    {{ form.opponent_score }}
+                    {{ form.opponent_score.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.remarks.label_tag }}
+                    {{ form.remarks }}
+                    {{ form.remarks.errors }}
+                </div>
+
+                <input type="submit" class="btn btn-info" value="Save">
+
+            </form>
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

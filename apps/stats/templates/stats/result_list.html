@@ -1,0 +1,47 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Results {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_results' %}"><i class="fa fa-list-ol"></i>Results</a>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>Score</th>
+            <th>Date</th>
+            <th>Remarks</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        <a href="{% url 'update_result' item.id %}">
+                            {{ item.score }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.datetime }}
+                    </td>
+                    <td>
+                        {{ item.remarks }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+{% endblock %}

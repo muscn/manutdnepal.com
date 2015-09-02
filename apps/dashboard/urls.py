@@ -75,6 +75,9 @@ urlpatterns = patterns('',
                        url(r'^injury/(?P<pk>\d+)/delete/$', stats_views.InjuryDeleteView.as_view(),
                            name='delete_injury'),
 
+                       url(r'^result/$', stats_views.ResultListView.as_view(), name='list_results'),
+                       url(r'^result/(?P<pk>\d+)/$', stats_views.ResultUpdateView.as_view(), name='update_result'),
+
                        url(r'^quote/$', stats_views.QuoteListView.as_view(), name='list_quotes'),
                        url(r'^quote/add/$', stats_views.QuoteCreateView.as_view(), name='create_quote'),
                        url(r'^quote/(?P<pk>\d+)/$', stats_views.QuoteUpdateView.as_view(), name='update_quote'),

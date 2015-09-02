@@ -7,7 +7,7 @@ from apps.users.models import StaffOnlyMixin
 from muscn.utils.mixins import CreateView, UpdateView, DeleteView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
     get_top_scorers, get_top_scorers_summary
-from .forms import QuoteForm, InjuryForm
+from .forms import QuoteForm, InjuryForm, ResultForm
 
 
 class InjuryListView(StaffOnlyMixin, ListView):
@@ -34,6 +34,7 @@ class InjuryDeleteView(StaffOnlyMixin, DeleteView):
 class QuoteListView(StaffOnlyMixin, ListView):
     model = Quote
 
+
 class QuoteCreateView(StaffOnlyMixin, CreateView):
     model = Quote
     form_class = QuoteForm
@@ -45,9 +46,24 @@ class QuoteUpdateView(StaffOnlyMixin, UpdateView):
     form_class = QuoteForm
     success_url = reverse_lazy('list_quotes')
 
+
 class QuoteDeleteView(StaffOnlyMixin, DeleteView):
     model = Quote
     success_url = reverse_lazy('list_quotes')
+
+
+class ResultListView(StaffOnlyMixin, ListView):
+    model = Fixture
+    queryset = Fixture.results()
+    template_name = 'stats/result_list.html'
+
+
+class ResultUpdateView(StaffOnlyMixin, UpdateView):
+    model = Fixture
+    queryset = Fixture.results()
+    form_class = ResultForm
+    success_url = reverse_lazy('list_results')
+    template_name = 'stats/result_form.html'
 
 
 class SeasonDataListView(ListView):

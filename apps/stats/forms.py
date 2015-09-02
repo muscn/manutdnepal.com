@@ -1,5 +1,5 @@
 from muscn.utils.forms import HTML5BootstrapModelForm
-from .models import Quote, Injury, Player
+from .models import Quote, Injury, Player, Fixture
 
 
 class QuoteForm(HTML5BootstrapModelForm):
@@ -15,4 +15,10 @@ class InjuryForm(HTML5BootstrapModelForm):
 
     class Meta:
         model = Injury
+        exclude = ()
+
+
+class ResultForm(HTML5BootstrapModelForm):
+    class Meta:
+        model = Fixture
         exclude = ()

@@ -446,7 +446,7 @@ class Fixture(models.Model):
 
     @classmethod
     def results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('datetime').select_related()
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime').select_related()
 
     @classmethod
     def recent_results(cls):
