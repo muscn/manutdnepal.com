@@ -4,14 +4,31 @@ from django.views.generic import ListView, DetailView
 from django.core.cache import cache
 
 from apps.users.models import StaffOnlyMixin
-from muscn.utils.mixins import CreateView, UpdateView
+from muscn.utils.mixins import CreateView, UpdateView, DeleteView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
     get_top_scorers, get_top_scorers_summary
-from .forms import QuoteForm
+from .forms import QuoteForm, InjuryForm
 
 
 class InjuryListView(StaffOnlyMixin, ListView):
     model = Injury
+
+
+class InjuryCreateView(StaffOnlyMixin, CreateView):
+    model = Injury
+    form_class = InjuryForm
+    success_url = reverse_lazy('list_injuries')
+
+
+class InjuryUpdateView(StaffOnlyMixin, UpdateView):
+    model = Injury
+    form_class = InjuryForm
+    success_url = reverse_lazy('list_injuries')
+
+
+class InjuryDeleteView(StaffOnlyMixin, DeleteView):
+    model = Injury
+    success_url = reverse_lazy('list_injuries')
 
 
 class QuoteListView(StaffOnlyMixin, ListView):

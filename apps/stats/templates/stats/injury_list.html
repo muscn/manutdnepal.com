@@ -7,7 +7,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_injuries' %}"><i class="fa fa-bank"></i>Injuries</a>
+    <a href="{% url 'list_injuries' %}"><i class="fa fa-medkit"></i>Injuries</a>
 {% endblock %}
 
 {% block content %}
@@ -27,15 +27,19 @@
             {% for item in paginated_objects %}
                 <tr>
                     <td>
-
+                        <a href="{% url 'update_injury' item.id %}">
+                            {{ item.player }}
+                        </a>
                     </td>
                     <td>
-
+                        {{ item.type }}
                     </td>
                     <td>
-
+                        {{ item.injury_date }}
                     </td>
-                    <td></td>
+                    <td>
+                        {{ item.return_date }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -45,7 +49,7 @@
     {% paginate %}
 
     <div class="pull-right">
-{#        <a class="btn btn-success" href="{% url 'create_bank_account' %}">Add New Bank Account</a>#}
+        <a class="btn btn-success" href="{% url 'create_injury' %}">Add New Injury</a>
     </div>
 
 {% endblock %}

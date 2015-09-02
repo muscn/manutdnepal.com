@@ -1,0 +1,72 @@
+{% extends 'dashboard_base.html' %}
+{% load filters %}
+
+{% block title %} {{ scenario }} Injury {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_injuries' %}"><i class="fa fa-medkit"></i>Injuries</a>
+    <span>{{ scenario }} {{ object }}</span>
+{% endblock %}
+
+{% block extrahead %}
+    {% include 'partials/selectize.html' %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <form method="POST" role="form">
+
+                {% csrf_token %}
+
+                <div class="form-group required">
+                    {{ form.player.label_tag }}
+                    {{ form.player }}
+                    {{ form.player.errors }}
+                </div>
+
+                <div class="form-group date-time">
+                    {{ form.type.label_tag }}
+                    {{ form.type }}
+                    {{ form.type.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.injury_date.label_tag }}
+                    {{ form.injury_date }}
+                    {{ form.injury_date.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.return_date.label_tag }}
+                    {{ form.return_date }}
+                    {{ form.return_date.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.return_date_confirmed.label_tag }}
+                    {{ form.return_date_confirmed }}
+                    {{ form.return_date_confirmed.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.remarks.label_tag }}
+                    {{ form.remarks }}
+                    {{ form.remarks.errors }}
+                </div>
+
+                <input type="submit" class="btn btn-info" value="Save">
+
+            </form>
+
+            <div class="pull-right actions">
+                {% include 'partials/delete_button.html' with object=object url='delete_injury' %}
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

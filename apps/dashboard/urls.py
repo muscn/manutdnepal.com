@@ -63,13 +63,17 @@ urlpatterns = patterns('',
                        url(r'^user/add/$', users_views.UserCreateView.as_view(), name='create_user'),
                        url(r'^user/(?P<pk>\d+)/$', users_views.UserUpdateView.as_view(),
                            name='update_user'),
-                       url(r'^delete-user/(?P<pk>\d+)/delete/$', users_views.UserDeleteView.as_view(),
+                       url(r'^user/(?P<pk>\d+)/delete/$', users_views.UserDeleteView.as_view(),
                            name='delete_user'),
 
                        url(r'^staff/$', users_views.StaffListView.as_view(), name='list_staffs'),
                        url(r'^staff/(?P<pk>\d+)/$', users_views.StaffDetailView.as_view(), name='view_staff'),
 
                        url(r'^injury/$', stats_views.InjuryListView.as_view(), name='list_injuries'),
+                       url(r'^injury/add/$', stats_views.InjuryCreateView.as_view(), name='create_injury'),
+                       url(r'^injury/(?P<pk>\d+)/$', stats_views.InjuryUpdateView.as_view(), name='update_injury'),
+                       url(r'^injury/(?P<pk>\d+)/delete/$', stats_views.InjuryDeleteView.as_view(),
+                           name='delete_injury'),
 
                        url(r'^quote/$', stats_views.QuoteListView.as_view(), name='list_quotes'),
                        url(r'^quote/add/$', stats_views.QuoteCreateView.as_view(), name='create_quote'),
