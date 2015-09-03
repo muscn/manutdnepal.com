@@ -455,14 +455,9 @@ header {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-
-.navbar.navbar-default {
-    min-height: 150px;
-}
-
 .brand-name {
     display: table;
-    height: 150px;
+    height: 100px;
 }
 
 .brand-name h1 {
@@ -476,12 +471,21 @@ header {
     font-style: italic;
 }
 
+header img.logo {
+    height: 100px;
+}
+
 @media only screen and (max-width: 400px) {
     .brand-name h1 a {
         font-size: 1em;
     }
+
+    header img.logo {
+        height: auto;
+    }
 }
 
-.navbar-toggle .icon-bar{
+.navbar-toggle .icon-bar {
     margin: 0 auto;
 }
+
