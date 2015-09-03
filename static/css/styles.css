@@ -447,7 +447,7 @@ blockquote p {
 }
 
 header {
-    height: 150px;
+    min-height: 150px;
     /*background:url(http://thenextweb.com/wp-content/blogs.dir/1/files/2014/08/Manchester-United.jpg);*/
     background: url(http://i.stack.imgur.com/pU1j3.jpg);
     background-repeat: no-repeat;
@@ -551,4 +551,8 @@ header {
 
 .h-component.logo-menus {
     margin-top:20px;
+}
+
+.navbar.navbar-default{
+    min-height: 150px;
 }
