@@ -426,23 +426,6 @@ blockquote p {
     content: '- ';
 }
 
-header {
-    min-height: 150px;
-    /*background:url(http://thenextweb.com/wp-content/blogs.dir/1/files/2014/08/Manchester-United.jpg);*/
-    background: url(http://i.stack.imgur.com/pU1j3.jpg);
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-position-y: -270px;
-    margin-bottom: 20px;
-
-}
-
-.navbar.navbar-default {
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
 .pull-up-content {
     background-color: #FFF;
     /*margin-top: -200px;*/
@@ -456,9 +439,7 @@ header {
     margin: 0.2em !important;
 }
 
-.mesh2, .mesh:after {
-    /*background: -webkit-radial-gradient(0px 0px, circle cover, #e54d36 8%, #111 100%);*/
-
+header {
     background: #e54d36;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTU0ZDM2IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzY4MTkwZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
     background: -moz-linear-gradient(-45deg, #e54d36 0%, #68190e 100%);
@@ -468,70 +449,12 @@ header {
     background: -ms-linear-gradient(-45deg, #e54d36 0%, #68190e 100%);
     background: linear-gradient(135deg, #e54d36 0%, #68190e 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e54d36', endColorstr='#68190e', GradientType=1);
-
 }
 
-.anime {
-    animation: testmesh 5s infinite;
-    -webkit-animation: testmesh 1s infinite;
+.navbar.navbar-default {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-@-webkit-keyframes testmesh {
-    0% {
-
-        background: -webkit-radial-gradient(left 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    10% {
-
-        background: -webkit-radial-gradient(10% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-    20% {
-
-        background: -webkit-radial-gradient(40% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    30% {
-
-        background: -webkit-radial-gradient(60% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    40% {
-
-        background: -webkit-radial-gradient(80% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    50% {
-        background: -webkit-radial-gradient(right 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    90% {
-
-        background: -webkit-radial-gradient(10% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-    80% {
-
-        background: -webkit-radial-gradient(40% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    70% {
-
-        background: -webkit-radial-gradient(60% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    60% {
-
-        background: -webkit-radial-gradient(80% 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-
-    100% {
-        background: -webkit-radial-gradient(left 0px, circle cover, #e54d36 8%, #D74631 100%);
-    }
-}
-
-.h-component.logo-menus {
-    margin-top: 20px;
-}
 
 .navbar.navbar-default {
     min-height: 150px;
