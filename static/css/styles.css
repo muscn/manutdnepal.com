@@ -36,32 +36,12 @@ textarea {
 
 /*Navbar styles*/
 
-.navbar .logo {
-    height: 140px;
-    /*height: 70px;*/
-    display: inline-block;
-    margin-top: -15px;
-}
-
 nav.navbar {
     /*border-bottom: 1px solid #111111;*/
     /*background-color: #e54d36;*/
     border-bottom: 1px solid #e54d36;
     margin-bottom: 0;
     background-color: #e54d36;
-    color: #fff;
-}
-
-.navbar-default .navbar-brand {
-    color: #ffffff;
-    text-transform: uppercase;
-}
-
-nav.navbar .dropdown-menu a {
-    color: black !important;
-}
-
-#navbarCollapse a {
     color: #fff;
 }
 
@@ -550,9 +530,35 @@ header {
 }
 
 .h-component.logo-menus {
-    margin-top:20px;
+    margin-top: 20px;
 }
 
-.navbar.navbar-default{
+.navbar.navbar-default {
     min-height: 150px;
+}
+
+.brand-name {
+    display: table;
+    height: 150px;
+}
+
+.brand-name h1 {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.brand-name h1 a {
+    color: #ffffff;
+    font-size: 1.3em;
+    font-style: italic;
+}
+
+@media only screen and (max-width: 400px) {
+    .brand-name h1 a {
+        font-size: 1em;
+    }
+}
+
+.navbar-toggle .icon-bar{
+    margin: 0 auto;
 }
