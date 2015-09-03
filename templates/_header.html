@@ -1,0 +1,80 @@
+{% load staticfiles %}
+<header class="mesh2 anim">
+        {% block navbar %}
+
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid row">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header col-sm-6">
+                        <div class="logo-only h-component">
+                            <a class="navbar-brand" href="/">
+                                <img class="logo" id="logo" src="{% static "img/logo.svg" %}" alt="">
+                            </a>
+                        </div>
+                        <div class="h-component logo-menus">
+                            <h1>MANCHESTER UNITED SUPPORTERS' CLUB, NEPAL</h1>
+
+
+                        </div>
+
+
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#navbarCollapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class=" collapse navbar-collapse" id="navbarCollapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'list_events' %}">Events</a></li>
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false">MUSCN <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
+                                        <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
+                                        <li class="divider"></li>
+                                        {#                                    <li><a href="#">About Us</a></li>#}
+                                        <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false">MUFC <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        {#                                    <li><a href="{% url 'list_squad' %}">History</a></li>#}
+                                        <li><a href="{% url 'list_squad' %}">Squad</a></li>
+                                        <li><a href="{% url 'list_seasons' %}">Seasons</a></li>
+                                        {#                                    <li><a href="{% url 'list_squad' %}">Quotes</a></li>#}
+                                        {#                                    <li><a href="{% url 'list_squad' %}">Injuries</a></li>#}
+                                    </ul>
+                                </li>
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.membership %}
+                                        {% if request.user.is_member %}
+                                            <li><a>✓</a></li>
+                                        {% endif %}
+                                    {% else %}
+                                        <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
+                                            Membership</a>
+                                        </li>
+                                    {% endif %}
+                                    <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
+                                    <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        {% endblock %}
+    </header>
