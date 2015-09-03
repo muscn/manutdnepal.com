@@ -7,8 +7,6 @@
 {% block extrahead %}
     <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
-    {#    <link rel="stylesheet" type="text/css"#}
-    {#          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>#}
     <link rel="stylesheet" type="text/css"
           href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
 
@@ -17,24 +15,6 @@
             $('table').DataTable({
                 paging: false,
                 "aaSorting": [],
-                {#                "aoColumns": [#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    null,#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null#}
-                {#                ]#}
             });
         });
     </script>
@@ -51,7 +31,7 @@
             <thead>
             <tr>
                 <th></th>
-                {#                <th></th>#}
+                {#                                <th></th>#}
                 <th>Club</th>
                 <th>P</th>
                 <th>W</th>
@@ -67,8 +47,8 @@
             <tbody>
             {% for team in standings.teams %}
                 <tr {% if team.stand_team_name == 'Manchester United' %}class=highlight{% endif %}>
-                    {#                <td>{{ team.stand_status }}</td>#}
-                    <td>{{ team.stand_position }}</td>
+                    <td>{{ team.stand_status }}</td>
+                    {#                    <td>{{ team.stand_position }}</td>#}
                     <td>{{ team.stand_team_name }}</td>
                     <td>{{ team.stand_overall_gp }}</td>
                     <td>{{ team.stand_overall_w }}</td>
