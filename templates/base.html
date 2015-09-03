@@ -25,6 +25,7 @@
     <meta name="keywords"
           content="MUSCN, Manchester United Nepal, Manchester United Fans Nepal, Manchester United Supporters' Club Nepal, Man Utd Nepal, MUFC Nepal">
 
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link rel="icon" type="image/png" href="{% block favicon_url %}{% static 'img/favicon.ico' %}{% endblock %}"/>
 
     {% block bootstrap_styles %}
@@ -40,17 +41,25 @@
 </head>
 <body>
 <div id="container">
-    <header>
+    <header class="mesh2 anim">
         {% block navbar %}
 
             <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
+                <div class="container-fluid row">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="/">
-                            <img class="logo" id="logo" src="{% static "img/logo.svg" %}" alt="">Manchester United Supporters'
-                            Club,
-                            Nepal</a>
+                    <div class="navbar-header col-sm-6">
+                        <div class="logo-only h-component">
+                            <a class="navbar-brand" href="/">
+                                <img class="logo" id="logo" src="{% static "img/logo.svg" %}" alt="">
+                            </a>
+                        </div>
+                        <div class="h-component logo-menus">
+                            <div>Manchester United Supporter's Club Nepal</div>
+
+
+                        </div>
+
+
                         <button type="button" class="navbar-toggle" data-toggle="collapse"
                                 data-target="#navbarCollapse">
                             <span class="sr-only">Toggle navigation</span>
@@ -59,7 +68,8 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="col-sm-6">
+                    <div class=" collapse navbar-collapse" id="navbarCollapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="{% url 'list_events' %}">Events</a></li>
 
@@ -70,19 +80,19 @@
                                     <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
                                     <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
                                     <li class="divider"></li>
-{#                                    <li><a href="#">About Us</a></li>#}
+                                    {#                                    <li><a href="#">About Us</a></li>#}
                                     <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
                                 </ul>
                             </li>
-                        <li class="dropdown">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-expanded="false">MUFC <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-{#                                    <li><a href="{% url 'list_squad' %}">History</a></li>#}
+                                    {#                                    <li><a href="{% url 'list_squad' %}">History</a></li>#}
                                     <li><a href="{% url 'list_squad' %}">Squad</a></li>
                                     <li><a href="{% url 'list_seasons' %}">Seasons</a></li>
-{#                                    <li><a href="{% url 'list_squad' %}">Quotes</a></li>#}
-{#                                    <li><a href="{% url 'list_squad' %}">Injuries</a></li>#}
+                                    {#                                    <li><a href="{% url 'list_squad' %}">Quotes</a></li>#}
+                                    {#                                    <li><a href="{% url 'list_squad' %}">Injuries</a></li>#}
                                 </ul>
                             </li>
                             {% if request.user.is_authenticated %}
@@ -103,6 +113,8 @@
 
                         </ul>
                     </div>
+                </div>
+
                 </div>
                 <!-- /.container-fluid -->
             </nav>
