@@ -37,8 +37,6 @@
                 {#                ]#}
             });
         });
-se
-
     </script>
 
 {% endblock %}
@@ -53,7 +51,7 @@ se
             <thead>
             <tr>
                 <th></th>
-{#                <th></th>#}
+                {#                <th></th>#}
                 <th>Club</th>
                 <th>P</th>
                 <th>W</th>
@@ -64,24 +62,24 @@ se
                 <th>GD</th>
                 <th>Recent Form</th>
                 <th>Pts</th>
-                </tr>
+            </tr>
             </thead>
             <tbody>
             {% for team in standings.teams %}
                 <tr {% if team.stand_team_name == 'Manchester United' %}class=highlight{% endif %}>
-{#                <td>{{ team.stand_status }}</td>#}
-                <td>{{ team.stand_position }}</td>
-                <td>{{ team.stand_team_name }}</td>
-                <td>{{ team.stand_overall_gp }}</td>
-                <td>{{ team.stand_overall_w }}</td>
-                <td>{{ team.stand_overall_d }}</td>
-                <td>{{ team.stand_overall_l }}</td>
-                <td>{{ team.stand_overall_gs }}</td>
-                <td>{{ team.stand_overall_ga }}</td>
+                    {#                <td>{{ team.stand_status }}</td>#}
+                    <td>{{ team.stand_position }}</td>
+                    <td>{{ team.stand_team_name }}</td>
+                    <td>{{ team.stand_overall_gp }}</td>
+                    <td>{{ team.stand_overall_w }}</td>
+                    <td>{{ team.stand_overall_d }}</td>
+                    <td>{{ team.stand_overall_l }}</td>
+                    <td>{{ team.stand_overall_gs }}</td>
+                    <td>{{ team.stand_overall_ga }}</td>
 
                     <td>{{ team.stand_gd }}</td>
                     <td>{{ team.stand_recent_form }}</td>
-                <td>{{ team.stand_points }}</td>
+                    <td>{{ team.stand_points }}</td>
                 </tr>
             {% endfor %}
             </tbody>
