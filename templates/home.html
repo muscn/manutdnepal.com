@@ -214,13 +214,13 @@
             <div class="stats-block" id="news-block">
                 <h2>News</h2>
 
-                <div id="news-content" data-bind="foreach: entries" class="block-content">
-                    <div class="news-item">
-                        <a data-bind="attr: {'href': link}, text: title"></a>
-                    </div>
+                <ul id="news-content" data-bind="foreach: entries" class="block-content">
+                    <li class="news-item">
+                        <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>
+                    </li>
 
 
-                </div>
+                </ul>
             </div>
 
             <div class="stats-block">

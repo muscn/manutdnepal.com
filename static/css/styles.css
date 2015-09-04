@@ -380,6 +380,7 @@ td.bold {
 
 #news-content .news-item {
     margin-bottom: 0.5em;
+    list-style: none;
 }
 
 .section.quote-block {
