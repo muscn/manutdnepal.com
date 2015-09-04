@@ -22,6 +22,7 @@ class Person(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ('order',)
 
 
 class Player(Person):
