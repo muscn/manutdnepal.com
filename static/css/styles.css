@@ -472,6 +472,10 @@ header {
     font-style: italic;
 }
 
+.brand-name h1 a:hover {
+    text-decoration:  none;
+}
+
 header img.logo {
     height: 100px;
 }
