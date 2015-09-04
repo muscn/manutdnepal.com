@@ -1,17 +1,15 @@
 from django.db import models
+from apps.users.models import User
 from muscn.utils.forms import unique_slugify
 
 
 class Person(models.Model):
-    name = models.CharField(max_length=254)
+    user = models.ForeignKey(User)
     slug = models.SlugField(max_length=254, blank=True)
-    date_of_birth = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to='photos/', blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
     weight = models.FloatField(blank=True, null=True)
     birth_place = models.CharField(max_length=255, blank=True, null=True)
-    address = models.CharField(max_length=255, blank=True, null=True)
-    phone = models.CharField(max_length=50, blank=True, null=True)
     active = models.BooleanField(default=True)
     order = models.IntegerField(default=0)
 
