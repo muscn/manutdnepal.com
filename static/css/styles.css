@@ -473,7 +473,7 @@ header {
 }
 
 .brand-name h1 a:hover {
-    text-decoration:  none;
+    text-decoration: none;
 }
 
 header img.logo {
@@ -484,7 +484,7 @@ header img.logo {
     margin: 0 auto;
 }
 
-.navbar-header{
+.navbar-header {
     margin-left: 0 !important;
 }
 
@@ -500,47 +500,50 @@ header img.logo {
     }
 }
 
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav > li > a {
     color: #ddd;
 }
 
-.navbar-default .navbar-nav>li>a:hover {
+.navbar-default .navbar-nav > li > a:hover {
     color: #aaa;
 }
 
-#news-content a{
+#news-content a {
     color: #D23A35;
 }
 
-.timer span{
+.timer span {
     font-size: xx-large;
 }
 
-.countdown .text{
+.countdown .text {
     margin-top: 1em;
 }
 
-.countdown .timer, .countdown .countdown-footer{
+.countdown .timer, .countdown .countdown-footer {
     color: #e54d36;
 }
 
-#mufc-menu{
+#mufc-menu {
     display: none !important;
 }
 
 .container {
-  background-color: #FFF;
-  /* margin-top: -200px; */
-  position: relative;
-  padding: 39px;
-  /* border-radius: 30px; */
+    background-color: #FFF;
+    /* margin-top: -200px; */
+    position: relative;
+    padding: 39px;
+    /* border-radius: 30px; */
 }
 
-.person-block{
+.person-block {
     width: 300px;
     border: 1px solid #CCCCCC;
+    float: left;
+    margin-right: 20px;
+    box-shadow: 0 0 20px -4px #CCC;
 }
 
-.person-block .name{
+.person-block .name {
     font-weight: bold;
 }

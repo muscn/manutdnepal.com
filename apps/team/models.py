@@ -14,11 +14,11 @@ class Person(models.Model):
     order = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        unique_slugify(self, self.name)
+        unique_slugify(self, self.user.full_name)
         super(Person, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return self.name
+        return self.user.full_name
 
     class Meta:
         abstract = True
