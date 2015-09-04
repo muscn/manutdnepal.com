@@ -24,13 +24,13 @@
 
     <div class="container">
 
-                <div class="section featured row">
-                    <img class="img-responsive"
-                         src="http://lorempixel.com/1600/500">
-                </div>
+        <div class="section featured row">
+            <img class="img-responsive"
+                 src="http://lorempixel.com/1600/500">
+        </div>
 
         <div class="section call-to-action row">
-            <h2>Apply for 2015/16 MUSCN Membership</h2>
+            <h2><a href="{% url 'membership_form' %}">Apply for 2015/16 MUSCN Membership</a></h2>
         </div>
 
         <div class="section stats">
@@ -70,20 +70,23 @@
                     <br/>
 
                     <div class="countdown row text-center">
-                        <div class="text col-xs-5">Time until<br/>next match</div>
-                        <div class="timer col-xs-7 row">
-                            <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
-                            <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
-                            <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
+                        <div class="text col-xs-5">Time Remaining</div>
+                        <div class="col-xs-7">
+                            <div class="row timer">
+                                <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
+                                <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
+                                <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
+                            </div>
+                            <div class="countdown-footer row text-center">
+                                <span class="days col-xs-4 text-center">days</span>
+                                <span class="days col-xs-4">hours</span>
+                                <span class="days col-xs-4">mins</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="countdown-footer row text-center">
+                    <div class="">
                         <div class="text col-xs-5"></div>
-                        <div class="timer col-xs-7 row">
-                            <span class="days col-xs-4 text-center">days</span>
-                            <span class="days col-xs-4">hours</span>
-                            <span class="days col-xs-4">mins</span>
-                        </div>
+
                     </div>
                 {% else %}
                     <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>

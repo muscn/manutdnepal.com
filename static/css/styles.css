@@ -506,3 +506,15 @@ header img.logo {
 #news-content a{
     color: #D23A35;
 }
+
+.timer span{
+    font-size: xx-large;
+}
+
+.countdown .text{
+    margin-top: 1em;
+}
+
+.countdown .timer, .countdown .countdown-footer{
+    color: #e54d36;
+}
