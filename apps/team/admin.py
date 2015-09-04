@@ -1,3 +1,5 @@
 from django.contrib import admin
+from apps.team.models import Player, Staff
 
-# Register your models here.
+admin.site.register(Player)
+admin.site.register(Staff)

@@ -535,3 +535,12 @@ header img.logo {
   padding: 39px;
   /* border-radius: 30px; */
 }
+
+.person-block{
+    width: 300px;
+    border: 1px solid #CCCCCC;
+}
+
+.person-block .name{
+    font-weight: bold;
+}

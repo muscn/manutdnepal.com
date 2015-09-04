@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles thumbnail %}
+
+{% block title %} MUSCN Football Team {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "team/team.css" %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <h1>MUSCN Football Team</h1>
+
+        <h2>Players</h2>
+        {% for player in players %}
+            <div class="person-block">
+                <div class="photo">
+                    {% thumbnail player.image "300x300" format="PNG" as player_image %}
+                        <img src="{{ player_image.url }}" alt="{{ player.name }}">
+                    {% endthumbnail %}
+                </div>
+                <div class="name text-center">{{ player.name }}</div>
+                <table class="table">
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ player.address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Position</th>
+                        <td>{{ player.positions }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
