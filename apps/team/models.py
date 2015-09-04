@@ -12,6 +12,7 @@ class Person(models.Model):
     birth_place = models.CharField(max_length=255, blank=True, null=True)
     active = models.BooleanField(default=True)
     order = models.IntegerField(default=0)
+    remarks = models.CharField(max_length=10, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.user.full_name)

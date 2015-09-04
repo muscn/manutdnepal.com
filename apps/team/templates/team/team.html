@@ -21,7 +21,12 @@
                         <img src="{{ player_image.url }}" alt="{{ player.name }}">
                     {% endthumbnail %}
                 </div>
-                <div class="name text-center">{{ player.user.full_name }}</div>
+                <div class="name text-center">
+                    {{ player.user.full_name }}
+                    {% if player.remarks %}
+                        {{ player.remarks }}
+                    {% endif %}
+                </div>
                 <table class="table">
                     <tr>
                         <th>Address</th>
@@ -35,9 +40,9 @@
             </div>
         {% endfor %}
 
-    <br style="clear: both"/><br/>
+        <br style="clear: both"/><br/>
 
-    <h2>Staffs</h2>
+        <h2>Staffs</h2>
         {% for staff in staffs %}
             <div class="person-block">
                 <div class="photo">
