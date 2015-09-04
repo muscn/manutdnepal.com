@@ -97,11 +97,19 @@
                 <h2><a href="{% url 'results' %}">RECENT RESULTS</a></h2>
 
                 <div class="results block-content">
-                    {% for result in recent_results %}
-                        <div class="result">
-                            <i class="result{{ result.result }}"></i> {{ result.score }}
-                        </div>
-                    {% endfor %}
+                    <table class="table">
+                        <tbody>
+
+                            {% for result in recent_results %}
+                                <tr class="result">
+                                <td>
+                                    <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
+                                </td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

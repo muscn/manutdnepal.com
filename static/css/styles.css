@@ -285,7 +285,7 @@ img.overlaid {
 }
 
 .stats-block .result {
-    padding-top: 1em;
+    padding: 0.8em 0;
 }
 
 i.result1 {
