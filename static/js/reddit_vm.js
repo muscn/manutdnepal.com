@@ -2,7 +2,7 @@ $(function () {
     var config = {
         'domain': 'reddevils',
         'show_sticky': false,
-        'num_threads': 5,
+        'num_threads': 6,
         'allow_internal': false,
         'upvoted_only': true,
     }
@@ -34,6 +34,12 @@ function ThreadVM(data) {
     self.num_comments = data.num_comments;
     self.domain = data.domain;
     self.selftext = data.selftext;
+
+    if (self.selftext){
+        self.text = self.selftext;
+    }else{
+        self.text = self.title;
+    }
 }
 
 function RedditVM(config) {
