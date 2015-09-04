@@ -519,3 +519,7 @@ header img.logo {
 .countdown .timer, .countdown .countdown-footer{
     color: #e54d36;
 }
+
+#mufc-menu{
+    display: none !important;
+}
