@@ -100,13 +100,13 @@
                     <table class="table">
                         <tbody>
 
-                            {% for result in recent_results %}
-                                <tr class="result">
+                        {% for result in recent_results %}
+                            <tr class="result">
                                 <td>
                                     <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
                                 </td>
-                                </tr>
-                            {% endfor %}
+                            </tr>
+                        {% endfor %}
 
                         </tbody>
                     </table>
@@ -163,25 +163,30 @@
 
             <div class="stats-block">
                 <h2><a href="{% url 'injuries' %}">INJURIES</a></h2>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Injury</th>
-                        <th>Return</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for injury in injuries %}
+                {% if injuries %}
+                    <table class="table">
+                        <thead>
                         <tr>
-                            <td>{{ injury.player.name }}</td>
-                            <td>{{ injury.type }}</td>
-                            <td>{{ injury.return_date }}</td>
+                            <th>Player</th>
+                            <th>Injury</th>
+                            <th>Return</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                    </tr>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for injury in injuries %}
+                            <tr>
+                                <td>{{ injury.player.name }}</td>
+                                <td>{{ injury.type }}</td>
+                                <td>{{ injury.return_date }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        </tr>
+                    </table>
+                {% else %}
+                    <br/><br/><br/>
+                    <h3 class="highlight text-center">All players are fit.</h3>
+                {% endif %}
             </div>
 
             <div class="stats-block" id="reddit-block">
