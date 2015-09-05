@@ -76,6 +76,7 @@ TEMPLATES = [
     },
 ]
 
+DEFAULT_FROM_EMAIL = 'webmaster@manutd.org.np'
 ROOT_URLCONF = 'muscn.urls'
 WSGI_APPLICATION = 'muscn.wsgi.application'
 LANGUAGE_CODE = 'en-us'
