@@ -125,8 +125,10 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
-    def email_user(self, subject, message, from_email):
-        pass
+    def email_user(self, subject, message):
+        from django.conf import settings
+        from django.core.mail import send_mail
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,[self.email], fail_silently=False)
 
     def is_admin(self):
         return self.is_superuser
@@ -392,6 +394,14 @@ class CardStatus(models.Model):
         if self.remarks:
             ret += ' [' + self.remarks + ']'
         return ret
+
+    def notify(self):
+        if self.status == 1:
+            subject = 'subject'
+            params = 'message'
+            template = 'users/email/status_awaiting.'
+        self.membership.user.email_user(subject, params, template)
+
 
     def __unicode__(self):
         return self.membership.user.full_name + ' - ' + self.get_status()
