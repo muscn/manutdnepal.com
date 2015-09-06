@@ -230,9 +230,12 @@ class MembershipUpdateView(StaffOnlyMixin, UpdateView):
                     messages.info(request, 'The membership is approved!')
                     obj.save()
                     if not hasattr(obj, 'card_status'):
-                        card_status = CardStatus(membership=obj, status=1)
-                        card_status.notify()
-                        card_status.save()
+                        card_status = CardStatus(membership=obj)
+                    else:
+                        card_status = CardStatus.objects.get(membership=obj)
+                    card_status.status = 1
+                    card_status.notify()
+                    card_status.save()
             elif request.POST['action'] == 'Disprove':
                 obj.approved_by = None
                 messages.info(request, 'The membership is disproved!')

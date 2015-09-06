@@ -125,10 +125,20 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
-    def email_user(self, subject, message):
+    def email_user(self, subject, context, text_template, html_template=None):
         from django.conf import settings
         from django.core.mail import send_mail
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,[self.email], fail_silently=False)
+        from django.template.loader import render_to_string
+
+        context['user'] = self
+        text_message = render_to_string(text_template, context)
+        if html_template:
+            html_message = render_to_string(html_template, context)
+        else:
+            html_message = None
+
+        send_mail(subject, text_message, settings.DEFAULT_FROM_EMAIL, [self.email], fail_silently=False,
+                  html_message=html_message)
 
     def is_admin(self):
         return self.is_superuser
@@ -397,11 +407,19 @@ class CardStatus(models.Model):
 
     def notify(self):
         if self.status == 1:
-            subject = 'subject'
-            params = 'message'
-            template = 'users/email/status_awaiting.'
-        self.membership.user.email_user(subject, params, template)
-
+            subject = 'Your MUSCN membership has been approved.'
+            params = {}
+            text_template = 'users/email/status_awaiting.txt'
+            # html_template = 'users/email/status_awaiting.html'
+        elif self.status == 2:
+            subject = 'Your MUSCN membership card has been printed.'
+            params = {}
+            text_template = 'users/email/status_printed.txt'
+        elif self.status == 3:
+            subject = 'Your MUSCN membership card has been picked up.'
+            params = {}
+            text_template = 'users/email/status_delivered.txt'
+        self.membership.user.email_user(subject, params, text_template)
 
     def __unicode__(self):
         return self.membership.user.full_name + ' - ' + self.get_status()

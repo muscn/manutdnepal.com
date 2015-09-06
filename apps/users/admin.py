@@ -158,6 +158,11 @@ class CardStatusAdmin(admin.ModelAdmin):
     search_fields = ('membership__user__full_name', 'membership__user__devil_no')
     list_filter = ('status',)
 
+    def save_model(self, request, obj, form, change):
+        if not form.initial['status'] == obj.status:
+            obj.notify()
+        obj.save()
+
     def get_membership(self, obj):
         url = reverse('admin:%s_%s_change' % (obj.membership._meta.app_label, obj.membership._meta.model_name), args=(obj.membership.pk,))
         return u'<a href="%s">%s</a>' % (url, obj.membership.user.full_name)

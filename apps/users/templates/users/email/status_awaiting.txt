@@ -1,0 +1,8 @@
+Hi {{user.full_name}},
+
+Your membership registration has been approved and your membership card (Devil Card) has been queued for printing. We will notify you again when your card is available to be picked up.
+Your membership number (Devil No.) is {{ user.devil_no }}.
+Thank you for registering!
+
+Manchester United Supporters' Club, Nepal
+http://manutd.org.np
