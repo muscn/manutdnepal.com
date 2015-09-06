@@ -224,11 +224,13 @@
             </div>
 
             <div class="stats-block">
-                <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="messages" data-height="362"
+                <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="messages"
+                     data-height="362"
                      data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
                      data-show-facepile="true">
                     <div class="fb-xfbml-parse-ignore">
-                        <blockquote cite="https://www.facebook.com/muscnepal"><a href="https://www.facebook.com/muscnepal">Manchester
+                        <blockquote cite="https://www.facebook.com/muscnepal"><a
+                                href="https://www.facebook.com/muscnepal">Manchester
                             United Supporters&#039; Club, Nepal</a></blockquote>
                     </div>
                 </div>
@@ -243,6 +245,16 @@
                 <div class="by">{{ quote.by }}</div>
             </div>
         </div>
+
+
+    </div>
+
+    <div class="partners section">
+        {% for partner in partners %}
+            <a href="{{ partner.get_url }}">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" height="200" title="{{ partner.name }}">
+            </a>
+        {% endfor %}
     </div>
 
 {% endblock %}

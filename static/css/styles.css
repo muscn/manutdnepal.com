@@ -519,3 +519,15 @@ header img.logo {
 .countdown .timer, .countdown .countdown-footer{
     color: #e54d36;
 }
+
+.partners.section {
+  text-align: center;
+  background-color: #f5f5f5;
+  margin-bottom: -150px;
+  border-bottom: 1px dotted #ccc;
+  padding: 1em;
+}
+
+.partners.section a{
+    margin-right: 50px;
+}

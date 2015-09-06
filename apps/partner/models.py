@@ -26,3 +26,12 @@ class Partner(models.Model):
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)
         super(Partner, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return True
+
+    def get_url(self):
+        if self.url:
+            return self.url
+        else:
+            return self.get_absolute_url()
