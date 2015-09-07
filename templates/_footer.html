@@ -1,3 +1,4 @@
+{% load filters %}
 <div class="f-wrapper">
     <footer>
         <div class="container-fluid">
@@ -49,6 +50,7 @@ And we’re going to Wem-ber-ley">
 
     </footer>
     <div class="partners section">
+    {% get_partners as partners %}
         {% for partner in partners %}
             <a href="{{ partner.get_url }}">
                 <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}">

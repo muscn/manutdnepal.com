@@ -18,7 +18,6 @@ def home(request):
         standings_summary = []
     top_scorers = get_top_scorers_summary()
     injuries = Injury.get_current_injuries()
-    partners = Partner.objects.filter(active=True)
     recent_posts = Post.recent()
     featured = get_featured()
     context = {
@@ -27,7 +26,6 @@ def home(request):
         'standings': standings_summary,
         'players': top_scorers,
         'injuries': injuries,
-        'partners': partners,
         'posts': recent_posts,
         'featured': featured,
     }

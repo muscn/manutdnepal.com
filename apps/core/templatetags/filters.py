@@ -3,6 +3,7 @@ import importlib
 
 from django.template import Library
 from django.utils.safestring import mark_safe
+from apps.partner.models import Partner
 from apps.stats.models import Quote
 
 register = Library()
@@ -115,3 +116,7 @@ def get_mufc():
 @register.assignment_tag
 def get_random_quote():
     return Quote.random()
+
+@register.assignment_tag
+def get_partners():
+    return Partner.objects.filter(active=True)
