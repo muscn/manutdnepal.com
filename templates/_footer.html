@@ -52,7 +52,7 @@ And we’re going to Wem-ber-ley">
     <div class="partners section">
     {% get_partners as partners %}
         {% for partner in partners %}
-            <a href="{{ partner.get_url }}">
+            <a href="{{ partner.get_url }}" target="_blank">
                 <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}">
             </a>
         {% endfor %}
