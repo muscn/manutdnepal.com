@@ -20,6 +20,8 @@ class Post(models.Model):
         choices=statuses,
         default='Published')
     created_at = models.DateTimeField(blank=True)
+    image = models.ImageField(blank=True, null=True)
+    featured = models.BooleanField(default=True)
 
     @classmethod
     def recent(cls, count=10):
