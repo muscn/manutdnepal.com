@@ -83,9 +83,12 @@
                                 <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
                             </div>
                             <div class="countdown-footer row text-center">
-                                <span class="days col-xs-4 text-center">days</span>
-                                <span class="days col-xs-4">hours</span>
-                                <span class="days col-xs-4">mins</span>
+                                <span class="days col-xs-4 text-center">{% if next_match.time_remaining.0 == 1 %}day{% else %}
+                                    days{% endif %}</span>
+                                <span class="days col-xs-4">{% if next_match.time_remaining.1 == 1 %}hour{% else %}
+                                    hours{% endif %}</span>
+                                <span class="days col-xs-4">{% if next_match.time_remaining.2 == 1 %}min{% else %}
+                                    mins{% endif %}</span>
                             </div>
                         </div>
                     </div>

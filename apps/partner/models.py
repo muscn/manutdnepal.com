@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from froala_editor.fields import FroalaField
 from muscn.utils.forms import unique_slugify
@@ -28,7 +29,7 @@ class Partner(models.Model):
         super(Partner, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return True
+        return reverse('view_partner', kwargs={'slug': self.slug})
 
     def get_url(self):
         if self.url:
