@@ -565,7 +565,7 @@ header img.logo {
     margin-bottom: 2px;
 }
 
-.panel-body.post .meta{
+.post.meta{
     display: inline-block;
     margin-bottom: 10px;
     font-size: smaller;

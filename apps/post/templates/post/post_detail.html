@@ -2,92 +2,19 @@
 {% load filters %}
 {% load staticfiles %}
 
-{% block title %} {{ event }} {% endblock %}
-
-{% block extrahead %}
-    <link href="{% static "events/events.css" %}" rel="stylesheet" type="text/css">
-    <style>
-        #map-canvas {
-            height: 500px;
-        }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
-    <script>
-        var map;
-        function initialize() {
-            var myLatlng = new google.maps.LatLng({{ event.location }});
-            var mapOptions = {
-                zoom: 18,
-                center: myLatlng
-            };
-
-            map = new google.maps.Map(document.getElementById('map-canvas'),
-                    mapOptions);
-
-
-            var infowindow = new google.maps.InfoWindow({
-                content: "{{ event.venue|linebreaks }}"
-            });
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: "{{ event.venue|linebreaks }}"
-            });
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.open(map, marker);
-            });
-        }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-
-    </script>
-{% endblock %}
+{% block title %} {{ object.title }} {% endblock %}
 
 {% block content %}
 
     <div class="container">
 
-        <h1>{{ event }}</h1>
+        <h1>{{ object.title }}</h1>
 
-        {% if event.image %}
-            <img class="img-responsive" src="{{ event.image.url }}"/>
-        {% endif %}
+        <div class="post meta">{{ object.created_at }}</div>
 
-        <div class="panel panel-default">
-
-            <div class="panel-body">
-                <div class="date-icon">
-                    <div class="date-month">{{ event.start|date:"M" }}</div>
-                    <div class="date-day">{{ event.start.date.day }}</div>
-                </div>
-            
-                {% if event.whole_day_event %}
-                    <strong>Date:</strong>
-                    {{ event.start.date }}<br/>
-                {% else %}
-                    <strong>Starts:</strong>
-                    {{ event.start }}<br/>
-                {% endif %}
-                {% if event.end %}
-                    <strong>Ends:</strong> {{ event.end }}<br/>
-                {% endif %}
-                <strong>Venue:</strong> {{ event.venue }}<br/>
-                {% if event.organizer %}
-                    <strong>Organizer:</strong> {{ event.organizer }}<br/>
-                {% endif %}
-                <br/>
-                {{ event.description|safe }}
-
-
-            </div>
-
-
+        <div>
+            {{ object.content|safe }}
         </div>
-
-        <h3>Map:</h3>
-
-        <div id="map-canvas"></div>
 
 
     </div>
