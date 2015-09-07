@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'apps.events',
     'apps.team',
     'apps.partner',
+    'apps.post',
 
 )
 
@@ -96,8 +97,8 @@ except ImportError:
 
 # DJANGO_REDIS_IGNORE_EXCEPTIONS = True
 
-#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-#SESSION_CACHE_ALIAS = 'default'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# SESSION_CACHE_ALIAS = 'default'
 
 # CACHE_MIDDLEWARE_SECONDS = 216000
 # CACHE_MIDDLEWARE_KEY_PREFIX = ''
