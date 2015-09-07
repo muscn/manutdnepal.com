@@ -1,16 +1,19 @@
 td.champions:before {
     content: "\f091";
     padding-right: 0.3em;
+    font: normal normal normal 14px/1 FontAwesome;
 }
 
 td.relegated:before {
     content: "\f149";
     padding-right: 0.3em;
+    font: normal normal normal 14px/1 FontAwesome;
 }
 
 td.promoted:before {
     content: "\f148";
     padding-right: 0.3em;
+    font: normal normal normal 14px/1 FontAwesome;
 }
 
 div.legends:after {
