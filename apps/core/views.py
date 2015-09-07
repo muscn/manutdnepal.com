@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
 from apps.partner.models import Partner
+from apps.post.models import Post
 
 from apps.stats.models import Fixture, get_top_scorers_summary, Injury
 
@@ -17,13 +18,15 @@ def home(request):
     top_scorers = get_top_scorers_summary()
     injuries = Injury.get_current_injuries()
     partners = Partner.objects.filter(active=True)
+    recent_posts = Post.recent()
     context = {
         'next_match': next_match,
         'recent_results': recent_results,
         'standings': standings_summary,
         'players': top_scorers,
         'injuries': injuries,
-        'partners': partners
+        'partners': partners,
+        'posts': recent_posts,
     }
     return render(request, 'home.html', context)
 

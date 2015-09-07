@@ -21,6 +21,10 @@ class Post(models.Model):
         default='Published')
     created_at = models.DateTimeField(blank=True)
 
+    @classmethod
+    def recent(cls, count=10):
+        return cls.objects.filter(status='Published')[0:count]
+
     def excerpt(self):
         txt = self.content
         if len(txt) < 101:
@@ -39,3 +43,5 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        ordering = ('-created_at',)

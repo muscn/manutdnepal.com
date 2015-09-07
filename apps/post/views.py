@@ -5,7 +5,7 @@ from .models import Post
 
 
 class PostList(ListView):
-    queryset = Post.objects.filter(status='Published').order_by('created_at')
+    queryset = Post.objects.filter(status='Published')
 
 
 class PostDetail(DetailView):
