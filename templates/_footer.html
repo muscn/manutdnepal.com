@@ -1,27 +1,26 @@
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="nopadding col-xs-12 col-sm-12 col-md-6 text-left about-pages footer-links">
-                <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
-                <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
+<div class="f-wrapper">
+    <footer>
+        <div class="container-fluid">
+            <div class="row social-and-privacy">
+                <div class="nopadding col-xs-12 col-sm-12 col-md-6 text-left about-pages footer-links">
+                    <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
+                    <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 text-right social-links">
+                    <a title="Twitter" class="smGlobalBtn twitterBtn" href="https://twitter.com/MUSCNP"
+                       target="_blank"></a>
+                    <a title="Facebook" class="smGlobalBtn facebookBtn" href="https://www.facebook.com/muscnepal"
+                       target="_blank"></a>
+                    <a title="Google" class="smGlobalBtn googleBtn" href="https://plus.google.com/+ManutdOrgNpl"
+                       target="_blank" rel="publisher"></a>
+                    <a title="Github" class="smGlobalBtn githubBtn" href="https://github.com/muscn/"
+                       target="_blank"></a>
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 text-right social-links">
-                <a title="Twitter" class="smGlobalBtn twitterBtn" href="https://twitter.com/MUSCNP" target="_blank"></a>
-                <a title="Facebook" class="smGlobalBtn facebookBtn" href="https://www.facebook.com/muscnepal"
-                   target="_blank"></a>
-                <a title="Google" class="smGlobalBtn googleBtn" href="https://plus.google.com/+ManutdOrgNpl"
-                   target="_blank" rel="publisher"></a>
-                <a title="Github" class="smGlobalBtn githubBtn" href="https://github.com/muscn/"
-                   target="_blank"></a>
-            </div>
-        </div>
-        <div class="row text-center">
-            {#            'MANCHESTER UNITED', 'MAN UNITED', 'MAN UTD' and 'MUFC' are registered trademarks of MU LTD.#}
-        </div>
-        <br>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 nopadding" title="She wore, she wore,
+
+            <div class="row copy-coffee">
+                <div class="col-xs-12 col-sm-12 col-md-6 nopadding" title="She wore, she wore,
 She wore a scarlet ribbon,
 She wore a scarlet ribbon in the merry month of May
 
@@ -31,23 +30,41 @@ She said it’s for United and they’re going to Wem-ber-ley,
 Wem-ber-ley, Wem-ber-ley,
 We’re the famous Man United
 And we’re going to Wem-ber-ley">
-                Copyleft MUSCN - All Rights Reversed 2015
+                    Copyleft MUSCN - All Rights Reversed 2015
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 text-right">
+                    Made with <i class="fa fa-heart" title="love"></i> and <i class="fa fa-coffee" title="coffee"></i>
+                    in
+                    Nepal
+                </div>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 text-right">
-                Made with <i class="fa fa-heart" title="love"></i> and <i class="fa fa-coffee" title="coffee"></i> in
-                Nepal
+            <div class="row text-center copy-quote">
+                'MANCHESTER UNITED', 'MAN UNITED', 'MAN UTD' and 'MUFC' are registered trademarks of MU LTD.
             </div>
+
+
         </div>
 
+    </footer>
+    <div class="partners section">
+        {% for partner in partners %}
+            <a href="{{ partner.get_url }}">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}">
+            </a>
+        {% endfor %}
     </div>
-</footer>
+
+</div>
+
+</div>
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
         a = s.createElement(o),
                 m = s.getElementsByTagName(o)[0];
         a.async = 1;

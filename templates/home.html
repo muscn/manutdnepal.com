@@ -266,12 +266,4 @@
 
     </div>
 
-    <div class="partners section">
-        {% for partner in partners %}
-            <a href="{{ partner.get_url }}">
-                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" height="200" title="{{ partner.name }}">
-            </a>
-        {% endfor %}
-    </div>
-
 {% endblock %}

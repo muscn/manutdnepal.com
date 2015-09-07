@@ -66,7 +66,7 @@ nav.navbar {
 
 footer {
     background-color: #f5f5f5;
-    margin-top: 150px;
+    /*margin-top: 150px;*/
     padding: 1em;
 }
 
@@ -440,20 +440,9 @@ blockquote p {
     margin: 0.2em !important;
 }
 
-header {
-    background: #e54d36;
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTU0ZDM2IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzY4MTkwZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-    background: -moz-linear-gradient(-45deg, #e54d36 0%, #68190e 100%);
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #e54d36), color-stop(100%, #68190e));
-    background: -webkit-linear-gradient(-45deg, #e54d36 0%, #68190e 100%);
-    background: -o-linear-gradient(-45deg, #e54d36 0%, #68190e 100%);
-    background: -ms-linear-gradient(-45deg, #e54d36 0%, #68190e 100%);
-    background: linear-gradient(135deg, #e54d36 0%, #68190e 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e54d36', endColorstr='#68190e', GradientType=1);
-}
-
 .navbar.navbar-default {
     background-color: rgba(0, 0, 0, 0.4);
+    padding: 20px;
 }
 
 .brand-name {
@@ -525,11 +514,11 @@ header img.logo {
 }
 
 .partners.section {
-  text-align: center;
-  background-color: #f5f5f5;
-  margin-bottom: -150px;
-  border-bottom: 1px dotted #ccc;
-  padding: 1em;
+    text-align: center;
+    background-color: #f5f5f5;
+    /*margin-bottom: -150px;*/
+    border-bottom: 1px dotted #ccc;
+    padding: 1em;
 }
 
 .partners.section a {
@@ -560,17 +549,83 @@ header img.logo {
     font-weight: bold;
 }
 
-.panel-body.post h2{
+.panel-body.post h2 {
     margin-bottom: 2px;
 }
 
-.post.meta{
+.post.meta {
     display: inline-block;
     margin-bottom: 10px;
     font-size: smaller;
     opacity: 0.7;
 }
 
-.stats-block.posts .post-title{
+.stats-block.posts .post-title {
     margin-bottom: 0.5em;
+}
+
+footer {
+    padding: 0;
+    background: #444;
+}
+
+footer .row {
+    padding: 0 10px;
+    color: #FFF;
+}
+
+footer .social-and-privacy {
+    /*margin: 20px 0 10px 0;*/
+    margin-top: 20px;
+}
+
+footer .copy-coffee {
+    margin-bottom: 20px;
+}
+footer .copy-quote{
+    padding-bottom: 20px;
+}
+
+.f-wrapper .section.partners {
+    background: rgba(0, 0, 0, .7);
+    text-align: center;
+}
+
+.f-wrapper .section.partners a {
+    display: inline-block;
+    width: 230px;
+    margin: 20px;
+}
+
+.f-wrapper .section.partners a img {
+    max-width: 100%;
+    width: 100%;
+}
+
+.footer-links a {
+    color: #FFF !important;
+}
+
+.footer-links a:hover {
+    opacity: .6;
+}
+
+#container, .f-wrapper {
+    overflow: hidden;
+}
+
+header, .f-wrapper {
+    background: #e54d36;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTU0ZDM2IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzY4MTkwZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(-45deg, #FF6202 0%, #68190e 100%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #FF6202), color-stop(100%, #68190e));
+    background: -webkit-linear-gradient(-45deg, #FF6202 0%, #68190e 100%);
+    background: -o-linear-gradient(-45deg, #FF6202 0%, #68190e 100%);
+    background: -ms-linear-gradient(-45deg, #FF6202 0%, #68190e 100%);
+    background: linear-gradient(135deg, #FF6202 0%, #68190e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF6202', endColorstr='#68190e', GradientType=1);
+}
+
+footer {
+    background-color: rgba(0, 0, 0, .5);
 }
