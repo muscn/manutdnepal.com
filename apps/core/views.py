@@ -5,6 +5,7 @@ from apps.partner.models import Partner
 from apps.post.models import Post
 
 from apps.stats.models import Fixture, get_top_scorers_summary, Injury
+from .models import get_featured
 
 
 def home(request):
@@ -19,6 +20,7 @@ def home(request):
     injuries = Injury.get_current_injuries()
     partners = Partner.objects.filter(active=True)
     recent_posts = Post.recent()
+    featured = get_featured()
     context = {
         'next_match': next_match,
         'recent_results': recent_results,
@@ -27,6 +29,7 @@ def home(request):
         'injuries': injuries,
         'partners': partners,
         'posts': recent_posts,
+        'featured': featured,
     }
     return render(request, 'home.html', context)
 
