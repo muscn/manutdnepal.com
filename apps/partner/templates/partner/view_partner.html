@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ partner.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+            <div class="pull-left">
+                <h1>{{ partner.name }}</h1>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#about" aria-controls="about" role="tab"
+                                                              data-toggle="tab">About</a></li>
+                    <li role="presentation"><a href="#privileges" aria-controls="privileges" role="tab"
+                                               data-toggle="tab">Privileges</a>
+                    </li>
+                </ul>
+            </div>
+            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" height="200" title="{{ partner.name }}"
+                 class="pull-right">
+        </div>
+
+        <div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="about"><br/>{{ partner.about|safe }}</div>
+                <div role="tabpanel" class="tab-pane" id="privileges"><br/>{{ partner.privileges|safe }}</div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

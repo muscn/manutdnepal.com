@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'apps.stats',
     'apps.events',
     'apps.team',
+    'apps.partner',
 
 )
 
