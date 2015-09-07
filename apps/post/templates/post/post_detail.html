@@ -12,6 +12,12 @@
 
         <div class="post meta">{{ object.created_at }}</div>
 
+        {% if post.image %}
+            <img class="img-responsive" src="{{ post.image.url }}"/>
+        {% endif %}
+
+        <br/>
+
         <div>
             {{ object.content|safe }}
         </div>
