@@ -55,6 +55,8 @@ urlpatterns = patterns('',
                        url(r'^injuries/$', stats_views.injuries, name='injuries'),
                        url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
                        url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.partner.views.view_partner', name='view_partner'),
+                       url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.partner.views.view_partner', name='view_partner'),
+                       url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
                        (r'', include('apps.page.urls')),
                        )
 
