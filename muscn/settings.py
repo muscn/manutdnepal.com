@@ -37,8 +37,6 @@ INSTALLED_APPS = (
     'apps.dashboard',
     'apps.stats',
     'apps.events',
-    'apps.team',
-    'apps.partner',
     'apps.post',
     'apps.partner',
     'apps.team',
