@@ -6,7 +6,7 @@ from apps.stats import views as stats_views
 from apps.users import views as user_views
 
 urlpatterns = patterns('',
-                       url(r'^$', 'core.views.home', name='home'),
+                       url(r'^$', 'apps.core.views.home', name='home'),
                        # url(r'^$', 'apps.users.views.login_register', name='login_register'),
                        url(r'^(?P<devil_no>[0-9]+)/$', 'apps.users.views.devil_no_handler', name='devil_no'),
                        url(r'^m/(?P<slug>[a-zA-Z0-9_.-]+)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
