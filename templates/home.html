@@ -30,8 +30,13 @@
     <div class="container nopadding">
 
         <div class="section featured row">
-            <img class="img-responsive"
-                 src="{{ featured.image.url }}">
+            <a href="{{ featured.get_absolute_url }} ">
+                {% thumbnail featured.image "1600x500" as im %}
+                    <img class="img-responsive"
+                     src="{{ im.url }}">
+                {% endthumbnail %}
+
+            </a>
         </div>
 
         <div class="section call-to-action row">
@@ -83,7 +88,8 @@
                                 <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
                             </div>
                             <div class="countdown-footer row text-center">
-                                <span class="days col-xs-4 text-center">{% if next_match.time_remaining.0 == 1 %}day{% else %}
+                                <span class="days col-xs-4 text-center">{% if next_match.time_remaining.0 == 1 %}
+                                    day{% else %}
                                     days{% endif %}</span>
                                 <span class="days col-xs-4">{% if next_match.time_remaining.1 == 1 %}hour{% else %}
                                     hours{% endif %}</span>
