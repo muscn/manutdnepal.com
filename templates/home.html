@@ -30,12 +30,10 @@
     <div class="container nopadding">
 
         <div class="section featured row">
-            <a href="{{ featured.get_absolute_url }} ">
-                {% thumbnail featured.image "1600x500" as im %}
+            <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
                     <img class="img-responsive"
-                     src="{{ im.url }}">
-                {% endthumbnail %}
-
+                     src="{{ featured.image.url }}">
+                <h2><span>{{ featured }}</span></h2>
             </a>
         </div>
 
