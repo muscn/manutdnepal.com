@@ -18,6 +18,7 @@ class Event(models.Model):
     description = FroalaField()
     image = models.ImageField(blank=True, null=True)
     location = LocationField(blank=True, max_length=255)
+    featured = models.BooleanField(default=True)
 
     @property
     def status(self):
