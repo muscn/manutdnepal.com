@@ -560,3 +560,14 @@ header img.logo {
     margin-right: 50px;
 
 }
+
+.panel-body.post h2{
+    margin-bottom: 2px;
+}
+
+.panel-body.post .meta{
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: smaller;
+    opacity: 0.7;
+}

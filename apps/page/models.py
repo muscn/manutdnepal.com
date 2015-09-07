@@ -60,7 +60,7 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('view_news', kwargs={'slug': self.slug})
+        return reverse('view_page', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title

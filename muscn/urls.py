@@ -34,6 +34,10 @@ urlpatterns = patterns('',
 
                        (r'event/', include('apps.events.urls')),
 
+                       (r'event/', include('apps.events.urls')),
+
+                       (r'post/', include('apps.post.urls')),
+
                        url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
                        url(r'^season/(?P<year>[\d]{4})-(?P<year1>[\d]{2})/(?P<competition>[a-zA-Z0-9_.-]+)/$',
                            stats_views.SeasonCompetitionView.as_view(), name='view_season_competition'),

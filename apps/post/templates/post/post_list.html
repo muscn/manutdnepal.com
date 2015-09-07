@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles %}
+{% load pagination_tags %}
+
+{% block title %} Posts {% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <h1>Posts</h1>
+
+        {% autopaginate object_list 2 as posts %}
+
+        {% for post in posts %}
+            <div class="panel panel-default">
+
+                <div class="panel-body post">
+                    <h2><a href="{{ post.get_absolute_url }}">{{ post }}</a></h2>
+                    <span class="meta">{{ post.created_at }}</span>
+
+                    <p>
+                        {{ post.excerpt|striptags|safe }}
+                    </p>
+
+                </div>
+            </div>
+
+        {% endfor %}
+
+        {% paginate %}
+
+    </div>
+{% endblock %}
+

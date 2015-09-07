@@ -21,6 +21,12 @@ class Post(models.Model):
         default='Published')
     created_at = models.DateTimeField(blank=True)
 
+    def excerpt(self):
+        txt = self.content
+        if len(txt) < 101:
+            return txt
+        return txt[0:98] + ' ...'
+
     def save(self, *args, **kwargs):
         unique_slugify(self, self.title)
         if not self.id:
@@ -28,7 +34,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('view_news', kwargs={'slug': self.slug})
+        return reverse('view_post', kwargs={'slug': self.slug})
 
     def __unicode__(self):
         return self.title
