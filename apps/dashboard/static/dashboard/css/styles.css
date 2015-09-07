@@ -1,13 +1,20 @@
 /* Navbar Styles */
 
-nav.navbar {
+nav.navbar.navbar-default {
     background-color: #000;
     border: none;
     border-bottom: 1px solid #e54d36;
 }
 
+nav.navbar.navbar-default img {
+    height: 55px;
+    margin-top: -15px;
+    display: inline;
+}
+
 .navbar-default .navbar-brand {
     color: #e54d36;
+
 }
 
 .navbar-default .navbar-nav > li > a {
@@ -26,7 +33,7 @@ nav.navbar {
 /* Breadcrumbs */
 
 .breadcrumbs {
-    margin: 0 0 1em 1px;
+    margin: 15px 0 1em 18px;
 }
 
 .breadcrumbs > a, .breadcrumbs > span {
@@ -77,7 +84,7 @@ nav.navbar {
     color: black;
 }
 
-.tile>.fa {
+.tile > .fa {
     display: block;
     font-size: 8em;
     padding: 0.1em 0;
@@ -104,11 +111,11 @@ nav.navbar {
     top: 0;
 }
 
-.flip-container>i.fa {
+.flip-container > i.fa {
     transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 }
 
-.flip-container.open>i.fa {
+.flip-container.open > i.fa {
     opacity: 0;
 }
 
@@ -138,6 +145,7 @@ nav.navbar {
 .actions.pull-right {
     margin-top: -2em;
 }
-.breadcrumbs form input{
+
+.breadcrumbs form input {
     float: right;
 }

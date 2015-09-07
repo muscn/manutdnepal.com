@@ -1,0 +1,8 @@
+Hi {{user.full_name}},
+
+Your MUSCN membership card (Devil Card) has been printed and can be picked up from Trafford Restro, New Baneshwor.
+Your Devil No. is {{ user.devil_no }}.
+Thank you for registering!
+
+Manchester United Supporters' Club, Nepal
+http://manutd.org.np

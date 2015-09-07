@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'apps.stats',
     'apps.events',
     'apps.partner',
-
+    'apps.team',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,6 +76,7 @@ TEMPLATES = [
     },
 ]
 
+DEFAULT_FROM_EMAIL = 'webmaster@manutd.org.np'
 ROOT_URLCONF = 'muscn.urls'
 WSGI_APPLICATION = 'muscn.wsgi.application'
 LANGUAGE_CODE = 'en-us'
@@ -94,8 +95,8 @@ except ImportError:
 
 # DJANGO_REDIS_IGNORE_EXCEPTIONS = True
 
-#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-#SESSION_CACHE_ALIAS = 'default'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# SESSION_CACHE_ALIAS = 'default'
 
 # CACHE_MIDDLEWARE_SECONDS = 216000
 # CACHE_MIDDLEWARE_KEY_PREFIX = ''

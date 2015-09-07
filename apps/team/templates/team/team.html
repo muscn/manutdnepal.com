@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles thumbnail %}
+
+{% block title %} MUSCN Football Team {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "team/team.css" %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <h1>MUSCN Football Team</h1>
+
+        <h2>Players</h2>
+        {% for player in players %}
+            <div class="person-block">
+                <div class="photo">
+                    {% thumbnail player.image "300x300" crop="center" format="PNG" as player_image %}
+                        <img src="{{ player_image.url }}" alt="{{ player.name }}">
+                    {% endthumbnail %}
+                </div>
+                <div class="name text-center">
+                    {{ player.user.full_name }}
+                    {% if player.remarks %}
+                        {{ player.remarks }}
+                    {% endif %}
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ player.user.membership.temporary_address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Position</th>
+                        <td>{{ player.positions }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+
+        <br style="clear: both"/><br/>
+
+        <h2>Staffs</h2>
+        {% for staff in staffs %}
+            <div class="person-block">
+                <div class="photo">
+                    {% thumbnail staff.image "300x300" crop="center" format="PNG" as staff_image %}
+                        <img src="{{ staff_image.url }}" alt="{{ staff.name }}">
+                    {% endthumbnail %}
+                </div>
+                <div class="name text-center">{{ staff.user.full_name }}</div>
+                <table class="table">
+                    <tr>
+                        <th>Address</th>
+                        <td>{{ staff.user.membership.temporary_address }}</td>
+                    </tr>
+                    <tr>
+                        <th>Role</th>
+                        <td>{{ staff.role }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
