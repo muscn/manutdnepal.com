@@ -19,7 +19,7 @@ class Post(models.Model):
         max_length=10,
         choices=statuses,
         default='Published')
-    created_at = models.DateTimeField(editable=False)
+    created_at = models.DateTimeField(blank=True)
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.title)
