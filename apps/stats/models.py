@@ -20,6 +20,7 @@ from muscn.utils.forms import unique_slugify
 from muscn.utils.npt import utc_to_local
 
 from django.core.cache import cache
+from django.db.models import Q
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -361,7 +362,9 @@ class Injury(models.Model):
 
     @classmethod
     def get_current_injuries(cls):
-        return Injury.objects.filter(return_date__gte=datetime.date.today()).order_by('return_date').select_related()
+        return Injury.objects.filter(
+            Q(return_date__gte=datetime.date.today()) | Q(return_date__isnull=datetime.date.today())).order_by(
+            'return_date').select_related()
 
     @classmethod
     def get_past_injuries(cls):
