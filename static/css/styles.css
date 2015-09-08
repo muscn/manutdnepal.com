@@ -670,3 +670,9 @@ footer {
 .partner-logo {
     background-color: #888888;
 }
+
+@media (max-width: 650px) {
+    footer div {
+        text-align: center !important;
+    }
+}
