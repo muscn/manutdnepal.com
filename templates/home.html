@@ -29,13 +29,15 @@
 
     <div class="container nopadding">
 
-        <div class="section featured row">
-            <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
-                    <img class="img-responsive"
-                     src="{{ featured.image.url }}">
-                <h2><span>{{ featured }}</span></h2>
-            </a>
-        </div>
+        {% if featured %}
+            <div class="section featured row">
+                <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
+                    <img class="img-responsive" src="{{ featured.image.url }}">
+
+                    <h2><span>{{ featured }}</span></h2>
+                </a>
+            </div>
+        {% endif %}
 
         <div class="section call-to-action row">
             <h2><a href="{% url 'membership_form' %}">Apply for 2015/16 MUSCN Membership</a></h2>
