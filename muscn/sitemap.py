@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.sitemaps import Sitemap
+from django.core.urlresolvers import reverse
 from apps.events.models import Event
 from apps.page.models import Page
 from apps.partner.models import Partner
@@ -62,6 +63,23 @@ class PlayerSitemap(Sitemap):
         return Player.objects.all()
 
 
+class DefaultNamedURLSitemap(Sitemap):
+    """ Given a set of named URLs, returns sitemap items for each. """
+    changefreq = 'weekly'
+
+    def __init__(self, names):
+        self.names = names
+        self.priority = 0.1
+        Sitemap.__init__(self)
+
+    def items(self):
+        return self.names
+
+    @classmethod
+    def location(cls, obj):
+        return reverse(obj)
+
+
 SITEMAPS = {
     'events': EventSitemap,
     'pages': PageSitemap,
@@ -69,4 +87,16 @@ SITEMAPS = {
     'posts': PostSitemap,
     'seasons': SeasonSitemap,
     'players': PlayerSitemap,
+    'default_named_pages': DefaultNamedURLSitemap([
+        'fixtures',
+        'results',
+        'epl_table',
+        'scorers',
+        'list_squad',
+        'list_seasons',
+        'membership_form',
+        'list_members',
+        'injuries',
+        'football_team',
+    ]),
 }
