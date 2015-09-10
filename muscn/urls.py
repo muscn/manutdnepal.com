@@ -5,11 +5,16 @@ from django.conf import settings
 from apps.stats import views as stats_views
 from apps.users import views as user_views
 
+from django.contrib.sitemaps.views import sitemap
+
+from .sitemap import SITEMAPS
+
 urlpatterns = patterns('',
                        url(r'^$', 'apps.core.views.home', name='home'),
                        # url(r'^$', 'apps.users.views.login_register', name='login_register'),
                        url(r'^(?P<devil_no>[0-9]+)/$', 'apps.users.views.devil_no_handler', name='devil_no'),
-                       url(r'^m/(?P<slug>[a-zA-Z0-9_.-]+)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
+                       url(r'^m/(?P<slug>[a-zA-Z0-9_.-]+)/$', user_views.MemberProfileView.as_view(),
+                           name='view_member_profile'),
 
                        (r'^admin/settings/', include('dbsettings.urls')),
                        url(r'admin/clear-cache/', 'apps.core.views.clear_cache', name='clear_cache'),
@@ -27,15 +32,8 @@ urlpatterns = patterns('',
                            name='membership_thankyou'),
 
                        url(r'^members/$', user_views.PublicMembershipListView.as_view(), name='list_members'),
-
-                       url(r'^staging-home/$', 'apps.core.views.home', name='home'),
-
                        (r'dashboard/', include('apps.dashboard.urls')),
-
                        (r'event/', include('apps.events.urls')),
-
-                       (r'event/', include('apps.events.urls')),
-
                        (r'post/', include('apps.post.urls')),
 
                        url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
@@ -53,7 +51,10 @@ urlpatterns = patterns('',
                        url(r'^results/$', stats_views.fixtures, name='results'),
                        url(r'^top-scorers/$', stats_views.scorers, name='scorers'),
                        url(r'^injuries/$', stats_views.injuries, name='injuries'),
-                       url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.partner.views.view_partner', name='view_partner'),
+                       url(r'^sitemap\.xml$', sitemap, {'sitemaps': SITEMAPS},
+                           name='django.contrib.sitemaps.views.sitemap'),
+                       url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.partner.views.view_partner',
+                           name='view_partner'),
                        url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
                        (r'', include('apps.page.urls')),
                        )
