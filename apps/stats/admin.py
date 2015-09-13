@@ -19,6 +19,10 @@ class GoalForm(forms.ModelForm):
         exclude = ()
 
 
+class GoalInline(admin.TabularInline):
+    model = Goal
+
+
 class GoalAdmin(admin.ModelAdmin):
     form = GoalForm
 
@@ -41,6 +45,7 @@ class FixtureAdmin(admin.ModelAdmin):
     model = Fixture
     list_display = ('opponent', 'is_home_game', 'datetime', 'competition_year', 'venue')
     list_filter = ('is_home_game', 'competition_year')
+    inlines = [GoalInline]
 
 
 admin.site.register(Fixture, FixtureAdmin)
