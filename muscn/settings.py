@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'apps.post',
     'apps.partner',
     'apps.team',
+    'apps.timeline',
 )
 
 MIDDLEWARE_CLASSES = (
