@@ -44,8 +44,13 @@ admin.site.register(Stadium)
 class FixtureAdmin(admin.ModelAdmin):
     model = Fixture
     list_display = ('opponent', 'is_home_game', 'datetime', 'competition_year', 'venue')
-    list_filter = ('is_home_game', 'competition_year')
+    list_filter = ('is_home_game', 'competition_year__competition', 'competition_year', 'competition_year__year')
     inlines = [GoalInline]
 
 
 admin.site.register(Fixture, FixtureAdmin)
+
+# class ResultAdmin(admin.ModelAdmin):
+#     model = Fixture
+#
+# admin.site.register(Fixture, ResultAdmin)

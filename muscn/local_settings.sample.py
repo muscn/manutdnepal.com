@@ -27,10 +27,11 @@ DATABASES = {
 #     }
 # }
 
-STATIC_URL = '/static/muscn/'
-STATIC_ROOT = '/var/www/html/static/muscn/'
-MEDIA_ROOT = '/var/www/html/static/muscn/media'
-MEDIA_URL = 'http://localhost/static/muscn/media/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+MEDIA_URL = '/media/'
+
 
 LOGGING = {
     'version': 1,
