@@ -1,12 +1,29 @@
 from django.contrib import admin
+from django import forms
 
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
     Fixture, Team, Goal, Stadium
 
+
 class TeamAdmin(admin.ModelAdmin):
     search_fields = ('name', 'short_name', 'alternative_names', 'nick_name')
 
-admin.site.register(Goal)
+
+class GoalForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(GoalForm, self).__init__(*args, **kwargs)
+        self.fields['match'].queryset = Fixture.results()
+
+    class Meta:
+        model = Goal
+        exclude = ()
+
+
+class GoalAdmin(admin.ModelAdmin):
+    form = GoalForm
+
+
+admin.site.register(Goal, GoalAdmin)
 admin.site.register(Injury)
 admin.site.register(Competition)
 admin.site.register(CompetitionYear)
@@ -24,5 +41,6 @@ class FixtureAdmin(admin.ModelAdmin):
     model = Fixture
     list_display = ('opponent', 'is_home_game', 'datetime', 'competition_year', 'venue')
     list_filter = ('is_home_game', 'competition_year')
+
 
 admin.site.register(Fixture, FixtureAdmin)
