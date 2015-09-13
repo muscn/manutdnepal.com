@@ -651,12 +651,12 @@ footer {
     display: inline-block;
 }
 
-.section.featured a h2 {
-    position: absolute;
-    top: 420px;
-    left: 0;
-    width: 100%;
-}
+/*.section.featured a h2 {*/
+    /*position: absolute;*/
+    /*top: 420px;*/
+    /*left: 0;*/
+    /*width: 100%;*/
+/*}*/
 
 .section.featured a h2 span {
     color: white;
