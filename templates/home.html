@@ -67,11 +67,12 @@
                             <span class="date">{{ next_match.datetime.day }}</span>
 
                             <div class="month">{{ next_match.datetime|date:'F' }}</div>
+                            <div class="day">{{ next_match.datetime|date:'l' }}</div>
                             <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
 
                         </div>
                         <div class="opponent-crest col-xs-6">
-                            {% thumbnail next_match.opponent.get_crest "100x100" format="PNG" as im %}
+                            {% thumbnail next_match.opponent.get_crest "150x150" format="PNG" as im %}
                                 <img class="img-responsive" src="{{ im.url }}">
                             {% endthumbnail %}
                         </div>
