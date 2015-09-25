@@ -92,4 +92,6 @@ urlpatterns = patterns('',
                        url(r'^quote/(?P<pk>\d+)/$', stats_views.QuoteUpdateView.as_view(), name='update_quote'),
                        url(r'^quote/(?P<pk>\d+)/delete/$', stats_views.QuoteDeleteView.as_view(),
                            name='delete_quote'),
+
+                       url(r'^download_new_cards/$', users_views.download_new_cards, name='download_new_cards'),
 )

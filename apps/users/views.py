@@ -14,7 +14,7 @@ from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
 
-from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
+from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
@@ -419,3 +419,12 @@ class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
         membership.payment = form.instance.payment
         membership.save()
         return ret
+
+
+@group_required('Staff')
+def download_new_cards(request):
+    from django.http import HttpResponse
+    zip_name, new_cards = get_new_cards()
+    response = HttpResponse(new_cards.getvalue(), content_type="application/zip")
+    response['Content-Disposition'] = 'attachment; filename='+ zip_name
+    return response
