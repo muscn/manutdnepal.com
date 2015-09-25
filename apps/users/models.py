@@ -523,10 +523,10 @@ def get_new_cards():
     in_memory_file = StringIO()
     awaiting_cards = CardStatus.objects.filter(status=1).select_related('membership__user')
     zip_file = zipfile.ZipFile(in_memory_file, 'w')
-    fake_file = StringIO()
     min = float('inf')
     max = 0
     for awaiting_card in awaiting_cards:
+        fake_file = StringIO()
         devil_no = awaiting_card.membership.user.devil_no
         if devil_no < min:
             min = devil_no
