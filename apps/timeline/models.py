@@ -10,9 +10,9 @@ class Timeline(models.Model):
         null=True,
         help_text='Leave empty/unchanged for default slug.')
     text = models.CharField(max_length=255, blank=True, null=True)
-    caption = models.CharField(max_length=255, blank=True, null=True)
-    credit = models.CharField(max_length=255, blank=True, null=True)
-    url = models.URLField(blank=True, null=True)
+    media_caption = models.CharField(max_length=255, blank=True, null=True)
+    media_credit = models.CharField(max_length=255, blank=True, null=True)
+    media_url = models.URLField(blank=True, null=True)
     thumbnail = models.ImageField(blank=True, null=True, upload_to='timeline_thumbnails/')
 
     def save(self, *args, **kwargs):
@@ -32,3 +32,5 @@ class Location(models.Model):
 class TimelineEvent(Timeline):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True)
+    location = models.ForeignKey(Location, related_name='events', blank=True, null=True)
+    timeline = models.ForeignKey(Timeline, related_name='events')

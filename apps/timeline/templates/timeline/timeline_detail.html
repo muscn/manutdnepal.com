@@ -282,9 +282,7 @@
 }
         $(document).ready(function () {
             var options = {
-                start_at_end: true,
-                default_bg_color: {r: 0, g: 0, b: 0},
-                timenav_height: 250
+                hash_bookmark: true,
             };
 
             var timeline = new TL.Timeline('timeline-embed', the_timeline, options);
@@ -298,7 +296,7 @@
 
 {% block content %}
 
-    <div class="container" height="100%">
+    <div class="container-fluid">
 
         <h1>Timeline: {{ object.headline }}</h1>
 
