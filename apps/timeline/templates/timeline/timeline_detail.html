@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="{% static 'timeline/font.default.css' %}">
     <script src="{% static 'timeline/timeline.js' %}"></script>
     <script>
-        var the_timeline = {{ object.serialize | jsonify }}
-        $(document).ready(function () {
-            var options = {
-                hash_bookmark: true,
-            };
+        var timeline_data = {{ object.serialize | jsonify }}
+                $(document).ready(function () {
+                    var options = {
+                        hash_bookmark: true,
+                    };
 
-            var timeline = new TL.Timeline('timeline-embed', the_timeline, options);
+                    var timeline = new TL.Timeline('timeline-embed', timeline_data, options);
 
-            window.onresize = function (event) {
-                timeline.updateDisplay();
-            }
-        });
+                    window.onresize = function (event) {
+                        timeline.updateDisplay();
+                    }
+                });
     </script>
 {% endblock %}
 
@@ -28,7 +28,7 @@
 
     <div class="container-fluid">
 
-        <h1>Timeline: {{ object.headline }}</h1>
+        <h1 class="page-header">Timeline: {{ object.headline }}</h1>
 
         <div id='timeline-embed' style="width: 100%; height: 600px"></div>
 
