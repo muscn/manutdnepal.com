@@ -45,24 +45,24 @@ class Timeline(models.Model):
 
     def serialize(self):
         dct = {'title': {'media': {}, 'text': {'headline': self.headline}}, 'events': []}
-        if self.media_url:
-            dct['title']['media']['url'] = self.media_url
-        if self.media_caption:
-            dct['title']['media']['caption'] = self.media_caption
-        if self.media_credit:
-            dct['title']['media']['credit'] = self.media_credit
-        if self.text:
-            dct['title']['text']['text'] = self.text
+        # if self.media_url:
+        dct['title']['media']['url'] = self.media_url
+        # if self.media_caption:
+        dct['title']['media']['caption'] = self.media_caption
+        # if self.media_credit:
+        dct['title']['media']['credit'] = self.media_credit
+        # if self.text:
+        dct['title']['text']['text'] = self.text
         for event in self.events.all():
             event_dct = {'media': {}, 'text': {'headline': event.headline}}
-            if event.media_url:
-                event_dct['media']['url'] = event.media_url
-            if event.media_caption:
-                event_dct['media']['caption'] = event.media_caption
-            if event.media_credit:
-                event_dct['media']['credit'] = event.media_credit
-            if event.text:
-                event_dct['text']['text'] = event.text
+            # if event.media_url:
+            event_dct['media']['url'] = event.media_url
+            # if event.media_caption:
+            event_dct['media']['caption'] = event.media_caption
+            # if event.media_credit:
+            event_dct['media']['credit'] = event.media_credit
+            # if event.text:
+            event_dct['text']['text'] = event.text
             event_dct['start_date'] = {'year': event.start_date.split('-')[0]}
             try:
                 event_dct['start_date']['month'] = event.start_date.split('-')[1]
