@@ -1,4 +1,5 @@
 import datetime
+from django.core.mail import EmailMessage
 
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
@@ -13,8 +14,9 @@ from django.db.models import Max
 from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
+from django.conf import settings
 
-from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
+from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
@@ -419,3 +421,23 @@ class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
         membership.payment = form.instance.payment
         membership.save()
         return ret
+
+
+@group_required('Staff')
+def download_new_cards(request):
+    from django.http import HttpResponse
+
+    zip_name, new_cards = get_new_cards()
+    response = HttpResponse(new_cards.getvalue(), content_type="application/zip")
+    response['Content-Disposition'] = 'attachment; filename=' + zip_name
+    return response
+
+
+@group_required('Staff')
+def email_new_cards(request):
+    zip_name, new_cards = get_new_cards()
+    mail = EmailMessage(zip_name, zip_name, settings.DEFAULT_FROM_EMAIL, [settings.ADMINS[0][1]])
+    mail.attach(zip_name, new_cards.getvalue(), 'application/zip')
+    mail.send()
+    messages.info(request, "E-mail sent to " + settings.ADMINS[0][1])
+    return redirect(reverse_lazy('list_memberships'))

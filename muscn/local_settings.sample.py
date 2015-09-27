@@ -9,6 +9,8 @@ SITE_ID = 1
 SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd2f<3'
 TEMPLATE_DEBUG = DEBUG
 
+ADMINS = (('Admin Name', 'admin@server.com'),)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -27,10 +29,11 @@ DATABASES = {
 #     }
 # }
 
-STATIC_URL = '/static/muscn/'
-STATIC_ROOT = '/var/www/html/static/muscn/'
-MEDIA_ROOT = '/var/www/html/static/muscn/media'
-MEDIA_URL = 'http://localhost/static/muscn/media/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+MEDIA_URL = '/media/'
+
 
 LOGGING = {
     'version': 1,
