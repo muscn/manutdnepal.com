@@ -14,6 +14,10 @@ class Timeline(models.Model):
     media_credit = models.CharField(max_length=255, blank=True, null=True)
     media_url = models.URLField(blank=True, null=True)
     thumbnail = models.ImageField(blank=True, null=True, upload_to='timeline_thumbnails/')
+    enabled = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.headline
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -29,8 +33,16 @@ class Location(models.Model):
     zoom = models.PositiveSmallIntegerField(default=10)
 
 
-class TimelineEvent(Timeline):
+class TimelineEvent(models.Model):
+    headline = models.CharField(max_length=255)
+    text = models.CharField(max_length=255, blank=True, null=True)
+    media_caption = models.CharField(max_length=255, blank=True, null=True)
+    media_credit = models.CharField(max_length=255, blank=True, null=True)
+    media_url = models.URLField(blank=True, null=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True)
     location = models.ForeignKey(Location, related_name='events', blank=True, null=True)
     timeline = models.ForeignKey(Timeline, related_name='events')
+
+    def __str__(self):
+        return self.headline

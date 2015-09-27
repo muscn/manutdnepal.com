@@ -1,4 +1,14 @@
 from django.contrib import admin
-from .models import Timeline
+from .models import Timeline, TimelineEvent
 
-admin.site.register(Timeline)
+
+class EventInline(admin.TabularInline):
+    model = TimelineEvent
+    fk_name = 'timeline'
+
+
+class TimelineAdmin(admin.ModelAdmin):
+    inlines = [EventInline]
+
+
+admin.site.register(Timeline, TimelineAdmin)
