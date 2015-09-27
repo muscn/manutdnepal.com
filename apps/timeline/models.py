@@ -16,7 +16,7 @@ class Location(models.Model):
 
 class TimelineEvent(models.Model):
     headline = models.CharField(max_length=255)
-    text = models.CharField(max_length=255, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
     media_caption = models.CharField(max_length=255, blank=True, null=True)
     media_credit = models.CharField(max_length=255, blank=True, null=True)
     media_url = models.URLField(blank=True, null=True)
@@ -35,7 +35,7 @@ class Timeline(models.Model):
         blank=True,
         null=True,
         help_text='Leave empty/unchanged for default slug.')
-    text = models.CharField(max_length=255, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
     media_caption = models.CharField(max_length=255, blank=True, null=True)
     media_credit = models.CharField(max_length=255, blank=True, null=True)
     media_url = models.URLField(blank=True, null=True)
