@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.views.generic import DetailView
+from .models import Timeline
 
-# Create your views here.
+class TimelineDetail(DetailView):
+    model = Timeline

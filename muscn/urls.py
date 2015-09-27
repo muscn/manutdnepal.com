@@ -35,6 +35,7 @@ urlpatterns = patterns('',
                        (r'dashboard/', include('apps.dashboard.urls')),
                        (r'event/', include('apps.events.urls')),
                        (r'post/', include('apps.post.urls')),
+                       (r'timeline/', include('apps.timeline.urls')),
 
                        url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
                        url(r'^season/(?P<year>[\d]{4})-(?P<year1>[\d]{2})/(?P<competition>[a-zA-Z0-9_.-]+)/$',
