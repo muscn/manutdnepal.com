@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Timeline, TimelineEvent
+from .models import Timeline, TimelineEvent, Location
 
 
 class EventInline(admin.TabularInline):
@@ -12,3 +12,5 @@ class TimelineAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Timeline, TimelineAdmin)
+admin.site.register(TimelineEvent)
+admin.site.register(Location)
