@@ -3,6 +3,7 @@ import importlib
 
 from django.template import Library
 from django.utils.safestring import mark_safe
+import json
 from apps.partner.models import Partner
 from apps.stats.models import Quote
 
@@ -120,3 +121,23 @@ def get_random_quote():
 @register.assignment_tag
 def get_partners():
     return Partner.objects.filter(active=True)
+
+
+def handler(obj):
+    if hasattr(obj, 'isoformat'):
+        return obj.isoformat()
+    else:
+        import ipdb
+        ipdb.set_trace()
+        raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
+
+
+@register.filter
+def jsonify(object):
+    # if isinstance(object, QuerySet):
+    #     return serializers.serialize('json', object)
+    # if isinstance(object, Model):
+    #     model_dict = object.__dict__
+    #     del model_dict['_state']
+    #     return mark_safe(json.dumps(model_dict))
+    return mark_safe(json.dumps(object, default=handler))
