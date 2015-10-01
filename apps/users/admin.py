@@ -163,6 +163,7 @@ make_awaiting.short_description = "Set as 'Awaiting Print'"
 
 def make_printed(modeladmin, request, queryset):
     queryset.update(status=2)
+    queryset.update(remarks='At Trafford Restro')
     [obj.notify() for obj in queryset]
 
 
