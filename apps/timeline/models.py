@@ -23,6 +23,12 @@ class TimelineEvent(models.Model):
     start_date = FlexibleDateField()
     end_date = FlexibleDateField(blank=True, null=True)
     location = models.ForeignKey(Location, related_name='events', blank=True, null=True)
+    thumbnail = models.ImageField(blank=True, null=True, upload_to='timeline_event_thumbnails/')
+
+    def get_media_url(self):
+        if self.thumbnail:
+            return self.thumbnail.url
+        return self.media_url
 
     def __str__(self):
         return self.headline
@@ -43,10 +49,15 @@ class Timeline(models.Model):
     enabled = models.BooleanField(default=True)
     events = models.ManyToManyField(TimelineEvent, related_name='timelines', blank=True)
 
+    def get_media_url(self):
+        if self.thumbnail:
+            return self.thumbnail.url
+        return self.media_url
+
     def serialize(self):
         dct = {'title': {'media': {}, 'text': {'headline': self.headline}}, 'events': []}
         # if self.media_url:
-        dct['title']['media']['url'] = self.media_url
+        dct['title']['media']['url'] = self.get_media_url()
         # if self.media_caption:
         dct['title']['media']['caption'] = self.media_caption
         # if self.media_credit:
@@ -56,7 +67,7 @@ class Timeline(models.Model):
         for event in self.events.all():
             event_dct = {'media': {}, 'text': {'headline': event.headline}}
             # if event.media_url:
-            event_dct['media']['url'] = event.media_url
+            event_dct['media']['url'] = event.get_media_url()
             # if event.media_caption:
             event_dct['media']['caption'] = event.media_caption
             # if event.media_credit:
