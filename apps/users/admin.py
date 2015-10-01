@@ -154,6 +154,7 @@ class MembershipAdmin(admin.ModelAdmin):
 
 
 def make_awaiting(modeladmin, request, queryset):
+    [obj.notify() for obj in queryset]
     queryset.update(status=1)
 
 
@@ -161,6 +162,7 @@ make_awaiting.short_description = "Set as 'Awaiting Print'"
 
 
 def make_printed(modeladmin, request, queryset):
+    [obj.notify() for obj in queryset]
     queryset.update(status=2)
 
 
@@ -168,6 +170,7 @@ make_printed.short_description = "Set as 'Printed'"
 
 
 def make_delivered(modeladmin, request, queryset):
+    [obj.notify() for obj in queryset]
     queryset.update(status=3)
 
 
