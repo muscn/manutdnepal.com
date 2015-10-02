@@ -153,18 +153,45 @@ class MembershipAdmin(admin.ModelAdmin):
                    DecadeBornListFilter)
 
 
+def make_awaiting(modeladmin, request, queryset):
+    queryset.update(status=1)
+    [obj.notify() for obj in queryset]
+
+
+make_awaiting.short_description = "Set as 'Awaiting Print'"
+
+
+def make_printed(modeladmin, request, queryset):
+    queryset.update(status=2)
+    queryset.update(remarks='At Trafford Restro')
+    [obj.notify() for obj in queryset]
+
+
+make_printed.short_description = "Set as 'Printed'"
+
+
+def make_delivered(modeladmin, request, queryset):
+    queryset.update(status=3)
+    [obj.notify() for obj in queryset]
+
+
+make_delivered.short_description = "Set as 'Delivered'"
+
+
 class CardStatusAdmin(admin.ModelAdmin):
     list_display = ('get_devil_no', 'get_membership', 'status')
     search_fields = ('membership__user__full_name', 'membership__user__devil_no')
     list_filter = ('status',)
+    actions = [make_awaiting, make_printed, make_delivered]
 
     def save_model(self, request, obj, form, change):
-        if not form.initial['status'] == obj.status:
+        if 'status' in form.initial and not form.initial['status'] == obj.status:
             obj.notify()
         obj.save()
 
     def get_membership(self, obj):
-        url = reverse('admin:%s_%s_change' % (obj.membership._meta.app_label, obj.membership._meta.model_name), args=(obj.membership.pk,))
+        url = reverse('admin:%s_%s_change' % (obj.membership._meta.app_label, obj.membership._meta.model_name),
+                      args=(obj.membership.pk,))
         return u'<a href="%s">%s</a>' % (url, obj.membership.user.full_name)
 
     get_membership.short_description = 'Membership'
