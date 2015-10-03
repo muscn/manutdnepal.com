@@ -10,7 +10,7 @@ class TeamsScraper(Scraper):
 
     @classmethod
     def fetch_from_espn_data(cls):
-        print 'Retrieving from ESPN EPL Teams Data JSON'
+        cls.log('Retrieving from ESPN EPL Teams Data JSON')
         url = 'https://raw.githubusercontent.com/jokecamp/FootballData/master/EPL%201992%20-%202015/epl-teams-2013-2014.json'
         espn_data = cls.get_json_from_url(url)
         teams = espn_data['sports'][0]['leagues'][0]['teams']
@@ -23,7 +23,7 @@ class TeamsScraper(Scraper):
 
     @classmethod
     def fetch_all_teams(cls):
-        print 'Fetching all teams from compiled json'
+        cls.log('Fetching all teams from compiled json')
         url = 'https://raw.githubusercontent.com/jokecamp/FootballData/master/openFootballData/teams.json'
         data = cls.get_json_from_url(url)
         for datum in data[222:]:

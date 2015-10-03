@@ -12,6 +12,6 @@ class Command(BaseCommand):
                 'I need something to scrap. Available arguments are: ' + ' | '.join(available_scrapers.keys()))
         for arg in args:
             scraper = available_scrapers[arg]
-            scraper.start()
+            scraper.start(command=True)
             # import ipdb
             # ipdb.set_trace()

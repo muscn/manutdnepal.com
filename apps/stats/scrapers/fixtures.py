@@ -1,7 +1,4 @@
-import urllib
-import json
 from ics import Calendar
-from urllib2 import urlopen
 from .base import Scraper
 from apps.stats.models import Fixture, CompetitionYear, Competition, Team
 

@@ -8,20 +8,30 @@ import requests
 
 class Scraper(object):
     data = {}
+    logs = []
+    command = False
+
+    @classmethod
+    def log(cls, log):
+        cls.logs.append(log)
+        if cls.command:
+            print(log)
 
     @classmethod
     def get_url_content(cls, url):
+        cls.log('Retrieving content from: ' + url + ' ...')
         return urllib.urlopen(url).read()
 
     @classmethod
     def get_json_from_url(cls, url):
+        cls.log('Retrieving JSON: ' + url + ' ...')
         return json.loads(urllib.urlopen(url).read())
 
     @classmethod
     def download(cls, url=None, path=None):
         url = url or cls.url
         path = path or cls.local_path
-        print 'Downloading ' + url + ' to ' + path
+        cls.log('Downloading ' + url + ' to ' + path)
         with open(path, 'wb') as handle:
             response = requests.get(url, stream=True)
             # if not response.ok:
@@ -37,15 +47,16 @@ class Scraper(object):
             cls.download()
 
     @classmethod
-    def start(cls):
+    def start(cls, *args, **kwargs):
+        cls.command = kwargs.get('command')
         cls.scrape()
-        print 'Scraped!'
+        cls.log('Scraped!')
         cls.save()
-        print 'Saved!'
+        cls.log('Saved!')
 
     @classmethod
     def get_root_tree(cls):
-        print 'Retrieving root URL: ' + cls.url + ' ...'
+        cls.log('Retrieving root URL: ' + cls.url + ' ...')
         page = requests.get(cls.url)
         tree = html.fromstring(page.text)
         return tree

@@ -1,6 +1,7 @@
+import csv
+
 from .base import Scraper
 from apps.stats.models import Competition, CompetitionYear, CompetitionYearMatches
-import csv
 
 
 class FACupScraper(Scraper):
@@ -49,7 +50,6 @@ class FACupScraper(Scraper):
                     dct[year].append(datum)
 
         cls.data = dct
-
 
     @classmethod
     def save(cls):
