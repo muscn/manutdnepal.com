@@ -95,4 +95,6 @@ urlpatterns = patterns('',
 
                        url(r'^download_new_cards/$', users_views.download_new_cards, name='download_new_cards'),
                        url(r'^email_new_cards/$', users_views.email_new_cards, name='email_new_cards'),
+
+                       url(r'^scrape/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.stats.views.scrape', name='scrape'),
 )

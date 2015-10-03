@@ -10,10 +10,11 @@ class Scraper(object):
     data = {}
     logs = []
     command = False
+    old_logs = []
 
     @classmethod
     def log(cls, log):
-        cls.logs.append(log)
+        cls.logs.append(cls.__name__.replace('scraper', '').replace('Scraper', '') + ':: ' + log)
         if cls.command:
             print(log)
 
@@ -49,6 +50,8 @@ class Scraper(object):
     @classmethod
     def start(cls, *args, **kwargs):
         cls.command = kwargs.get('command')
+        cls.old_logs += cls.logs
+        cls.logs = []
         cls.scrape()
         cls.log('Scraped!')
         cls.save()

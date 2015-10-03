@@ -60,11 +60,21 @@
             <i class="fa fa-cloud-download"></i>
 
             <div class="flip-body">
-                <h2>Scrape</h2>
-                <a href="">Seasons Summary</a>
-                <a href="">FA Cup</a>
-                <a href="">EPL</a>
-                {#                <a href="">Quotes</a>#}
+                <h2>Scrape Data</h2>
+                <a href="{% url 'scrape' 'fixtures' %}">Fixtures</a>
+                <a href="{% url 'scrape' 'tv' %}">TV Schedule</a>
+                <a href="{% url 'scrape' 'teams' %}">Teams</a>
+                <a href="{% url 'scrape' 'table' %}">EPL Table</a>
+            </div>
+        </div>
+
+        <div class="tile flip-container" ontouchstart="this.classList.toggle('hover');">
+            <i class="fa fa-history"></i>
+
+            <div class="flip-body">
+                <h2>Scrape History</h2>
+                <a href="{% url 'scrape' 'season_summary' %}">Seasons Summary</a>
+                <a href="{% url 'scrape' 'facup' %}">FA Cup</a>
             </div>
         </div>
 
