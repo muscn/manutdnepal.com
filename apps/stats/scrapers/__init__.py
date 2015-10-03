@@ -4,6 +4,7 @@ from squad import SquadScraper
 from fixtures import FixturesScraper
 from teams import TeamsScraper
 from table import TableScraper
+from tv import TVScraper
 
 available_scrapers = {
     'season_summary': SeasonDataScraper,
@@ -12,4 +13,5 @@ available_scrapers = {
     'fixtures': FixturesScraper,
     'teams': TeamsScraper,
     'table': TableScraper,
+    'tv': TVScraper,
 }

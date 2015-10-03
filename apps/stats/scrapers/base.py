@@ -1,8 +1,9 @@
-from lxml import html
-import requests
 import os
 import urllib
 import json
+
+from lxml import html
+import requests
 
 
 class Scraper(object):
@@ -15,7 +16,6 @@ class Scraper(object):
     @classmethod
     def get_json_from_url(cls, url):
         return json.loads(urllib.urlopen(url).read())
-
 
     @classmethod
     def download(cls, url=None, path=None):
@@ -31,12 +31,10 @@ class Scraper(object):
                     break
                 handle.write(block)
 
-
     @classmethod
     def download_if_required(cls):
         if not os.path.isfile(cls.local_path):
             cls.download()
-
 
     @classmethod
     def start(cls):
