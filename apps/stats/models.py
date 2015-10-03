@@ -14,6 +14,7 @@ from django.db import models
 from django.db.models import Count
 from jsonfield import JSONField
 from django.conf import settings
+import pytz as pytz
 
 from muscn.utils.countries import CountryField
 from muscn.utils.forms import unique_slugify
@@ -482,8 +483,8 @@ class Fixture(models.Model):
         return utc_to_local(self.datetime)
 
     def time_remaining(self):
-        # local_match_time = utc_to_local(self.datetime).replace(tzinfo=None)
-        delta = self.datetime - datetime.datetime.now()
+        now = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+        delta = self.datetime - now
         dhm = (delta.days, delta.seconds // 3600, (delta.seconds // 60) % 60)
         return dhm
 

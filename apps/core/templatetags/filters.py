@@ -30,7 +30,6 @@ def key(value):
         'Alliance': 'Football Alliance',
         'Combination': 'The Combination',
         'F': 'Final',
-        'Group': 'Group',
         'QF': 'Quarter-finals',
         'QR1': 'First Qualifying Round',
         'QR2': 'Second Qualifying Round',
@@ -47,6 +46,7 @@ def key(value):
         'A': 'Away',
         's': 'Semi-finals',
         'f': 'Final',
+        'English Premier League': 'Premier League'
     }
     if value in dct:
         return dct[value]
