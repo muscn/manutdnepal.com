@@ -6,7 +6,7 @@ import pytz
 
 
 class TVScraper(Scraper):
-    channels = {'star-sports-4-india'}
+    channels = {'star-sports-4-india': 'Star Sports 4', 'star-sports-india':'Star Sports 1'}
 
     @classmethod
     def scrape(cls):

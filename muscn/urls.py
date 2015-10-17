@@ -16,6 +16,8 @@ urlpatterns = patterns('',
                        url(r'^m/(?P<slug>[a-zA-Z0-9_.-]+)/$', user_views.MemberProfileView.as_view(),
                            name='view_member_profile'),
 
+                       url(r'^froala_editor/', include('froala_editor.urls')),
+
                        (r'^admin/settings/', include('dbsettings.urls')),
                        url(r'admin/clear-cache/', 'apps.core.views.clear_cache', name='clear_cache'),
                        (r'^admin/', include('smuggler.urls')),  # before admin url patterns!
