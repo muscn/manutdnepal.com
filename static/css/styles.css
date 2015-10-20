@@ -208,9 +208,9 @@ img.overlaid {
 
 .section.featured {
     position: relative;
+    margin: 0 auto;
     margin-bottom: 40px;
     padding: 20px;
-    background-color: #FFF;
     max-height: 500px;
     overflow: hidden;
 }
