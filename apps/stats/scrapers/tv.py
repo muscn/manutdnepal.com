@@ -6,7 +6,7 @@ import pytz
 
 
 class TVScraper(Scraper):
-    channels = {'star-sports-4-india': 'Star Sports 4', 'star-sports-india':'Star Sports 1'}
+    channels = {'star-sports-4-india': 'Star Sports 4', 'star-sports-india':'Star Sports 1', 'ten-sports': 'TEN Sports'}
 
     @classmethod
     def scrape(cls):
@@ -16,7 +16,7 @@ class TVScraper(Scraper):
                 channels = fixture.get('channels')
                 for channel in channels:
                     if channel.get('slug') in cls.channels:
-                        cls.data[float(fixture.get('timestamp'))] = channel.get('name')
+                        cls.data[float(fixture.get('timestamp'))] = cls.channels.get(channel.get('slug'))
                         continue
 
     @classmethod

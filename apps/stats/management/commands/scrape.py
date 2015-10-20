@@ -13,5 +13,3 @@ class Command(BaseCommand):
         for arg in args:
             scraper = available_scrapers[arg]
             scraper.start(command=True)
-            import ipdb
-            ipdb.set_trace()
