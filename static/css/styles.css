@@ -431,7 +431,7 @@ blockquote p {
     /*margin-top: -200px;*/
     position: relative;
     padding: 39px;
-    border-radius: 30px;
+    /*border-radius: 30px;*/
 }
 
 .connect.btn {
