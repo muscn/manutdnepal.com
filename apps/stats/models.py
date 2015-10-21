@@ -358,7 +358,7 @@ class Injury(models.Model):
     type = models.CharField(max_length=100, null=True, blank=True)
     injury_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
-    return_date_confirmed = models.BooleanField(default=True)
+    return_date_confirmed = models.BooleanField(default=False)
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
     @classmethod

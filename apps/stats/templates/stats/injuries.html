@@ -31,6 +31,7 @@
                 <th></th>
                 <th>Player</th>
                 <th>Injury</th>
+                <th>Description</th>
                 <th>Injury Date</th>
                 <th>Expected Return Date</th>
 
@@ -43,13 +44,13 @@
                     <td>{{ injury.player.name }}</td>
                     <td>
                         {{ injury.type }}
-                        {% if injury.remarks %}
-                            [{{ injury.remarks }}]
-                        {% endif %}
+                    </td>
+                    <td>
+                        {{ injury.remarks|default:'' }}
                     </td>
                     <td>{{ injury.injury_date }}</td>
                     <td>
-                        {{ injury.return_date }}
+                        {{ injury.return_date|default:'Unspecified' }}
                         {% if injury.return_date_confirmed %}
                             [Confirmed]
                         {% endif %}
@@ -68,6 +69,7 @@
                 <th></th>
                 <th>Player</th>
                 <th>Injury</th>
+                <th>Description</th>
                 <th>Injury Date</th>
                 <th>Return Date</th>
 
@@ -79,6 +81,7 @@
                     <td>{{ injury.player.squad_no }}</td>
                     <td>{{ injury.player.name }}</td>
                     <td>{{ injury.type }}</td>
+                    <td>{{ injury.remarks|default:'' }}</td>
                     <td>{{ injury.injury_date }}</td>
                     <td>{{ injury.return_date }}</td>
                 </tr>

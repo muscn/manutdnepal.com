@@ -20,6 +20,7 @@
             <thead>
             <th>{% anchor player 'Player' %}</th>
             <th>{% anchor type 'Injury' %}</th>
+            <th>{% anchor type 'Description' %}</th>
             <th>{% anchor injury_date 'Injury Date' %}</th>
             <th>{% anchor return_date 'Return Date' %}</th>
             </thead>
@@ -33,6 +34,9 @@
                     </td>
                     <td>
                         {{ item.type }}
+                    </td>
+                    <td>
+                        {{ item.remarks }}
                     </td>
                     <td>
                         {{ item.injury_date }}
