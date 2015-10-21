@@ -24,6 +24,7 @@ vi app/local_settings.py # configure your settings here, database, static & medi
 crontab -e
 */5 * * * * source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape table > /home/muscn/logs/cronjob.log
 @daily source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape tv > /home/muscn/logs/cronjob.log
+0 7,15,23 * * * source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape injuries > /home/muscn/logs/cronjob.log
 ```
 
 ### 3. Rejoice!
