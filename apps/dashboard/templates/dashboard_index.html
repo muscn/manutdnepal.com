@@ -60,10 +60,10 @@
             <i class="fa fa-cloud-download"></i>
 
             <div class="flip-body">
-                <h2>Scrape Data</h2>
+                <h2>Scrape Recent</h2>
                 <a href="{% url 'scrape' 'fixtures' %}">Fixtures</a>
                 <a href="{% url 'scrape' 'tv' %}">TV Schedule</a>
-                <a href="{% url 'scrape' 'teams' %}">Teams</a>
+                <a href="{% url 'scrape' 'injuries' %}">Injuries</a>
                 <a href="{% url 'scrape' 'table' %}">EPL Table</a>
             </div>
         </div>
@@ -72,7 +72,8 @@
             <i class="fa fa-history"></i>
 
             <div class="flip-body">
-                <h2>Scrape History</h2>
+                <h2>Scrape Archive</h2>
+                <a href="{% url 'scrape' 'teams' %}">Teams</a>
                 <a href="{% url 'scrape' 'season_summary' %}">Seasons Summary</a>
                 <a href="{% url 'scrape' 'facup' %}">FA Cup</a>
             </div>
