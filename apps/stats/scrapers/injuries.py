@@ -62,6 +62,8 @@ class InjuriesScraper(Scraper):
             new_injuries.append(injury)
         for old_injury in old_injuries:
             if old_injury not in new_injuries:
-                old_injury.delete()
+                yesterday = datetime.datetime.today() - datetime.timedelta(hours=24)
+                old_injury.return_date = yesterday
+                old_injury.save()
         for new_injury in new_injuries:
             new_injury.save()
