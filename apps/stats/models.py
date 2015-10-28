@@ -547,6 +547,18 @@ class MatchResult(models.Model):
         return unicode(self.fixture.title)
 
 
+class PlayerSocialAccount(models.Model):
+    player = models.OneToOneField(Player, related_name='social_accounts')
+    twitter = models.CharField(max_length=100, blank=True, null=True, help_text='Username')
+    instagram = models.CharField(max_length=100, blank=True, null=True, help_text='Username')
+    facebook = models.CharField(max_length=100, blank=True, null=True, help_text='Username')
+    youtube = models.URLField(max_length=255, blank=True, null=True, help_text='URL')
+    website = models.URLField(max_length=255, blank=True, null=True, help_text='URL')
+
+    def __str__(self):
+        return str(self.player) + ' on Social Media'
+
+
 def get_top_scorers():
     from django.conf import settings
 
