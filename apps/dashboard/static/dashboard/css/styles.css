@@ -77,6 +77,7 @@ nav.navbar.navbar-default img {
     float: left;
     color: #444;
     margin: 1em;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .tile:hover {
