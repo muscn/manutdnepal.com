@@ -238,7 +238,8 @@ img.overlaid {
 }
 
 .stats-block {
-    background-color: #FFF;
+    background: rgba(255, 255, 255, 0.7);
+    /*background-color: #FFF;*/
     box-shadow: 0 0 20px -4px #CCC;
     height: 25em;
     border-top: 0.5em solid #e54d36;
@@ -529,11 +530,12 @@ header img.logo {
 }
 
 .container {
-    background-color: #FFF;
-    /* margin-top: -200px; */
+    background: rgba(255, 255, 255, 0.9);
     position: relative;
     padding: 39px;
     /* border-radius: 30px; */
+    /*background-color: #FFF;*/
+    /* margin-top: -200px; */
 }
 
 .person-block {
