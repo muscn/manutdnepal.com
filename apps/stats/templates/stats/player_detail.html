@@ -53,7 +53,26 @@
                     </tr>
                 </table>
             </div>
-
+            {% if object.social_accounts.twitter %}
+                <a target="_blank" href="https://twitter.com/{{ object.social_accounts.twitter }}"><i
+                        class="fa fa-2x fa-twitter-square"></i></a>
+            {% endif %}
+            {% if object.social_accounts.instagram %}
+                <a target="_blank" href="https://instagram.com/{{ object.social_accounts.instagram }}/"><i
+                        class="fa fa-2x fa-instagram"></i></a>
+            {% endif %}
+            {% if object.social_accounts.facebook %}
+                <a target="_blank" href="https://www.facebook.com/{{ object.social_accounts.facebook }}"><i
+                        class="fa fa-2x fa-facebook-square"></i></a>
+            {% endif %}
+            {% if object.social_accounts.youtube %}
+                <a target="_blank" href="{{ object.social_accounts.youtube }}"><i
+                        class="fa fa-2x fa-youtube-square"></i></a>
+            {% endif %}
+            {% if object.social_accounts.website %}
+                <a target="_blank" href="{{ object.social_accounts.website }}"><i
+                        class="fa fa-2x fa-globe"></i></a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
