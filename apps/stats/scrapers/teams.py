@@ -4,7 +4,7 @@ from apps.stats.models import Team
 
 class TeamsScraper(Scraper):
     @classmethod
-    def start(cls):
+    def start(cls, *args, **kwargs):
         cls.fetch_from_espn_data()
         cls.fetch_all_teams()
 
