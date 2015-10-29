@@ -150,3 +150,7 @@ nav.navbar.navbar-default img {
 .breadcrumbs form input {
     float: right;
 }
+
+.container-fluid {
+    background: rgba(255, 255, 255, 0.97);
+}

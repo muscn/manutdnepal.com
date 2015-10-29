@@ -29,7 +29,9 @@
                 {% for item in paginated_objects %}
                     <tr>
                         <td>
-                            {{ item.full_name }}
+                            <a href="{% url 'view_member_profile' item.username %}">
+                                {{ item.full_name }}
+                            </a>
                         </td>
                         <td>
                             {{ item.membership_status }}

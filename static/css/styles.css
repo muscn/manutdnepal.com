@@ -542,6 +542,10 @@ header img.logo {
     background: rgba(255, 255, 255, 0.8);
 }
 
+.container-fluid {
+    background: rgba(255, 255, 255, 0.97);
+}
+
 .person-block {
     width: 300px;
     border: 1px solid #CCCCCC;
@@ -699,7 +703,6 @@ footer {
 
 .navbar.navbar-default {
     background-color: transparent;
-
 }
 
 .section.featured a h2 {
