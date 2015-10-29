@@ -530,7 +530,6 @@ header img.logo {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.97);
     position: relative;
     padding: 39px;
     /* border-radius: 30px; */
@@ -542,7 +541,7 @@ header img.logo {
     background: rgba(255, 255, 255, 0.8);
 }
 
-.container-fluid {
+.content > .container {
     background: rgba(255, 255, 255, 0.97);
 }
 
