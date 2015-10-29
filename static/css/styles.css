@@ -530,12 +530,16 @@ header img.logo {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.97);
     position: relative;
     padding: 39px;
     /* border-radius: 30px; */
     /*background-color: #FFF;*/
     /* margin-top: -200px; */
+}
+
+#home-container {
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .person-block {
