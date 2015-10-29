@@ -6,11 +6,21 @@
 {% block content %}
     <div class="container">
         <h1>
+            {% if object.user.devil_no %}
+                #{{ object.user.devil_no }} -
+            {% endif %}
             {{ object.user.full_name }}
+            {% if object.user.is_member %}
+                <i class="fa fa-check verified"></i>
+            {% endif %}
+
+            </span>
         </h1>
 
-    This profile is private. Public profiles aren't enabled yet!
+        Membership Status: {{ object.user.membership_status }} <br/>
+        Membership Card: {{ object.user.card_status }} <br/>
+        Member Since: {{ object.approved_date }}
 
 
-        
+
 {% endblock %}

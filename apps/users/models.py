@@ -104,8 +104,9 @@ class User(AbstractBaseUser):
             return 'Membership not applied'
 
     def is_member(self):
+        # TODO check membership status as Approved but not Pending or Expired
         return True if hasattr(self, 'membership') and hasattr(self.membership,
-                                                               'payment') and self.membership.approved_date and self.membership.approved_by and self.membership.status == 'A' else False
+                                                               'payment') and self.membership.approved_date and self.membership.approved_by else False
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['full_name', 'email']

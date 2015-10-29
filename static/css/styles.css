@@ -730,6 +730,14 @@ footer .copy-quote {
     font-size: 18px;
 }
 
+.fa-check.verified {
+    border-radius: 50%;
+    margin: 0.2em;
+    background: #88c9f9;
+    color: #FFFFFF;
+    padding: 0.1em;
+}
+
 @media (max-width: 767px) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #FFF;
