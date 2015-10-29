@@ -81,6 +81,11 @@ class User(AbstractBaseUser):
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
     @property
+    def profile_picture(self):
+        import ipdb
+        ipdb.set_trace()
+
+    @property
     def card_status(self):
         if hasattr(self, 'membership') and hasattr(self.membership, 'card_status'):
             return self.membership.get_card_status()

@@ -541,7 +541,7 @@ header img.logo {
     background: rgba(255, 255, 255, 0.8);
 }
 
-.content > .container {
+.content#container, .content > .container {
     background: rgba(255, 255, 255, 0.97);
 }
 
