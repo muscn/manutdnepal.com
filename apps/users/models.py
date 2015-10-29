@@ -81,9 +81,22 @@ class User(AbstractBaseUser):
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
     @property
+    def gravatar_url(self):
+        import hashlib
+
+        return "http://www.gravatar.com/avatar/" + hashlib.md5(self.email.lower()).hexdigest() + "?s=512&d=blank"
+
+    @property
     def profile_picture(self):
-        import ipdb
-        ipdb.set_trace()
+        for account in self.socialaccount_set.all():
+            if account.provider == 'google' and account.extra_data.get('picture'):
+                return account.extra_data.get('picture')
+            if account.provider == 'facebook':
+                return 'https://graph.facebook.com/' + account.uid + '/picture?type=large&width=512&height=512'
+            if account.provider == 'twitter' and account.extra_data.get('screen_name'):
+                return 'https://twitter.com/' + account.extra_data.get('screen_name') + '/profile_image?size=original'
+
+        return self.gravatar_url
 
     @property
     def card_status(self):
@@ -97,9 +110,6 @@ class User(AbstractBaseUser):
             return 'Member'
         try:
             if self.membership:
-                # if self.id == 9:
-                # import ipdb
-                # ipdb.set_trace()
                 if not self.membership.payment:
                     return 'Payment information not received'
                 if not self.membership.payment.verified:

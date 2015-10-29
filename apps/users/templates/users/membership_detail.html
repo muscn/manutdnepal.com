@@ -17,9 +17,33 @@
             </span>
         </h1>
 
-        Membership Status: {{ object.user.membership_status }} <br/>
-        Membership Card: {{ object.user.card_status }} <br/>
-        Member Since: {{ object.approved_date }}
+        <div class="row">
+
+            <div class="col-md-6">
+
+                {% with profile_picture=object.user.profile_picture %}
+                    {% if profile_picture %}
+                        <img src="{{ profile_picture }}" class="img-responsive"/>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <tr>
+                        <th>Membership Status</th>
+                        <td>{{ object.user.membership_status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Membership Card</th>
+                        <td>{{ object.user.card_status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Member Since</th>
+                        <td>{{ object.approved_date }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
 
 
