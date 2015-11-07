@@ -463,7 +463,7 @@ class Fixture(models.Model):
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:5].select_related()
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
 
     def score(self):
         if self.is_home_game:
