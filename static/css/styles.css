@@ -244,10 +244,13 @@ img.overlaid {
     height: 25em;
     border-top: 0.5em solid #e54d36;
     width: 21em;
-    float: left;
-    margin: 2em 0 0 2em;
+    /*float: left;*/
+    margin: 2em 1em 0;
     padding: 20px 25px 25px;
     overflow: hidden;
+    display: inline-block;
+    text-align: left;
+    max-width: 90%;
 }
 
 .stats-block h2 {
@@ -741,7 +744,7 @@ footer .copy-quote {
     padding: 0.1em;
 }
 
-pad{
+pad {
     display: block;
     height: 1em;
 }
