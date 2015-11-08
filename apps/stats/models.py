@@ -465,6 +465,10 @@ class Fixture(models.Model):
     def recent_results(cls):
         return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
 
+    @property
+    def is_today(self):
+        return datetime.date.today() == self.datetime.date()
+
     def score(self):
         if self.is_home_game:
             return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(

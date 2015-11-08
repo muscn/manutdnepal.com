@@ -46,7 +46,7 @@
         <div class="section stats text-center">
 {#            <div class="section-wrapper">#}
                 <div class="stats-block next-match">
-                    <h2><a href="{% url 'fixtures' %}">NEXT MATCH</a></h2>
+                    <h2><a href="{% url 'fixtures' %}">{% if next_match.time_remaining.0 == 0 %}MATCH DAY{% else %}NEXT MATCH{% endif %}</a></h2>
                     {% if next_match %}
                         <div class="fixture text-center">
                             <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
