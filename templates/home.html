@@ -44,50 +44,51 @@
         {#        </div>#}
 
         <div class="section stats text-center">
-{#            <div class="section-wrapper">#}
-                <div class="stats-block next-match">
-                    <h2><a href="{% url 'fixtures' %}">{% if next_match.time_remaining.0 == 0 %}MATCH DAY{% else %}NEXT MATCH{% endif %}</a></h2>
-                    {% if next_match %}
-                        <div class="fixture text-center">
-                            <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
-                            <span class="venue">{{ next_match.get_venue }}</span> |
+            {#            <div class="section-wrapper">#}
+            <div class="stats-block next-match">
+                <h2><a href="{% url 'fixtures' %}">{% if next_match.time_remaining.0 == 0 %}MATCH DAY{% else %}NEXT
+                    MATCH{% endif %}</a></h2>
+                {% if next_match %}
+                    <div class="fixture text-center">
+                        <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
+                        <span class="venue">{{ next_match.get_venue }}</span> |
                             <span class="competition">{{ next_match.competition_year.competition.name|key }}
                                 {% if next_match.round %}
                                     - {{ next_match.round }}
                                 {% endif %}
                             </span>
-                            {% if next_match.broadcast_on %}
-                                <div class="channel">Live on {{ next_match.broadcast_on }}</div>
-                            {% endif %}
+                        {% if next_match.broadcast_on %}
+                            <div class="channel">Live on {{ next_match.broadcast_on }}</div>
+                        {% endif %}
+                    </div>
+                    <pad></pad>
+
+                    <div class="row text-center">
+                        <div class="datetime col-xs-6">
+                            <span class="date">{{ next_match.datetime|date:'d' }}</span>
+
+                            <div class="month">{{ next_match.datetime|date:'F' }}</div>
+                            <div class="day">{{ next_match.datetime|date:'l' }}</div>
+                            <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
+
                         </div>
-                        <pad></pad>
-
-                        <div class="row text-center">
-                            <div class="datetime col-xs-6">
-                                <span class="date">{{ next_match.datetime|date:'d' }}</span>
-
-                                <div class="month">{{ next_match.datetime|date:'F' }}</div>
-                                <div class="day">{{ next_match.datetime|date:'l' }}</div>
-                                <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
-
-                            </div>
-                            <div class="opponent-crest col-xs-6">
-                                {% thumbnail next_match.opponent.get_crest "150x150" format="PNG" as im %}
-                                    <img class="img-responsive" src="{{ im.url }}">
-                                {% endthumbnail %}
-                            </div>
+                        <div class="opponent-crest col-xs-6">
+                            {% thumbnail next_match.opponent.get_crest "150x150" format="PNG" as im %}
+                                <img class="img-responsive" src="{{ im.url }}">
+                            {% endthumbnail %}
                         </div>
-                        {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
+                    </div>
+                    {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}
 
-                        <div class="countdown row text-center">
-                            <div class="text col-xs-5">Time Remaining</div>
-                            <div class="col-xs-7">
-                                <div class="row timer">
-                                    <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
-                                    <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
-                                    <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
-                                </div>
-                                <div class="countdown-footer row text-center">
+                    <div class="countdown row text-center">
+                        <div class="text col-xs-5">Time Remaining</div>
+                        <div class="col-xs-7">
+                            <div class="row timer">
+                                <span class="days col-xs-4">{{ next_match.time_remaining.0 }}</span>
+                                <span class="days col-xs-4">{{ next_match.time_remaining.1 }}</span>
+                                <span class="days col-xs-4">{{ next_match.time_remaining.2 }}</span>
+                            </div>
+                            <div class="countdown-footer row text-center">
                                 <span class="days col-xs-4 text-center">{% if next_match.time_remaining.0 == 1 %}
                                     day{% else %}
                                     days{% endif %}</span>
@@ -95,170 +96,173 @@
                                     hours{% endif %}</span>
                                 <span class="days col-xs-4">{% if next_match.time_remaining.2 == 1 %}min{% else %}
                                     mins{% endif %}</span>
-                                </div>
                             </div>
                         </div>
-                        <div class="">
-                            <div class="text col-xs-5"></div>
-
-                        </div>
-                    {% else %}
-                        <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>
-                    {% endif %}
-                </div>
-
-                <div class="stats-block">
-                    <h2><a href="{% url 'results' %}">RECENT RESULTS</a></h2>
-
-                    <div class="results block-content">
-                        <table class="table">
-                            <tbody>
-
-                            {% for result in recent_results %}
-                                <tr class="result">
-                                    <td>
-                                        <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-
-                            </tbody>
-                        </table>
                     </div>
-                </div>
+                    <div class="">
+                        <div class="text col-xs-5"></div>
 
-                <div class="stats-block">
-                    <h2><a href="{% url 'epl_table' %}">LEAGUE TABLE</a></h2>
-                    <table class="epl-table table">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Club</th>
-                            <th>P</th>
-                            <th>GD</th>
-                            <th>Pts</th>
-                        </tr>
-                        </thead>
+                    </div>
+                {% else %}
+                    <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>
+                {% endif %}
+            </div>
+
+            <div class="stats-block">
+                <h2><a href="{% url 'results' %}">RECENT RESULTS</a></h2>
+
+                <div class="results block-content">
+                    <table class="table">
                         <tbody>
-                        {% for team in standings %}
-                            <tr {% if team.stand_team_name == 'Manchester United' %}class=highlight{% endif %}>
-                                <td>{{ team.stand_position }}</td>
-                                <td>{{ team.stand_team_name }}</td>
-                                <td>{{ team.stand_overall_gp }}</td>
-                                <td>{{ team.stand_gd }}</td>
-                                <td>{{ team.stand_points }}</td>
+
+                        {% for result in recent_results %}
+                            <tr class="result">
+                                <td>
+                                    <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
+                                </td>
                             </tr>
                         {% endfor %}
+
                         </tbody>
-                        </tr>
                     </table>
                 </div>
+            </div>
 
-                <div class="stats-block">
-                    <h2><a href="{% url 'scorers' %}">TOP SCORERS</a></h2>
-                    <table class="top-scorers table">
+            <div class="stats-block">
+                <h2><a href="{% url 'epl_table' %}">LEAGUE TABLE</a></h2>
+                <table class="epl-table table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Club</th>
+                        <th>P</th>
+                        <th>GD</th>
+                        <th>Pts</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for team in standings %}
+                        <tr {% if team.stand_team_name == 'Manchester United' %}class=highlight{% endif %}>
+                            <td>{{ team.stand_position }}</td>
+                            <td>
+                                {% if team.stand_team_name == 'Manchester United' %}Man United{% else %}
+                                    {{ team.stand_team_name }}{% endif %}
+                            </td>
+                            <td>{{ team.stand_overall_gp }}</td>
+                            <td>{{ team.stand_gd }}</td>
+                            <td>{{ team.stand_points }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="stats-block">
+                <h2><a href="{% url 'scorers' %}">TOP SCORERS</a></h2>
+                <table class="top-scorers table">
+                    <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Goals</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player, score in players.items %}
+                        <tr>
+                            <td>{{ player.name }}</td>
+                            <td>{{ score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="stats-block">
+                <h2><a href="{% url 'injuries' %}">INJURIES</a></h2>
+                {% if injuries %}
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>Player</th>
-                            <th>Goals</th>
+                            <th>Injury</th>
+                            <th>Return</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for player, score in players.items %}
+                        {% for injury in injuries %}
                             <tr>
-                                <td>{{ player.name }}</td>
-                                <td>{{ score }}</td>
+                                <td>{{ injury.player.name }}</td>
+                                <td>{{ injury.type }}</td>
+                                <td>{{ injury.return_date|default:'Unspecified' }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
                         </tr>
                     </table>
-                </div>
+                {% else %}
+                    <br/><br/><br/>
+                    <h3 class="highlight text-center">All players are fit.</h3>
+                {% endif %}
+            </div>
 
-                <div class="stats-block">
-                    <h2><a href="{% url 'injuries' %}">INJURIES</a></h2>
-                    {% if injuries %}
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Player</th>
-                                <th>Injury</th>
-                                <th>Return</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for injury in injuries %}
-                                <tr>
-                                    <td>{{ injury.player.name }}</td>
-                                    <td>{{ injury.type }}</td>
-                                    <td>{{ injury.return_date|default:'Unspecified' }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            </tr>
-                        </table>
-                    {% else %}
-                        <br/><br/><br/>
-                        <h3 class="highlight text-center">All players are fit.</h3>
-                    {% endif %}
-                </div>
+            <div class="stats-block posts">
+                <h2><a href="{% url 'list_posts' %}">RECENT POSTS</a></h2>
+                {% for post in posts %}
+                    <div class="post-title">
+                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    </div>
+                {% endfor %}
+            </div>
 
-                <div class="stats-block posts">
-                    <h2><a href="{% url 'list_posts' %}">RECENT POSTS</a></h2>
-                    {% for post in posts %}
-                        <div class="post-title">
-                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                        </div>
-                    {% endfor %}
-                </div>
+            <div class="stats-block" id="reddit-block">
+                <h2>From Reddit</h2>
 
-                <div class="stats-block" id="reddit-block">
-                    <h2>From Reddit</h2>
+                <div id="reddit-content" data-bind="foreach: threads">
+                    <div class="reddit-thread row">
+                        <!-- ko if:internal -->
+                        <span class="thumbnail-placeholder pull-left"></span>
+                        <!-- /ko -->
 
-                    <div id="reddit-content" data-bind="foreach: threads">
-                        <div class="reddit-thread row">
-                            <!-- ko if:internal -->
-                            <span class="thumbnail-placeholder pull-left"></span>
-                            <!-- /ko -->
+                        <!-- ko if:!internal -->
+                        <img data-bind="attr: {'src': thumbnail}" class="pull-left">
+                        <!-- /ko -->
 
-                            <!-- ko if:!internal -->
-                            <img data-bind="attr: {'src': thumbnail}" class="pull-left">
-                            <!-- /ko -->
-
-                            <div class="text">
-                                <h5><a data-bind="attr: {'href': url, 'title': text}" target="_blank">
-                                    <span data-bind="text: title"></span>
-                                </a></h5>
-                            </div>
+                        <div class="text">
+                            <h5><a data-bind="attr: {'href': url, 'title': text}" target="_blank">
+                                <span data-bind="text: title"></span>
+                            </a></h5>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="stats-block" id="news-block">
-                    <h2>News</h2>
+            <div class="stats-block" id="news-block">
+                <h2>News</h2>
 
-                    <ul id="news-content" data-bind="foreach: entries" class="block-content">
-                        <li class="news-item">
-                            <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>
-                        </li>
+                <ul id="news-content" data-bind="foreach: entries" class="block-content">
+                    <li class="news-item">
+                        <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>
+                    </li>
 
 
-                    </ul>
-                </div>
+                </ul>
+            </div>
 
-                <div class="stats-block">
-                    <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="messages"
-                         data-height="362"
-                         data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
-                         data-show-facepile="true">
-                        <div class="fb-xfbml-parse-ignore">
-                            <blockquote cite="https://www.facebook.com/muscnepal"><a
-                                    href="https://www.facebook.com/muscnepal">Manchester
-                                United Supporters&#039; Club, Nepal</a></blockquote>
-                        </div>
+            <div class="stats-block">
+                <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="messages"
+                     data-height="362"
+                     data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
+                     data-show-facepile="true">
+                    <div class="fb-xfbml-parse-ignore">
+                        <blockquote cite="https://www.facebook.com/muscnepal"><a
+                                href="https://www.facebook.com/muscnepal">Manchester
+                            United Supporters&#039; Club, Nepal</a></blockquote>
                     </div>
                 </div>
-{#            </div>#}
+            </div>
+            {#            </div>#}
         </div>
 
         <div class="quote-block section">
