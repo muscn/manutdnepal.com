@@ -64,7 +64,7 @@
 
                         <div class="row text-center">
                             <div class="datetime col-xs-6">
-                                <span class="date">{{ next_match.datetime.day }}</span>
+                                <span class="date">{{ next_match.datetime|date:'d' }}</span>
 
                                 <div class="month">{{ next_match.datetime|date:'F' }}</div>
                                 <div class="day">{{ next_match.datetime|date:'l' }}</div>
