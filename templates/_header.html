@@ -68,7 +68,7 @@
                                     <li><a href="/contact-us/">Contact Us</a></li>
                                 </ul>
                             </li>
-                        <li><a href="/post/">Posts</a></li>
+                            <li><a href="/post/">Posts</a></li>
                             <li><a href="/event/">Events</a></li>
 
                             {% if request.user.is_authenticated %}
@@ -81,7 +81,20 @@
                                         Membership</a>
                                     </li>
                                 {% endif %}
-                                <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false">{{ user }}<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
+{#                                        <li><a href="{% url 'list_members' %}">Edit Profile</a></li>#}
+                                        <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+                                        <li><a href="{% url 'membership_form' %}">Registration Information</a></li>
+                                        <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
+                                    </ul>
+                                </li>
+
                             {% else %}
                                 <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
                                 <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
