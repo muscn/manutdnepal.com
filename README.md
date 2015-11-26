@@ -33,5 +33,14 @@ vi app/local_settings.py # configure your settings here, database, static & medi
 manutd ALL= NOPASSWD: /usr/local/bin/supervisorctl restart muscn
 ```
 
+#`vi repo.git/hooks/post-receive`
+```
+#!/bin/sh
+echo Running $BASH_SOURCE
+set | egrep GIT
+git checkout -f
+../app/deploy.sh
+```
+
 
 ### 5. Rejoice!
