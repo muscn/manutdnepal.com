@@ -22,9 +22,9 @@ vi app/local_settings.py # configure your settings here, database, static & medi
 ### 3. Add cronjobs
 ```
 crontab -e
-*/5 * * * * source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape table > /home/muscn/logs/cronjob.log
-@daily source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape tv > /home/muscn/logs/cronjob.log
-0 7,15,23 * * * source /home/muscn/.bashrc && source /home/muscn/env/bin/activate && python /home/muscn/app/manage.py scrape injuries > /home/muscn/logs/cronjob.log
+*/5 * * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape table > /home/manutd/logs/cronjob.log
+@daily source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape tv > /home/manutd/logs/cronjob.log
+0 7,15,23 * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape injuries > /home/manutd/logs/cronjob.log
 ```
 
 ### 3. Rejoice!
