@@ -16,6 +16,7 @@ django-smuggler
 ics
 wikipedia
 sorl-thumbnail
+pytz
 
 #dev only
 django-debug-toolbar
