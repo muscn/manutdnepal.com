@@ -1,5 +1,6 @@
 import os
 import urllib
+import urllib2
 import json
 
 from lxml import html
@@ -26,7 +27,10 @@ class Scraper(object):
     @classmethod
     def get_json_from_url(cls, url):
         cls.log('Retrieving JSON: ' + url + ' ...')
-        return json.loads(urllib.urlopen(url).read())
+        opener = urllib2.build_opener()
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        response = opener.open(url)
+        return json.loads(response.read())
 
     @classmethod
     def download(cls, url=None, path=None):
