@@ -501,7 +501,9 @@ class Fixture(models.Model):
         elif self.is_home_game:
             return 'Old Trafford'
         else:
-            return self.opponent.stadium.name
+            if self.opponent.stadium:
+                return str(self.opponent.stadium.name)
+            return 'Unknown'
 
     def __unicode__(self):
         # return self.title

@@ -8,7 +8,7 @@ from apps.users.models import StaffOnlyMixin, group_required
 from muscn.utils.mixins import CreateView, UpdateView, DeleteView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
     get_top_scorers, Goal
-from .forms import QuoteForm, InjuryForm, ResultForm, GoalForm
+from .forms import QuoteForm, InjuryForm, ResultForm, GoalForm, FixtureForm
 
 
 class InjuryListView(StaffOnlyMixin, ListView):
@@ -61,7 +61,7 @@ class ResultListView(StaffOnlyMixin, ListView):
 
 class ResultUpdateView(StaffOnlyMixin, UpdateView):
     model = Fixture
-    queryset = Fixture.results()
+    # queryset = Fixture.results()
     form_class = ResultForm
     success_url = reverse_lazy('list_results')
     template_name = 'stats/result_form.html'
@@ -75,7 +75,7 @@ class FixtureListView(StaffOnlyMixin, ListView):
 class FixtureUpdateView(StaffOnlyMixin, UpdateView):
     model = Fixture
     queryset = Fixture.get_upcoming()
-    form_class = ResultForm
+    form_class = FixtureForm
     success_url = reverse_lazy('list_fixtures')
 
 
@@ -172,13 +172,14 @@ def fixtures(request):
 @group_required('Staff')
 def scrape(request, slug):
     from apps.stats.scrapers import available_scrapers
+
     if slug not in available_scrapers:
         raise Http404("Scraper does not exist")
     scraper = available_scrapers[slug]
     scraper.start()
     context = {
         'logs': scraper.logs,
-        'old_logs' : scraper.old_logs,
+        'old_logs': scraper.old_logs,
         'scraper': slug,
     }
     return render(request, 'stats/scraped.html', context)

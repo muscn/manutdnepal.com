@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     <a href="{% url 'list_results' %}"><i class="fa fa-list-ol"></i>Results</a>
-    <span>{{ scenario }} {{ object }}</span>
+    <span>{{ scenario }} {{ form.instance }}</span>
 {% endblock %}
 
 {% block content %}
@@ -16,6 +16,8 @@
             <form method="POST" role="form">
 
                 {% csrf_token %}
+
+                {{ form.non_field_errors }}
 
                 <div class="form-group required">
                     {{ form.mufc_score.label_tag }}

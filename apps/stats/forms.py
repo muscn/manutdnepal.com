@@ -21,7 +21,13 @@ class InjuryForm(HTML5BootstrapModelForm):
 class ResultForm(HTML5BootstrapModelForm):
     class Meta:
         model = Fixture
-        exclude = ()
+        exclude = ('competition_year', 'opponent', 'datetime')
+
+
+class FixtureForm(HTML5BootstrapModelForm):
+    class Meta:
+        model = Fixture
+        exclude = ('competition_year', 'opponent', 'datetime')
 
 
 class GoalForm(HTML5BootstrapModelForm):
