@@ -104,6 +104,15 @@ class Team(models.Model):
     color = models.CharField(max_length=255, blank=True, null=True)
     wiki = models.CharField(max_length=255, blank=True, null=True)
 
+    @property
+    def not_so_long_name(self):
+        if len(self.name) > 18:
+            try:
+                return self.alternative_names.split('|')[1]
+            except IndexError:
+                pass
+        return self.name
+
     def get_wiki(self):
         if not self.wiki:
             search_results = wikipedia.search(self.name + ' football club', results=1)
@@ -454,12 +463,16 @@ class Fixture(models.Model):
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:5].select_related()
+        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
+
+    @property
+    def is_today(self):
+        return datetime.date.today() == self.datetime.date()
 
     def score(self):
         if self.is_home_game:
-            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(self.opponent_score) + ' ' + unicode(
-                self.opponent)
+            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(
+                self.opponent_score) + ' ' + self.opponent.not_so_long_name
         else:
             return unicode(self.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
                 self.mufc_score) + ' Man United'
@@ -491,9 +504,9 @@ class Fixture(models.Model):
     @property
     def title(self):
         if self.is_home_game:
-            return 'Man United vs. ' + unicode(self.opponent)
+            return 'Man United vs. ' + self.opponent.not_so_long_name
         else:
-            return unicode(self.opponent) + ' vs. Man United'
+            return self.opponent.not_so_long_name + ' vs. Man United'
 
     def get_venue(self):
         if self.venue:

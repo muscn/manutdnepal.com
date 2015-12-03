@@ -154,3 +154,7 @@ nav.navbar.navbar-default img {
 .content{
     background: rgba(255, 255, 255, 0.97);
 }
+
+#container{
+    background: rgba(255, 255, 255, 0.8);
+}
