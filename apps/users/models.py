@@ -566,3 +566,12 @@ def get_birthday_users():
     bs_day = nepdate.today()[2]
     return User.objects.filter(Q(membership__date_of_birth__month=bs_month, membership__date_of_birth__day=bs_day) | Q(
         membership__date_of_birth__month=ad_month, membership__date_of_birth__day=ad_day))
+
+
+def email_birthday_users():
+    params = {}
+    text_template = 'users/email/happy_birthday.txt'
+    users = get_birthday_users()
+    for user in users:
+        subject = 'Happy birthday, ' + user.full_name.split()[0] + '.'
+        user.email_user(subject, params, text_template)
