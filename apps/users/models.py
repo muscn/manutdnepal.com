@@ -557,4 +557,12 @@ def get_new_cards():
 
 
 def get_birthday_users():
-    users = User.objects.filter(membership__date_of_birth=datetime.date.today())
+    from njango import nepdate
+    from django.db.models import Q
+
+    ad_month = datetime.date.today().strftime("%m")
+    ad_day = datetime.date.today().strftime("%d")
+    bs_month = nepdate.today()[1]
+    bs_day = nepdate.today()[2]
+    return User.objects.filter(Q(membership__date_of_birth__month=bs_month, membership__date_of_birth__day=bs_day) | Q(
+        membership__date_of_birth__month=ad_month, membership__date_of_birth__day=ad_day))
