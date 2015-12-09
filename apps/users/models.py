@@ -554,3 +554,7 @@ def get_new_cards():
     zip_file.close()
     name = str(min) + '-' + str(max) + '.zip'
     return name, in_memory_file
+
+
+def get_birthday_users():
+    users = User.objects.filter(membership__date_of_birth=datetime.date.today())
