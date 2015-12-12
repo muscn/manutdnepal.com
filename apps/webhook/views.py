@@ -32,6 +32,6 @@ def logger(request, request_type):
     log.info(request.body)
     import json
 
-    log.info(json.load(request.body))
+    # log.info(json.load(request.body))
     response = 'OK'
     return HttpResponse(response)
