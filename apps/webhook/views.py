@@ -19,7 +19,7 @@ def password_required(view_func=None):
 
 
 @csrf_exempt
-@password_required
+# @password_required
 def logger(request, request_type):
     if request_type == 'post':
         log_content = dict(request.POST)
