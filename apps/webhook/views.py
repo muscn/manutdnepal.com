@@ -24,7 +24,7 @@ def logger(request, request_type):
     if request_type == 'post':
         log_content = dict(request.POST)
         try:
-            del log_content['passcodea']
+            del log_content['passcode']
         except KeyError:
             pass
     log.info(log_content)
