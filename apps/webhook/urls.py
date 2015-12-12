@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = patterns(
     '',
-    url(r'^(?P<slug>[a-zA-Z0-9_.-]+)/$', views.view_page, name='view_page'),
+    url(r'^log/(?P<request_type>[a-zA-Z0-9_.-]+)$', views.logger, name='logger'),
 )

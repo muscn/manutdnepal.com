@@ -34,10 +34,10 @@ urlpatterns = patterns('',
                            name='membership_thankyou'),
 
                        url(r'^members/$', user_views.PublicMembershipListView.as_view(), name='list_members'),
-                       (r'dashboard/', include('apps.dashboard.urls')),
-                       (r'event/', include('apps.events.urls')),
-                       (r'post/', include('apps.post.urls')),
-                       (r'timeline/', include('apps.timeline.urls')),
+                       (r'^dashboard/', include('apps.dashboard.urls')),
+                       (r'^event/', include('apps.events.urls')),
+                       (r'^post/', include('apps.post.urls')),
+                       (r'^timeline/', include('apps.timeline.urls')),
 
                        url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
                        url(r'^season/(?P<year>[\d]{4})-(?P<year1>[\d]{2})/(?P<competition>[a-zA-Z0-9_.-]+)/$',
@@ -60,7 +60,7 @@ urlpatterns = patterns('',
                            name='view_partner'),
                        url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
 
-                       (r'webhook/', include('apps.webhook.urls')),
+                       (r'^webhook/', include('apps.webhook.urls')),
 
                        (r'', include('apps.page.urls')),
                        )
