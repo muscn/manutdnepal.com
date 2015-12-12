@@ -78,8 +78,7 @@ LOGGING = {
     }
 }
 
-
-
+WEBHOOK_PASSCODE = 'YOUR PASSCODE'
 
 INSTALLED_APPS += (
     # 'debug_toolbar',
