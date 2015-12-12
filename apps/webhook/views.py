@@ -22,7 +22,11 @@ def password_required(view_func=None):
 @password_required
 def logger(request, request_type):
     if request_type == 'post':
-        log_content = request.POST
+        log_content = dict(request.POST)
+        try:
+            del log_content['passcodea']
+        except KeyError:
+            pass
     log.info(log_content)
     response = 'OK'
     return HttpResponse(response)
