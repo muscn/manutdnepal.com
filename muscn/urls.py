@@ -59,6 +59,9 @@ urlpatterns = patterns('',
                        url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.partner.views.view_partner',
                            name='view_partner'),
                        url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
+
+                       (r'webhook/', include('apps.webhook.urls')),
+
                        (r'', include('apps.page.urls')),
                        )
 
