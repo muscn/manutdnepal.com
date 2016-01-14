@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
+from django.db import transaction
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
@@ -8,7 +9,7 @@ from apps.users.models import StaffOnlyMixin, group_required
 from muscn.utils.mixins import CreateView, UpdateView, DeleteView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
     get_top_scorers, Goal
-from .forms import QuoteForm, InjuryForm, ResultForm, GoalForm, FixtureForm
+from .forms import QuoteForm, InjuryForm, ResultForm, GoalForm, FixtureForm, ResultGoalFormset
 
 
 class InjuryListView(StaffOnlyMixin, ListView):
@@ -65,6 +66,25 @@ class ResultUpdateView(StaffOnlyMixin, UpdateView):
     form_class = ResultForm
     success_url = reverse_lazy('list_results')
     template_name = 'stats/result_form.html'
+
+    def get_context_data(self, **kwargs):
+        data = super(ResultUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['goals'] = ResultGoalFormset(self.request.POST)
+        else:
+            data['goals'] = ResultGoalFormset()
+        return data
+    
+    def form_valid(self, form):
+        context = self.get_context_data()
+        goals = context['goals']
+        with transaction.commit_on_success():
+            self.object = form.save()
+        if goals.is_valid():
+            goals.match = self.object
+            goals.save()
+
+        return super(ResultUpdateView, self).form_valid(form)
 
 
 class FixtureListView(StaffOnlyMixin, ListView):

@@ -1,4 +1,6 @@
 from muscn.utils.forms import HTML5BootstrapModelForm
+from django.forms.models import inlineformset_factory
+
 from .models import Quote, Injury, Player, Fixture, Goal
 
 
@@ -40,3 +42,5 @@ class GoalForm(HTML5BootstrapModelForm):
     class Meta:
         model = Goal
         exclude = ()
+
+ResultGoalFormset = inlineformset_factory(Fixture, Goal, form=GoalForm, extra=2)
