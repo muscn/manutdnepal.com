@@ -1,6 +1,7 @@
 from ics import Calendar
 from .base import Scraper
 from apps.stats.models import Fixture, CompetitionYear, Competition, Team
+from muscn.utils.football import get_current_season_start_year
 
 
 class FixturesScraper(Scraper):
@@ -24,7 +25,7 @@ class FixturesScraper(Scraper):
     @classmethod
     def scrape(cls):
         url = 'http://calendar.manutd.com/Manchester_United.ics'
-        year = '2015'
+        year = str(get_current_season_start_year())
         # url = 'http://hackeragenda.urlab.be/events/events.ics'
         cal_content = cls.get_url_content(url)
         cal_content = cal_content.replace('RATE:', 'RDATE:')
