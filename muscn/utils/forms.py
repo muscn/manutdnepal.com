@@ -92,13 +92,7 @@ class HTML5ModelForm(forms.ModelForm):
         input_type = 'time'
 
     def __init__(self, *args, **kwargs):
-        self.exclude = kwargs.pop('exclude', None)
         super(HTML5ModelForm, self).__init__(*args, **kwargs)
-        if self.exclude:
-            del self.fields[self.exclude]
-        self.refine()
-
-    def refine(self):
         for (name, field) in self.fields.items():
             file_fields = [forms.fields.ImageField, forms.fields.FileField]
             # add HTML5 required attribute for required fields, except for file fields which already have a value
@@ -114,9 +108,9 @@ class HTML5ModelForm(forms.ModelForm):
         return self
 
 
-class HTML5BootstrapModelForm(HTML5ModelForm):
-    def refine(self):
-        super(HTML5BootstrapModelForm, self).refine()
+class BootstrapModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BootstrapModelForm, self).__init__(*args, **kwargs)
         for (name, field) in self.fields.items():
             widget = field.widget
             exclude_form_control = ['CheckboxInput', 'RadioSelect']
@@ -128,3 +122,5 @@ class HTML5BootstrapModelForm(HTML5ModelForm):
                 widget.attrs['class'] = 'form-control'
 
 
+class HTML5BootstrapModelForm(HTML5ModelForm, BootstrapModelForm):
+    pass

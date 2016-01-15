@@ -9,11 +9,27 @@
     <span>{{ scenario }} {{ form.instance }}</span>
 {% endblock %}
 
+{% block extrahead %}
+    <script>
+        $(document).ready(function () {
+            $('#add-form-button').click(function (e) {
+                var inline_form = $('#hidden-inline-form').clone();
+                inline_form.removeAttr('id');
+                $('#added-forms').append(inline_form);
+                return false;
+            });
+
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 
-    <div class="row">
-        <div class="col-sm-12 col-lg-6">
-            <form method="POST" role="form">
+
+    <form method="POST" role="form">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6">
+                <h2>Score</h2>
 
                 {% csrf_token %}
 
@@ -36,18 +52,37 @@
                     {{ form.remarks }}
                     {{ form.remarks.errors }}
                 </div>
-                
-                {{ goals.as_p }}
+            </div>
+        </div>
 
-                <input type="submit" class="btn btn-info" value="Save">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12 form-inline">
+                <h2>Goals</h2>
+                {{ goal_formset.management_form }}
+                {{ goal_formset.non_form_errors }}
+                {% for goal_form in goal_formset %}
+                    <div class="well">
+                        {{ goal_form }}
+                    </div>
+                {% endfor %}
+                {% with goal_formset|last as last_form %}
+                    <div class="hide">
+                        <div class="well" id="hidden-inline-form">
+                            {{ last_form }}
+                        </div>
+                    </div>
+                {% endwith %}
+                <div id="added-forms"></div>
+                <a href="#" class="btn btn-success pull-right" id="add-form-button">+ Goal</a>
+            </div>
+        </div>
 
-            </form>
+        <input type="submit" class="btn btn-info" value="Save">
+
 
         </div>
 
 
-    </div>
-    
-    
+    </form>
 
 {% endblock %}

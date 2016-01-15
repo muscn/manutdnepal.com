@@ -151,10 +151,14 @@ nav.navbar.navbar-default img {
     float: right;
 }
 
-.content{
+.content {
     background: rgba(255, 255, 255, 0.97);
 }
 
-#container{
+#container {
     background: rgba(255, 255, 255, 0.8);
+}
+
+.hide {
+    display: none !important;
 }
