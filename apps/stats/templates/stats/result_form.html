@@ -1,5 +1,5 @@
 {% extends 'dashboard_base.html' %}
-{% load filters %}
+{% load filters staticfiles %}
 
 {% block title %} {{ scenario }} Result {% endblock %}
 
@@ -10,17 +10,7 @@
 {% endblock %}
 
 {% block extrahead %}
-    <script>
-        $(document).ready(function () {
-            $('#add-form-button').click(function (e) {
-                var inline_form = $('#hidden-inline-form').clone();
-                inline_form.removeAttr('id');
-                $('#added-forms').append(inline_form);
-                return false;
-            });
-
-        });
-    </script>
+    <script src="{% static 'js/jquery.formset.js' %} "></script>
 {% endblock %}
 
 {% block content %}
