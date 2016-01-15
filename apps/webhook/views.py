@@ -15,6 +15,7 @@ def password_required(view_func=None):
         if request.POST.get('passcode', False) == settings.WEBHOOK_PASSCODE:
             return view_func(request, *args, **kwargs)
         raise PermissionDenied
+
     return wraps(view_func, assigned=available_attrs(view_func))(_wrapped_view)
 
 
@@ -28,5 +29,9 @@ def logger(request, request_type):
         except KeyError:
             pass
     log.info(log_content)
+    log.info(request.body)
+    import json
+
+    # log.info(json.load(request.body))
     response = 'OK'
     return HttpResponse(response)
