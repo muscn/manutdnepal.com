@@ -22,7 +22,7 @@ class FixturesScraper(Scraper):
     #     # for match in data['matches']:
 
     @classmethod
-    def start(cls):
+    def scrape(cls):
         url = 'http://calendar.manutd.com/Manchester_United.ics'
         year = '2015'
         # url = 'http://hackeragenda.urlab.be/events/events.ics'
@@ -44,7 +44,8 @@ class FixturesScraper(Scraper):
             try:
                 competition_year = CompetitionYear.objects.get(competition=competition, year=year)
             except CompetitionYear.DoesNotExist:
-                raise Exception('Please add a competition year with name and year : ' + competition_name + ' , ' + year)
+                # raise Exception('Please add a competition year with name and year : ' + competition_name + ' , ' + year)
+                competition_year = CompetitionYear.objects.create(competition=competition, year=year)
             fixture.competition_year = competition_year
             if splits[0][:17] == 'Manchester United':
                 fixture.is_home_game = True
@@ -61,4 +62,6 @@ class FixturesScraper(Scraper):
             fixture.venue = event.location.split('-')[1].strip()
             fixture.save()
 
-
+    @classmethod
+    def save(cls):
+        pass
