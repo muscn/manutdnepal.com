@@ -11,6 +11,13 @@
 
 {% block extrahead %}
     <script src="{% static 'js/jquery.formset.js' %} "></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.goal-form').formset({
+                prefix: '{{ goal_formset.prefix }}'
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -48,22 +55,47 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12 form-inline">
                 <h2>Goals</h2>
-                {{ goal_formset.management_form }}
+
                 {{ goal_formset.non_form_errors }}
-                {% for goal_form in goal_formset %}
-                    <div class="well">
-                        {{ goal_form }}
-                    </div>
-                {% endfor %}
-                {% with goal_formset|last as last_form %}
-                    <div class="hide">
-                        <div class="well" id="hidden-inline-form">
-                            {{ last_form }}
-                        </div>
-                    </div>
-                {% endwith %}
-                <div id="added-forms"></div>
-                <a href="#" class="btn btn-success pull-right" id="add-form-button">+ Goal</a>
+
+                <table class="well table table-bordered table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>Scorer</th>
+                        <th>Assist by</th>
+                        <th>Time</th>
+                        <th>Penalty?</th>
+                        <th>Own Goal?</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for goal_form in goal_formset %}
+                        {% for hidden in goal_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        <tr class="goal-form">
+                            <td>{{ goal_form.scorer }}</td>
+                            <td>{{ goal_form.assist_by }}</td>
+                            <td>{{ goal_form.time }}</td>
+                            <td>{{ goal_form.penalty }}</td>
+                            <td>{{ goal_form.own_goal }}</td>
+                            <td>{% if goal_form.instance.pk %}{{ goal_form.DELETE }}{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ goal_formset.management_form }}
+
+                {#                {% with goal_formset|last as last_form %}#}
+                {#                    <div class="hide">#}
+                {#                        <div class="well" id="hidden-inline-form">#}
+                {#                            {{ last_form }}#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                {% endwith %}#}
+                {#                <div id="added-forms"></div>#}
+                {#                <a href="#" class="btn btn-success pull-right" id="add-form-button">+ Goal</a>#}
             </div>
         </div>
 

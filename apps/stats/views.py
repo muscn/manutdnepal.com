@@ -70,17 +70,14 @@ class ResultUpdateView(StaffOnlyMixin, UpdateView):
     def get_context_data(self, **kwargs):
         data = super(ResultUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['goal_formset'] = ResultGoalFormset(self.request.POST)
+            data['goal_formset'] = ResultGoalFormset(self.request.POST, instance=self.object)
         else:
-            data['goal_formset'] = ResultGoalFormset()
+            data['goal_formset'] = ResultGoalFormset(instance=self.object)
         return data
 
     def form_valid(self, form):
         context = self.get_context_data()
         goal_formset = context['goal_formset']
-        import ipdb
-
-        ipdb.set_trace()
         self.object = form.save()
         if goal_formset.is_valid():
             goal_formset.match = self.object

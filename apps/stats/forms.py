@@ -54,4 +54,4 @@ class GoalInlineForm(BootstrapModelForm):
         exclude = ()
 
 
-ResultGoalFormset = inlineformset_factory(Fixture, Goal, form=GoalInlineForm, extra=3)
+ResultGoalFormset = inlineformset_factory(Fixture, Goal, form=GoalInlineForm, extra=3, can_delete=True)
