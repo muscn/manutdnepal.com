@@ -1,7 +1,7 @@
 from settings import *
 
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['manutd.org.np', '127.0.0.1', 'localhost']
 SITE_ID = 1
 SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd2f<3'
 TEMPLATE_DEBUG = DEBUG
@@ -91,3 +91,4 @@ CACHES = {
     }
 }
 
+TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
