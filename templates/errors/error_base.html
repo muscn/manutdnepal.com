@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Error - {% block error_title %}{% endblock %}{% endblock %}
+
+{% block content %}
+    <div class="error-content">
+        <h1>{% block error_heading %}{% endblock %}</h1>
+
+        <h3>{% block error_description %}{% endblock %}</h3>
+
+        <div class="error-actions">
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                Take Me Home </a>
+{#            <a href="{% url view_page 'contact_us' %}" class="btn btn-default btn-lg"><span#}
+{#                class="glyphicon glyphicon-envelope"></span> Contact Support </a>#}
+        </div>
+        <div class="search-site reset-box-sizing">
+            <script>
+                (function () {
+                    var cx = '001619386089447790382:jvd5-euzby8';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                            '//cse.google.com/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
+    </div>
+{% endblock %}

@@ -759,3 +759,19 @@ pad {
         padding: 20px 0;
     }
 }
+
+/* Google CSE */
+
+.gsc-input-box {
+    min-height: 32px;
+}
+
+input.gsc-search-button, input.gsc-search-button:hover, input.gsc-search-button:focus, .gsc-inline-block {
+    background-image: inherit;
+    box-sizing: content-box;
+}
+
+.gsc-control-cse {
+    border: none !important;
+    background: transparent !important;
+}

@@ -7,6 +7,10 @@ from apps.users import views as user_views
 
 from django.contrib.sitemaps.views import sitemap
 
+from django.conf.urls import (
+    handler400, handler403, handler404, handler500
+)
+
 from .sitemap import SITEMAPS
 
 urlpatterns = patterns('',
@@ -70,3 +74,17 @@ if settings.DEBUG:
                             (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                              {'document_root': settings.MEDIA_ROOT, 'show_indexes': True})
                             )
+elif getattr(settings, 'FORCE_SERVE_STATIC', False):
+    from django.conf.urls.static import static
+
+    settings.DEBUG = True
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    settings.DEBUG = False
+
+handler400 = 'apps.core.views.bad_request'
+handler403 = 'apps.core.views.permission_denied'
+handler404 = 'apps.core.views.page_not_found'
+handler500 = 'apps.core.views.server_error'
