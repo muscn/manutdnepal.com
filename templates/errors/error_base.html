@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n filters %}
 
-{% block title %}Error - {% block error_title %}{% endblock %}{% endblock %}
+{% block title %}{% trans 'Error' %} - {% block error_title %}{% endblock %}{% endblock %}
 
 {% block extrahead %}
     <script>
@@ -20,9 +20,9 @@
 
         <div class="error-actions">
             <a href="{% url 'home' %}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                Take Me Home </a>
-            {#            <a href="{% url view_page 'contact_us' %}" class="btn btn-default btn-lg"><span#}
-            {#                class="glyphicon glyphicon-envelope"></span> Contact Support </a>#}
+                {% trans 'Take Me Home' %} </a>
+                        <a href="{% url view_page 'contact-us' %}" class="btn btn-default btn-lg"><span
+                            class="glyphicon glyphicon-envelope"></span> {% trans 'Contact' %} </a>
         </div>
         <div class="search-site reset-box-sizing">
             <script>
