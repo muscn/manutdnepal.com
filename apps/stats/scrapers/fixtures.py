@@ -37,11 +37,14 @@ class FixturesScraper(Scraper):
             competition_name = splits[1].strip()
             if competition_name == u'English Barclays Premier League':
                 competition = Competition.objects.get(name='English Premier League')
+            elif competition_name == u'English FA Cup':
+                competition = Competition.objects.get(name='FA Cup')
             else:
                 try:
                     competition = Competition.objects.get(name=competition_name)
                 except Competition.DoesNotExist:
-                    raise Exception('Please add a competition with name : ' + competition_name)
+                    # raise Exception('Please add a competition with name : ' + competition_name)
+                    
             try:
                 competition_year = CompetitionYear.objects.get(competition=competition, year=year)
             except CompetitionYear.DoesNotExist:
@@ -57,7 +60,8 @@ class FixturesScraper(Scraper):
             try:
                 opponent_team = Team.get(opponent_team_name)
             except Team.DoesNotExist:
-                raise Exception('Please add a team with name : ' + opponent_team_name)
+                # raise Exception('Please add a team with name : ' + opponent_team_name)
+                opponent_team = Team.objects.create(opponent_team_name)
             fixture.opponent = opponent_team
             fixture.datetime = event.begin.datetime
             fixture.venue = event.location.split('-')[1].strip()
