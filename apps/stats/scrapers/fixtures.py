@@ -61,7 +61,7 @@ class FixturesScraper(Scraper):
                 opponent_team = Team.get(opponent_team_name)
             except Team.DoesNotExist:
                 # raise Exception('Please add a team with name : ' + opponent_team_name)
-                opponent_team = Team.objects.create(opponent_team_name)
+                opponent_team = Team.objects.create(name=opponent_team_name)
             fixture.opponent = opponent_team
             fixture.datetime = event.begin.datetime
             fixture.venue = event.location.split('-')[1].strip()
