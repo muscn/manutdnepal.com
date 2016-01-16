@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
+{% load i18n filters %}
 
 {% block title %}Error - {% block error_title %}{% endblock %}{% endblock %}
+
+{% block extrahead %}
+    <script>
+        function search_loaded() {
+            $('.gsc-input-box input').css('background', 'none');
+            $('.gsc-input-box input').val('{{ request.path|format_search_string }}');
+        }
+    </script>
+{% endblock %}
 
 {% block content %}
     <div class="error-content">
@@ -11,12 +21,15 @@
         <div class="error-actions">
             <a href="{% url 'home' %}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
                 Take Me Home </a>
-{#            <a href="{% url view_page 'contact_us' %}" class="btn btn-default btn-lg"><span#}
-{#                class="glyphicon glyphicon-envelope"></span> Contact Support </a>#}
+            {#            <a href="{% url view_page 'contact_us' %}" class="btn btn-default btn-lg"><span#}
+            {#                class="glyphicon glyphicon-envelope"></span> Contact Support </a>#}
         </div>
         <div class="search-site reset-box-sizing">
             <script>
                 (function () {
+                    window.__gcse = {
+                        callback: search_loaded
+                    };
                     var cx = '001619386089447790382:jvd5-euzby8';
                     var gcse = document.createElement('script');
                     gcse.type = 'text/javascript';
@@ -27,7 +40,7 @@
                     s.parentNode.insertBefore(gcse, s);
                 })();
             </script>
-            <gcse:search></gcse:search>
+            <gcse:search linktarget="_parent"></gcse:search>
         </div>
     </div>
 {% endblock %}

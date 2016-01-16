@@ -118,6 +118,7 @@ def get_mufc():
 def get_random_quote():
     return Quote.random()
 
+
 @register.assignment_tag
 def get_partners():
     return Partner.objects.filter(active=True)
@@ -128,6 +129,7 @@ def handler(obj):
         return obj.isoformat()
     else:
         import ipdb
+
         ipdb.set_trace()
         raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
 
@@ -141,3 +143,9 @@ def jsonify(object):
     #     del model_dict['_state']
     #     return mark_safe(json.dumps(model_dict))
     return mark_safe(json.dumps(object, default=handler))
+
+
+@register.filter
+def format_search_string(string):
+    string = string.replace('/', '')
+    return string.strip()
