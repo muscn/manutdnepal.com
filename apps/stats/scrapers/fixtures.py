@@ -43,8 +43,8 @@ class FixturesScraper(Scraper):
                 try:
                     competition = Competition.objects.get(name=competition_name)
                 except Competition.DoesNotExist:
-                    # raise Exception('Please add a competition with name : ' + competition_name)
-                    
+                    raise Exception('Please add a competition with name : ' + competition_name)
+                    # competition = Competition.objects.create(name=competition_name)
             try:
                 competition_year = CompetitionYear.objects.get(competition=competition, year=year)
             except CompetitionYear.DoesNotExist:
