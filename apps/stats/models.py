@@ -35,6 +35,11 @@ class Competition(models.Model):
     slug = models.SlugField(max_length=255)
     order = models.IntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            unique_slugify(self, self.name)
+        super(Competition, self).save(*args, **kwargs)
+
     def get_short_name(self):
         if self.short_name:
             return self.short_name
