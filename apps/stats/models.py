@@ -587,6 +587,8 @@ def get_top_scorers():
             competitions[competition_year.competition_id] = competition_year.competition.name
     players = OrderedDict()
     for goal in goals:
+        if goal.own_goal:
+            continue
         competition_id = goal.match.competition_year.competition_id
         if goal.scorer not in players:
             players[goal.scorer] = {}
@@ -606,6 +608,8 @@ def get_top_scorers_summary():
     goals = Goal.objects.all().select_related()
     players = OrderedDict()
     for goal in goals:
+        if goal.own_goal:
+            continue
         if goal.scorer not in players:
             players[goal.scorer] = 0
         players[goal.scorer] += 1
