@@ -17,6 +17,7 @@ from django.conf import settings
 import pytz as pytz
 
 from muscn.utils.countries import CountryField
+from muscn.utils.football import get_current_season_start_year
 from muscn.utils.forms import unique_slugify
 from muscn.utils.npt import utc_to_local
 
@@ -580,16 +581,15 @@ class PlayerSocialAccount(models.Model):
 
 
 def get_top_scorers():
-    from django.conf import settings
-
+    current_year = get_current_season_start_year()
     goals = Goal.objects.all().select_related()
-    competition_years = CompetitionYear.objects.all().select_related()
+    competition_years = CompetitionYear.objects.filter(year=current_year).select_related()
     competition_dct = OrderedDict()
     competitions = OrderedDict()
     for competition_year in competition_years:
-        if competition_year.year == settings.YEAR:
-            competition_dct[competition_year.competition_id] = 0
-            competitions[competition_year.competition_id] = competition_year.competition.name
+        # if competition_year.year == current_year:
+        competition_dct[competition_year.competition_id] = 0
+        competitions[competition_year.competition_id] = competition_year.competition.name
     players = OrderedDict()
     for goal in goals:
         if goal.own_goal:
@@ -611,6 +611,8 @@ def get_top_scorers():
 
 def get_top_scorers_summary():
     goals = Goal.objects.all().select_related()
+    # TODO only for current season
+    # goals = Goal.objects.filter(match__competetion_year__year=get_current_season_start_year()).select_related()
     players = OrderedDict()
     for goal in goals:
         if goal.own_goal:
