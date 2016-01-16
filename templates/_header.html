@@ -61,11 +61,11 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{% url 'football_team' %}">Football Team</a></li>
                                     <li><a href="{% url 'list_members' %}">Members</a></li>
-                                    <li><a href="/privileges/">Membership Privileges</a></li>
-                                    <li><a href="/representatives/">Representatives</a></li>
+                                    <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
+                                    <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
                                     <li><a href="/payment-methods/">Payment Methods</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="/contact-us/">Contact Us</a></li>
+                                    <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
                                 </ul>
                             </li>
                             <li><a href="/post/">Posts</a></li>
