@@ -4,90 +4,89 @@
 {% block title %} Season {{ object.slug }} {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>
-            Season {{ object.slug }}
-        </h1>
-        {% if object.summary.division %}
-            <h3>{{ object.summary.division|key }}
-                <small>
-                    [<a href="">All Matches & Results</a>]
-                </small>
-            </h3>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Pos</th>
-                    <th>P</th>
-                    <th>W</th>
-                    <th>D</th>
-                    <th>L</th>
-                    <th>GF</th>
-                    <th>GA</th>
-                    <th>GD</th>
-                    <th>Pts</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ object.summary.Pos.value }}
-                        {% if object.summary.Pos.remarks == 'Relegated' or object.summary.Pos.remarks == 'Promoted' %}
-                            [{{ object.summary.Pos.remarks }}]
-                        {% endif %}
-                    </td>
-                    <td>{{ object.summary.P }}</td>
-                    <td>{{ object.summary.W }}</td>
-                    <td>{{ object.summary.D }}</td>
-                    <td>{{ object.summary.L }}</td>
-                    <td>{{ object.summary.F }}</td>
-                    <td>{{ object.summary.A }}</td>
-                    <td>{{ object.gd }}</td>
-                    <td>{{ object.summary.Pts }}</td>
-                </tr>
-                </tbody>
-            </table>
-        {% endif %}
 
-        <div>
-            <h3>Domestic Cups</h3>
-            {% if object.summary.FA %}
-                <strong>FA Cup</strong>: {{ object.summary.FA.value|key }}
-                <span>
+    <h1>
+        Season {{ object.slug }}
+    </h1>
+    {% if object.summary.division %}
+        <h3>{{ object.summary.division|key }}
+            <small>
+                [<a href="">All Matches & Results</a>]
+            </small>
+        </h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Pos</th>
+                <th>P</th>
+                <th>W</th>
+                <th>D</th>
+                <th>L</th>
+                <th>GF</th>
+                <th>GA</th>
+                <th>GD</th>
+                <th>Pts</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ object.summary.Pos.value }}
+                    {% if object.summary.Pos.remarks == 'Relegated' or object.summary.Pos.remarks == 'Promoted' %}
+                        [{{ object.summary.Pos.remarks }}]
+                    {% endif %}
+                </td>
+                <td>{{ object.summary.P }}</td>
+                <td>{{ object.summary.W }}</td>
+                <td>{{ object.summary.D }}</td>
+                <td>{{ object.summary.L }}</td>
+                <td>{{ object.summary.F }}</td>
+                <td>{{ object.summary.A }}</td>
+                <td>{{ object.gd }}</td>
+                <td>{{ object.summary.Pts }}</td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
+    <div>
+        <h3>Domestic Cups</h3>
+        {% if object.summary.FA %}
+            <strong>FA Cup</strong>: {{ object.summary.FA.value|key }}
+            <span>
                     [<a href="{{ object.get_absolute_url }}fa-cup/">All Matches & Results</a>]
                 </span>
-                <br>
-            {% endif %}
-
-            {% if object.summary.League %}
-                <strong>League Cup</strong>: {{ object.summary.League.value|key }}
-                <br>
-            {% endif %}
-
-            {% if object.summary.Community %}
-                <strong>Community Shield</strong>: {{ object.summary.Community.value|key }}
-            {% endif %}
-
-        </div>
-
-        {% if object.summary.International %}
-            <div>
-                <h3>Europe/International</h3>
-                {% for competition in object.summary.International %}
-                    <strong>{{ competition.cup }}</strong>: {{ competition.value|key }}
-                    <br>
-                {% endfor %}
-            </div>
+            <br>
         {% endif %}
 
-        <div>
-            <h3>Other Stats</h3>
-            <strong>Top Scorer{% if object.summary.top_scorers|length > 1 %}s{% endif %}</strong>:
-            {% for scorer in object.summary.top_scorers %}
-                {{ scorer.name }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
+        {% if object.summary.League %}
+            <strong>League Cup</strong>: {{ object.summary.League.value|key }}
             <br>
-            <strong>Goals</strong>: {{ object.summary.top_score }}
-        </div>
+        {% endif %}
+
+        {% if object.summary.Community %}
+            <strong>Community Shield</strong>: {{ object.summary.Community.value|key }}
+        {% endif %}
 
     </div>
+
+    {% if object.summary.International %}
+        <div>
+            <h3>Europe/International</h3>
+            {% for competition in object.summary.International %}
+                <strong>{{ competition.cup }}</strong>: {{ competition.value|key }}
+                <br>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div>
+        <h3>Other Stats</h3>
+        <strong>Top Scorer{% if object.summary.top_scorers|length > 1 %}s{% endif %}</strong>:
+        {% for scorer in object.summary.top_scorers %}
+            {{ scorer.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        <br>
+        <strong>Goals</strong>: {{ object.summary.top_score }}
+    </div>
+    
 {% endblock %}

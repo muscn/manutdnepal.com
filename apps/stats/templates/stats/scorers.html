@@ -21,36 +21,32 @@
 
 {% block content %}
 
-    <div class="container pull-up-content">
+    <h1>Top Scorers</h1>
 
-        <h1>Top Scorers</h1>
-
-        <table class="top-scorers table table-bordered">
-            <thead>
-            <tr>
-                <th></th>
-                <th>Player</th>
-                {% for key, competition in competitions.items %}
-                    <th>{{ competition }}</th>
-                {% endfor %}
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for player, data in players.items %}
-                <tr>
-                    <td>{{ player.squad_no }}</td>
-                    <td>{{ player.name }}</td>
-                    {% for key, competition_score in data.competitions.items %}
-                        <td>{{ competition_score }}</td>
-                    {% endfor %}
-                    <td>{{ data.total }}</td>
-                </tr>
+    <table class="top-scorers table table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Player</th>
+            {% for key, competition in competitions.items %}
+                <th>{{ competition }}</th>
             {% endfor %}
-            </tbody>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for player, data in players.items %}
+            <tr>
+                <td>{{ player.squad_no }}</td>
+                <td>{{ player.name }}</td>
+                {% for key, competition_score in data.competitions.items %}
+                    <td>{{ competition_score }}</td>
+                {% endfor %}
+                <td>{{ data.total }}</td>
             </tr>
-        </table>
-
-    </div>
+        {% endfor %}
+        </tbody>
+        </tr>
+    </table>
 {% endblock %}
 

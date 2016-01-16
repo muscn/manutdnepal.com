@@ -10,61 +10,59 @@
 
 {% block content %}
 
-    <div class="container">
-        <h1>{{ object }}</h1>
-        <table class="table table-bordered">
-            <thead>
-            <th>Date</th>
-            <th>Round</th>
-            <th>Opponent</th>
-            <th>Home/Away</th>
-            <th>Result</th>
-            {% if object.matches_data|has_key:'attendance' %}
-                <th>Attendance</th>
-            {% endif %}
-            </thead>
-            <tbody>
-            {% for match in object.matches_data %}
-                <tr class="{{ match|result }}">
-                    <td>{{ match.date }}</td>
-                    <td>{{ match.round|key }}</td>
-                    <td>{{ match.opponent }}</td>
-                    <td>
-                        {% if match.neutral %}
-                            Neutral
-                        {% else %}
-                            {{ match.ha|key }}
-                            {% if match.tie %}
-                                [{{ match.tie|upper }}]
-                            {% endif %}
+    <h1>{{ object }}</h1>
+    <table class="table table-bordered">
+        <thead>
+        <th>Date</th>
+        <th>Round</th>
+        <th>Opponent</th>
+        <th>Home/Away</th>
+        <th>Result</th>
+        {% if object.matches_data|has_key:'attendance' %}
+            <th>Attendance</th>
+        {% endif %}
+        </thead>
+        <tbody>
+        {% for match in object.matches_data %}
+            <tr class="{{ match|result }}">
+                <td>{{ match.date }}</td>
+                <td>{{ match.round|key }}</td>
+                <td>{{ match.opponent }}</td>
+                <td>
+                    {% if match.neutral %}
+                        Neutral
+                    {% else %}
+                        {{ match.ha|key }}
+                        {% if match.tie %}
+                            [{{ match.tie|upper }}]
                         {% endif %}
-                        {% if match.venue %}
-                            <br>
-                            {{ match.venue }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if match.hg == 'NA' %}
-                            {{ match.result }}
-                        {% else %}
-                            {{ match.hg }} - {{ match.ag }}
-                        {% endif %}
-                        {% if match.notes %}
-                            <br>
-                            [{{ match.notes }}]
-                        {% endif %}
-                        {% if match.nonmatch %}
-                            <br>
-                            [{{ match.nonmatch }}]
-                        {% endif %}
-                    </td>
-                    {% if object.matches_data|has_key:'attendance' %}
-                        <td>{{ match.attendance }}</td>
                     {% endif %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                    {% if match.venue %}
+                        <br>
+                        {{ match.venue }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if match.hg == 'NA' %}
+                        {{ match.result }}
+                    {% else %}
+                        {{ match.hg }} - {{ match.ag }}
+                    {% endif %}
+                    {% if match.notes %}
+                        <br>
+                        [{{ match.notes }}]
+                    {% endif %}
+                    {% if match.nonmatch %}
+                        <br>
+                        [{{ match.nonmatch }}]
+                    {% endif %}
+                </td>
+                {% if object.matches_data|has_key:'attendance' %}
+                    <td>{{ match.attendance }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

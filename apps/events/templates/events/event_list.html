@@ -11,8 +11,6 @@
 
 {% block content %}
 
-    <div class="container">
-
         <h1>Events</h1>
 
         {% autopaginate object_list 20 as events %}
@@ -45,6 +43,5 @@
 
         {% paginate %}
 
-    </div>
 {% endblock %}
 

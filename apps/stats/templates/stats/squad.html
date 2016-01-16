@@ -45,71 +45,68 @@
 
 {% block content %}
 
-    <div class="container pull-up-content">
-
-        <h1>Current Squad</h1>
-        <table class="table table-bordered">
-            <thead>
+    <h1>Current Squad</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Nationality</th>
+            <th>Position</th>
+            <th>Height</th>
+            <th>Weight</th>
+            <th>Date of Birth</th>
+            <th>Birth Place</th>
+            <th>Previous Club</th>
+            <th>Social Media</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
             <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Nationality</th>
-                <th>Position</th>
-                <th>Height</th>
-                <th>Weight</th>
-                <th>Date of Birth</th>
-                <th>Birth Place</th>
-                <th>Previous Club</th>
-                <th>Social Media</th>
+                <td>
+                    {{ object.squad_no|default:'' }}
+                </td>
+                <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
+                <td>{{ object.get_nationality_display }}</td>
+                <td>{{ object.favored_position }}</td>
+                <td>{{ object.height }} m</td>
+                <td>{{ object.weight }} kgs</td>
+                <td>{{ object.date_of_birth }}</td>
+                <td>{{ object.birth_place }}</td>
+                <td>
+                    {{ object.previous_club }}
+                    {% if object.on_loan %}
+                        (On Loan)
+                    {% endif %}
+                </td>
+                <td>
+                    {% if object.social_accounts.twitter %}
+                        <a target="_blank" href="https://twitter.com/{{ object.social_accounts.twitter }}"><i
+                                class="fa fa-2x fa-twitter-square"></i></a>
+                    {% endif %}
+                    {% if object.social_accounts.instagram %}
+                        <a target="_blank" href="https://instagram.com/{{ object.social_accounts.instagram }}/"><i
+                                class="fa fa-2x fa-instagram"></i></a>
+                    {% endif %}
+                    {% if object.social_accounts.facebook %}
+                        <a target="_blank" href="https://www.facebook.com/{{ object.social_accounts.facebook }}"><i
+                                class="fa fa-2x fa-facebook-square"></i></a>
+                    {% endif %}
+                    {% if object.social_accounts.youtube %}
+                        <a target="_blank" href="{{ object.social_accounts.youtube }}"><i
+                                class="fa fa-2x fa-youtube-square"></i></a>
+                    {% endif %}
+                    {% if object.social_accounts.website %}
+                        <a target="_blank" href="{{ object.social_accounts.website }}"><i
+                                class="fa fa-2x fa-globe"></i></a>
+                    {% endif %}
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            {% for object in object_list %}
-                <tr>
-                    <td>
-                        {{ object.squad_no|default:'' }}
-                    </td>
-                    <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
-                    <td>{{ object.get_nationality_display }}</td>
-                    <td>{{ object.favored_position }}</td>
-                    <td>{{ object.height }} m</td>
-                    <td>{{ object.weight }} kgs</td>
-                    <td>{{ object.date_of_birth }}</td>
-                    <td>{{ object.birth_place }}</td>
-                    <td>
-                        {{ object.previous_club }}
-                        {% if object.on_loan %}
-                            (On Loan)
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if object.social_accounts.twitter %}
-                            <a target="_blank" href="https://twitter.com/{{ object.social_accounts.twitter }}"><i
-                                    class="fa fa-2x fa-twitter-square"></i></a>
-                        {% endif %}
-                        {% if object.social_accounts.instagram %}
-                            <a target="_blank" href="https://instagram.com/{{ object.social_accounts.instagram }}/"><i
-                                    class="fa fa-2x fa-instagram"></i></a>
-                        {% endif %}
-                        {% if object.social_accounts.facebook %}
-                            <a target="_blank" href="https://www.facebook.com/{{ object.social_accounts.facebook }}"><i
-                                    class="fa fa-2x fa-facebook-square"></i></a>
-                        {% endif %}
-                        {% if object.social_accounts.youtube %}
-                            <a target="_blank" href="{{ object.social_accounts.youtube }}"><i
-                                    class="fa fa-2x fa-youtube-square"></i></a>
-                        {% endif %}
-                        {% if object.social_accounts.website %}
-                            <a target="_blank" href="{{ object.social_accounts.website }}"><i
-                                    class="fa fa-2x fa-globe"></i></a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
+        {% endfor %}
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
-    </div>
 {% endblock %}
 

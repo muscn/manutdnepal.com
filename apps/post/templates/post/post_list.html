@@ -9,9 +9,7 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="container">
-
+    
         <h1>Posts</h1>
 
         {% autopaginate object_list 20 as posts %}
@@ -34,6 +32,5 @@
 
         {% paginate %}
 
-    </div>
 {% endblock %}
 

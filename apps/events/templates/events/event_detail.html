@@ -46,50 +46,46 @@
 
 {% block content %}
 
-    <div class="container">
+    <h1>{{ event }}</h1>
 
-        <h1>{{ event }}</h1>
+    {% if event.image %}
+        <img class="img-responsive" src="{{ event.image.url }}"/>
+    {% endif %}
 
-        {% if event.image %}
-            <img class="img-responsive" src="{{ event.image.url }}"/>
-        {% endif %}
+    <div class="panel panel-default">
 
-        <div class="panel panel-default">
-
-            <div class="panel-body">
-                <div class="date-icon">
-                    <div class="date-month">{{ event.start|date:"M" }}</div>
-                    <div class="date-day">{{ event.start.date.day }}</div>
-                </div>
-            
-                {% if event.whole_day_event %}
-                    <strong>Date:</strong>
-                    {{ event.start.date }}<br/>
-                {% else %}
-                    <strong>Starts:</strong>
-                    {{ event.start }}<br/>
-                {% endif %}
-                {% if event.end %}
-                    <strong>Ends:</strong> {{ event.end }}<br/>
-                {% endif %}
-                <strong>Venue:</strong> {{ event.venue }}<br/>
-                {% if event.organizer %}
-                    <strong>Organizer:</strong> {{ event.organizer }}<br/>
-                {% endif %}
-                <br/>
-                {{ event.description|safe }}
-
-
+        <div class="panel-body">
+            <div class="date-icon">
+                <div class="date-month">{{ event.start|date:"M" }}</div>
+                <div class="date-day">{{ event.start.date.day }}</div>
             </div>
+
+            {% if event.whole_day_event %}
+                <strong>Date:</strong>
+                {{ event.start.date }}<br/>
+            {% else %}
+                <strong>Starts:</strong>
+                {{ event.start }}<br/>
+            {% endif %}
+            {% if event.end %}
+                <strong>Ends:</strong> {{ event.end }}<br/>
+            {% endif %}
+            <strong>Venue:</strong> {{ event.venue }}<br/>
+            {% if event.organizer %}
+                <strong>Organizer:</strong> {{ event.organizer }}<br/>
+            {% endif %}
+            <br/>
+            {{ event.description|safe }}
 
 
         </div>
 
-        <h3>Map:</h3>
-
-        <div id="map-canvas"></div>
-
 
     </div>
+
+    <h3>Map:</h3>
+
+    <div id="map-canvas"></div>
+
 {% endblock %}
 

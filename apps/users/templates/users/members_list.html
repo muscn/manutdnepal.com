@@ -7,46 +7,41 @@
 
 
 {% block content %}
+    <form>
+        <input type="text" name="q" placeholder="Search..."> | {{ object_list.count }} members
+    </form>
+    <br>
 
-    <div class="container">
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
 
-        <form>
-            <input type="text" name="q" placeholder="Search..."> | {{ object_list.count }} members
-        </form>
-        <br>
-
-        {% autosort object_list as sorted_objects %}
-        {% autopaginate sorted_objects 20 as paginated_objects %}
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>{% anchor user 'Member' %}</th>
-                <th>{% anchor membership_status 'Membership Status' %}</th>
-                <th>{% anchor card_status 'Card Status' %}</th>
-                </thead>
-                <tbody>
-                {% for item in paginated_objects %}
-                    <tr>
-                        <td>
-                            <a href="{% url 'view_member_profile' item.username %}">
-                                {{ item.full_name }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ item.membership_status }}
-                        </td>
-                        <td>
-                            {{ item.card_status }}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        {% paginate %}
-
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor user 'Member' %}</th>
+            <th>{% anchor membership_status 'Membership Status' %}</th>
+            <th>{% anchor card_status 'Card Status' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr>
+                    <td>
+                        <a href="{% url 'view_member_profile' item.username %}">
+                            {{ item.full_name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ item.membership_status }}
+                    </td>
+                    <td>
+                        {{ item.card_status }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    {% paginate %}
 
 {% endblock %}

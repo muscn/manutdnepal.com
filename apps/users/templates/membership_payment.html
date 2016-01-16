@@ -4,7 +4,6 @@
 
 {% block title %} Membership Payment {% endblock %}
 {% block content %}
-    <div class="container">
 
         {% if request.user.membership.payment.verified %}
 
@@ -154,6 +153,4 @@
 
         <img class="img-responsive" src="{{ request.user.get_sample_card }}"/>
 
-
-    </div>
 {% endblock %}

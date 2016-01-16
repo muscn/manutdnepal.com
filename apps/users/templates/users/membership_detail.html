@@ -4,7 +4,6 @@
 {% block title %} {{ object.user.full_name }}{% endblock %}
 
 {% block content %}
-    <div class="container">
         <h1>
             {% if object.user.devil_no %}
                 #{{ object.user.devil_no }} -
@@ -43,8 +42,5 @@
                     </tr>
                 </table>
             </div>
-        </div>
-
-
 
 {% endblock %}
