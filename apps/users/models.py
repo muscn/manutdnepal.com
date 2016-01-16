@@ -555,6 +555,28 @@ def get_new_cards():
     name = str(min) + '-' + str(max) + '.zip'
     return name, in_memory_file
 
+# def get_birthday_users():
+#     from njango import nepdate
+#     from django.db.models import Q
+# 
+#     today = datetime.date.today()
+#     ad_month = today.strftime("%m")
+#     ad_day = today.strftime("%d")
+#     bs_month = nepdate.today()[1]
+#     bs_day = nepdate.today()[2]
+# 
+#     curr_year = today.year
+#     min_year_ad = curr_year - 51
+#     max_year_ad = curr_year - 14
+#     min_year_bs = curr_year + 7
+#     max_year_bs = curr_year + 43
+# 
+#     return User.objects.filter(Q(membership__date_of_birth__month=bs_month, membership__date_of_birth__day=bs_day,
+#                                  membership__date_of_birth__year__gte=min_year_bs,
+#                                  membership__date_of_birth__year__lte=max_year_bs) | Q(
+#         membership__date_of_birth__month=ad_month, membership__date_of_birth__day=ad_day,
+#         membership__date_of_birth__year__gte=min_year_ad, membership__date_of_birth__year__lte=max_year_bs))
+
 
 def get_birthday_users():
     from njango import nepdate
