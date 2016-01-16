@@ -17,6 +17,7 @@ class TVScraper(Scraper):
                 'sony-kix-india': 'Sony Kix',
                 'ten-sports': 'TEN Sports',
                 'ten-action': 'Ten Action',
+                # 'mutv-online': 'MUTV Online',
                 }
 
     @classmethod
@@ -24,17 +25,22 @@ class TVScraper(Scraper):
         json_data = cls.get_json_from_url(
             'http://www.livesoccertv.com/m/api/teams/england/manchester-united/?iso_code=np')
         if 'fixtures' in json_data:
+
             for fixture in json_data['fixtures']:
+                timestamp = float(fixture.get('timestamp'))
+                cls.data[timestamp] = []
                 channels = fixture.get('channels')
                 for channel in channels:
                     if channel.get('slug') in cls.channels:
-                        cls.data[float(fixture.get('timestamp'))] = cls.channels.get(channel.get('slug'))
-                        continue
+                        cls.data[timestamp].append(cls.channels.get(channel.get('slug')))
+                        # continue
+                if not cls.data[timestamp]:
+                    del cls.data[timestamp]
 
     @classmethod
     def save(cls):
-        for timest, channel in cls.data.iteritems():
-            dt = datetime.utcfromtimestamp(timest).replace(tzinfo=pytz.UTC)
+        for timestamp, channels in cls.data.iteritems():
+            dt = datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
             fixture = Fixture.objects.get(datetime=dt)
-            fixture.broadcast_on = channel
+            fixture.broadcast_on = ', '.join(channels)
             fixture.save()
