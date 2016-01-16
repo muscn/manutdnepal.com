@@ -56,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'linaro_django_pagination.middleware.PaginationMiddleware',
     'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 )
 
 TEMPLATES = [
@@ -113,4 +114,10 @@ MESSAGE_TAGS = {
 
 ESEWA_SCD = 'manutd'
 
-YEAR = 2015
+# YEAR = 2015
+
+import re
+
+IGNORABLE_404_URLS = [
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+]

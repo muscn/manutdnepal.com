@@ -7,6 +7,7 @@ SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd2f<3'
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (('Admin Name', 'admin@server.com'),)
+MANAGERS = (('Admin Name', 'admin@server.com'),)
 
 DATABASES = {
     'default': {
@@ -30,7 +31,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 MEDIA_URL = '/media/'
-
 
 LOGGING = {
     'version': 1,
@@ -92,3 +92,5 @@ CACHES = {
 }
 
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
+
+SERVER_EMAIL = 'email@server.com'
