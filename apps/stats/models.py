@@ -524,6 +524,9 @@ class Fixture(models.Model):
                 return str(self.opponent.stadium.name)
             return 'Unknown'
 
+    def is_upcoming(self):
+        return True if self.datetime > datetime.datetime.utcnow().replace(tzinfo=pytz.UTC) else False
+
     def __unicode__(self):
         # return self.title
         ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()

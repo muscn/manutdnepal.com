@@ -24,43 +24,62 @@
                             {% thumbnail mufc.get_crest "35x35" format="PNG" as mufc_crest %}
                                 {% for fixture in results %}
                                     <tr>
-                                        <td>
-                                            <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
+                                        <td class="link-cell">
+                                            <a href="{{ fixture.get_absolute_url }}">
+                                                <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
 
-                                            <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                                                <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                                            </a>
                                         </td>
-                                        <td>{{ fixture.competition_year.competition }}</td>
+                                        <td class="link-cell">
+                                            <a href="{{ fixture.get_absolute_url }}">
+                                                {{ fixture.competition_year.competition }}
+                                            </a>
+                                        </td>
+
                                         {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
                                             {% if fixture.is_home_game %}
-                                                <td class="centered bold left-bordered">
-                                                    <img src="{{ mufc_crest.url }}">
-                                                    <br/>
-                                                    United
+                                                <td class="centered bold left-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ mufc_crest.url }}">
+                                                        <br/>
+                                                        United
+                                                    </a>
                                                 </td>
-                                                <td class="bold">
-                                                    {{ fixture.mufc_score }} - {{ fixture.opponent_score }}
+                                                <td class="bold link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        {{ fixture.mufc_score }} - {{ fixture.opponent_score }}
+                                                    </a>
                                                 </td>
-                                                <td class="centered bold right-bordered">
-                                                    <img src="{{ opponent_crest.url }}">
-                                                    <br/>
-                                                    {{ fixture.opponent.name }}
+                                                <td class="centered bold right-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ opponent_crest.url }}">
+                                                        <br/>
+                                                        {{ fixture.opponent.name }}
+                                                    </a>
                                                 </td>
                                             {% else %}
-                                                <td class="centered bold left-bordered  ">
-                                                    <img src="{{ opponent_crest.url }}">
-                                                    <br/>
-                                                    {{ fixture.opponent.name }}
+                                                <td class="centered bold left-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ opponent_crest.url }}">
+                                                        <br/>
+                                                        {{ fixture.opponent.name }}
+                                                    </a>
                                                 </td>
-                                                <td class="bold">
-                                                    {{ fixture.opponent_score }} - {{ fixture.mufc_score }}
+                                                <td class="bold link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        {{ fixture.opponent_score }} - {{ fixture.mufc_score }}
+                                                    </a>
                                                 </td>
-                                                <td class="centered bold right-bordered">
-                                                    <img src="{{ mufc_crest.url }}">
-                                                    <br/>United
+                                                <td class="centered bold right-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ mufc_crest.url }}">
+                                                        <br/>United
+                                                    </a>
                                                 </td>
                                             {% endif %}
                                         {% endthumbnail %}
-                                        <td>{{ fixture.venue }}</td>
+                                        <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
                                     </tr>
                                 {% endfor %}
                             {% endthumbnail %}
@@ -84,45 +103,61 @@
                             {% thumbnail mufc.get_crest "35x35" format="PNG" as mufc_crest %}
                                 {% for fixture in fixtures %}
                                     <tr>
-                                        <td>
-                                            <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
+                                        <td class="link-cell">
+                                            <a href="{{ fixture.get_absolute_url }}">
+                                                <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
 
-                                            <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                                                <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                                            </a>
                                         </td>
-                                        <td>{{ fixture.competition_year.competition }}</td>
+                                        <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">
+                                            {{ fixture.competition_year.competition }}
+                                        </a></td>
                                         {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
                                             {% if fixture.is_home_game %}
-                                                <td class="centered bold left-bordered">
-                                                    <img src="{{ mufc_crest.url }}" alt="MUFC">
-                                                    <br/>
-                                                    United
+                                                <td class="centered bold left-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ mufc_crest.url }}" alt="MUFC">
+                                                        <br/>
+                                                        United
+                                                    </a>
                                                 </td>
-                                                <td class="bold">
-                                                    vs
+                                                <td class="bold link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        vs
+                                                    </a>
                                                 </td>
-                                                <td class="centered bold right-bordered">
-                                                    <img src="{{ opponent_crest.url }}"
-                                                         alt="{{ fixture.opponent.short_name }}">
-                                                    <br/>
-                                                    {{ fixture.opponent.name }}
+                                                <td class="centered bold right-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ opponent_crest.url }}"
+                                                             alt="{{ fixture.opponent.short_name }}">
+                                                        <br/>
+                                                        {{ fixture.opponent.name }}
+                                                    </a>
                                                 </td>
                                             {% else %}
-                                                <td class="centered bold left-bordered  ">
-                                                    <img src="{{ opponent_crest.url }}"
-                                                         alt="{{ fixture.opponent.short_name }}">
-                                                    <br/>
-                                                    {{ fixture.opponent.name }}
+                                                <td class="centered bold left-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ opponent_crest.url }}"
+                                                             alt="{{ fixture.opponent.short_name }}">
+                                                        <br/>
+                                                        {{ fixture.opponent.name }}
+                                                    </a>
                                                 </td>
-                                                <td class="bold">
-                                                    vs
+                                                <td class="bold link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        vs
+                                                    </a>
                                                 </td>
-                                                <td class="centered bold right-bordered">
-                                                    <img src="{{ mufc_crest.url }}">
-                                                    <br/>United
+                                                <td class="centered bold right-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ mufc_crest.url }}">
+                                                        <br/>United
+                                                    </a>
                                                 </td>
                                             {% endif %}
                                         {% endthumbnail %}
-                                        <td>{{ fixture.venue }}</td>
+                                        <td><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
                                     </tr>
                                 {% endfor %}
                             {% endthumbnail %}
@@ -132,5 +167,5 @@
             </div>
         </div>
     </div>
-    
+
 {% endblock %}
