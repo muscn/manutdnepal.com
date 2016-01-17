@@ -245,7 +245,7 @@ img.overlaid {
     border-top: 0.5em solid #e54d36;
     width: 21em;
     /*float: left;*/
-    margin: 2em 1em 0;
+    margin: 2em 0.8em 0;
     padding: 20px 25px 25px;
     overflow: hidden;
     display: inline-block;
