@@ -33,24 +33,25 @@
         </div>
     </div>
 
-    <div class="well">
-        <h3>{% if object.is_upcoming %}
-        {% else %}
+    {% if object.is_upcoming %}
+    {% else %}
+        <div class="well">
             <h2>{{ object.score }}</h2>
-        {% endif %}</h3>
-        {% if object.remarks %}
-            <div>{{ object.remarks }}</div><br/>
-        {% endif %}
 
-        <div class="goals">
-            {#            <h4>Goals</h4>#}
-            {% for goal in object.goals.all %}
-                <div>
-                    <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}' {% if goal.penalty %}
-                    (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
-                </div>
-            {% endfor %}
+            {% if object.remarks %}
+                <div>{{ object.remarks }}</div><br/>
+            {% endif %}
+
+            <div class="goals">
+                {#            <h4>Goals</h4>#}
+                {% for goal in object.goals.all %}
+                    <div>
+                        <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}' {% if goal.penalty %}
+                        (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
 {% endblock %}

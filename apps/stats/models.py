@@ -459,6 +459,17 @@ class Fixture(models.Model):
     opponent_score = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
+    @property
+    def slug(self):
+        if self.is_home_game:
+            return 'man-united-vs-' + self.opponent.not_so_long_name.lower().replace(' ', '-')
+        else:
+            return self.opponent.not_so_long_name.lower().replace(' ', '-') + '-vs-man-united'
+
+    def get_absolute_url(self):
+        return reverse_lazy('fixture_detail',
+                            kwargs={'date': datetime.datetime.strftime(self.datetime, '%Y-%m-%d'), 'extra': self.slug})
+
     @classmethod
     def get_upcoming(cls):
         return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()

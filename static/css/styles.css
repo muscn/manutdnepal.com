@@ -775,3 +775,9 @@ input.gsc-search-button, input.gsc-search-button:hover, input.gsc-search-button:
     border: none !important;
     background: transparent !important;
 }
+
+td.link-cell a{
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
