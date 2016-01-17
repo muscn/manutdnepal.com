@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
-from django.db import transaction
+import datetime
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
@@ -202,3 +202,12 @@ def scrape(request, slug):
         'scraper': slug,
     }
     return render(request, 'stats/scraped.html', context)
+
+
+class FixtureDetail(DetailView):
+    model = Fixture
+
+    def get_object(self, queryset=None):
+        self.date = datetime.datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
+        return get_object_or_404(self.model, datetime__year=self.date.year, datetime__month=self.date.month,
+                                 datetime__day=self.date.day)

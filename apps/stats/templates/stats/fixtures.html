@@ -25,7 +25,7 @@
                                 {% for fixture in results %}
                                     <tr>
                                         <td>
-                                            <span class="date">{{ fixture.datetime.day }} {{ fixture.datetime|date:'M' }} {{ fixture.datetime|date:'Y' }}</span>
+                                            <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
 
                                             <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
                                         </td>
@@ -85,7 +85,7 @@
                                 {% for fixture in fixtures %}
                                     <tr>
                                         <td>
-                                            <span class="date">{{ fixture.datetime.day }} {{ fixture.datetime|date:'M' }} {{ fixture.datetime|date:'Y' }}</span>
+                                            <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
 
                                             <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
                                         </td>

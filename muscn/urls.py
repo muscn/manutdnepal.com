@@ -64,6 +64,9 @@ urlpatterns = patterns('',
                            name='view_partner'),
                        url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
 
+                       url(r'^match/(?P<date>[\d{4}\-\d{2}\-\d{2}]+)/.*$', stats_views.FixtureDetail.as_view(),
+                           name='fixture_detail'),
+
                        (r'^webhook/', include('apps.webhook.urls')),
 
                        (r'', include('apps.page.urls')),
