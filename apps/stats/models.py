@@ -467,8 +467,9 @@ class Fixture(models.Model):
             return self.opponent.not_so_long_name.lower().replace(' ', '-') + '-vs-man-united'
 
     def get_absolute_url(self):
-        return reverse_lazy('fixture_detail',
-                            kwargs={'date': datetime.datetime.strftime(self.datetime, '%Y-%m-%d'), 'extra': self.slug})
+        return reverse_lazy('fixture_detail', kwargs={
+            'date': datetime.datetime.strftime(self.datetime.astimezone(pytz.timezone(settings.TIME_ZONE)), '%Y-%m-%d'),
+            'extra': self.slug + '/'})
 
     @classmethod
     def get_upcoming(cls):
