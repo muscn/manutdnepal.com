@@ -11,7 +11,8 @@
 {% endblock %}
 
 {% block content %}
-
+    {#    TODO #}
+    {{ object_list.count }}
     {% autosort object_list as sorted_objects %}
     {% autopaginate sorted_objects 20 as paginated_objects %}
 

@@ -180,7 +180,7 @@ def injuries(request):
 
 def fixtures(request):
     upcoming_fixtures = Fixture.get_upcoming().select_related()
-    results = Fixture.results().select_related()
+    results = Fixture.results()
     context = {
         'fixtures': upcoming_fixtures,
         'results': results,

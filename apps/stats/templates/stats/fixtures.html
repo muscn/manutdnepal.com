@@ -14,6 +14,8 @@
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#fixtures-results" href="#results"
                    onclick="history.pushState({'page':'results'}, 'results', '/results/');">
                     <h1>Results</h1>
+                    {# TODO #}
+                    {{ results.count }}
                 </a>
             </div>
             <div id="results"
@@ -79,7 +81,8 @@
                                                 </td>
                                             {% endif %}
                                         {% endthumbnail %}
-                                        <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
+                                        <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             {% endthumbnail %}
@@ -157,7 +160,8 @@
                                                 </td>
                                             {% endif %}
                                         {% endthumbnail %}
-                                        <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
+                                        <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             {% endthumbnail %}
