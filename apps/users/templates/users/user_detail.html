@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load filters %}
 
-{% block title %} {{ object.user.full_name }}{% endblock %}
+{% block title %} {{ object.full_name }}{% endblock %}
 
 {% block content %}
         <h1>
-            {% if object.user.devil_no %}
-                #{{ object.user.devil_no }} -
+            {% if object.devil_no %}
+                #{{ object.devil_no }} -
             {% endif %}
-            {{ object.user.full_name }}
-            {% if object.user.is_member %}
+            {{ object.full_name }}
+            {% if object.is_member %}
                 <i class="fa fa-check verified"></i>
             {% endif %}
 
@@ -20,7 +20,7 @@
 
             <div class="col-md-6">
 
-                {% with profile_picture=object.user.profile_picture %}
+                {% with profile_picture=object.profile_picture %}
                     {% if profile_picture %}
                         <img src="{{ profile_picture }}" class="img-responsive"/>
                     {% endif %}
@@ -30,15 +30,15 @@
                 <table class="table">
                     <tr>
                         <th>Membership Status</th>
-                        <td>{{ object.user.membership_status }}</td>
+                        <td>{{ object.membership_status }}</td>
                     </tr>
                     <tr>
                         <th>Membership Card</th>
-                        <td>{{ object.user.card_status }}</td>
+                        <td>{{ object.card_status }}</td>
                     </tr>
                     <tr>
                         <th>Member Since</th>
-                        <td>{{ object.approved_date }}</td>
+                        <td>{{ object.membership.approved_date }}</td>
                     </tr>
                 </table>
             </div>

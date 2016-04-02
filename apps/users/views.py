@@ -398,8 +398,8 @@ def devil_no_handler(request, devil_no):
 
 
 class MemberProfileView(DetailView):
-    model = Membership
-    slug_field = 'user__username'
+    model = User
+    slug_field = 'username'
 
 
 class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
