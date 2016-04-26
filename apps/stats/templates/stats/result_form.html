@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block extrahead %}
+    {% include 'partials/selectize.html' %}
     <script src="{% static 'js/jquery.formset.js' %} "></script>
     <script type="text/javascript">
         $(function () {
@@ -52,7 +53,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row goals-form">
             <div class="col-sm-12 col-lg-12 form-inline">
                 <h2>Goals</h2>
 

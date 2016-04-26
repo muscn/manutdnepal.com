@@ -162,3 +162,7 @@ nav.navbar.navbar-default img {
 .hide {
     display: none !important;
 }
+
+.goals-form .selectize-input input{
+    min-width: 200px;
+}
