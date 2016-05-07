@@ -142,15 +142,15 @@
                     </thead>
                     <tbody>
                     {% for team in standings %}
-                        <tr {% if team.stand_team_name == 'Manchester United' %}class=highlight{% endif %}>
-                            <td>{{ team.stand_position }}</td>
+                        <tr {% if team.name == 'Manchester United' %}class=highlight{% endif %}>
+                            <td>{{ team.position }}</td>
                             <td>
-                                {% if team.stand_team_name == 'Manchester United' %}Man United{% else %}
-                                    {{ team.stand_team_name }}{% endif %}
+                                {% if team.name == 'Manchester United' %}Man United{% else %}
+                                    {{ team.name }}{% endif %}
                             </td>
-                            <td>{{ team.stand_overall_gp }}</td>
-                            <td>{{ team.stand_gd }}</td>
-                            <td>{{ team.stand_points }}</td>
+                            <td>{{ team.p }}</td>
+                            <td>{{ team.gd }}</td>
+                            <td>{{ team.pts }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
