@@ -22,7 +22,10 @@ class Scraper(object):
     @classmethod
     def get_url_content(cls, url):
         cls.log('Retrieving content from: ' + url + ' ...')
-        return urllib.urlopen(url).read()
+        opener = urllib2.build_opener()
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        response = opener.open(url)
+        return response.read()
 
     @classmethod
     def get_json_from_url(cls, url):

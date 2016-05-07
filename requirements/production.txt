@@ -18,6 +18,7 @@ wikipedia
 sorl-thumbnail
 pytz
 -e git+https://github.com/awecode/njango.git@master#egg=njango
+cssselect
 
 #production-only
 gunicorn
