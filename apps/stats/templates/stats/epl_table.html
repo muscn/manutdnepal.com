@@ -69,5 +69,31 @@
 
         </tr>
     </table>
+
+    <br/>
+    <h2>This Matchweek</h2>
+    
+        <table class="table">
+            <tbody>
+            {% for match in standings.matches %}
+                <tr>
+                    
+                    <td>
+                        {{ match.minute }}
+                        {% if match.live %}
+                            <i class="result1"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ match.home_team }}</td>
+                    <td>{{ match.score }}</td>
+                    <td>{{ match.away_team }}</td>
+                    
+                </tr>
+            {% endfor %}
+            </tbody>
+
+            </tr>
+        </table>
+    
 {% endblock %}
 

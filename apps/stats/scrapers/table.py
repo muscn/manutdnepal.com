@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.cache import cache
 
 from .base import Scraper
@@ -8,6 +10,7 @@ class TableScraper(Scraper):
 
     @classmethod
     def scrape(cls):
+
         root = cls.get_root_tree()
         rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
         cls.data['teams'] = []
@@ -32,7 +35,22 @@ class TableScraper(Scraper):
             cls.data['teams'].append(data)
 
         # Also fetch all matches this week
-        
+        matches = root.cssselect('div[data-type="evt"]')
+        cls.data['matches'] = []
+        for match in matches:
+            data = {}
+            data['eid'] = match.get('data-eid')
+            minute = match.cssselect('div.min')[0].text_content().strip()
+            data['minute'] = minute
+            if "'" in minute:
+                data['live'] = True
+            else:
+                data['live'] = False
+            data['kickoff'] = datetime.datetime.strptime(match.get('data-esd'), '%Y%m%d%H%M%S')
+            data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
+            data['away_team'] = match.cssselect('div.ply.name:not(.tright)')[0].text_content().strip()
+            data['score'] = match.cssselect('div.sco')[0].text_content().strip()
+            cls.data['matches'].append(data)
 
     @classmethod
     def save(cls):
