@@ -781,3 +781,7 @@ td.link-cell a{
     color: inherit;
     display: block;
 }
+
+.stats-block * {
+    font-size: 14px;
+}
