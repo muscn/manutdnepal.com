@@ -2,7 +2,7 @@
 {% load filters %}
 {% load staticfiles %}
 
-{% block title %} EPL Table {% endblock %}
+{% block title %} EPL Matchweek {% endblock %}
 
 {% block extrahead %}
     <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
@@ -24,7 +24,7 @@
 {% block content %}
 
 
-    <h1>This Matchweek</h1>
+    <h1>EPL Matchweek</h1>
 
     {% for match_date, matches in standings.matches.items %}
 
@@ -52,6 +52,10 @@
         </table>
 
     {% endfor %}
+
+    <div class="alert alert-info">
+        Updated every five minutes.
+    </div>
 
 {% endblock %}
 

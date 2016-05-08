@@ -12,10 +12,6 @@ def home(request):
     next_match = Fixture.get_next_match()
     recent_results = Fixture.recent_results()
     standings = cache.get('epl_standings')
-    if standings and 'teams' in standings:
-        standings_summary = standings['teams'][:6]
-    else:
-        standings_summary = []
     top_scorers = get_top_scorers_summary()
     injuries = Injury.get_current_injuries()
     recent_posts = Post.recent()
@@ -23,7 +19,7 @@ def home(request):
     context = {
         'next_match': next_match,
         'recent_results': recent_results,
-        'standings': standings_summary,
+        'standings': standings,
         'players': top_scorers,
         'injuries': injuries,
         'posts': recent_posts,

@@ -35,7 +35,7 @@ class TableScraper(Scraper):
             cls.data['teams'].append(data)
 
         # Also fetch all matches this week
-        
+
         matches = root.cssselect('div[data-type="evt"]')
         cls.data['matches'] = {}
         for match in matches:
@@ -50,7 +50,6 @@ class TableScraper(Scraper):
             dt = datetime.datetime.strptime(match.get('data-esd'), '%Y%m%d%H%M%S')
             data['kickoff'] = dt
             date = dt.date()
-            
             data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
             data['away_team'] = match.cssselect('div.ply.name:not(.tright)')[0].text_content().strip()
             data['score'] = match.cssselect('div.sco')[0].text_content().strip()
@@ -60,5 +59,4 @@ class TableScraper(Scraper):
 
     @classmethod
     def save(cls):
-        print cls.data['matches']
         cache.set('epl_standings', cls.data, timeout=None)

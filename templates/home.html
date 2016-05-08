@@ -141,7 +141,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for team in standings %}
+                    {% for team in standings.teams %}
                         <tr {% if team.name == 'Manchester United' %}class=highlight{% endif %}>
                             <td>{{ team.position }}</td>
                             <td>
@@ -157,6 +157,34 @@
                     </tr>
                 </table>
             </div>
+
+            {% if standings.matches %}
+                <div class="stats-block matchweek">
+                    <h2><a href="{% url 'matchweek' %}">EPL MATCHWEEK</a></h2>
+                    {% for match_date, matches in standings.matches.items %}
+                        {% for match in matches %}
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    {{ match.minute }}
+                                    {% if match.live %}
+                                        <i class="result1"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-4">{{ match.home_team }}</div>
+                                <div class="col-sm-2">{{ match.score }}</div>
+                                <div class="col-sm-2">{{ match.away_team }}</div>
+
+                            </div>
+                        {% endfor %}
+                        </tbody>
+
+                        </tr>
+                        </table>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <div class="stats-block">
                 <h2><a href="{% url 'scorers' %}">TOP SCORERS</a></h2>
