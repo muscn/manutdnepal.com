@@ -10,9 +10,7 @@ from django.core.files.temp import NamedTemporaryFile
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from django.db.models import Count
-
 from jsonfield import JSONField
-
 from django.conf import settings
 import pytz
 
@@ -224,6 +222,10 @@ class Player(Person):
 
     def get_current_team(self):
         pass
+
+    @classmethod
+    def get(self, st):
+        return Player.objects.get(name=st)
 
 
 class Official(Person):
@@ -459,17 +461,13 @@ class Fixture(models.Model):
     mufc_score = models.PositiveIntegerField(null=True, blank=True)
     opponent_score = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.CharField(max_length=255, null=True, blank=True)
+    data = JSONField(blank=True, null=True)
 
-    def process_data(self, data, m_data):
-        scores = data.get('score').replace(' ', '').split('-')
-        if scores[0].isdigit() and scores[1].isdigit():
-            if self.is_home_game:
-                self.mufc_score = scores[0]
-                self.opponent_score = scores[1]
-            else:
-                self.mufc_score = scores[1]
-                self.opponent_score = scores[0]
-        self.save()
+    def home_or_away(self):
+        if self.is_home_game:
+            return 'home'
+        else:
+            return 'away'
 
     def has_complete_data(self):
         return False
@@ -561,6 +559,23 @@ class Fixture(models.Model):
         #     ret += '[PAST] '
         return ret
 
+    def process_data(self, data, m_data):
+        scores = data.get('score').replace(' ', '').split('-')
+        if scores[0].isdigit() and scores[1].isdigit():
+            if self.is_home_game:
+                self.mufc_score = scores[0]
+                self.opponent_score = scores[1]
+            else:
+                self.mufc_score = scores[1]
+                self.opponent_score = scores[0]
+        self.data = m_data
+        for event in m_data.get('events'):
+            if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
+                player = Player.get(event.get('scorer'))
+                og = event.get('og', False)
+                goal, created = Goal.objects.get_or_create(scorer=player, own_goal=og, time=event.get('m'), match=self)
+        self.save()
+
     class Meta:
         ordering = ('datetime',)
 
@@ -570,7 +585,7 @@ class Goal(models.Model):
     assist_by = models.ForeignKey(Player, related_name='assists', blank=True, null=True)
     penalty = models.BooleanField(default=False)
     own_goal = models.BooleanField(default=False)
-    time = models.PositiveIntegerField(blank=True, null=True)
+    time = models.CharField(blank=True, null=True, max_length=10)
     match = models.ForeignKey(Fixture, related_name='goals')
 
     def __unicode__(self):

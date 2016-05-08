@@ -75,7 +75,7 @@ class TableScraper(Scraper):
     def get_m_data(cls, url):
         # 3-2, double yellow = red card
         # url = 'http://www.livescore.com/soccer/england/premier-league/sunderland-vs-chelsea/1-1989077/'
-        # Has OG
+        # Has OG by opponent
         # url = 'http://www.livescore.com/soccer/england/premier-league/manchester-united-vs-crystal-palace/1-1989005/'
         root = cls.get_root_tree(url)
         data = {'events': []}
