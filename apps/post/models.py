@@ -22,6 +22,10 @@ class Post(models.Model):
     created_at = models.DateTimeField(blank=True)
     image = models.ImageField(blank=True, null=True)
     featured = models.BooleanField(default=True)
+    
+    @property
+    def date(self):
+        return self.created_at
 
     @classmethod
     def recent(cls, count=10):

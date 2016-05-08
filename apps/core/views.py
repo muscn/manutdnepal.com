@@ -1,11 +1,17 @@
 from django.core.cache import cache
 from django.shortcuts import render
 from django.contrib.auth.decorators import user_passes_test
-from apps.partner.models import Partner
-from apps.post.models import Post
 
+from apps.events.models import Event
+from apps.post.models import Post
 from apps.stats.models import Fixture, get_top_scorers_summary, Injury
 from .models import get_featured
+
+
+def recent_posts_or_events():
+    posts = list(Post.recent())
+    events = list(Event.recent())
+    return posts + events
 
 
 def home(request):
@@ -14,7 +20,7 @@ def home(request):
     standings = cache.get('epl_standings')
     top_scorers = get_top_scorers_summary()
     injuries = Injury.get_current_injuries()
-    recent_posts = Post.recent()
+    recent_posts = recent_posts_or_events()
     featured = get_featured()
     context = {
         'next_match': next_match,

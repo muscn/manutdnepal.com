@@ -21,6 +21,14 @@ class Event(models.Model):
     featured = models.BooleanField(default=True)
 
     @property
+    def date(self):
+        return self.start
+    
+    @classmethod
+    def recent(cls, count=10):
+        return cls.objects.all().order_by('-start')[0:count]
+
+    @property
     def status(self):
         self.start = self.start.replace(tzinfo=None)
         if self.end:
