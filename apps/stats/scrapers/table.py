@@ -1,14 +1,15 @@
 import datetime
 
-import pytz
-
 from django.core.cache import cache
 from django.conf import settings
+
+from apps.stats.models import Fixture
 
 from .base import Scraper
 
 
 class TableScraper(Scraper):
+    base_url = 'http://www.livescore.com'
     url = 'http://www.livescore.com/soccer/england/premier-league/'
 
     @classmethod
@@ -60,8 +61,60 @@ class TableScraper(Scraper):
             if not date in cls.data['matches']:
                 cls.data['matches'][date] = []
             cls.data['matches'][date].append(data)
+            if data['home_team'] in settings.ALIASES or data['away_team'] in settings.ALIASES:
+                try:
+                    url = cls.base_url + match.cssselect('div.sco')[0].cssselect('a')[0].get('href')
+                    m_data = cls.get_m_data(url)
+                    fixture = Fixture.objects.get(datetime=dt)
+                    if not fixture.has_complete_data():
+                        fixture.process_data(data, m_data)
+                except Fixture.DoesNotExist:
+                    pass
+
+    @classmethod
+    def get_m_data(cls, url):
+        # 3-2, double yellow = red card
+        # url = 'http://www.livescore.com/soccer/england/premier-league/sunderland-vs-chelsea/1-1989077/'
+        # Has OG
+        # url = 'http://www.livescore.com/soccer/england/premier-league/manchester-united-vs-crystal-palace/1-1989005/'
+        root = cls.get_root_tree(url)
+        data = {'events': []}
+        grays = root.cssselect('div.row-gray')
+        for gray in grays:
+            # HT Score
+            if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[
+                0].text_content().strip() == 'half-time:':
+                data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')', '').replace(' ', '')
+                continue
+            # All but HT Score are events
+            event = {}
+            # Goal
+            if len(gray.cssselect('div.sco')) and gray.cssselect('div.sco')[0].text_content().strip():
+                event['type'] = 'goal'
+                score = gray.cssselect('div.sco')[0].text_content().strip()
+                event['text'] = score
+                m = gray.cssselect('.min')[0].text_content().strip().replace("'", "")
+                event['m'] = m
+                home_scorer = gray.cssselect('div.ply.tright')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
+                    0].text_content().strip()
+                if home_scorer:
+                    event['team'] = 'home'
+                    event['scorer'] = home_scorer
+                else:
+                    event['team'] = 'away'
+                    event['scorer'] = gray.cssselect('div.ply:not(.tright)')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
+                        0].text_content().strip()
+                og = False
+                for ply in gray.cssselect('div.ply'):
+                    if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(o.g.)':
+                        og = True
+                        break
+                if og:
+                    event['og'] = True
+                data['events'].append(event)
+                continue
+        return data
 
     @classmethod
     def save(cls):
-        print cls.data['matches']
         cache.set('epl_standings', cls.data, timeout=None)

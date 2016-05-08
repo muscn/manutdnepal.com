@@ -1,5 +1,4 @@
 import os
-import urllib
 import urllib2
 import json
 
@@ -65,10 +64,11 @@ class Scraper(object):
         cls.log('Saved!')
 
     @classmethod
-    def get_root_tree(cls):
-        cls.log('Retrieving root URL: ' + cls.url + ' ...')
+    def get_root_tree(cls, url=None):
+        root_url = url or cls.url
+        cls.log('Retrieving root URL: ' + root_url + ' ...')
         cookie = {'tz': '5.75'}
-        page = requests.get(cls.url, cookies = cookie)
+        page = requests.get(root_url, cookies=cookie)
         tree = html.fromstring(page.text)
         return tree
 

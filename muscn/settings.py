@@ -121,3 +121,10 @@ import re
 IGNORABLE_404_URLS = [
     re.compile(r'^/apple-touch-icon.*\.png$'),
 ]
+
+ALIASES = [
+    'Manchester United',
+    'Man Utd',
+    'Man United',
+    'MUFC',
+]

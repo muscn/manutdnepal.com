@@ -1,6 +1,5 @@
 from collections import OrderedDict
 import datetime
-from datetime import timedelta
 from random import randint
 import urllib
 import json
@@ -8,21 +7,23 @@ import json
 import wikipedia
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from django.db.models import Count
+
 from jsonfield import JSONField
+
 from django.conf import settings
 import pytz
+
+from django.core.cache import cache
+
+from django.db.models import Q
 
 from muscn.utils.countries import CountryField
 from muscn.utils.football import get_current_season_start_year
 from muscn.utils.forms import unique_slugify
 from muscn.utils.npt import utc_to_local
-
-from django.core.cache import cache
-from django.db.models import Q
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -458,6 +459,20 @@ class Fixture(models.Model):
     mufc_score = models.PositiveIntegerField(null=True, blank=True)
     opponent_score = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.CharField(max_length=255, null=True, blank=True)
+
+    def process_data(self, data, m_data):
+        scores = data.get('score').replace(' ', '').split('-')
+        if scores[0].isdigit() and scores[1].isdigit():
+            if self.is_home_game:
+                self.mufc_score = scores[0]
+                self.opponent_score = scores[1]
+            else:
+                self.mufc_score = scores[1]
+                self.opponent_score = scores[0]
+        self.save()
+
+    def has_complete_data(self):
+        return False
 
     @property
     def slug(self):
