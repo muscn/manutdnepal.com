@@ -11,7 +11,10 @@ from .models import get_featured
 def recent_posts_or_events():
     posts = list(Post.recent())
     events = list(Event.recent())
-    return posts + events
+    p_o_e = posts + events
+    p_o_e.sort(key=lambda x: x.date, reverse=True)
+    return p_o_e
+
 
 
 def home(request):
