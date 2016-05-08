@@ -14,7 +14,7 @@ from django.db import models
 from django.db.models import Count
 from jsonfield import JSONField
 from django.conf import settings
-import pytz as pytz
+import pytz
 
 from muscn.utils.countries import CountryField
 from muscn.utils.football import get_current_season_start_year

@@ -1,6 +1,9 @@
 import datetime
 
+import pytz
+
 from django.core.cache import cache
+from django.conf import settings
 
 from .base import Scraper
 
@@ -48,6 +51,7 @@ class TableScraper(Scraper):
             else:
                 data['live'] = False
             dt = datetime.datetime.strptime(match.get('data-esd'), '%Y%m%d%H%M%S')
+            # dt = dt.replace(tzinfo=pytz.UTC).astimezone(pytz.timezone(settings.TIME_ZONE))
             data['kickoff'] = dt
             date = dt.date()
             data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
@@ -59,4 +63,5 @@ class TableScraper(Scraper):
 
     @classmethod
     def save(cls):
+        print cls.data['matches']
         cache.set('epl_standings', cls.data, timeout=None)

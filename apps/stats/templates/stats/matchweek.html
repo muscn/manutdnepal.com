@@ -25,7 +25,7 @@
 
 
     <h1>EPL Matchweek</h1>
-
+{% if standings.matches %}
     {% for match_date, matches in standings.matches.items %}
 
         <h2>{{ match_date }}</h2>
@@ -56,6 +56,12 @@
     <div class="alert alert-info">
         Updated every five minutes.
     </div>
+    
+    {% else %}
+    <div class="alert alert-info">
+        Matchweek data not available. Check during match days.
+    </div>
+    {% endif %}
 
 {% endblock %}
 
