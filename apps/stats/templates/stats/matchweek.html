@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block title %} EPL Table {% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                paging: false,
+                "aaSorting": [],
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+
+    <h1>This Matchweek</h1>
+
+    {% for match_date, matches in standings.matches.items %}
+
+        <h2>{{ match_date }}</h2>
+        <table class="table">
+            <tbody>
+            {% for match in matches %}
+                <tr>
+
+                    <td>
+                        {{ match.minute }}
+                        {% if match.live %}
+                            <i class="result1"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ match.home_team }}</td>
+                    <td>{{ match.score }}</td>
+                    <td>{{ match.away_team }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+
+            </tr>
+        </table>
+
+    {% endfor %}
+
+{% endblock %}
+

@@ -43,6 +43,7 @@
                             <li><a href="{% url 'fixtures' %}">Fixtures</a></li>
                             <li><a href="{% url 'results' %}">Results</a></li>
                             <li><a href="{% url 'epl_table' %}">EPL Table</a></li>
+                            <li><a href="{% url 'matchweek' %}">Matchweek</a></li>
                             <li><a href="{% url 'scorers' %}">Top Scorers</a></li>
                             <li><a href="/squad/">Squad</a></li>
 
@@ -86,7 +87,7 @@
                                        aria-expanded="false">{{ user }}<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
-{#                                        <li><a href="{% url 'list_members' %}">Edit Profile</a></li>#}
+                                        {#                                        <li><a href="{% url 'list_members' %}">Edit Profile</a></li>#}
                                         <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                                         <li><a href="{% url 'membership_form' %}">Registration Information</a></li>
                                         <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>

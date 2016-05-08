@@ -69,13 +69,17 @@
 
         </tr>
     </table>
+    
 
     <br/>
     <h2>This Matchweek</h2>
     
+    {% for match_date, matches in standings.matches.items %}
+    
+        <h3>{{ match_date }}</h3>
         <table class="table">
             <tbody>
-            {% for match in standings.matches %}
+            {% for match in matches %}
                 <tr>
                     
                     <td>
@@ -94,6 +98,8 @@
 
             </tr>
         </table>
+    
+    {% endfor %}
     
 {% endblock %}
 

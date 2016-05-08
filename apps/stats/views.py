@@ -164,6 +164,13 @@ def epl_table(request):
     }
     return render(request, 'stats/epl_table.html', context)
 
+def matchweek(request):
+    standings = cache.get('epl_standings')
+    context = {
+        'standings': standings,
+    }
+    return render(request, 'stats/matchweek.html', context)
+
 
 def scorers(request):
     context = get_top_scorers()
