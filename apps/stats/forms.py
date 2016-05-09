@@ -23,7 +23,7 @@ class InjuryForm(HTML5BootstrapModelForm):
 class ResultForm(HTML5BootstrapModelForm):
     class Meta:
         model = Fixture
-        exclude = ('competition_year', 'opponent', 'datetime')
+        fields = ['mufc_score', 'opponent_score', 'remarks']
 
 
 class FixtureForm(HTML5BootstrapModelForm):
