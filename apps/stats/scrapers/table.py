@@ -70,6 +70,8 @@ class TableScraper(Scraper):
                         fixture = Fixture.objects.get(datetime=dt)
                         if not fixture.has_complete_data():
                             fixture.process_data(data, m_data)
+                            if data['minute'] == 'FT':
+                                fixture.send_updates()
                     except Fixture.DoesNotExist:
                         pass
 

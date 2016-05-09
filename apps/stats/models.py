@@ -29,6 +29,7 @@ from django.db.models import Q
 from muscn.utils.countries import CountryField
 from muscn.utils.football import get_current_season_start_year
 from muscn.utils.forms import unique_slugify
+from muscn.utils.helpers import facebook_api
 from muscn.utils.npt import utc_to_local
 
 YEAR_CHOICES = []
@@ -586,6 +587,7 @@ class Fixture(models.Model):
                 self.opponent_score = scores[0]
         self.data = m_data
         # Goal.objects.filter(match=self).delete()
+        api = facebook_api()
         for event in m_data.get('events'):
             if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
                 assist_by = None
@@ -598,13 +600,30 @@ class Fixture(models.Model):
                     goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og,
                                                                time=event.get('m'),
                                                                penalty=pen, match=self)
+                    # if created:
                 except:
                     mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event))
 
         self.save()
 
+    def send_updates(self):
+        pass
+
     class Meta:
         ordering = ('datetime',)
+
+
+def get_msg_from_event(event, model, fixture):
+    st = ''
+    if event.get('type') == 'goal':
+        st += 'GOAL: ' + str(model.scorer) + ' - ' + model.time
+        if model.penalty:
+            st += ' [P]'
+        if model.own_goal:
+            st += ' [OG]'
+        if model.assist_by:
+            st += '<br>Assist: ' + str(model.assist_by)
+        st += '<br>' + str(fixture.get_absolute_url())
 
 
 class Goal(models.Model):
