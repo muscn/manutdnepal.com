@@ -67,10 +67,14 @@
                         {% else %}
                             <h4>{{ object.opponent }}</h4>
                             {% for event in object.data.events %}
-                                {% if event.type == 'goal' and event.team == 'home' %}
-                                    {{ event.scorer }} {{ event.m }}' [{{ event.text }}]
-                                    {% if event.og %} [OG] {% endif %}
-                                {% endif %}
+                                <div>
+                                    {% if event.type == 'goal' and event.team == 'home' %}
+                                        {{ event.scorer }} {{ event.m }}' [{{ event.text }}]
+                                        {% if event.og %} [OG] {% endif %}
+                                        {% if event.pen %} [P] {% endif %}
+                                        {% if event.assist_by %} [Assist: {{ event.assist_by }}] {% endif %}
+                                    {% endif %}
+                                </div>
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -78,9 +82,14 @@
                         {% if object.is_home_game %}
                             <h4>{{ object.opponent }}</h4>
                             {% for event in object.data.events %}
-                                {% if event.type == 'goal' and event.team == 'away' %}
-                                    {{ event.scorer }} {{ event.m }}' [{{ event.score }}]
-                                {% endif %}
+                                <div>
+                                    {% if event.type == 'goal' and event.team == 'away' %}
+                                        {{ event.scorer }} {{ event.m }}' [{{ event.text }}]
+                                        {% if event.og %} [OG] {% endif %}
+                                        {% if event.pen %} [P] {% endif %}
+                                        {% if event.assist_by %} [Assist: {{ event.assist_by }}] {% endif %}
+                                    {% endif %}
+                                </div>
                             {% endfor %}
                         {% else %}
                             <h4>Manchester United</h4>
