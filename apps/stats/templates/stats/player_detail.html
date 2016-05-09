@@ -74,7 +74,7 @@
             {% endif %}
         
         <h2>Goals</h2>
-        {% for goal in object.goals.all %}
+        {% for goal in object.all_goals %}
             <div>{{ goal.match.competition_year }} : {{ goal.match.opponent }} : {{ goal.time }}</div>
         {% endfor %}
         

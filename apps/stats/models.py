@@ -218,6 +218,9 @@ class Player(Person):
 
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
+    
+    def all_goals(self):
+        return self.goals.all().order_by('-match__datetime')
 
     def get_contract_expiry_date(self):
         pass
@@ -601,7 +604,7 @@ class Goal(models.Model):
     own_goal = models.BooleanField(default=False)
     time = models.CharField(blank=True, null=True, max_length=10)
     match = models.ForeignKey(Fixture, related_name='goals')
-
+    
     def __unicode__(self):
         ret_str = unicode(self.scorer) + ' against ' + unicode(self.match.opponent)
         if self.time:
