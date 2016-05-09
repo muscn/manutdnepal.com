@@ -597,9 +597,6 @@ class Fixture(models.Model):
                                                                time=event.get('m'),
                                                                penalty=pen, match=self)
                 except:
-                    import ipdb
-
-                    ipdb.set_trace()
                     mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event))
 
         self.save()
