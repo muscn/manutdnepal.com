@@ -4,79 +4,86 @@
 {% block title %} {{ object }} {% endblock %}
 
 {% block content %}
-        <h1>
-            {{ object }}
-        </h1>
+    <h1>
+        {{ object }}
+    </h1>
 
-        <div class="row">
+    <div class="row">
 
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                {% if object.image %}
-                    <img class="img-responsive" src="{{ object.image.url }}">
-                {% endif %}
-            </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            {% if object.image %}
+                <img class="img-responsive" src="{{ object.image.url }}">
+            {% endif %}
+        </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <table class="table table-bordered table-nonfluid">
-                    <tr>
-                        <th>Squad No.</th>
-                        <td>{{ object.squad_no }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date of Birth</th>
-                        <td>{{ object.date_of_birth }}</td>
-                    </tr>
-                    <tr>
-                        <th>Birth Place</th>
-                        <td>{{ object.birth_place }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nationality</th>
-                        <td>{{ object.get_nationality_display }}</td>
-                    </tr>
-                    <tr>
-                        <th>Height</th>
-                        <td>{{ object.height }} m</td>
-                    </tr>
-                    <tr>
-                        <th>Weight</th>
-                        <td>{{ object.weight }} kgs</td>
-                    </tr>
-                    <tr>
-                        <th>Favored Position</th>
-                        <td>{{ object.favored_position }}</td>
-                    </tr>
-                    <tr>
-                        <th>Previous Club</th>
-                        <td>{{ object.previous_club }}</td>
-                    </tr>
-                </table>
-            </div>
-            {% if object.social_accounts.twitter %}
-                <a target="_blank" href="https://twitter.com/{{ object.social_accounts.twitter }}"><i
-                        class="fa fa-2x fa-twitter-square"></i></a>
-            {% endif %}
-            {% if object.social_accounts.instagram %}
-                <a target="_blank" href="https://instagram.com/{{ object.social_accounts.instagram }}/"><i
-                        class="fa fa-2x fa-instagram"></i></a>
-            {% endif %}
-            {% if object.social_accounts.facebook %}
-                <a target="_blank" href="https://www.facebook.com/{{ object.social_accounts.facebook }}"><i
-                        class="fa fa-2x fa-facebook-square"></i></a>
-            {% endif %}
-            {% if object.social_accounts.youtube %}
-                <a target="_blank" href="{{ object.social_accounts.youtube }}"><i
-                        class="fa fa-2x fa-youtube-square"></i></a>
-            {% endif %}
-            {% if object.social_accounts.website %}
-                <a target="_blank" href="{{ object.social_accounts.website }}"><i
-                        class="fa fa-2x fa-globe"></i></a>
-            {% endif %}
-        
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            <table class="table table-bordered table-nonfluid">
+                <tr>
+                    <th>Squad No.</th>
+                    <td>{{ object.squad_no }}</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>{{ object.date_of_birth }}</td>
+                </tr>
+                <tr>
+                    <th>Birth Place</th>
+                    <td>{{ object.birth_place }}</td>
+                </tr>
+                <tr>
+                    <th>Nationality</th>
+                    <td>{{ object.get_nationality_display }}</td>
+                </tr>
+                <tr>
+                    <th>Height</th>
+                    <td>{{ object.height }} m</td>
+                </tr>
+                <tr>
+                    <th>Weight</th>
+                    <td>{{ object.weight }} kgs</td>
+                </tr>
+                <tr>
+                    <th>Favored Position</th>
+                    <td>{{ object.favored_position }}</td>
+                </tr>
+                <tr>
+                    <th>Previous Club</th>
+                    <td>{{ object.previous_club }}</td>
+                </tr>
+            </table>
+        </div>
+        {% if object.social_accounts.twitter %}
+            <a target="_blank" href="https://twitter.com/{{ object.social_accounts.twitter }}"><i
+                    class="fa fa-2x fa-twitter-square"></i></a>
+        {% endif %}
+        {% if object.social_accounts.instagram %}
+            <a target="_blank" href="https://instagram.com/{{ object.social_accounts.instagram }}/"><i
+                    class="fa fa-2x fa-instagram"></i></a>
+        {% endif %}
+        {% if object.social_accounts.facebook %}
+            <a target="_blank" href="https://www.facebook.com/{{ object.social_accounts.facebook }}"><i
+                    class="fa fa-2x fa-facebook-square"></i></a>
+        {% endif %}
+        {% if object.social_accounts.youtube %}
+            <a target="_blank" href="{{ object.social_accounts.youtube }}"><i
+                    class="fa fa-2x fa-youtube-square"></i></a>
+        {% endif %}
+        {% if object.social_accounts.website %}
+            <a target="_blank" href="{{ object.social_accounts.website }}"><i
+                    class="fa fa-2x fa-globe"></i></a>
+        {% endif %}
+
+    </div>
+    <br>
+    <div>
         <h2>Goals</h2>
         {% for goal in object.all_goals %}
-            <div>{{ goal.match.competition_year }} : {{ goal.match.datetime }} : {{ goal.match.opponent }} : {{ goal.time }}</div>
+            <div>
+                <a href="{{ goal.match.get_absolute_url }}">
+                    vs {{ goal.match.opponent }} - {{ goal.time }}' ({{ goal.match.datetime }}
+                    - {{ goal.match.competition_year.competition.get_short_name }})
+                </a>
+            </div>
         {% endfor %}
-        
-        </div>
+    </div>
 {% endblock %}

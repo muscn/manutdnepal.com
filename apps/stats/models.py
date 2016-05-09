@@ -36,6 +36,7 @@ YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
     YEAR_CHOICES.append((r, r))
 
+BASE_URL = 'http://manutd.org.np'
 
 # Fixtured
 class Competition(models.Model):
@@ -600,7 +601,8 @@ class Fixture(models.Model):
                     goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og,
                                                                time=event.get('m'),
                                                                penalty=pen, match=self)
-                    # if created:
+                    if created:
+                        api.put_wall_post(get_msg_from_event(event, goal, self))
                 except:
                     mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event))
 
@@ -616,14 +618,15 @@ class Fixture(models.Model):
 def get_msg_from_event(event, model, fixture):
     st = ''
     if event.get('type') == 'goal':
-        st += 'GOAL: ' + str(model.scorer) + ' - ' + model.time
+        st += 'GOAL: ' + event.get('scorer') + ' - ' + event.get('m') + "'"
         if model.penalty:
             st += ' [P]'
         if model.own_goal:
             st += ' [OG]'
         if model.assist_by:
-            st += '<br>Assist: ' + str(model.assist_by)
-        st += '<br>' + str(fixture.get_absolute_url())
+            st += '\nAssist: ' + str(model.assist_by)
+        st += '\n' + BASE_URL + str(fixture.get_absolute_url())
+    return st
 
 
 class Goal(models.Model):
