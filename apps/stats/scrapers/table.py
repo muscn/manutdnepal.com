@@ -79,7 +79,7 @@ class TableScraper(Scraper):
         # Has OG by Utd
         # url = 'http://www.livescore.com/soccer/england/premier-league/sunderland-vs-manchester-united/1-1988968/'
         # Penalty scored at away
-        url = 'http://www.livescore.com/soccer/england/premier-league/newcastle-united-vs-manchester-united/1-1988916/'
+        # url = 'http://www.livescore.com/soccer/england/premier-league/newcastle-united-vs-manchester-united/1-1988916/'
         root = cls.get_root_tree(url)
         data = {'events': []}
         grays = root.cssselect('div.row-gray')
