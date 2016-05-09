@@ -74,8 +74,6 @@ class TableScraper(Scraper):
 
     @classmethod
     def get_m_data(cls, url):
-        # 3-2, double yellow = red card
-        # url = 'http://www.livescore.com/soccer/england/premier-league/sunderland-vs-chelsea/1-1989077/'
         # Has OG by opponent
         # url = 'http://www.livescore.com/soccer/england/premier-league/manchester-united-vs-crystal-palace/1-1989005/'
         # Has OG by Utd
@@ -104,7 +102,9 @@ class TableScraper(Scraper):
                 for ply in gray.cssselect('div.ply'):
                     if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(o.g.)':
                         og = True
-                        break
+                    # Assist
+                    if len(ply.cssselect('.assist.name')):
+                        event['assist_by'] = ply.cssselect('.assist.name')[0].text_content().replace('(assist)', '').strip()
                 if home_scorer:
                     if og:
                         event['team'] = 'away'
@@ -118,9 +118,9 @@ class TableScraper(Scraper):
                         event['team'] = 'away'
                     event['scorer'] = gray.cssselect('div.ply:not(.tright)')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
                         0].text_content().strip()
-
                 if og:
                     event['og'] = True
+
                 data['events'].append(event)
                 continue
         return data

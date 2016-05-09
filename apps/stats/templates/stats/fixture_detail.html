@@ -57,6 +57,9 @@
                             {% for goal in object.goals.all %}
                                 <div>
                                     <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}'
+                                    {% if goal.assist_by %}
+                                        [Assist: <a href="{{ goal.assist_by.get_absolute_url }}">{{ goal.assist_by }}</a>]
+                                    {% endif %}
                                     {% if goal.penalty %}
                                         (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
                                 </div>
@@ -84,6 +87,9 @@
                             {% for goal in object.goals.all %}
                                 <div>
                                     <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}'
+                                    {% if goal.assist_by %}
+                                        [Assist: <a href="{{ goal.assist_by.get_absolute_url }}">{{ goal.assist_by }}</a>]
+                                    {% endif %}
                                     {% if goal.penalty %}
                                         (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
                                 </div>

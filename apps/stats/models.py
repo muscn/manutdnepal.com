@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db import models
 from django.db.models import Count
 from jsonfield import JSONField
+
 from django.conf import settings
 import pytz
 
@@ -573,8 +574,10 @@ class Fixture(models.Model):
         for event in m_data.get('events'):
             if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
                 player = Player.get(event.get('scorer'))
+                assist_by = Player.get(event.get('assist_by'))
                 og = event.get('og', False)
-                goal, created = Goal.objects.get_or_create(scorer=player, own_goal=og, time=event.get('m'), match=self)
+                goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og, time=event.get('m'),
+                                                           match=self)
         self.save()
 
     class Meta:
