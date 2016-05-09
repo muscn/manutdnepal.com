@@ -72,5 +72,11 @@
                 <a target="_blank" href="{{ object.social_accounts.website }}"><i
                         class="fa fa-2x fa-globe"></i></a>
             {% endif %}
+        
+        <h2>Goals</h2>
+        {% for goal in object.goals.all %}
+            <div>{{ goal.match.competition_year }} : {{ goal.match.opponent }} : {{ goal.time }}</div>
+        {% endfor %}
+        
         </div>
 {% endblock %}
