@@ -49,12 +49,48 @@
 
             <div class="goals">
                 <h3>Goals</h3>
-                {% for goal in object.goals.all %}
-                    <div>
-                        <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}' {% if goal.penalty %}
-                        (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        {% if object.is_home_game %}
+                            <h4>Manchester United</h4>
+                            {% for goal in object.goals.all %}
+                                <div>
+                                    <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}'
+                                    {% if goal.penalty %}
+                                        (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h4>{{ object.opponent }}</h4>
+                            {% for event in object.data.events %}
+                                {% if event.type == 'goal' and event.team == 'home' %}
+                                    {{ event.scorer }} {{ event.m }}' [{{ event.text }}]
+                                    {% if event.og %} [OG] {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
-                {% endfor %}
+                    <div class="col-sm-12 col-md-6">
+                        {% if object.is_home_game %}
+                            <h4>{{ object.opponent }}</h4>
+                            {% for event in object.data.events %}
+                                {% if event.type == 'goal' and event.team == 'away' %}
+                                    {{ event.scorer }} {{ event.m }}' [{{ event.score }}]
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <h4>Manchester United</h4>
+                            {% for goal in object.goals.all %}
+                                <div>
+                                    <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}'
+                                    {% if goal.penalty %}
+                                        (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     {% endif %}

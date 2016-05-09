@@ -569,6 +569,7 @@ class Fixture(models.Model):
                 self.mufc_score = scores[1]
                 self.opponent_score = scores[0]
         self.data = m_data
+        Goal.objects.filter(match=self).delete()
         for event in m_data.get('events'):
             if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
                 player = Player.get(event.get('scorer'))
