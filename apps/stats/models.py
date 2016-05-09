@@ -7,6 +7,7 @@ import json
 from django.core.mail import mail_admins
 import wikipedia
 from django.core.files import File
+
 from django.core.files.temp import NamedTemporaryFile
 
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -219,6 +220,7 @@ class Player(Person):
     previous_club = models.CharField(max_length=255, blank=True, null=True)
     on_loan = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    alternative_names = models.CharField(max_length=255, blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
@@ -233,8 +235,11 @@ class Player(Person):
         pass
 
     @classmethod
-    def get(self, st):
-        return Player.objects.get(name=st)
+    def get(cls, name):
+        try:
+            return Player.objects.get(name=name)
+        except Player.DoesNotExist:
+            return Player.objects.get(alternative_names__icontains='|' + name + '|')
 
 
 class Official(Person):
@@ -582,16 +587,21 @@ class Fixture(models.Model):
         for event in m_data.get('events'):
             if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
                 assist_by = None
+                og = event.get('og', False)
+                pen = event.get('pen', False)
                 try:
                     player = Player.get(event.get('scorer'))
                     if event.get('assist_by'):
                         assist_by = Player.get(event.get('assist_by'))
+                    goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og,
+                                                               time=event.get('m'),
+                                                               penalty=pen, match=self)
                 except:
+                    import ipdb
+
+                    ipdb.set_trace()
                     mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event))
-                og = event.get('og', False)
-                pen = event.get('pen', False)
-                goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og, time=event.get('m'),
-                                                           penalty=pen, match=self)
+
         self.save()
 
     class Meta:
