@@ -38,7 +38,7 @@
         {% for player, data in players.items %}
             <tr>
                 <td>{{ player.squad_no }}</td>
-                <td>{{ player.name }}</td>
+                <td class="link-cell"><a href="{{ player.get_absolute_url }}">{{ player.name }}</a></td>
                 {% for key, competition_score in data.competitions.items %}
                     <td>{{ competition_score }}</td>
                 {% endfor %}

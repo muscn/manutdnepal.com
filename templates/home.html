@@ -117,8 +117,10 @@
 
                     {% for result in recent_results %}
                         <tr class="result">
-                            <td>
-                                <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
+                            <td class="link-cell">
+                                <a href="{{ result.get_absolute_url }}">
+                                    <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -197,7 +199,7 @@
                 <tbody>
                 {% for player, score in players.items %}
                     <tr>
-                        <td>{{ player.name }}</td>
+                        <td class="link-cell"><a href={{ player.get_absolute_url }}>{{ player.name }}</a></td>
                         <td>{{ score }}</td>
                     </tr>
                 {% endfor %}
