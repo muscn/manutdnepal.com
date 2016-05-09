@@ -4,11 +4,15 @@ from random import randint
 import urllib
 import json
 
+from django.core.mail import mail_admins
 import wikipedia
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+
 from django.core.urlresolvers import reverse_lazy, reverse
+
 from django.db import models
+
 from django.db.models import Count
 
 from jsonfield import JSONField
@@ -218,7 +222,7 @@ class Player(Person):
 
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
-    
+
     def all_goals(self):
         return self.goals.all().order_by('-match__datetime')
 
@@ -577,16 +581,13 @@ class Fixture(models.Model):
         # Goal.objects.filter(match=self).delete()
         for event in m_data.get('events'):
             if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
+                assist_by = None
                 try:
                     player = Player.get(event.get('scorer'))
                     if event.get('assist_by'):
                         assist_by = Player.get(event.get('assist_by'))
-                    else:
-                        assist_by = None
                 except:
-                    import ipdb
-
-                    ipdb.set_trace()
+                    mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event))
                 og = event.get('og', False)
                 pen = event.get('pen', False)
                 goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og, time=event.get('m'),
@@ -604,7 +605,7 @@ class Goal(models.Model):
     own_goal = models.BooleanField(default=False)
     time = models.CharField(blank=True, null=True, max_length=10)
     match = models.ForeignKey(Fixture, related_name='goals')
-    
+
     def __unicode__(self):
         ret_str = unicode(self.scorer) + ' against ' + unicode(self.match.opponent)
         if self.time:
