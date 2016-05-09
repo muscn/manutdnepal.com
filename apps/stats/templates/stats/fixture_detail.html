@@ -38,12 +38,17 @@
         <div class="well">
             <h2>{{ object.score }}</h2>
 
+            {% if object.data and object.data.ht_score %}
+                <div>Half Time Score: {{ object.data.ht_score }}</div>
+                <br/>
+            {% endif %}
+
             {% if object.remarks %}
                 <div>{{ object.remarks }}</div><br/>
             {% endif %}
 
             <div class="goals">
-                {#            <h4>Goals</h4>#}
+                <h3>Goals</h3>
                 {% for goal in object.goals.all %}
                     <div>
                         <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}' {% if goal.penalty %}

@@ -4,7 +4,6 @@ from django.core.cache import cache
 from django.conf import settings
 
 from apps.stats.models import Fixture
-
 from .base import Scraper
 
 
@@ -62,21 +61,23 @@ class TableScraper(Scraper):
                 cls.data['matches'][date] = []
             cls.data['matches'][date].append(data)
             if data['home_team'] in settings.ALIASES or data['away_team'] in settings.ALIASES:
-                try:
-                    url = cls.base_url + match.cssselect('div.sco')[0].cssselect('a')[0].get('href')
+                links = match.cssselect('div.sco')[0].cssselect('a')
+                if len(links):
+                    url = cls.base_url + links[0].get('href')
                     m_data = cls.get_m_data(url)
-                    fixture = Fixture.objects.get(datetime=dt)
-                    if not fixture.has_complete_data():
-                        fixture.process_data(data, m_data)
-                except Fixture.DoesNotExist:
-                    pass
+                    try:
+                        fixture = Fixture.objects.get(datetime=dt)
+                        if not fixture.has_complete_data():
+                            fixture.process_data(data, m_data)
+                    except Fixture.DoesNotExist:
+                        pass
 
     @classmethod
     def get_m_data(cls, url):
         # 3-2, double yellow = red card
         # url = 'http://www.livescore.com/soccer/england/premier-league/sunderland-vs-chelsea/1-1989077/'
         # Has OG by opponent
-        # url = 'http://www.livescore.com/soccer/england/premier-league/manchester-united-vs-crystal-palace/1-1989005/'
+        url = 'http://www.livescore.com/soccer/england/premier-league/manchester-united-vs-crystal-palace/1-1989005/'
         root = cls.get_root_tree(url)
         data = {'events': []}
         grays = root.cssselect('div.row-gray')
