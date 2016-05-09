@@ -1,4 +1,5 @@
 import datetime
+from django.core.mail import mail_admins
 
 from .base import Scraper
 from apps.stats.models import Player
@@ -60,6 +61,4 @@ class SquadScraper(Scraper):
             try:
                 player.save()
             except ValueError:
-                import ipdb
-
-                ipdb.set_trace()
+                mail_admins('[MUSCN] Saving player from squad failed', str(datum))
