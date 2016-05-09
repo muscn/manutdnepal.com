@@ -6,6 +6,7 @@ import json
 
 from django.core.mail import mail_admins
 import wikipedia
+
 from django.core.files import File
 
 from django.core.files.temp import NamedTemporaryFile
@@ -484,7 +485,8 @@ class Fixture(models.Model):
             return 'away'
 
     def has_complete_data(self):
-        return False
+        if self.data and self.data.get('minute') == 'FT':
+            return True
 
     @property
     def slug(self):
