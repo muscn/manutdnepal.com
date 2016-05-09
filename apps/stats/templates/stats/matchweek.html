@@ -33,16 +33,15 @@
             <tbody>
             {% for match in matches %}
                 <tr>
-
-                    <td>
+                    <td width="15%">
                         {{ match.minute }}
                         {% if match.live %}
                             <i class="result1"></i>
                         {% endif %}
                     </td>
-                    <td>{{ match.home_team }}</td>
-                    <td>{{ match.score }}</td>
-                    <td>{{ match.away_team }}</td>
+                    <td width="35%">{{ match.home_team }}</td>
+                    <td width="15%">{{ match.score }}</td>
+                    <td width="35%">{{ match.away_team }}</td>
 
                 </tr>
             {% endfor %}
