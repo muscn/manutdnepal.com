@@ -603,8 +603,8 @@ class Fixture(models.Model):
                                                                penalty=pen, match=self)
                     if created:
                         api.put_wall_post(get_msg_from_event(event, goal, self))
-                except:
-                    mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event))
+                except Exception as e:
+                    mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event) + ' - ' + str(e))
 
         self.save()
 
