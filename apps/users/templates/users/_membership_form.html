@@ -1,7 +1,8 @@
 {{ form.non_field_errors }}
 
 <div class="section">
-    <h3>Personal Details</h3>
+{#    <h3>Personal Details</h3>#}
+<br/>
 
     {% if hide != 'full_name' %}
         <div class="form-group required">
@@ -26,22 +27,22 @@
     </div>
 </div>
 <div class="section">
-    <h3>Address</h3>
 
     <div class="row form-group">
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-6 col-md-6 required">
+            <label>Address</label>
             {{ form.permanent_address }}
             {{ form.permanent_address.errors }}
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            {{ form.temporary_address }}
-            {{ form.temporary_address.errors }}
-        </div>
+{#        <div class="col-xs-12 col-sm-6 col-md-6">#}
+{#            {{ form.temporary_address }}#}
+{#            {{ form.temporary_address.errors }}#}
+{#        </div>#}
     </div>
 </div>
 
 <div class="section">
-    <h3>Contact</h3>
+{#    <h3>Contact</h3>#}
 
     <div class="row form-group">
         <div class="col-xs-12 col-sm-6 col-md-6 required">
@@ -49,11 +50,11 @@
             {{ form.mobile }}
             {{ form.mobile.errors }}
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <label>Telephone:</label>
-            {{ form.telephone }}
-            {{ form.telephone.errors }}
-        </div>
+{#        <div class="col-xs-12 col-sm-6 col-md-6">#}
+{#            <label>Telephone:</label>#}
+{#            {{ form.telephone }}#}
+{#            {{ form.telephone.errors }}#}
+{#        </div>#}
     </div>
 </div>
 <br/>
