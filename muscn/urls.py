@@ -7,10 +7,6 @@ from apps.users import views as user_views
 
 from django.contrib.sitemaps.views import sitemap
 
-from django.conf.urls import (
-    handler400, handler403, handler404, handler500
-)
-
 from .sitemap import SITEMAPS
 
 urlpatterns = patterns('',
