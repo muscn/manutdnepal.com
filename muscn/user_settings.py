@@ -1,6 +1,7 @@
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/membership/'
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -19,11 +20,11 @@ SOCIALACCOUNT_AUTO_SIGNUP = False
 
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
-         {
-             'SCOPE': ['email', 'user_birthday', 'user_website'],
-             # 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-             'METHOD': 'oauth2',
-             # 'LOCALE_FUNC': 'path.to.callable',
-             'VERIFIED_EMAIL': False
-         }
+        {
+            'SCOPE': ['email', 'user_birthday', 'user_website'],
+            # 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+            'METHOD': 'oauth2',
+            # 'LOCALE_FUNC': 'path.to.callable',
+            'VERIFIED_EMAIL': False
+        }
     }
