@@ -182,10 +182,10 @@ class User(AbstractBaseUser):
         phone = self.membership.mobile
 
         # The co-ordinates
-        devil_number_ending_xy = (744, 68)
-        name_ending_xy = (1010, 438)
-        phone_ending_xy = (1010, 520)
-        qr_xy = (65, 393)
+        devil_number_ending_xy = (882, 32)
+        name_start_xy = (32, 423)
+        phone_start_xy = (32, 491)
+        qr_xy = (792, 340)
 
         # The font-sizes
         devil_number_size = 58
@@ -233,37 +233,39 @@ class User(AbstractBaseUser):
         draw = ImageDraw.Draw(img)
 
         # write devil number
-        devil_number_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-ThinItalic.otf'),
+        devil_number_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-LightItalic.otf'),
                                                devil_number_size)
         devil_number_text_size = draw.textsize('#' + devil_number, font=devil_number_font)
-        devil_number_xy = (devil_number_ending_xy[0] - devil_number_text_size[0], devil_number_ending_xy[1])
-        draw.text(devil_number_xy, '#' + devil_number, (255, 255, 255), font=devil_number_font)
+        devil_number_xy = (devil_number_ending_xy[0], devil_number_ending_xy[1])
+        draw.text(devil_number_xy, '#' + devil_number, fill=0, font=devil_number_font)
 
         # write name
-        name_sans_last_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-ThinItalic.otf'),
+        name_sans_last_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Italic.otf'),
                                                  name_size)
         name_sans_last_size = draw.textsize(name_sans_last, font=name_sans_last_font)
-        last_name_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Italic.otf'),
+        last_name_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-BoldItalic.otf'),
                                             name_size)
         last_name_size = draw.textsize(last_name, last_name_font)
         name_length = name_sans_last_size[0] + last_name_size[0]
-        name_xy = (name_ending_xy[0] - name_length, name_ending_xy[1])
+        name_xy = (name_start_xy[0] , name_start_xy[1])
         last_name_xy = (name_xy[0] + name_sans_last_size[0], name_xy[1])
-        draw.text(name_xy, name_sans_last, (255, 255, 255), font=name_sans_last_font)
-        draw.text(last_name_xy, last_name, (255, 255, 255), font=last_name_font)
+        draw.text(name_xy, name_sans_last, fill=0, font=name_sans_last_font)
+        draw.text(last_name_xy, last_name, fill=0, font=last_name_font)
 
         # write phone number
+        if phone_code:
+            phone_code_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-LightItalic.otf'),
+                                                 phone_size)
+            phone_code_size = draw.textsize(phone_code, phone_code_font)
+            phone_code_xy = (phone_start_xy[0], phone_start_xy[1])
+            draw.text(phone_code_xy, phone_code, fill=0, font=phone_code_font)
+        
         phone_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Italic.otf'),
                                         phone_size)
         phone_font_size = draw.textsize(phone, phone_font)
-        phone_xy = (phone_ending_xy[0] - phone_font_size[0], phone_ending_xy[1])
-        draw.text(phone_xy, phone, (255, 255, 255), font=phone_font)
-        if phone_code:
-            phone_code_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-ThinItalic.otf'),
-                                                 phone_size)
-            phone_code_size = draw.textsize(phone_code, phone_code_font)
-            phone_code_xy = (phone_xy[0] - phone_code_size[0], phone_ending_xy[1])
-            draw.text(phone_code_xy, phone_code, (255, 255, 255), font=phone_code_font)
+        phone_xy = (phone_start_xy[0] + phone_code_size[0], phone_start_xy[1])
+        draw.text(phone_xy, phone, fill=0, font=phone_font)
+        
 
         if draw_qr:
             # download qr
