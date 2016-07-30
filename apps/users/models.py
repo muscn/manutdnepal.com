@@ -185,7 +185,7 @@ class User(AbstractBaseUser):
         devil_number_ending_xy = (882, 32)
         name_start_xy = (32, 423)
         phone_start_xy = (32, 491)
-        qr_xy = (792, 340)
+        qr_xy = (764, 298)
 
         # The font-sizes
         devil_number_size = 58
@@ -237,7 +237,7 @@ class User(AbstractBaseUser):
                                                devil_number_size)
         devil_number_text_size = draw.textsize('#' + devil_number, font=devil_number_font)
         devil_number_xy = (devil_number_ending_xy[0], devil_number_ending_xy[1])
-        draw.text(devil_number_xy, '#' + devil_number, fill=0, font=devil_number_font)
+        draw.text(devil_number_xy, '#' + devil_number, fill="white", font=devil_number_font)
 
         # write name
         name_sans_last_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Italic.otf'),
@@ -247,10 +247,11 @@ class User(AbstractBaseUser):
                                             name_size)
         last_name_size = draw.textsize(last_name, last_name_font)
         name_length = name_sans_last_size[0] + last_name_size[0]
-        name_xy = (name_start_xy[0] , name_start_xy[1])
+        name_xy = (name_start_xy[0], name_start_xy[1])
         last_name_xy = (name_xy[0] + name_sans_last_size[0], name_xy[1])
-        draw.text(name_xy, name_sans_last, fill=0, font=name_sans_last_font)
-        draw.text(last_name_xy, last_name, fill=0, font=last_name_font)
+
+        draw.text(name_xy, name_sans_last, fill="white", font=name_sans_last_font)
+        draw.text(last_name_xy, last_name, fill="white", font=last_name_font)
 
         # write phone number
         if phone_code:
@@ -258,21 +259,20 @@ class User(AbstractBaseUser):
                                                  phone_size)
             phone_code_size = draw.textsize(phone_code, phone_code_font)
             phone_code_xy = (phone_start_xy[0], phone_start_xy[1])
-            draw.text(phone_code_xy, phone_code, fill=0, font=phone_code_font)
-        
+            draw.text(phone_code_xy, phone_code, fill="white", font=phone_code_font)
+
         phone_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Italic.otf'),
                                         phone_size)
         phone_font_size = draw.textsize(phone, phone_font)
         phone_xy = (phone_start_xy[0] + phone_code_size[0], phone_start_xy[1])
-        draw.text(phone_xy, phone, fill=0, font=phone_font)
-        
+        draw.text(phone_xy, phone, fill="white", font=phone_font)
 
         if draw_qr:
             # download qr
             if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'qrs')):
                 os.makedirs(os.path.join(settings.MEDIA_ROOT, 'qrs'))
             urlretrieve(
-                'http://api.qrserver.com/v1/create-qr-code/?data=http://manutd.org.np/' + devil_number + '&size=208x208&ecc=' + qr_error_correction + '&color=ffffff&bgcolor=000',
+                'http://api.qrserver.com/v1/create-qr-code/?data=http://manutd.org.np/' + devil_number + '&size=250x250&ecc=' + qr_error_correction + '&color=ffffff&bgcolor=000',
                 os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png'))
             qr = Image.open(os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png'))
             # make qr transparent
@@ -556,6 +556,7 @@ def get_new_cards():
     zip_file.close()
     name = str(min) + '-' + str(max) + '.zip'
     return name, in_memory_file
+
 
 # def get_birthday_users():
 #     from njango import nepdate
