@@ -70,7 +70,11 @@ class FixturesScraper(Scraper):
                 opponent_team = Team.objects.create(name=opponent_team_name)
             fixture.opponent = opponent_team
             fixture.datetime = event.begin.datetime
-            fixture.venue = event.location.split('-')[1].strip()
+            try:
+                fixture.venue = event.location.split('-')[1].strip()
+            except IndexError:
+                fixture.venue = event.location
+
             fixture.save()
 
     @classmethod
