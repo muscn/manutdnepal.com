@@ -9,11 +9,10 @@ from .base import Scraper
 
 class TableScraper(Scraper):
     base_url = 'http://www.livescore.com'
-    url = 'http://www.livescore.com/soccer/england/premier-league/'
+    url = 'http://www.livescores.com/soccer/england/premier-league/'
 
     @classmethod
     def scrape(cls):
-
         root = cls.get_root_tree()
         rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
         cls.data['teams'] = []
