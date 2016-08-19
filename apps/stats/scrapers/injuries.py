@@ -11,7 +11,7 @@ class InjuriesScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        united_row = root.xpath('//*[@id="c14"]')[0]
+        united_row = root.xpath('//*[@id="c19"]')[0]
         urtc = united_row.text_content().strip()
         no_of_injuries = int(re.match(r'Manchester United \((.*)\)', urtc, re.M | re.I).group(1))
         injury_rows = united_row.xpath('./following-sibling::tr')[:no_of_injuries]
@@ -35,16 +35,15 @@ class InjuriesScraper(Scraper):
             if return_date_raw == 'no return date':
                 pass
             elif len(return_date_raw.split()) == 3:
-                day = return_date_raw.split()[0]
-                day = re.match(r'^(\d+).*', day, re.M | re.I).group(1).zfill(2)
-                month = return_date_raw.split()[1]
+                day = return_date_raw.split()[1].strip(',').zfill(2)
+                month = return_date_raw.split()[0]
                 year = return_date_raw.split()[2]
-                cls.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%b-%y')
+                cls.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%B-%Y')
             elif len(return_date_raw.split()) == 2:
                 day = '15'
                 month = return_date_raw.split()[0]
                 year = return_date_raw.split()[1]
-                cls.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%b-%y')
+                cls.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%B-%Y')
 
     @classmethod
     def save(cls):
