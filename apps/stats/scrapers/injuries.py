@@ -11,7 +11,7 @@ class InjuriesScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        united_row = root.xpath('//*[@id="c19"]')[0]
+        united_row = root.xpath('//a[contains(text(), "Manchester United")]')[1].getparent().getparent().getparent()
         urtc = united_row.text_content().strip()
         no_of_injuries = int(re.match(r'Manchester United \((.*)\)', urtc, re.M | re.I).group(1))
         injury_rows = united_row.xpath('./following-sibling::tr')[:no_of_injuries]
