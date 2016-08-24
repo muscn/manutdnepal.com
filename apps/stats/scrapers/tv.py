@@ -50,7 +50,6 @@ class TVScraper(Scraper):
             timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
             cls.data[timestamp] = []
             channels_text = match_row.cssselect('td')[-1].text_content()
-            print(channels_text)
             channel = channels_text.split(',')[0]
             cls.data[timestamp].append(channel)
 
