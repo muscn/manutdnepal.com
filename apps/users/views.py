@@ -162,14 +162,12 @@ def membership_thankyou(request):
 class PublicMembershipListView(ListView):
     model = User
     template_name = 'users/members_list.html'
-    
-    def get_queryset(self):
-        return User.objects.all().select_related('membership__card_status')
 
-    def get(self, request, *args, **kwargs):
+    def get_queryset(self):
+        qs = User.objects.all().select_related('membership__card_status')
         if 'q' in self.request.GET:
             q = self.request.GET['q']
-            self.queryset = User.objects.filter(
+            qs = qs.filter(
                 Q(username__icontains=q) |
                 Q(full_name__icontains=q) |
                 Q(email__icontains=q) |
@@ -177,7 +175,7 @@ class PublicMembershipListView(ListView):
                 Q(membership__telephone__contains=q) |
                 Q(membership__mobile__contains=q)
             )
-        return super(PublicMembershipListView, self).get(request, *args, **kwargs)
+        return qs
 
 
 class MembershipListView(StaffOnlyMixin, ListView):
