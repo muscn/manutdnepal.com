@@ -7,6 +7,7 @@ from apps.page.models import Page
 from apps.partner.models import Partner
 from apps.post.models import Post
 from apps.stats.models import SeasonData, Player
+from apps.users.models import User
 
 
 class EventSitemap(Sitemap):
@@ -63,6 +64,14 @@ class PlayerSitemap(Sitemap):
         return Player.objects.all()
 
 
+class MembersSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+
+    def items(self):
+        return User.objects.all()
+
+
 class DefaultNamedURLSitemap(Sitemap):
     """ Given a set of named URLs, returns sitemap items for each. """
     changefreq = 'weekly'
@@ -87,6 +96,7 @@ SITEMAPS = {
     'posts': PostSitemap,
     'seasons': SeasonSitemap,
     'players': PlayerSitemap,
+    'members': MembersSitemap,
     'default_named_pages': DefaultNamedURLSitemap([
         'fixtures',
         'results',

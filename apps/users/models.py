@@ -176,6 +176,9 @@ class User(AbstractBaseUser):
         except Group.DoesNotExist:
             return False
 
+    def get_absolute_url(self):
+        return reverse_lazy('view_member_profile', kwargs={'slug': self.username})
+
     def generate_card(self, devil_number, draw_qr, base_image):
         pk = self.pk
         name = self.full_name
