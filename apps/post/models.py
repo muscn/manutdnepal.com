@@ -20,9 +20,9 @@ class Post(models.Model):
         choices=statuses,
         default='Published')
     created_at = models.DateTimeField(blank=True)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='post_images')
     featured = models.BooleanField(default=True)
-    
+
     @property
     def date(self):
         return self.created_at
