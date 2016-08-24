@@ -67,7 +67,7 @@ class Scraper(object):
     def get_root_tree(cls, url=None):
         root_url = url or cls.url
         cls.log('Retrieving root URL: ' + root_url + ' ...')
-        cookies = {'tz': '5.75', 'u_country': 'Nepal', 'u_country_code': 'NP', 'u_timezone': 'Asia%2FKatmandu'}
+        cookies = {'tz': '5.75', 'u_country': 'Nepal', 'u_country_code': 'NP', 'u_timezone': 'Asia%2FKatmandu', 'u_continent':'Asia'}
         page = requests.get(root_url, cookies=cookies)
         tree = html.fromstring(page.text)
         return tree
