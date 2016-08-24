@@ -20,27 +20,46 @@ class TVScraper(Scraper):
                 # 'mutv-online': 'MUTV Online',
                 }
 
+    url = 'http://www.livesoccertv.com/teams/england/manchester-united/'
+
+    # @classmethod
+    # def scrape(cls):
+    #     json_data = cls.get_json_from_url(
+    #         'http://www.livesoccertv.com/m/api/teams/england/manchester-united/?iso_code=np')
+    #     if 'fixtures' in json_data:
+    # 
+    #         for fixture in json_data['fixtures']:
+    #             timestamp = float(fixture.get('timestamp'))
+    #             cls.data[timestamp] = []
+    #             channels = fixture.get('channels')
+    #             for channel in channels:
+    #                 if channel.get('slug') in cls.channels:
+    #                     cls.data[timestamp].append(cls.channels.get(channel.get('slug')))
+    #                     # continue
+    #             if not cls.data[timestamp]:
+    #                 del cls.data[timestamp]
     @classmethod
     def scrape(cls):
-        json_data = cls.get_json_from_url(
-            'http://www.livesoccertv.com/m/api/teams/england/manchester-united/?iso_code=np')
-        if 'fixtures' in json_data:
+        root = cls.get_root_tree()
+        match_rows = root.cssselect('.matchrow')
+        for match_row in match_rows:
+            # skip past matches
 
-            for fixture in json_data['fixtures']:
-                timestamp = float(fixture.get('timestamp'))
-                cls.data[timestamp] = []
-                channels = fixture.get('channels')
-                for channel in channels:
-                    if channel.get('slug') in cls.channels:
-                        cls.data[timestamp].append(cls.channels.get(channel.get('slug')))
-                        # continue
-                if not cls.data[timestamp]:
-                    del cls.data[timestamp]
+            if match_row.cssselect('.narrow.ft'):
+                continue
+            timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
+            cls.data[timestamp] = []
+            channels_text = match_row.cssselect('td')[-1].text_content()
+            channel = channels_text.split(',')[0]
+            cls.data[timestamp].append(channel)
 
     @classmethod
     def save(cls):
         for timestamp, channels in cls.data.iteritems():
             dt = datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
-            fixture = Fixture.objects.get(datetime=dt)
-            fixture.broadcast_on = ', '.join(channels)
-            fixture.save()
+            try:
+                fixture = Fixture.objects.get(datetime=dt)
+                fixture.broadcast_on = ', '.join(channels)
+                fixture.save()
+            except Fixture.DoesNotExist:
+                pass
