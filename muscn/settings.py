@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'auditlog',
     'smuggler',
     'sorl.thumbnail',
+    'opbeat.contrib.django',
 
     'apps.core',
     'apps.users',
@@ -46,6 +47,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
+    
 )
 
 TEMPLATES = [
