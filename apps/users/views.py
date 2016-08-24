@@ -162,6 +162,9 @@ def membership_thankyou(request):
 class PublicMembershipListView(ListView):
     model = User
     template_name = 'users/members_list.html'
+    
+    def get_queryset(self):
+        return User.objects.all().select_related('membership__card_status')
 
     def get(self, request, *args, **kwargs):
         if 'q' in self.request.GET:
