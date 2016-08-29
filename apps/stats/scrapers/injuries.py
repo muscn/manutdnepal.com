@@ -32,7 +32,7 @@ class InjuriesScraper(Scraper):
             if row.getchildren()[2].text:
                 cls.data[player]['remarks'] = row.getchildren()[2].text
             return_date_raw = row.getchildren()[3].text
-            if return_date_raw == 'no return date':
+            if return_date_raw.lower() == 'no return date':
                 pass
             elif len(return_date_raw.split()) == 3:
                 day = return_date_raw.split()[1].strip(',').zfill(2)
