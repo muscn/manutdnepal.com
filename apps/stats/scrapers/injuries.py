@@ -28,6 +28,8 @@ class InjuriesScraper(Scraper):
                 except MultipleObjectsReturned:
                     player_name_first = player_name_short.split()[0]
                     player = Player.objects.get(name__icontains=player_name_last, name__startswith=player_name_first)
+                except Player.DoesNotExist:
+                    raise ValueError('Player "%s" does\'nt exist.' % (player_name_last))
             cls.data[player] = {'type': row.getchildren()[1].text_content()}
             if row.getchildren()[2].text:
                 cls.data[player]['remarks'] = row.getchildren()[2].text
