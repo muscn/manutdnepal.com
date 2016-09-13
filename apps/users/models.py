@@ -258,17 +258,19 @@ class User(AbstractBaseUser):
         draw.text(last_name_xy, last_name, fill="white", font=last_name_font)
 
         # write phone number
+        phone_code_offset = 0
         if phone_code:
             phone_code_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-LightItalic.otf'),
                                                  phone_size)
             phone_code_size = draw.textsize(phone_code, phone_code_font)
+            phone_code_offset = phone_code_size[0]
             phone_code_xy = (phone_start_xy[0], phone_start_xy[1])
             draw.text(phone_code_xy, phone_code, fill="white", font=phone_code_font)
 
         phone_font = ImageFont.truetype(os.path.join(settings.STATIC_ROOT, 'fonts', 'Aileron-Italic.otf'),
                                         phone_size)
         phone_font_size = draw.textsize(phone, phone_font)
-        phone_xy = (phone_start_xy[0] + phone_code_size[0], phone_start_xy[1])
+        phone_xy = (phone_start_xy[0] + phone_code_offset, phone_start_xy[1])
         draw.text(phone_xy, phone, fill="white", font=phone_font)
 
         if draw_qr:
