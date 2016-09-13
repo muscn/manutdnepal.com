@@ -24,6 +24,16 @@ class Payment(models.Model):
                 renewal.membership.expiry_date = get_current_season_start() + datetime.timedelta(days=365)
                 # Set card status to awaiting print
                 renewal.membership.set_card_status(1)
+                # If the membership model doesn't have payment, it isn't reckoned to be approved
+                # Set the renewal payment as membership payment
+                if not renewal.membership.payment_id:
+                    renewal.membership.payment = self
+                # Same with approved_by
+                if not renewal.membership.approved_by_id:
+                    renewal.membership.approved_by = self.verified_by
+                # Also replace the membership payment if it wasn't a verified payment
+                if renewal.membership.payment_id and not renewal.membership.payment.verified:
+                    renewal.membership.payment = self
                 renewal.membership.save()
         super(Payment, self).save(*args, **kwargs)
 
