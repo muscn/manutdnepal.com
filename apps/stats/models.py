@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import unicodedata
 import datetime
 from random import randint
 import urllib
@@ -141,14 +142,19 @@ class Team(models.Model):
         if not self.crest:
             wiki = self.get_wiki()
             url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
-            image_data = json.loads(urllib.urlopen(url).read())
-            data = image_data['query']['pages'].itervalues().next()
-            image_name = data['pageimage'] + '.png'
-            image_url = data['thumbnail']['source']
-            img_temp = NamedTemporaryFile(delete=True)
-            img_temp.write(urllib.urlopen(image_url).read())
-            img_temp.flush()
-            self.crest.save(image_name, File(img_temp))
+            url = urllib.quote(url.encode('utf8'), ':/')
+            try:
+                image_data = json.loads(urllib.urlopen(url).read())
+                data = image_data['query']['pages'].itervalues().next()
+            except ValueError:
+                data = {}
+            if (data.get('pageimage')):
+                image_name = data['pageimage'] + '.png'
+                image_url = data['thumbnail']['source']
+                img_temp = NamedTemporaryFile(delete=True)
+                img_temp.write(urllib.urlopen(image_url).read())
+                img_temp.flush()
+                self.crest.save(image_name, File(img_temp))
         return self.crest
 
     def get_crest_url(self):
@@ -493,9 +499,11 @@ class Fixture(models.Model):
     @property
     def slug(self):
         if self.is_home_game:
-            return 'man-united-vs-' + self.opponent.not_so_long_name.lower().replace(' ', '-')
+            st = 'man-united-vs-' + self.opponent.not_so_long_name.lower().replace(' ', '-')
         else:
-            return self.opponent.not_so_long_name.lower().replace(' ', '-') + '-vs-man-united'
+            st = self.opponent.not_so_long_name.lower().replace(' ', '-') + '-vs-man-united'
+        st = unicodedata.normalize('NFKD', st).encode('ascii', 'ignore')
+        return st
 
     def get_absolute_url(self):
         return reverse_lazy('fixture_detail', kwargs={
