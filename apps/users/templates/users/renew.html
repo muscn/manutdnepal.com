@@ -10,6 +10,10 @@
 
     <h1>Renew Membership</h1>
 
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+
     <div class="panel panel-default">
         <div class="panel-body">
             <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">

@@ -469,6 +469,9 @@ def renew(request):
         return redirect(reverse_lazy('membership_payment'))
     if user.is_member():
         return redirect(reverse_lazy('home'))
+    pending_renewal = Renewal.objects.filter(membership__user=request.user, payment__verified_by__isnull=True)
+    if pending_renewal.exists():
+        messages.warning(request, 'One of your renewal requests is already pending.')
     membership = user.membership
     bank_deposit_form = BankDepositForm()
     direct_payment_form = DirectPaymentPaymentForm()
