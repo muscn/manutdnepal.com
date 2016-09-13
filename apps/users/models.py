@@ -419,6 +419,14 @@ class Membership(models.Model):
         ordering = ['-id']
 
 
+class Renewal(models.Model):
+    membership = models.ForeignKey(Membership)
+    payment = models.ForeignKey(Payment, related_name='renewals')
+
+    def __unicode__(self):
+        return unicode(self.membership.user)
+
+
 class CardStatus(models.Model):
     membership = models.OneToOneField(Membership, related_name='card_status')
     STATUSES = (
@@ -518,6 +526,7 @@ def get_extra_data(request, user, sociallogin=None, **kwargs):
 
 
 auditlog.register(Membership)
+auditlog.register(Renewal)
 auditlog.register(CardStatus)
 
 

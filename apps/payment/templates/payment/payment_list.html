@@ -54,6 +54,16 @@
                             {% endif %}
 
                         {% endfor %}
+                        {% for event in item.renewals.all %}
+                            {% if event.get_absolute_url %}
+                                <a href="{{ event.get_absolute_url }}">
+                                    {{ event|get_class_name }}
+                                </a>{% if not forloop.last %}, {% endif %}
+                            {% else %}
+                                {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+
+                        {% endfor %}
                     </td>
                     <td>
                         {% if item.method %}
