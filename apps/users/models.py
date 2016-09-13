@@ -383,11 +383,14 @@ class Membership(models.Model):
     registration_date = models.DateField(null=True, default=datetime.datetime.now)
     approved_date = models.DateField(null=True, blank=True)
     approved_by = models.ForeignKey(User, related_name='memberships_approved', null=True, blank=True)
+    expiry_date = models.DateField()
 
     status = models.CharField(max_length=1, choices=MEMBERSHIP_STATUSES, null=True)
     payment = models.ForeignKey(Payment, blank=True, null=True, related_name='payment_for', on_delete=models.SET_NULL)
 
     def save(self, *args, **kwargs):
+        if not self.id and not self.expiry_date:
+            self.expiry_date = get_current_season_start() + datetime.timedelta(days=365)
         if not self.registration_date:
             self.registration_date = datetime.datetime.now()
         if not self.status:
@@ -395,8 +398,7 @@ class Membership(models.Model):
         return super(Membership, self).save(*args, **kwargs)
 
     def has_expired(self):
-        season_start = get_current_season_start()
-        if self.approved_date < season_start:
+        if self.expiry_date < datetime.date.today():
             return True
         return False
 
