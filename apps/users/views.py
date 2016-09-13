@@ -20,6 +20,7 @@ from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
+from muscn.utils.football import get_current_season_start
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm, DirectPaymentReceiptForm
 from apps.users import membership_settings
@@ -246,6 +247,7 @@ class MembershipUpdateView(StaffOnlyMixin, UpdateView):
                         obj.user.devil_no = max_devil_no + 1
                         obj.user.save()
                     obj.approved_date = datetime.datetime.now()
+                    obj.expiry_date = get_current_season_start() + datetime.timedelta(days=365)
                     messages.info(request, 'The membership is approved!')
                     obj.save()
                     if not hasattr(obj, 'card_status'):
