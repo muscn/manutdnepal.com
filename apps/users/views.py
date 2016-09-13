@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.conf import settings
 
-from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards
+from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
@@ -193,6 +193,22 @@ class MembershipListView(StaffOnlyMixin, ListView):
                 Q(mobile__contains=q)
             )
         return super(MembershipListView, self).get(request, *args, **kwargs)
+    
+class RenewalListView(StaffOnlyMixin, ListView):
+    model = Renewal
+
+    def get(self, request, *args, **kwargs):
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            self.queryset = Renewal.objects.filter(
+                Q(membership__user__username__icontains=q) |
+                Q(membership__user__full_name__icontains=q) |
+                Q(membership__user__email__icontains=q) |
+                Q(membership__user__devil_no__contains=q) |
+                Q(membership__telephone__contains=q) |
+                Q(membership__mobile__contains=q)
+            )
+        return super(RenewalListView, self).get(request, *args, **kwargs)
 
 
 class MembershipCreateView(StaffOnlyMixin, CreateView):
@@ -452,9 +468,10 @@ def renew(request):
     if user.is_member() and not user.membership.has_expired():
         redirect(reverse_lazy('home'))
     membership = user.membership
+    bank_deposit_form = BankDepositForm()
+    direct_payment_form = DirectPaymentPaymentForm()
     if request.POST:
         from apps.users import membership_settings
-
         payment = Payment(user=request.user, amount=membership_settings.membership_fee, remarks='Renewal')
         if request.POST.get('method') == 'direct':
             direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
@@ -469,11 +486,10 @@ def renew(request):
             payment.save()
             bank_deposit.payment = payment
             bank_deposit.save()
-        membership.payment = payment
-        membership.save()
-        return redirect(reverse('membership_thankyou'))
-    bank_deposit_form = BankDepositForm()
-    direct_payment_form = DirectPaymentPaymentForm()
+        if payment.id:
+            renewal = Renewal(membership=membership, payment=payment)
+            renewal.save()
+            return redirect(reverse('membership_thankyou'))
     bank_accounts = BankAccount.objects.all()
     return render(request, 'users/renew.html', {
         'membership': membership,

@@ -1,0 +1,80 @@
+{% extends 'dashboard_base.html' %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+{% load filters %}
+
+{% block title %} Renewals {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <a href="{% url 'list_renewals' %}"><i class="fa fa-user"></i>Renewals</a>
+    <form>
+        <input type="text" name="q" placeholder="Search...">
+    </form>
+{% endblock %}
+
+{% block content %}
+
+    {% autosort object_list as sorted_objects %}
+    {% autopaginate sorted_objects 20 as paginated_objects %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <th>{% anchor date 'Renewal Date' %}</th>
+            <th>{% anchor membership__registration_date 'Membership Registration Date' %}</th>
+            <th>{% anchor membership__user__devil_no 'Devil No.' %}</th>
+            <th>{% anchor membership__user 'User' %}</th>
+            <th>{% anchor payment 'Payment' %}</th>
+            </thead>
+            <tbody>
+            {% for item in paginated_objects %}
+                <tr class="{% if item.payment.verified %}success{% else %}warning{% endif %}">
+                    <td>
+                        {{ item.date }}
+                    </td>
+                    <td>
+                        <a href="{% url 'update_membership' item.membership.id %}">
+                            {{ item.membership.registration_date }}
+                        </a>
+                    <td>
+                        {% if item.membership.user.devil_no %}
+                            <form action="{% url 'update_membership' item.membership.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="Download Card">
+                                <input type="submit" value="{{ item.membership.user.devil_no }}">
+                            </form>
+
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'update_user' item.membership.user.id %}">
+                            {{ item.membership.user.full_name }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if item.payment %}
+                            <a href="{{ item.payment.method.get_absolute_url }}">
+                                {{ item.payment }}
+
+                            </a>
+                        {% else %}
+
+                            <a href="{% url 'create_direct_payment_for_membership' item.id %}">
+                                Create Payment
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% paginate %}
+
+    {#    <div class="pull-right">#}
+    {#        <a class="btn btn-success" href="{% url 'create_membership' %}">Add New Membership</a>#}
+    {#    </div>#}
+
+{% endblock %}

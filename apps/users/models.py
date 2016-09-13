@@ -420,8 +420,9 @@ class Membership(models.Model):
 
 
 class Renewal(models.Model):
-    membership = models.ForeignKey(Membership)
+    membership = models.ForeignKey(Membership, related_name='renewals')
     payment = models.ForeignKey(Payment, related_name='renewals')
+    date = models.DateField(default=datetime.date.today)
 
     def __unicode__(self):
         return unicode(self.membership.user)
