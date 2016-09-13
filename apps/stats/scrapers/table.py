@@ -8,7 +8,7 @@ from .base import Scraper
 
 
 class TableScraper(Scraper):
-    base_url = 'http://www.livescore.com'
+    base_url = 'http://www.livescores.com'
     url = 'http://www.livescores.com/soccer/england/premier-league/'
 
     @classmethod

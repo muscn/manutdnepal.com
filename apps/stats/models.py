@@ -588,7 +588,7 @@ class Fixture(models.Model):
                 self.opponent_score = scores[0]
         self.data = m_data
         # Goal.objects.filter(match=self).delete()
-        api = facebook_api()
+        # api = facebook_api()
         for event in m_data.get('events'):
             if event.get('type') == 'goal' and event.get('team') == self.home_or_away():
                 assist_by = None
@@ -601,8 +601,8 @@ class Fixture(models.Model):
                     goal, created = Goal.objects.get_or_create(scorer=player, assist_by=assist_by, own_goal=og,
                                                                time=event.get('m'),
                                                                penalty=pen, match=self)
-                    if created:
-                        api.put_wall_post(get_msg_from_event(event, goal, self))
+                    # if created:
+                    #     api.put_wall_post(get_msg_from_event(event, goal, self))
                 except Exception as e:
                     mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event) + ' - ' + str(e))
 
