@@ -122,7 +122,7 @@ class User(AbstractBaseUser):
     def is_member(self):
         # TODO check membership status as Approved but not Pending or Expired
         return True if hasattr(self, 'membership') and hasattr(self.membership,
-                                                               'payment') and self.membership.approved_date and self.membership.approved_by else False
+                                                               'payment') and self.membership.approved_date and self.membership.approved_by and not self.membership.has_expired() else False
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['full_name', 'email']
@@ -410,6 +410,12 @@ class Membership(models.Model):
 
     def get_card_status(self):
         return self.card_status.get_status()
+
+    def set_card_status(self, num):
+        card_status, created = CardStatus.objects.get_or_create(membership=self)
+        if not card_status.status == num:
+            card_status.status = num
+            card_status.save()
 
     def get_absolute_url(self):
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})

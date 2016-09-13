@@ -6,7 +6,7 @@ from django.conf import settings
 from auditlog.registry import auditlog
 
 from apps.payment.esewa import EsewaTransaction
-
+from muscn.utils.football import get_current_season_start
 
 User = settings.AUTH_USER_MODEL
 
@@ -17,6 +17,15 @@ class Payment(models.Model):
     amount = models.FloatField()
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.verified:
+            for renewal in self.renewals.all():
+                renewal.membership.expiry_date = get_current_season_start() + datetime.timedelta(days=365)
+                # Set card status to awaiting print
+                renewal.membership.set_card_status(1)
+                renewal.membership.save()
+        super(Payment, self).save(*args, **kwargs)
 
     def delete(self, delete_method=True, *args, **kwargs):
         if delete_method and self.method:
