@@ -25,6 +25,7 @@ import re
 
 import zipfile
 from StringIO import StringIO
+from muscn.utils.football import get_current_season_start
 
 
 class UserManager(BaseUserManager):
@@ -392,6 +393,12 @@ class Membership(models.Model):
         if not self.status:
             self.status = 'P'
         return super(Membership, self).save(*args, **kwargs)
+
+    def has_expired(self):
+        season_start = get_current_season_start()
+        if self.approved_date < season_start:
+            return True
+        return False
 
     def approved(self):
         return True if self.payment and self.payment.verified and self.approved_by else False

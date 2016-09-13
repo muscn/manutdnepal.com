@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
-    
+
 )
 
 TEMPLATES = [

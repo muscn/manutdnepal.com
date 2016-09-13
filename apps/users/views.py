@@ -119,7 +119,7 @@ def membership_payment(request):
         if request.POST.get('method') == 'direct':
             direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
             if direct_payment_form.is_valid():
-                # payment.save()
+                payment.save()
                 direct_payment = direct_payment_form.save(commit=False, user=request.user, payment=payment)
                 # direct_payment.payment = payment
                 direct_payment.save()
@@ -442,3 +442,43 @@ def email_new_cards(request):
     mail.send()
     messages.info(request, "E-mail sent to " + settings.ADMINS[0][1])
     return redirect(reverse_lazy('list_memberships'))
+
+
+@login_required
+def renew(request):
+    user = request.user
+    if not user.is_member():
+        redirect(reverse_lazy('membership_form'))
+    if user.is_member() and not user.membership.has_expired():
+        redirect(reverse_lazy('home'))
+    membership = user.membership
+    if request.POST:
+        from apps.users import membership_settings
+
+        payment = Payment(user=request.user, amount=membership_settings.membership_fee, remarks='Renewal')
+        if request.POST.get('method') == 'direct':
+            direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
+            if direct_payment_form.is_valid():
+                payment.save()
+                direct_payment = direct_payment_form.save(commit=False, user=request.user, payment=payment)
+                # direct_payment.payment = payment
+                direct_payment.save()
+        elif request.POST.get('method') == 'bank':
+            bank_deposit_form = BankDepositForm(request.POST, request.FILES)
+            bank_deposit = bank_deposit_form.save(commit=False)
+            payment.save()
+            bank_deposit.payment = payment
+            bank_deposit.save()
+        membership.payment = payment
+        membership.save()
+        return redirect(reverse('membership_thankyou'))
+    bank_deposit_form = BankDepositForm()
+    direct_payment_form = DirectPaymentPaymentForm()
+    bank_accounts = BankAccount.objects.all()
+    return render(request, 'users/renew.html', {
+        'membership': membership,
+        'bank_deposit_form': bank_deposit_form,
+        'direct_payment_form': direct_payment_form,
+        'bank_accounts': bank_accounts,
+        'base_template': 'base.html',
+    })
