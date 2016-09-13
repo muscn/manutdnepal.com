@@ -89,6 +89,10 @@
                                         <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
                                         {#                                        <li><a href="{% url 'list_members' %}">Edit Profile</a></li>#}
                                         <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+                                        {% if request.user.membership and request.user.membership.has_expired %}
+                                            <li><a href="{% url 'renew' %}">Renew</a></li>
+                                        {% endif %}
+                                        <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                                         <li><a href="{% url 'membership_form' %}">Registration Information</a></li>
                                         <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>
                                         <li class="divider"></li>

@@ -463,9 +463,11 @@ def email_new_cards(request):
 @login_required
 def renew(request):
     user = request.user
-    if not user.is_member():
+    if not hasattr(user, 'membership'):
         return redirect(reverse_lazy('membership_form'))
-    if user.is_member() and not user.membership.has_expired():
+    if hasattr(user, 'membership') and not user.membership.payment_id:
+        return redirect(reverse_lazy('membership_payment'))
+    if user.is_member():
         return redirect(reverse_lazy('home'))
     membership = user.membership
     bank_deposit_form = BankDepositForm()
