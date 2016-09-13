@@ -45,7 +45,7 @@ class MembershipForm(HTML5BootstrapModelForm):
 
     class Meta:
         model = Membership
-        exclude = ('status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment')
+        exclude = ('status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment', 'expiry_date')
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
             'temporary_address': forms.Textarea(

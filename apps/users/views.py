@@ -112,6 +112,8 @@ def membership_payment(request):
             return redirect(reverse('renew_membership'))
     except Membership.DoesNotExist:
         return redirect(reverse('membership_form'))
+    bank_deposit_form = BankDepositForm()
+    direct_payment_form = DirectPaymentPaymentForm()
     if request.POST:
         from apps.users import membership_settings
 
@@ -129,12 +131,10 @@ def membership_payment(request):
             payment.save()
             bank_deposit.payment = payment
             bank_deposit.save()
-        membership.payment = payment
-        membership.save()
-        return redirect(reverse('membership_thankyou'))
-    else:
-        bank_deposit_form = BankDepositForm()
-        direct_payment_form = DirectPaymentPaymentForm()
+        if payment.id:
+            membership.payment = payment
+            membership.save()
+            return redirect(reverse('membership_thankyou'))
     bank_accounts = BankAccount.objects.all()
     return render(request, 'membership_payment.html', {
         'membership': membership,
