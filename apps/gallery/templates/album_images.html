@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+{% load cms_tags staticfiles thumbnail %}
+
+{% block title %}
+    {{ album_name|lower }}
+{% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{#{% block extra_script %}#}
+{#    <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>#}
+{#    <script>#}
+{#        $(document).ready(function () {#}
+{#            $('a.gallery').colorbox({ opacity:0.5 , rel:'group1', maxWidth:'95%', maxHeight:'95%'});#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}

@@ -65,6 +65,7 @@ urlpatterns = patterns('',
                        url(r'^match/(?P<date>[\d{4}\-\d{2}\-\d{2}]+)/(?P<extra>[a-zA-Z0-9_.-]*)/?$',
                            stats_views.FixtureDetail.as_view(),
                            name='fixture_detail'),
+                       url(r'^gallery/', include('apps.gallery.urls')),
 
                        (r'^webhook/', include('apps.webhook.urls')),
 
