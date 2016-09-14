@@ -318,7 +318,7 @@ class User(AbstractBaseUser):
         if cached:
             return cached
 
-        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_with_qr.png')
+        base_image = os.path.join(settings.STATIC_ROOT, 'img', 'watermarked_with_qr.jpg')
         devil_number = u'392'
         draw_qr = False
 
