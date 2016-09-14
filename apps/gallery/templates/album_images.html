@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles thumbnail %}
+{% load staticfiles thumbnail i18n %}
 
 {% block title %}
     {{ album_name|lower }}
@@ -8,14 +8,41 @@
 {% block extrahead %}
     <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
     <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
-
+    <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>
+<script>
+        $(document).ready(function () {
+            $('a.gallery').colorbox({ opacity:0.5 , rel:'group1', maxWidth:'95%', maxHeight:'95%'});
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2><a href="{% url 'album-list' %}">{% trans 'Gallery' %} </a> | {{ album_name|upper }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12" id="gallery-images">
+            {% for obj in images %}
+                <div class="pull-left">
+                    <div class="thumbnail album-image">
+                        <a href="{{ obj.file.url }}" class="gallery" title="{{ obj.name }}">
+                            <img id="gallery-image" src="{% thumbnail obj.file 240x140 %}" alt="No image">
+                        </a>
+
+                        <div class="caption text-center">
+                            <h3 class="h3" id="gallery-name">{{ obj.title }}</h3>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}
-
-{#{% block extra_script %}#}
+{##}
+{#{% block extrahead %}#}
 {#    <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>#}
 {#    <script>#}
 {#        $(document).ready(function () {#}

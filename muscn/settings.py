@@ -29,7 +29,8 @@ INSTALLED_APPS = (
     'webstack_django_sorting',
     'auditlog',
     'smuggler',
-    'sorl.thumbnail',
+    # 'sorl.thumbnail',
+    'easy_thumbnails',
     'opbeat.contrib.django',
 
     'apps.core',

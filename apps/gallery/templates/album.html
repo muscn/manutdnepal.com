@@ -11,5 +11,25 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{% trans 'Gallery' %}</h2>
+        </div>
+    </div>
+
+    {% for album in albums %}
+        <div class="thumbnail album-thumbnail">
+            <a href="{% url 'album-images' album.slug %}">
+                <img src="{% thumbnail album.get_thumbnail.file 240x140 %}" alt="No Image">
+            </a>
+
+            <div class="caption text-center">
+                <h3 class="h3">{{ album.name }}</h3>
+                 <span class="calendar-icon pull-right"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+{#                <p>{{ album.description }}</p>#}
+            </div>
+        </div>
+
+    {% endfor %}
 
 {% endblock %}

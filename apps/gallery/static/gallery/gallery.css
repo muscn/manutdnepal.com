@@ -1,3 +1,7 @@
+.thumbnail {
+    height: 15em !important;
+}
+
 .album-image {
 	float:left;
 	height:25em; 
@@ -6,7 +10,8 @@
 }
 
 .album-image a img {
-	height: 12em;
+	height:12em !important;
+    width: 20em;
 }
 
 .modal {
@@ -43,10 +48,19 @@
 }
 
 .album-thumbnail img {
-	height:12em;
+	height:12em !important;
+    width: 20em;
 }
 
 .album-thumbnail .caption {
 	overflow: hidden; 
 	max-height: 10em;
+}
+
+.caption h3 {
+    margin: 0;
+}
+
+.calendar-icon {
+    margin-top: -25px;
 }
