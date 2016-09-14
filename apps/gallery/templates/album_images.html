@@ -28,7 +28,7 @@
                 <div class="pull-left">
                     <div class="thumbnail album-image">
                         <a href="{{ obj.file.url }}" class="gallery" title="{{ obj.name }}">
-                            {% thumbnail obj.file "240x140" format="PNG" as image %}
+                            {% thumbnail obj.file "240x140" as image %}
                                 <img src="{{ image.url }}" alt="No Image">
                             {% endthumbnail %}
                         </a>
