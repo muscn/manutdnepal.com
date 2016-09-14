@@ -20,7 +20,9 @@
     {% for album in albums %}
         <div class="thumbnail album-thumbnail">
             <a href="{% url 'album-images' album.slug %}">
-{#                <img src="{% thumbnail album.get_thumbnail.file 240x140 %}" alt="No Image">#}
+                {% thumbnail album.get_thumbnail.file "240x140" format="PNG" as image %}
+                    <img src="{{ image.url }}" alt="No Image">
+                {% endthumbnail %}
             </a>
 
             <div class="caption text-center">

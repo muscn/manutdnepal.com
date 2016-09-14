@@ -9,9 +9,9 @@
     <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
     <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
     <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>
-<script>
+    <script>
         $(document).ready(function () {
-            $('a.gallery').colorbox({ opacity:0.5 , rel:'group1', maxWidth:'95%', maxHeight:'95%'});
+            $('a.gallery').colorbox({opacity: 0.5, rel: 'group1', maxWidth: '95%', maxHeight: '95%'});
         });
     </script>
 {% endblock %}
@@ -28,7 +28,9 @@
                 <div class="pull-left">
                     <div class="thumbnail album-image">
                         <a href="{{ obj.file.url }}" class="gallery" title="{{ obj.name }}">
-{#                            <img id="gallery-image" src="{% thumbnail obj.file 240x140 %}" alt="No image">#}
+                            {% thumbnail obj.file "240x140" format="PNG" as image %}
+                                <img src="{{ image.url }}" alt="No Image">
+                            {% endthumbnail %}
                         </a>
 
                         <div class="caption text-center">
