@@ -20,4 +20,3 @@ pytz
 cssselect
 facebook-sdk
 opbeat
-easy-thumbnails
