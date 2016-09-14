@@ -1,5 +1,10 @@
 .thumbnail {
     height: 15em !important;
+    border: 2px solid rgb(221, 221, 221);
+}
+
+.thumbnail:hover {
+    border: 2px solid #e54d36;
 }
 
 .album-image {
