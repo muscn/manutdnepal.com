@@ -5,8 +5,8 @@ from apps.events.models import Event
 
 
 class EventsList(ListView):
-    queryset = Event.objects.filter(enabled=True).order_by('-start')
+    queryset = Event.objects.filter(enabled=True).order_by('-start').prefetch_related('albums')
 
 
 class EventDetail(DetailView):
-    queryset = Event.objects.filter(enabled=True)
+    queryset = Event.objects.filter(enabled=True).prefetch_related('albums')

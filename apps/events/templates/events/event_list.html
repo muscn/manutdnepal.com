@@ -32,8 +32,14 @@
                         {{ event.start }}<br/>
                     {% endif %}
 
+                    <strong>Venue:</strong> {{ event.venue }}<br/>
 
-                    <strong>Venue:</strong> {{ event.venue }}
+                    {% if event.albums.all %}
+                        <strong>Gallery:</strong>
+                        {% for album in event.albums.all %}
+                            <a href="{% url 'album-images' album.slug %}">{{ album.name }}</a>
+                        {% endfor %}
+                    {% endif %}
 
 
                 </div>

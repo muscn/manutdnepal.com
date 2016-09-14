@@ -67,5 +67,10 @@
 }
 
 .calendar-icon {
+    color: #333;
     margin-top: -25px;
+}
+
+.thumbnail:hover .caption a span.calendar-icon {
+    color: #e54d36;
 }

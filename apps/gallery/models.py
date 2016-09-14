@@ -4,6 +4,7 @@ import datetime
 from django.template.defaultfilters import slugify
 import re
 import os
+from apps.events.models import Event
 
 
 def _slug_strip(value, separator='-'):
@@ -86,6 +87,7 @@ class Album(models.Model):
     thumbnail = models.ForeignKey('Image', related_name='thumbnail_of', blank=True, null=True)
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
+    event = models.ForeignKey(Event, blank=True, null=True, related_name='albums')
 
     def get_thumbnail(self):
         if self.thumbnail:

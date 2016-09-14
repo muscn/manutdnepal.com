@@ -74,6 +74,12 @@
             {% if event.organizer %}
                 <strong>Organizer:</strong> {{ event.organizer }}<br/>
             {% endif %}
+            {% if event.albums.all %}
+                <strong>Gallery:</strong>
+                {% for album in event.albums.all %}
+                    <a href="{% url 'album-images' album.slug %}">{{ album.name }}</a>
+                {% endfor %}
+            {% endif %}
             <br/>
             {{ event.description|safe }}
 
