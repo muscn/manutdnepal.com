@@ -58,6 +58,7 @@ class UserChangeForm(DjangoUserChangeForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
+
     # password = ReadOnlyPasswordHashField(label= ("Password"),
     # help_text= ("Raw passwords are not stored, so there is no way to see "
     # "this user's password, but you can change the password "
@@ -104,6 +105,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_superuser')}),
                      )
     search_fields = ('full_name', 'username', 'email', 'devil_no')
+    readonly_fields = ('is_staff', 'is_superuser')
 
 
 class DecadeBornListFilter(admin.SimpleListFilter):
