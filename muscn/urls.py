@@ -9,6 +9,19 @@ from django.contrib.sitemaps.views import sitemap
 
 from .sitemap import SITEMAPS
 
+from rest_framework import routers
+from rest_framework.authtoken import views as rest_view
+from apps.stats import api as stats_api
+
+router = routers.DefaultRouter()
+
+router.register(r'fixtures', stats_api.FixtureViewSet)
+router.register(r'recent_results', stats_api.RecentResultViewSet)
+router.register(r'league_table', stats_api.LeagueTableViewSet, base_name='league_table')
+router.register(r'top_scorers', stats_api.TopScorerViewSet, base_name='top_scorers')
+router.register(r'injuries', stats_api.InjuryViewSet)
+
+
 urlpatterns = patterns('',
                        url(r'^$', 'apps.core.views.home', name='home'),
                        # url(r'^$', 'apps.users.views.login_register', name='login_register'),
@@ -70,6 +83,10 @@ urlpatterns = patterns('',
                        (r'^webhook/', include('apps.webhook.urls')),
 
                        (r'', include('apps.page.urls')),
+
+                        #Rest API end points
+                       url(r'api/v1/', include(router.urls)),
+                       url(r'^obtain_auth_token/', rest_view.obtain_auth_token),
                        )
 
 if settings.DEBUG:
