@@ -31,6 +31,8 @@ INSTALLED_APPS = (
     'smuggler',
     'sorl.thumbnail',
     'opbeat.contrib.django',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'apps.core',
     'apps.users',
@@ -93,6 +95,19 @@ TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 from user_settings import *  # noqa
 
