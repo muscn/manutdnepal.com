@@ -16,6 +16,10 @@ from apps.stats import api as stats_api
 router = routers.DefaultRouter()
 
 router.register(r'fixtures', stats_api.FixtureViewSet)
+router.register(r'recent_results', stats_api.RecentResultViewSet)
+router.register(r'league_table', stats_api.LeagueTableViewSet, base_name='league_table')
+router.register(r'top_scorers', stats_api.TopScorerViewSet, base_name='top_scorers')
+router.register(r'injuries', stats_api.InjuryViewSet)
 
 
 urlpatterns = patterns('',

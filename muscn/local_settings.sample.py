@@ -94,3 +94,5 @@ CACHES = {
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 
 SERVER_EMAIL = 'email@server.com'
+
+FOOTBALL_API_KEY = '1844545d-c3b0-a66a-df028044cbb5'
