@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'apps.timeline',
     'apps.webhook',
     'apps.gallery',
+    'apps.key',
 )
 
 MIDDLEWARE_CLASSES = (
