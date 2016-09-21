@@ -11,8 +11,11 @@ from .sitemap import SITEMAPS
 
 from rest_framework import routers
 from rest_framework.authtoken import views as rest_view
+from apps.stats import api as stats_api
 
 router = routers.DefaultRouter()
+
+router.register(r'fixtures', stats_api.FixtureViewSet)
 
 
 urlpatterns = patterns('',
