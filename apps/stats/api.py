@@ -2,6 +2,7 @@ from django.core.cache import cache
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
+from apps.key.permissions import DistributedKeyAuthentication
 
 from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury
 from apps.stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer
@@ -10,6 +11,7 @@ from apps.stats.serializers import FixtureSerializer, RecentResultSerializer, In
 class FixtureViewSet(viewsets.ModelViewSet):
     serializer_class = FixtureSerializer
     queryset = Fixture.objects.all()
+    permission_classes = (DistributedKeyAuthentication,)
 
     @list_route()
     def epl_matchweek(self, request):
@@ -27,9 +29,12 @@ class FixtureViewSet(viewsets.ModelViewSet):
 class RecentResultViewSet(viewsets.ModelViewSet):
     serializer_class = RecentResultSerializer
     queryset = Fixture.recent_results()
+    permission_classes = (DistributedKeyAuthentication,)
 
 
 class LeagueTableViewSet(viewsets.ViewSet):
+    permission_classes = (DistributedKeyAuthentication,)
+
     def list(self, request):
         if 'epl_standings' in cache:
             standings = cache.get('epl_standings')
@@ -41,6 +46,7 @@ class LeagueTableViewSet(viewsets.ViewSet):
 
 
 class TopScorerViewSet(viewsets.ViewSet):
+    permission_classes = (DistributedKeyAuthentication,)
 
     def list(self, request):
         top_scorers = get_top_scorers_summary()
@@ -54,3 +60,4 @@ class TopScorerViewSet(viewsets.ViewSet):
 class InjuryViewSet(viewsets.ModelViewSet):
     serializer_class = InjurySerializer
     queryset = Injury.get_current_injuries()
+    permission_classes = (DistributedKeyAuthentication,)
