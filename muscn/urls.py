@@ -79,7 +79,7 @@ urlpatterns = patterns('',
 
                         #Rest API end points
                        url(r'api/v1/', include(router.urls)),
-                       url(r'^obtain-token/', rest_view.obtain_auth_token),
+                       url(r'^obtain_auth_token/', rest_view.obtain_auth_token),
                        )
 
 if settings.DEBUG:
