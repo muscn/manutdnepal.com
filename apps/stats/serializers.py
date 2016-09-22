@@ -7,7 +7,7 @@ class FixtureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Fixture
-        depth = 1
+        depth = 2
 
 
 class RecentResultSerializer(serializers.ModelSerializer):
