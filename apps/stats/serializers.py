@@ -19,5 +19,7 @@ class RecentResultSerializer(serializers.ModelSerializer):
 
 
 class InjurySerializer(serializers.ModelSerializer):
+    player_name = serializers.ReadOnlyField(source='player.name')
+    
     class Meta:
         model = Injury
