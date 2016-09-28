@@ -27,7 +27,7 @@ class FixtureViewSet(viewsets.ModelViewSet):
 
 
 class RecentResultViewSet(viewsets.ModelViewSet):
-    serializer_class = FixtureSerializer
+    serializer_class = RecentResultSerializer
     queryset = Fixture.recent_results()
     permission_classes = (DistributedKeyAuthentication,)
 

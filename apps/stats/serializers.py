@@ -11,12 +11,11 @@ class FixtureSerializer(serializers.ModelSerializer):
 
 
 class RecentResultSerializer(serializers.ModelSerializer):
-    result = serializers.ReadOnlyField()
-    score = serializers.ReadOnlyField()
+    opponent_name = serializers.ReadOnlyField(source='opponent.not_so_long_name')
 
     class Meta:
         model = Fixture
-        fields = ('result', 'score',)
+        fields = ('is_home_game', 'opponent_name', 'mufc_score', 'opponent_score',)
 
 
 class InjurySerializer(serializers.ModelSerializer):
