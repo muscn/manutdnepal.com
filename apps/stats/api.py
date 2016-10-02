@@ -10,7 +10,7 @@ from apps.stats.serializers import FixtureSerializer, RecentResultSerializer, In
 
 class FixtureViewSet(viewsets.ModelViewSet):
     serializer_class = FixtureSerializer
-    queryset = Fixture.objects.all()
+    queryset = Fixture.get_upcoming()
     permission_classes = (DistributedKeyAuthentication,)
 
     @list_route()
