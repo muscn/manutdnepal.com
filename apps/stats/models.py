@@ -396,7 +396,7 @@ class Injury(models.Model):
     player = models.ForeignKey(Player, related_name='injuries')
     # injuries = [('Groin', 'Groin'), ('Hamstring', 'Hamstring'), ('MCL', 'MCL'), ('ACL', 'ACL')]
     # Ankle, Illness, Shoulder, Finger,
-    type = models.CharField(max_length=100, null=True, blank=True)
+    type = models.CharField(max_length=255, null=True, blank=True)
     injury_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
     return_date_confirmed = models.BooleanField(default=False)
