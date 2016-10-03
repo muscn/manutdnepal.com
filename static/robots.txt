@@ -1,1 +1,3 @@
 Sitemap: http://manutd.org.np/sitemap.xml
+User-agent: MJ12bot
+Disallow: /
