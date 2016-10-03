@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from apps.key.permissions import DistributedKeyAuthentication
 
 from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury
+from apps.stats.scrapers import TableScraper
 from apps.stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer
 
 
@@ -18,7 +19,8 @@ class FixtureViewSet(viewsets.ModelViewSet):
         if 'epl_standings' in cache:
             standings = cache.get('epl_standings')
         else:
-            standings = get_latest_epl_standings()
+            TableScraper.start(command=True)
+            standings = cache.get('epl_standings')
         if 'matches' in standings:
             for k, v in standings.get('matches').items():
                 standings.get('matches')[str(k)] = standings.get('matches').pop(k)
