@@ -18,7 +18,7 @@ class RecentResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Fixture
-        fields = ('is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest', 'opponent_short_name', 'competition_name',)
+        fields = ('is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest', 'opponent_short_name', 'competition_name', 'datetime',)
 
     def get_opponent_crest(self, obj):
         if obj.opponent.crest:
