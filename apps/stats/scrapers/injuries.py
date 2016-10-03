@@ -57,9 +57,9 @@ class InjuriesScraper(Scraper):
             except Injury.DoesNotExist:
                 injury = Injury(player=player, injury_date=datetime.datetime.today())
 
-            injury.type = data.get('type')
-            injury.remarks = data.get('remarks')
-            injury.return_date = data.get('return_date')
+            injury.type = data.get('type').strip()
+            injury.remarks = data.get('remarks').strip()
+            injury.return_date = data.get('return_date').strip()
             new_injuries.append(injury)
         for old_injury in old_injuries:
             if old_injury not in new_injuries:
