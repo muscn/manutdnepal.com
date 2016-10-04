@@ -59,7 +59,7 @@ class InjuriesScraper(Scraper):
 
             injury.type = data.get('type', '').strip() or None
             injury.remarks = data.get('remarks', '').strip() or None
-            injury.return_date = data.get('return_date', '').strip() or None
+            injury.return_date = data.get('return_date')
             new_injuries.append(injury)
         for old_injury in old_injuries:
             if old_injury not in new_injuries:
