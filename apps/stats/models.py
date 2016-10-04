@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from collections import OrderedDict
 import unicodedata
 import datetime
@@ -32,6 +35,7 @@ from muscn.utils.football import get_current_season_start_year
 from muscn.utils.forms import unique_slugify
 from muscn.utils.helpers import facebook_api
 from muscn.utils.npt import utc_to_local
+from lxml import html
 
 YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
@@ -141,20 +145,27 @@ class Team(models.Model):
     def get_crest(self):
         if not self.crest:
             wiki = self.get_wiki()
-            url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
-            url = urllib.quote(url.encode('utf8'), ':/')
             try:
-                image_data = json.loads(urllib.urlopen(url).read())
-                data = image_data['query']['pages'].itervalues().next()
+                url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&format=json'
+                page_data = json.loads(urllib.urlopen(url).read())
+                pages = page_data['query']['pages'].itervalues().next()
+                main_page_url = 'https://en.wikipedia.org/?curid=' + str(pages['pageid'])
+                main_page = urllib.urlopen(main_page_url).read()
+                tree = html.fromstring(main_page)
+                image = tree.cssselect("table.infobox.vcard a.image img")
+                image_url = 'https:' + image[0].get('src')
             except ValueError:
-                data = {}
-            if (data.get('pageimage')):
-                image_name = data['pageimage'] + '.png'
-                image_url = data['thumbnail']['source']
+                image = None
+            except TypeError:
+                image = None
+            except IndexError:
+                image = None
+            if image:
                 img_temp = NamedTemporaryFile(delete=True)
                 img_temp.write(urllib.urlopen(image_url).read())
                 img_temp.flush()
-                self.crest.save(image_name, File(img_temp))
+
+                self.crest.save(wiki, File(img_temp))
         return self.crest
 
     def get_crest_url(self):

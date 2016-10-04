@@ -21,9 +21,13 @@ class RecentResultSerializer(serializers.ModelSerializer):
         fields = ('is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest', 'opponent_short_name', 'competition_name', 'datetime',)
 
     def get_opponent_crest(self, obj):
-        if obj.opponent.crest:
-            return obj.opponent.crest.url
-        return None
+        if not obj.opponent.crest:
+            crest = obj.opponent.get_crest()
+            try:
+                return crest.url
+            except:
+                return None
+        return obj.opponent.crest.url
 
 class InjurySerializer(serializers.ModelSerializer):
     player_name = serializers.ReadOnlyField(source='player.name')
