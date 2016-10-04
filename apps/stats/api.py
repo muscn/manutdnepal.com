@@ -4,9 +4,9 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from apps.key.permissions import DistributedKeyAuthentication
 
-from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury
+from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury, Wallpaper
 from apps.stats.scrapers import TableScraper
-from apps.stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer
+from apps.stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, WallpaperSerializer
 
 
 class FixtureViewSet(viewsets.ModelViewSet):
@@ -63,3 +63,11 @@ class InjuryViewSet(viewsets.ModelViewSet):
     serializer_class = InjurySerializer
     queryset = Injury.get_current_injuries()
     permission_classes = (DistributedKeyAuthentication,)
+
+
+class WallpaperViewSet(viewsets.ModelViewSet):
+    serializer_class = WallpaperSerializer
+    permission_classes = (DistributedKeyAuthentication,)
+
+    def get_queryset(self):
+        return Wallpaper.objects.all().order_by('-pk')[:5]

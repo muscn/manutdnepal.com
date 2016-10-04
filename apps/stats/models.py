@@ -735,3 +735,11 @@ def get_latest_epl_standings():
     print standings_loaded['ERROR']
     cache.set('epl_standings', standings_loaded, timeout=None)
     return standings_loaded
+
+
+class Wallpaper(models.Model):
+    name = models.CharField(max_length=250, blank=True, null=True)
+    image = models.ImageField()
+
+    def __str__(self):
+        return self.name or self.image.name

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.stats.models import Fixture, Injury
+from apps.stats.models import Fixture, Injury, Wallpaper
 
 
 class FixtureSerializer(serializers.ModelSerializer):
@@ -30,3 +30,8 @@ class InjurySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Injury
+
+
+class WallpaperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wallpaper

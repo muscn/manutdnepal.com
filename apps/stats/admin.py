@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
-    Fixture, Team, Goal, Stadium, PlayerSocialAccount
+    Fixture, Team, Goal, Stadium, PlayerSocialAccount, Wallpaper
 
 
 class TeamAdmin(admin.ModelAdmin):
@@ -50,6 +50,7 @@ class FixtureAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Fixture, FixtureAdmin)
+admin.site.register(Wallpaper)
 
 # class ResultAdmin(admin.ModelAdmin):
 #     model = Fixture
