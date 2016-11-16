@@ -31,7 +31,6 @@
                 <input type="submit" class="btn btn-info" value="Save">
 
             </form>
-
             <div class="pull-right actions">
                 {% if object.payment %}
                     <a href="{% url 'update_payment' object.payment.id %}" class="btn btn-info">View/Update Payment</a>
@@ -46,10 +45,13 @@
                     <form method="POST" action="{% url 'update_payment' object.payment.id %}">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="Approve"/>
-                        <input type="submit" value="Approve" class="btn btn-success warning">
+                        <input type="submit" value="Approve" class="btn btn-success warning" {% if object.receipt_no == 0 %}disabled{% endif %}>
                     </form>
                 {% endif %}
                 {% include 'partials/delete_button.html' with object=object url='delete_direct_payment' %}
+                {% if object.receipt_no == 0 %}
+                    <p>Click on Save to enable Approve</p>
+                {% endif  %}
             </div>
         </div>
 
