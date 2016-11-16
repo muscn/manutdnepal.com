@@ -1,5 +1,6 @@
 <form method="POST">
     {% csrf_token %}
     <input type="hidden" name="action" value="{{ action }}"/>
-    <input type="submit" value="{{ action }}" class="btn{% if class %} btn-{{ class }}{% endif %}">
+    <input type="submit" value="{{ action }}" class="btn{% if class %} btn-{{ class }}{% endif %}"
+            {% if object.method_type == 'Direct Payment' and object.method.receipt_no == 0 %}disabled{% endif %}>
 </form>

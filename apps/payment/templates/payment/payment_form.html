@@ -68,10 +68,14 @@
                 {% if object.verified %}
                     {% include 'partials/action_form.html' with action='Disprove' class='danger' %}
                 {% elif object.pk %}
-                    {% include 'partials/action_form.html' with action='Approve' class='success warning' %}
+                    {% include 'partials/action_form.html' with action='Approve' class='success warning' object=object %}
                 {% endif %}
 
                 {% include 'partials/delete_button.html' with object=object url='delete_payment' %}
+                {% if object.method_type == 'Direct Payment' and object.method.receipt_no == 0 %}
+                    <p>Update Receipt No. in Direct Payment and Save to enable Approve</p>
+                {% endif %}
+
             </div>
         </div>
 
