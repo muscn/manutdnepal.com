@@ -335,6 +335,9 @@ class User(AbstractBaseUser):
         cache.set('sample_card_' + str(self.pk), url)
         return url
 
+    def get_full_name(self):
+        return self.full_name
+
     objects = UserManager()
 
     class Meta:
