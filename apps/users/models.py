@@ -233,6 +233,7 @@ class User(AbstractBaseUser):
         img = Image.open(base_image)
         # img = Image.open('watermarked_with_qr.jpg')
         # img = Image.open('front.jpg')
+        img = img.convert("RGBA")
 
         draw = ImageDraw.Draw(img)
 
