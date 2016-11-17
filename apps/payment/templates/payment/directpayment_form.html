@@ -28,7 +28,7 @@
                 {% include 'payment/_directpayment_form.html' with form=form %}
 
 
-                <input type="submit" class="btn btn-info" value="Save">
+                <input type="submit" class="btn btn-info direct-payment-form-input" value="Save">
 
             </form>
             <div class="pull-right actions">
@@ -73,4 +73,14 @@
 
     </div>
 
+
+    <script>
+        $('#id_receipt_no').on('change', function() {
+            if(parseInt($('#id_receipt_no').val()) == 0) {
+                $('.direct-payment-form-input').prop('disabled', true);
+            } else {
+                $('.direct-payment-form-input').prop('disabled', false);
+            }
+        });
+    </script>
 {% endblock %}
