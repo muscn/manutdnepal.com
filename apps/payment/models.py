@@ -173,6 +173,7 @@ class ReceiptData(models.Model):
     name = models.CharField(max_length=255)
     from_no = models.IntegerField()
     to_no = models.IntegerField()
+    remarks = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return '%s [%d-%d]' % (self.name, self.from_no, self.to_no)
