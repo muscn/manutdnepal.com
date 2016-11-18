@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n  thumbnail staticfiles filters %}
+{% load i18n thumbnail staticfiles filters %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
@@ -39,9 +39,16 @@
             </div>
         {% endif %}
 
-        {#        <div class="section call-to-action row">#}
-        {#            <h2><a href="{% url 'membership_form' %}">Apply for 2015/16 MUSCN Membership</a></h2>#}
-        {#        </div>#}
+        {#                <div class="section call-to-action row">#}
+        {#                    <h2><a href="{% url 'membership_form' %}">Apply for 2015/16 MUSCN Membership</a></h2>#}
+        {#                </div>#}
+
+        <div class="section call-to-action row text-center">
+            {#            <h2><a href="{% url 'membership_form' %}">Apply for 2015/16 MUSCN Membership</a></h2>#}
+            <a href='https://play.google.com/store/apps/details?id=com.awecode.muscn&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img
+                    alt='Get it on Google Play' height="120"
+                    src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+        </div>
 
     <td class="section stats text-center">
         {#            <div class="section-wrapper">#}
@@ -52,10 +59,10 @@
                 <div class="fixture text-center">
                     <div class="match"><h4><b>{{ next_match.title }}</b></h4></div>
                     <span class="venue">{{ next_match.get_venue }}</span> |
-                            <span class="competition">{{ next_match.competition_year.competition.name|key }}
-                                {% if next_match.round %}
-                                    - {{ next_match.round }}
-                                {% endif %}
+                    <span class="competition">{{ next_match.competition_year.competition.name|key }}
+                        {% if next_match.round %}
+                            - {{ next_match.round }}
+                        {% endif %}
                             </span>
                     {% if next_match.broadcast_on %}
                         <div class="channel">Live on {{ next_match.broadcast_on }}</div>
@@ -92,10 +99,10 @@
                                 <span class="days col-xs-4 text-center">{% if next_match.time_remaining.0 == 1 %}
                                     day{% else %}
                                     days{% endif %}</span>
-                                <span class="days col-xs-4">{% if next_match.time_remaining.1 == 1 %}hour{% else %}
-                                    hours{% endif %}</span>
-                                <span class="days col-xs-4">{% if next_match.time_remaining.2 == 1 %}min{% else %}
-                                    mins{% endif %}</span>
+                            <span class="days col-xs-4">{% if next_match.time_remaining.1 == 1 %}hour{% else %}
+                                hours{% endif %}</span>
+                            <span class="days col-xs-4">{% if next_match.time_remaining.2 == 1 %}min{% else %}
+                                mins{% endif %}</span>
                         </div>
                     </div>
                 </div>

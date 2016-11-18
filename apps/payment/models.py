@@ -177,6 +177,9 @@ class ReceiptData(models.Model):
 
     def __str__(self):
         return '%s [%d-%d]' % (self.name, self.from_no, self.to_no)
+    
+    class Meta:
+        verbose_name_plural = 'Receipt Data' 
 
 
 auditlog.register(DirectPayment)
