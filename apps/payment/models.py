@@ -145,6 +145,7 @@ class DirectPayment(models.Model):
 
 class EsewaPayment(EsewaTransaction):
     payment = models.OneToOneField(Payment, related_name='esewa_payment')
+
     # amount = None
 
     # class Amount(object):
@@ -166,6 +167,15 @@ class EsewaPayment(EsewaTransaction):
         if delete_payment and self.payment:
             self.payment.delete(delete_method=False)
         return super(EsewaPayment, self).delete(*args, **kwargs)
+
+
+class ReceiptData(models.Model):
+    name = models.CharField(max_length=255)
+    from_no = models.IntegerField()
+    to_no = models.IntegerField()
+
+    def __str__(self):
+        return '%s [%d-%d]' % (self.name, self.from_no, self.to_no)
 
 
 auditlog.register(DirectPayment)

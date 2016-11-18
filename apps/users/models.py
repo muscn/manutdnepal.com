@@ -437,6 +437,8 @@ class Renewal(models.Model):
     membership = models.ForeignKey(Membership, related_name='renewals')
     payment = models.ForeignKey(Payment, related_name='renewals')
     date = models.DateField(default=datetime.date.today)
+    approved_date = models.DateField(null=True, blank=True)
+    approved_by = models.ForeignKey(User, related_name='renewals_approved', null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.membership.user)
