@@ -59,7 +59,7 @@
                     </td>
                     <td>
                         <a href="{% url 'update_user' item.user.id %}">
-                            {{ item.user.full_name }}
+                            {{ item.user.full_name|title }}
                         </a>
                     </td>
                     {#                    <td>#}
