@@ -517,7 +517,7 @@ def export_awaiting_print(request):
     ws = wb.active
     row_index = insert_row(ws, 1, table_header)
     for obj in query:
-        data = [obj.user.full_name, obj.get_gender_display(), obj.user.devil_no]
+        data = [obj.user.full_name.title(), obj.get_gender_display(), obj.user.devil_no]
         row_index = insert_row(ws, row_index, data)
     response = HttpResponse(save_virtual_workbook(wb), content_type='application/vnd.ms-excel')
     file_name = 'Awaiting-Print.xlsx'
