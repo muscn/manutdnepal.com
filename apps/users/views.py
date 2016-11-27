@@ -1,7 +1,7 @@
 import datetime
 from django.core.mail import EmailMessage
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -15,12 +15,15 @@ from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
 from django.conf import settings
+from openpyxl import Workbook
+from openpyxl.writer.excel import save_virtual_workbook
 
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
 from muscn.utils.football import get_current_season_start
+from muscn.utils.helpers import insert_row
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm, DirectPaymentReceiptForm
 from apps.users import membership_settings
@@ -505,3 +508,18 @@ def renew(request):
         'bank_accounts': bank_accounts,
         'base_template': 'base.html',
     })
+
+
+def export_awaiting_print(request):
+    query = Membership.objects.filter(card_status__status=1)
+    table_header = ['Full Name', 'Gender', 'Devil No.']
+    wb = Workbook()
+    ws = wb.active
+    row_index = insert_row(ws, 1, table_header)
+    for obj in query:
+        data = [obj.user.full_name, obj.get_gender_display(), obj.user.devil_no]
+        row_index = insert_row(ws, row_index, data)
+    response = HttpResponse(save_virtual_workbook(wb), content_type='application/vnd.ms-excel')
+    file_name = 'Awaiting-Print.xlsx'
+    response['Content-Disposition'] = 'attachment; filename=' + file_name
+    return response
