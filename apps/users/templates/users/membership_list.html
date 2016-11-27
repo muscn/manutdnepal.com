@@ -26,7 +26,10 @@
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor registration_date 'Registration Date' %}</th>
-            <th>{% anchor user__devil_no 'Devil No.' %}</th>
+            <th>
+                {% anchor user__devil_no 'Devil No.' %}
+                <a id="devil_no_span">x</a>
+            </th>
             <th>{% anchor user 'User' %}</th>
             {#            <th>{% anchor mobile 'Mobile' %}</th>#}
             <th>{% anchor approved_by 'Approved By' %}</th>
@@ -103,4 +106,16 @@
     {#        <a class="btn btn-success" href="{% url 'create_membership' %}">Add New Membership</a>#}
     {#    </div>#}
 
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(function () {
+            $('#devil_no_span').on('click', function () {
+                $('td input[type="submit"]').each(function (i, btn) {
+                    $(btn).replaceWith($('<span>' + btn.value + '</span>'));
+                });
+            });
+        });
+    </script>
 {% endblock %}
