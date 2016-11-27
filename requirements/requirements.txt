@@ -21,3 +21,4 @@ cssselect
 facebook-sdk
 opbeat
 djangorestframework
+openpyxl
