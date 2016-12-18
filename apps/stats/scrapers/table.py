@@ -9,7 +9,6 @@ from .base import Scraper
 
 class TableScraper(Scraper):
     base_url = 'http://www.livescores.com'
-    url = 'http://www.livescores.com/soccer/england/premier-league/'
 
     @classmethod
     def scrape(cls):
@@ -20,21 +19,24 @@ class TableScraper(Scraper):
             data = {}
             cols = row.cssselect('div')
             # cols[0] is self
-            if len(cols[1].cssselect('span.live img')):
-                data['live'] = True
-            else:
-                data['live'] = False
-            data['position'] = cols[1].cssselect('span')[1].text_content()
-            data['name'] = cols[2].text_content()
-            data['p'] = cols[3].text_content()
-            data['w'] = cols[4].text_content()
-            data['d'] = cols[5].text_content()
-            data['l'] = cols[6].text_content()
-            data['f'] = cols[7].text_content()
-            data['a'] = cols[8].text_content()
-            data['gd'] = cols[9].text_content()
-            data['pts'] = cols[10].text_content()
-            cls.data['teams'].append(data)
+            try:
+                if len(cols[1].cssselect('span.live img')):
+                    data['live'] = True
+                else:
+                    data['live'] = False
+                data['position'] = cols[1].cssselect('span')[1].text_content()
+                data['name'] = cols[2].text_content()
+                data['p'] = cols[3].text_content()
+                data['w'] = cols[4].text_content()
+                data['d'] = cols[5].text_content()
+                data['l'] = cols[6].text_content()
+                data['f'] = cols[7].text_content()
+                data['a'] = cols[8].text_content()
+                data['gd'] = cols[9].text_content()
+                data['pts'] = cols[10].text_content()
+                cls.data['teams'].append(data)
+            except IndexError:
+                pass
 
         # Also fetch all matches this week
 
@@ -72,6 +74,7 @@ class TableScraper(Scraper):
                             if data['minute'] == 'FT':
                                 fixture.send_updates()
                     except Fixture.DoesNotExist:
+                        print 'Fixture does not exist.'
                         pass
 
     @classmethod
@@ -140,6 +143,26 @@ class TableScraper(Scraper):
                 continue
         return data
 
+
+class EPLScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/england/premier-league/'
+
     @classmethod
     def save(cls):
         cache.set('epl_standings', cls.data, timeout=None)
+
+
+class LeagueCupScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/england/carling-cup/'
+
+    @classmethod
+    def save(cls):
+        cache.set('league_cup_standings', cls.data, timeout=None)
+
+
+class FACupScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/england/fa-cup/'
+
+    @classmethod
+    def save(cls):
+        cache.set('fa_cup_standings', cls.data, timeout=None)
