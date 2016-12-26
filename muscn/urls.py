@@ -14,6 +14,7 @@ from rest_framework.authtoken import views as rest_view
 from apps.stats import api as stats_api
 from apps.events import api as events_api
 from apps.post import api as post_api
+from apps.page import api as page_api
 
 router = routers.DefaultRouter()
 
@@ -29,6 +30,8 @@ router.register(r'wallpapers', stats_api.WallpaperViewSet, base_name='wallpapers
 router.register(r'events', events_api.EventViewSet)
 
 router.register(r'posts', post_api.PostViewSet)
+
+router.register(r'pages', page_api.PageViewSet)
 
 
 urlpatterns = patterns('',
