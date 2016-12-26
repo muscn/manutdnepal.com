@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from apps.stats.models import Fixture, Injury, Wallpaper
+
+from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount
 
 
 class FixtureSerializer(serializers.ModelSerializer):
@@ -18,18 +19,36 @@ class RecentResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Fixture
-        fields = ('is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest', 'opponent_short_name', 'competition_name', 'datetime',)
+        fields = ('is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest',
+                  'opponent_short_name', 'competition_name', 'datetime',)
 
     def get_opponent_crest(self, obj):
         if obj.opponent.crest:
             return obj.opponent.crest.url
         return None
 
+
 class InjurySerializer(serializers.ModelSerializer):
     player_name = serializers.ReadOnlyField(source='player.name')
 
     class Meta:
         model = Injury
+
+
+class PlayerSocialAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerSocialAccount
+
+
+class PlayerSerializer(serializers.ModelSerializer):
+    nationality = serializers.SerializerMethodField()
+    social_accounts = PlayerSocialAccountSerializer(many=False)
+
+    class Meta:
+        model = Player
+
+    def get_nationality(self, obj):
+        return obj.get_nationality_display()
 
 
 class WallpaperSerializer(serializers.ModelSerializer):
