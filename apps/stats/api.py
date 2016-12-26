@@ -12,8 +12,7 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
     PlayerSerializer, SeasonDataSerializer
 
 
-class FixtureViewSet(mixins.ListModelMixin,
-                     viewsets.GenericViewSet):
+class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureSerializer
     queryset = Fixture.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
     permission_classes = (DistributedKeyAuthentication,)
@@ -32,13 +31,13 @@ class FixtureViewSet(mixins.ListModelMixin,
         return Response(standings)
 
 
-class RecentResultViewSet(viewsets.ModelViewSet):
+class RecentResultViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = RecentResultSerializer
     queryset = Fixture.recent_results()
     permission_classes = (DistributedKeyAuthentication,)
 
 
-class LeagueTableViewSet(viewsets.ViewSet):
+class LeagueTableViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     permission_classes = (DistributedKeyAuthentication,)
 
     def list(self, request):
@@ -51,7 +50,7 @@ class LeagueTableViewSet(viewsets.ViewSet):
         return Response(standings)
 
 
-class TopScorerViewSet(viewsets.ViewSet):
+class TopScorerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     permission_classes = (DistributedKeyAuthentication,)
 
     def list(self, request):
@@ -63,25 +62,25 @@ class TopScorerViewSet(viewsets.ViewSet):
         return Response(top_scorers_list)
 
 
-class InjuryViewSet(viewsets.ModelViewSet):
+class InjuryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = InjurySerializer
     queryset = Injury.get_current_injuries()
     permission_classes = (DistributedKeyAuthentication,)
 
 
-class SquadViewSet(viewsets.ModelViewSet):
+class SquadViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.filter(active=True)
     permission_classes = (DistributedKeyAuthentication,)
 
 
-class PastSeasonViewSet(viewsets.ModelViewSet):
+class PastSeasonViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = SeasonDataSerializer
     queryset = SeasonData.objects.all()
     permission_classes = (DistributedKeyAuthentication,)
 
 
-class WallpaperViewSet(viewsets.ModelViewSet):
+class WallpaperViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = WallpaperSerializer
     permission_classes = (DistributedKeyAuthentication,)
 
