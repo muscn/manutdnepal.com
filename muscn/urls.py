@@ -23,6 +23,7 @@ router.register(r'league_table', stats_api.LeagueTableViewSet, base_name='league
 router.register(r'top_scorers', stats_api.TopScorerViewSet, base_name='top_scorers')
 router.register(r'injuries', stats_api.InjuryViewSet)
 router.register(r'squads', stats_api.SquadViewSet)
+router.register(r'past_seasons', stats_api.PastSeasonViewSet)
 router.register(r'wallpapers', stats_api.WallpaperViewSet, base_name='wallpapers')
 
 router.register(r'events', events_api.EventViewSet)

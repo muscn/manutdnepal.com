@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount
+from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount, SeasonData
 
 
 class FixtureSerializer(serializers.ModelSerializer):
@@ -49,6 +49,11 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     def get_nationality(self, obj):
         return obj.get_nationality_display()
+
+
+class SeasonDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeasonData
 
 
 class WallpaperSerializer(serializers.ModelSerializer):
