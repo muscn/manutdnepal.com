@@ -5,10 +5,11 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from apps.key.permissions import DistributedKeyAuthentication
 
-from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury, Wallpaper, Player
+from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury, Wallpaper, Player, \
+    SeasonData
 from apps.stats.scrapers import TableScraper
 from ..stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, WallpaperSerializer, \
-    PlayerSerializer
+    PlayerSerializer, SeasonDataSerializer
 
 
 class FixtureViewSet(viewsets.ModelViewSet):
@@ -70,6 +71,12 @@ class InjuryViewSet(viewsets.ModelViewSet):
 class SquadViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.filter(active=True)
+    permission_classes = (DistributedKeyAuthentication,)
+
+
+class PastSeasonViewSet(viewsets.ModelViewSet):
+    serializer_class = SeasonDataSerializer
+    queryset = SeasonData.objects.all()
     permission_classes = (DistributedKeyAuthentication,)
 
 
