@@ -1,6 +1,6 @@
 import datetime
 from django.core.cache import cache
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from apps.key.permissions import DistributedKeyAuthentication
@@ -12,7 +12,8 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
     PlayerSerializer, SeasonDataSerializer
 
 
-class FixtureViewSet(viewsets.ModelViewSet):
+class FixtureViewSet(mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
     serializer_class = FixtureSerializer
     queryset = Fixture.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
     permission_classes = (DistributedKeyAuthentication,)
