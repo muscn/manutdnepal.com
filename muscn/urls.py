@@ -82,6 +82,7 @@ urlpatterns = patterns('',
                        url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.partner.views.view_partner',
                            name='view_partner'),
                        url(r'^team/$', 'apps.team.views.football_team', name='football_team'),
+                       url(r'^meet/$', 'apps.core.views.google_form', name='google_form'),
 
                        url(r'^match/(?P<date>[\d{4}\-\d{2}\-\d{2}]+)/(?P<extra>[a-zA-Z0-9_.-]*)/?$',
                            stats_views.FixtureDetail.as_view(),
@@ -92,7 +93,7 @@ urlpatterns = patterns('',
 
                        (r'', include('apps.page.urls')),
 
-                        #Rest API end points
+                       # Rest API end points
                        url(r'api/v1/', include(router.urls)),
                        url(r'^obtain_auth_token/', rest_view.obtain_auth_token),
                        )

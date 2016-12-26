@@ -1,5 +1,5 @@
 from django.core.cache import cache
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 
 from apps.events.models import Event
@@ -15,6 +15,9 @@ def recent_posts_or_events():
     p_o_e.sort(key=lambda x: x.date, reverse=True)
     return p_o_e
 
+
+def google_form(request):
+    return redirect("https://docs.google.com/forms/d/e/1FAIpQLSfJr3rNG5zTRF_w_aSaVffzLWuJRa-nI5Ji6-YvdlTQjF7Mvw/viewform")
 
 
 def home(request):
