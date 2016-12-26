@@ -12,6 +12,7 @@ from .sitemap import SITEMAPS
 from rest_framework import routers
 from rest_framework.authtoken import views as rest_view
 from apps.stats import api as stats_api
+from apps.events import api as events_api
 
 router = routers.DefaultRouter()
 
@@ -22,6 +23,8 @@ router.register(r'top_scorers', stats_api.TopScorerViewSet, base_name='top_score
 router.register(r'injuries', stats_api.InjuryViewSet)
 router.register(r'squads', stats_api.SquadViewSet)
 router.register(r'wallpapers', stats_api.WallpaperViewSet, base_name='wallpapers')
+
+router.register(r'events', events_api.EventViewSet)
 
 
 urlpatterns = patterns('',

@@ -66,7 +66,6 @@ class InjuryViewSet(viewsets.ModelViewSet):
     permission_classes = (DistributedKeyAuthentication,)
 
 
-
 class SquadViewSet(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.filter(active=True)
