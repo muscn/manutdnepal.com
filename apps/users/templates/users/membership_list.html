@@ -10,6 +10,7 @@
     <a href="{% url 'list_memberships' %}"><i class="fa fa-user"></i>Memberships</a>
     <div class="pull-right">
         <a class="btn btn-info" href="{% url 'email_new_cards' %}">E-mail New Cards</a>
+        <a class="btn btn-info" href="{% url 'export_awaiting_print' %}">Export Awaiting Print</a>
         <a class="btn btn-info" href="{% url 'download_new_cards' %}">Download New Cards</a>
     </div>
     <form>
@@ -58,7 +59,7 @@
                     </td>
                     <td>
                         <a href="{% url 'update_user' item.user.id %}">
-                            {{ item.user.full_name }}
+                            {{ item.user.full_name|title }}
                         </a>
                     </td>
                     {#                    <td>#}

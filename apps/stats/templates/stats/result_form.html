@@ -11,14 +11,7 @@
 
 {% block extrahead %}
     {% include 'partials/selectize.html' %}
-    <script src="{% static 'js/jquery.formset.js' %} "></script>
-    <script type="text/javascript">
-        $(function () {
-            $('.goal-form').formset({
-                prefix: '{{ goal_formset.prefix }}'
-            });
-        });
-    </script>
+
 {% endblock %}
 
 {% block content %}
@@ -87,7 +80,8 @@
                     </tbody>
                 </table>
                 {{ goal_formset.management_form }}
-
+                To add other goals, save and edit again.
+                <br/>
                 {#                {% with goal_formset|last as last_form %}#}
                 {#                    <div class="hide">#}
                 {#                        <div class="well" id="hidden-inline-form">#}

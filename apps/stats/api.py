@@ -1,3 +1,4 @@
+import datetime
 from django.core.cache import cache
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
@@ -12,7 +13,7 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
 
 class FixtureViewSet(viewsets.ModelViewSet):
     serializer_class = FixtureSerializer
-    queryset = Fixture.get_upcoming()
+    queryset = Fixture.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
     permission_classes = (DistributedKeyAuthentication,)
 
     @list_route()

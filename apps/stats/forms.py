@@ -29,7 +29,7 @@ class ResultForm(HTML5BootstrapModelForm):
 class FixtureForm(HTML5BootstrapModelForm):
     class Meta:
         model = Fixture
-        exclude = ('competition_year', 'opponent', 'datetime')
+        exclude = ('competition_year', 'opponent', 'datetime', 'venue')
 
 
 class GoalForm(HTML5BootstrapModelForm):

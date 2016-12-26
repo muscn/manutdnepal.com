@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from muscn.utils.forms import HTML5BootstrapModelForm as form
 from django import forms
 from .models import BankDeposit, Payment, BankAccount, DirectPayment
@@ -88,6 +89,12 @@ class DirectPaymentPaymentForm(form):
             self.initial['date_time'] = self.instance.payment.date_time
             self.initial['user'] = self.instance.payment.user
             self.initial['remarks'] = self.instance.payment.remarks
+
+    def clean_receipt_no(self):
+        receipt_no = self.cleaned_data['receipt_no']
+        if receipt_no == 0:
+            raise ValidationError("Receipt no. should not be 0 (zero)")
+        return receipt_no
 
     class Meta:
         model = DirectPayment

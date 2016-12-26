@@ -437,6 +437,8 @@ class Renewal(models.Model):
     membership = models.ForeignKey(Membership, related_name='renewals')
     payment = models.ForeignKey(Payment, related_name='renewals')
     date = models.DateField(default=datetime.date.today)
+    approved_date = models.DateField(null=True, blank=True)
+    approved_by = models.ForeignKey(User, related_name='renewals_approved', null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.membership.user)
@@ -619,12 +621,24 @@ def get_birthday_users():
     from njango import nepdate
     from django.db.models import Q
 
-    ad_month = datetime.date.today().strftime("%m")
-    ad_day = datetime.date.today().strftime("%d")
+    ad_year = datetime.date.today().year
+    ad_month = datetime.date.today().month
+    ad_day = datetime.date.today().day
+    bs_year = nepdate.today()[0]
     bs_month = nepdate.today()[1]
     bs_day = nepdate.today()[2]
-    return User.objects.filter(Q(membership__date_of_birth__month=bs_month, membership__date_of_birth__day=bs_day) | Q(
-        membership__date_of_birth__month=ad_month, membership__date_of_birth__day=ad_day))
+
+    users = User.objects.filter(Q(membership__date_of_birth__month=bs_month, membership__date_of_birth__day=bs_day) | Q(
+        membership__date_of_birth__month=ad_month, membership__date_of_birth__day=ad_day)).select_related('membership')
+    real_birthday_users = []
+    for user in users:
+        dob_month = user.membership.date_of_birth.month
+        dob_year = user.membership.date_of_birth.year
+        if dob_month == ad_month and ad_year - 40 <= dob_year <= ad_year - 10:
+            real_birthday_users.append(user)
+        if dob_month == bs_month and bs_year - 40 <= dob_year <= bs_year - 10:
+            real_birthday_users.append(user)
+    return real_birthday_users
 
 
 def email_birthday_users():
