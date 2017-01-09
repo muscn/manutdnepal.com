@@ -7,7 +7,8 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from apps.users.models import User, GroupProxy, Membership, CardStatus, Renewal
+from apps.users.models import User, GroupProxy, Membership, CardStatus, Renewal, MembershipSetting
+from solo.admin import SingletonModelAdmin
 
 
 def url_to_edit_object(obj):
@@ -220,3 +221,4 @@ admin.site.unregister(Group)
 admin.site.register(GroupProxy)
 admin.site.register(Renewal)
 admin.site.register(CardStatus, CardStatusAdmin)
+admin.site.register(MembershipSetting, SingletonModelAdmin)

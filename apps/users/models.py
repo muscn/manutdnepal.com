@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_logged_in
 from auditlog.registry import auditlog
+from solo.models import SingletonModel
 
 from apps.payment.models import Payment
 
@@ -492,6 +493,15 @@ class StaffOnlyMixin(object):
             if bool(u.groups.filter(name='Staff')):
                 return super(StaffOnlyMixin, self).dispatch(request, *args, **kwargs)
         raise PermissionDenied()
+
+
+class MembershipSetting(SingletonModel):
+    membership_fee = models.FloatField(verbose_name='Membership Fee', blank=True, null=True)
+    enable_esewa = models.BooleanField(default=True)
+    welcome_letter_content = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return 'Membership Settings'
 
 
 def group_required(*group_names):

@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'opbeat.contrib.django',
     'rest_framework',
     'rest_framework.authtoken',
+    'solo',
 
     'apps.core',
     'apps.users',

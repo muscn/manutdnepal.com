@@ -18,9 +18,13 @@ from django.db.models import Q
 from django.conf import settings
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
-
 from reportlab.pdfgen import canvas
-from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal
+from reportlab.lib.styles import getSampleStyleSheet
+
+from reportlab.platypus import Paragraph, Table
+from reportlab.lib.units import cm
+from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
+    MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
@@ -532,21 +536,36 @@ def export_awaiting_print(request):
 def export_awaiting_pdf_letters(request):
     awaiting_members = Membership.objects.filter(card_status__status=1)
 
+    settings = MembershipSetting.objects.get()
+    # To insert next line in pdf
+    content = settings.welcome_letter_content.replace('\n', '<br/>')
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="Awaiting-members.pdf"'
 
     buffer = BytesIO()
-    p = canvas.Canvas(buffer)
+
     if awaiting_members:
+        _canvas = canvas.Canvas(buffer)
+        width, height = 19 * cm, 40.7 * cm
+        style = getSampleStyleSheet()['Normal']
+        style.wordWrap = 'LTR'
+        style.leading = 18
+        style.fontSize = 12
         for awaiting_member in awaiting_members:
-            p.drawString(50, 650, datetime.date.today().strftime('%b %d, %Y'))
-            p.drawString(50, 630, 'Dear ' + awaiting_member.user.full_name.title() + '( #' + str(awaiting_member.user.devil_no) + ' )')
-            p.drawString(50, 600, membership_settings.welcome_letter_content)
-            p.drawString(50, 220, "With best regards,")
-            p.drawString(50, 160, "Chairman")
-            p.drawString(50, 140, "Manchester United Supporters' Club - Nepal")
-            p.showPage()
-        p.save()
+            _canvas.drawString(50, 650, datetime.date.today().strftime('%b %d, %Y'))
+            _canvas.drawString(50, 630, 'Dear ' + awaiting_member.user.full_name.title() + '( #' + str(
+                awaiting_member.user.devil_no) + ' )')
+            p = Paragraph(content, style)
+            data = [[p]]
+            table = Table(data)
+            table.wrapOn(_canvas, width, height)
+            table.drawOn(_canvas, 45, 350)
+            _canvas.drawString(50, 240, "With best regards,")
+            _canvas.drawString(50, 165, "Chairman")
+            _canvas.drawString(50, 145, "Manchester United Supporters' Club - Nepal")
+            _canvas.showPage()
+        _canvas.save()
     else:
         messages.warning(request, 'No Awaiting members.')
         return HttpResponseRedirect('/dashboard/membership/')
