@@ -534,7 +534,7 @@ def export_awaiting_print(request):
 
 
 def export_welcome_letters(request):
-    awaiting_members = Membership.objects.filter(card_status__status=1)
+    awaiting_members = Membership.objects.filter(card_status__status=1).order_by('-user__devil_no')
     devil_no = Membership.objects.filter(card_status__status=1).aggregate(max_devil_no=Max('user__devil_no'),
                                                                           min_devil_no=Min('user__devil_no'))
     try:
@@ -562,7 +562,7 @@ def export_welcome_letters(request):
         style.fontSize = 12
         for awaiting_member in awaiting_members:
             _canvas.drawString(50, 650, datetime.date.today().strftime('%b %d, %Y'))
-            _canvas.drawString(50, 630, 'Dear ' + awaiting_member.user.full_name.title() + '( #' + str(
+            _canvas.drawString(50, 630, 'Dear ' + awaiting_member.user.full_name.title() + ' ( #' + str(
                 awaiting_member.user.devil_no) + ' )')
             p = Paragraph(content, style)
             data = [[p]]
