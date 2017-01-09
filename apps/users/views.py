@@ -568,7 +568,7 @@ def export_welcome_letters(request):
         style.fontSize = 12
         for awaiting_member in awaiting_members:
             _canvas.drawString(50, 630, datetime.date.today().strftime('%b %d, %Y'))
-            _canvas.drawString(50, 290, 'Dear ' + awaiting_member.user.full_name.title() + ' ( #' + str(
+            _canvas.drawString(50, 590, 'Dear ' + awaiting_member.user.full_name.title() + ' ( #' + str(
                 awaiting_member.user.devil_no) + ' ),')
             p = Paragraph(content, style)
             data = [[p]]
