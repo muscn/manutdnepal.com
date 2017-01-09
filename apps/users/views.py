@@ -563,6 +563,7 @@ def export_welcome_letters(request):
         width, height = 19 * cm, 40.7 * cm
         style = getSampleStyleSheet()['Normal']
         style.wordWrap = 'LTR'
+        style.fontName = 'Lato'
         style.leading = 18
         style.fontSize = 12
         for awaiting_member in awaiting_members:
