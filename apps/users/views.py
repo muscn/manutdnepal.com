@@ -1,7 +1,8 @@
 import datetime
-from django.core.mail import EmailMessage
+from io import BytesIO
 
-from django.http import Http404, HttpResponse
+from django.core.mail import EmailMessage
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -18,6 +19,7 @@ from django.conf import settings
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
+from reportlab.pdfgen import canvas
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm
@@ -197,7 +199,8 @@ class MembershipListView(StaffOnlyMixin, ListView):
                 Q(mobile__contains=q)
             )
         return super(MembershipListView, self).get(request, *args, **kwargs)
-    
+
+
 class RenewalListView(StaffOnlyMixin, ListView):
     model = Renewal
 
@@ -482,6 +485,7 @@ def renew(request):
     direct_payment_form = DirectPaymentPaymentForm()
     if request.POST:
         from apps.users import membership_settings
+
         payment = Payment(user=request.user, amount=membership_settings.membership_fee, remarks='Renewal')
         if request.POST.get('method') == 'direct':
             direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
@@ -522,4 +526,31 @@ def export_awaiting_print(request):
     response = HttpResponse(save_virtual_workbook(wb), content_type='application/vnd.ms-excel')
     file_name = 'Awaiting-Print.xlsx'
     response['Content-Disposition'] = 'attachment; filename=' + file_name
+    return response
+
+
+def export_awaiting_pdf_letters(request):
+    awaiting_members = Membership.objects.filter(card_status__status=1)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Awaiting-members.pdf"'
+
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    if awaiting_members:
+        for awaiting_member in awaiting_members:
+            p.drawString(50, 650, datetime.date.today().strftime('%b %d, %Y'))
+            p.drawString(50, 630, 'Dear ' + awaiting_member.user.full_name.title() + '( #' + str(awaiting_member.user.devil_no) + ' )')
+            p.drawString(50, 600, membership_settings.welcome_letter_content)
+            p.drawString(50, 220, "With best regards,")
+            p.drawString(50, 160, "Chairman")
+            p.drawString(50, 140, "Manchester United Supporters' Club - Nepal")
+            p.showPage()
+        p.save()
+    else:
+        messages.warning(request, 'No Awaiting members.')
+        return HttpResponseRedirect('/dashboard/membership/')
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
     return response
