@@ -536,7 +536,12 @@ def export_awaiting_print(request):
 def export_awaiting_pdf_letters(request):
     awaiting_members = Membership.objects.filter(card_status__status=1)
 
-    settings = MembershipSetting.objects.get()
+    try:
+        settings = MembershipSetting.objects.get()
+    except MembershipSetting.DoesNotExist:
+        messages.warning(request, 'Membership Settings Does not exists.')
+        return HttpResponseRedirect(reverse('list_memberships'))
+
     # To insert next line in pdf
     content = settings.welcome_letter_content.replace('\n', '<br/>')
 
@@ -568,7 +573,7 @@ def export_awaiting_pdf_letters(request):
         _canvas.save()
     else:
         messages.warning(request, 'No Awaiting members.')
-        return HttpResponseRedirect('/dashboard/membership/')
+        return HttpResponseRedirect(reverse('list_memberships'))
     pdf = buffer.getvalue()
     buffer.close()
     response.write(pdf)
