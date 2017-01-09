@@ -11,7 +11,7 @@ from django.contrib.auth import logout as auth_logout
 from django.views.generic import DetailView
 from allauth.account.forms import LoginForm, SignupForm
 from django.views.generic.list import ListView
-from django.db.models import Max
+from django.db.models import Max, Min
 from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
@@ -20,9 +20,9 @@ from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
 from reportlab.pdfgen import canvas
 from reportlab.lib.styles import getSampleStyleSheet
-
 from reportlab.platypus import Paragraph, Table
 from reportlab.lib.units import cm
+
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
@@ -533,9 +533,10 @@ def export_awaiting_print(request):
     return response
 
 
-def export_awaiting_pdf_letters(request):
+def export_welcome_letters(request):
     awaiting_members = Membership.objects.filter(card_status__status=1)
-
+    devil_no = Membership.objects.filter(card_status__status=1).aggregate(max_devil_no=Max('user__devil_no'),
+                                                                          min_devil_no=Min('user__devil_no'))
     try:
         settings = MembershipSetting.objects.get()
     except MembershipSetting.DoesNotExist:
@@ -546,12 +547,14 @@ def export_awaiting_pdf_letters(request):
     content = settings.welcome_letter_content.replace('\n', '<br/>')
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="Awaiting-members.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="welcome-letters-' + str(
+        devil_no.get('min_devil_no')) + '-' + str(devil_no.get('max_devil_no')) + '.pdf'
 
     buffer = BytesIO()
 
     if awaiting_members:
         _canvas = canvas.Canvas(buffer)
+        _canvas.setFont("Times-Roman", 12)
         width, height = 19 * cm, 40.7 * cm
         style = getSampleStyleSheet()['Normal']
         style.wordWrap = 'LTR'

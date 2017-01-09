@@ -100,5 +100,5 @@ urlpatterns = patterns('',
                        url(r'^scrape/(?P<slug>[a-zA-Z0-9_.-]+)/$', 'apps.stats.views.scrape', name='scrape'),
 
                        url(r'^export_awaiting_print/$', users_views.export_awaiting_print, name='export_awaiting_print'),
-                       url(r'^export_awaiting_pdf_letters/$', users_views.export_awaiting_pdf_letters, name='export_awaiting_pdf_letters'),
+                       url(r'^export_welcome_letters/$', users_views.export_welcome_letters, name='export_welcome_letters'),
 )
