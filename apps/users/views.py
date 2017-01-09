@@ -1,5 +1,6 @@
 import datetime
 from io import BytesIO
+import os
 
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
@@ -22,7 +23,9 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, Table
 from reportlab.lib.units import cm
+from reportlab.pdfbase import pdfmetrics
 
+from reportlab.pdfbase.ttfonts import TTFont
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
@@ -536,15 +539,17 @@ def export_awaiting_print(request):
 def export_welcome_letters(request):
     awaiting_members = Membership.objects.filter(card_status__status=1).order_by('-user__devil_no')
     devil_no = Membership.objects.filter(card_status__status=1).aggregate(max_devil_no=Max('user__devil_no'),
-                                                                          min_devil_no=Min('user__devil_no'))
+
+                                                                              min_devil_no=Min('user__devil_no'))
+    pdfmetrics.registerFont(TTFont('Lato', os.path.join(settings.BASE_DIR, 'static', 'fonts', 'Lato-Regular.ttf')))
     try:
-        settings = MembershipSetting.objects.get()
+        member_settings = MembershipSetting.objects.get()
     except MembershipSetting.DoesNotExist:
         messages.warning(request, 'Membership Settings Does not exists.')
         return HttpResponseRedirect(reverse('list_memberships'))
 
     # To insert next line in pdf
-    content = settings.welcome_letter_content.replace('\n', '<br/>')
+    content = member_settings.welcome_letter_content.replace('\n', '<br/>')
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="welcome-letters-' + str(
@@ -554,7 +559,7 @@ def export_welcome_letters(request):
 
     if awaiting_members:
         _canvas = canvas.Canvas(buffer)
-        _canvas.setFont("Times-Roman", 12)
+        _canvas.setFont("Lato", 12)
         width, height = 19 * cm, 40.7 * cm
         style = getSampleStyleSheet()['Normal']
         style.wordWrap = 'LTR'
