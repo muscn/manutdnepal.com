@@ -59,7 +59,8 @@ class TVScraper(Scraper):
             dt = datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
             try:
                 fixture = Fixture.objects.get(datetime=dt)
-                fixture.broadcast_on = ', '.join(channels)
-                fixture.save()
+                if not fixture.broadcast_on:
+                    fixture.broadcast_on = ', '.join(channels)
+                    fixture.save()
             except Fixture.DoesNotExist:
                 pass
