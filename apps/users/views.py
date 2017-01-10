@@ -566,17 +566,17 @@ def export_welcome_letters(request):
         style.leading = 18
         style.fontSize = 12
         for awaiting_member in awaiting_members:
-            _canvas.drawString(50, 650, datetime.date.today().strftime('%b %d, %Y'))
-            _canvas.drawString(50, 630, 'Dear ' + awaiting_member.user.full_name.title() + ' ( #' + str(
-                awaiting_member.user.devil_no) + ' )')
+            _canvas.drawString(50, 630, datetime.date.today().strftime('%b %d, %Y'))
+            _canvas.drawString(50, 570, 'Dear ' + awaiting_member.user.full_name.title() + ' ( #' + str(
+                awaiting_member.user.devil_no) + ' ),')
             p = Paragraph(content, style)
             data = [[p]]
             table = Table(data)
             table.wrapOn(_canvas, width, height)
-            table.drawOn(_canvas, 45, 350)
-            _canvas.drawString(50, 240, "With best regards,")
-            _canvas.drawString(50, 165, "Chairman")
-            _canvas.drawString(50, 145, "Manchester United Supporters' Club - Nepal")
+            table.drawOn(_canvas, 45, 320)
+            _canvas.drawString(50, 220, "With best regards,")
+            _canvas.drawString(50, 145, "Chairman")
+            _canvas.drawString(50, 125, "Manchester United Supporters' Club - Nepal")
             _canvas.showPage()
         _canvas.save()
     else:
