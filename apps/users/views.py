@@ -586,3 +586,39 @@ def export_welcome_letters(request):
     buffer.close()
     response.write(pdf)
     return response
+
+
+def export_name_and_number(request):
+    awaiting_members = Membership.objects.filter(card_status__status=1).order_by('-user__devil_no')
+    devil_no = Membership.objects.filter(card_status__status=1).aggregate(max_devil_no=Max('user__devil_no'),
+                                                                          min_devil_no=Min('user__devil_no'))
+    pdfmetrics.registerFont(TTFont('Lato', os.path.join(settings.BASE_DIR, 'static', 'fonts', 'Lato-Regular.ttf')))
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="name-number-' + str(
+        devil_no.get('min_devil_no')) + '-' + str(devil_no.get('max_devil_no')) + '.pdf'
+
+    buffer = BytesIO()
+
+    if awaiting_members:
+        _canvas = canvas.Canvas(buffer)
+        _canvas.setFont("Lato", 12)
+        width, height = 19 * cm, 40.7 * cm
+        style = getSampleStyleSheet()['Normal']
+        style.wordWrap = 'LTR'
+        style.fontName = 'Lato'
+        style.leading = 18
+        style.fontSize = 12
+        for awaiting_member in awaiting_members:
+            _canvas.drawString(50, 580, '#' + str(awaiting_member.user.devil_no))
+            _canvas.drawString(50, 565, awaiting_member.user.full_name.title())
+            _canvas.drawString(50, 550, awaiting_member.mobile)
+            _canvas.showPage()
+        _canvas.save()
+    else:
+        messages.warning(request, 'No Awaiting members.')
+        return HttpResponseRedirect(reverse('list_memberships'))
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response

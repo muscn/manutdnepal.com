@@ -101,4 +101,5 @@ urlpatterns = patterns('',
 
                        url(r'^export_awaiting_print/$', users_views.export_awaiting_print, name='export_awaiting_print'),
                        url(r'^export_welcome_letters/$', users_views.export_welcome_letters, name='export_welcome_letters'),
+                       url(r'^export_name_and_number/$', users_views.export_name_and_number, name='export_name_and_number'),
 )
