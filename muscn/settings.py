@@ -99,12 +99,12 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-#REST Framework settings
+# REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25,
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
+        # 'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
@@ -144,7 +144,7 @@ IGNORABLE_404_URLS = [
     re.compile(r'^/apple-touch-icon.*\.png$'),
 ]
 
-FCM_APIKEY = "AIzaSyDR8FymvBpas7S26wp8sATKEjVOSPih2so"
+FCM_APIKEY = "AAAAmVB3Xyo:APA91bErbKY5vOPrQaOz1tYx6VoyV34xg7FXt-lvEDBa98S11Ld0y5LPlElmT59126JLlUH77XFG8lJjAC9PgR7wI6bmpTQAmwQ2o_o6Gi5cHk7qPqAR8yiFW00Xo8XYj5mwz5Zch5LgBuGO2BNi4LtBsBG6_6lfWQ"
 
 ALIASES = [
     'Manchester United',
