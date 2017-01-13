@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'solo',
+    'fcm',
 
     'apps.core',
     'apps.users',
@@ -142,6 +143,8 @@ import re
 IGNORABLE_404_URLS = [
     re.compile(r'^/apple-touch-icon.*\.png$'),
 ]
+
+FCM_APIKEY = "<api_key>"
 
 ALIASES = [
     'Manchester United',
