@@ -144,7 +144,7 @@ IGNORABLE_404_URLS = [
     re.compile(r'^/apple-touch-icon.*\.png$'),
 ]
 
-FCM_APIKEY = "<api_key>"
+FCM_APIKEY = "AIzaSyDR8FymvBpas7S26wp8sATKEjVOSPih2so"
 
 ALIASES = [
     'Manchester United',
