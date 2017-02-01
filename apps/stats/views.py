@@ -1,8 +1,10 @@
-from django.core.urlresolvers import reverse_lazy
 import datetime
+
+from django.core.urlresolvers import reverse_lazy
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
+
 from django.core.cache import cache
 
 from apps.users.models import StaffOnlyMixin, group_required
@@ -164,6 +166,7 @@ def epl_table(request):
     }
     return render(request, 'stats/epl_table.html', context)
 
+
 def matchweek(request):
     standings = cache.get('epl_standings')
     context = {
@@ -216,5 +219,15 @@ class FixtureDetail(DetailView):
 
     def get_object(self, queryset=None):
         self.date = datetime.datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
-        return get_object_or_404(self.model, datetime__year=self.date.year, datetime__month=self.date.month,
-                                 datetime__day=self.date.day)
+        try:
+            fixture = get_object_or_404(self.model, datetime__year=self.date.year, datetime__month=self.date.month,
+                                        datetime__day=self.date.day)
+        except:
+            fixture_object = Fixture.object.filter(
+                self.model, datetime__year=self.date.year,
+                datetime__month=self.date.month,
+                datetime__day=self.date.day
+                )
+            fixture = fixture_object[0]
+            fixture_object[1:].delete()
+        return fixture
