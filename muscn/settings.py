@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'apps.webhook',
     'apps.gallery',
     'apps.key',
+    'apps.push_notification',
 )
 
 MIDDLEWARE_CLASSES = (
