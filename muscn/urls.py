@@ -15,6 +15,7 @@ from apps.stats import api as stats_api
 from apps.events import api as events_api
 from apps.post import api as post_api
 from apps.page import api as page_api
+from apps.push_notification import api as push_notification_api
 
 router = routers.DefaultRouter()
 
@@ -26,6 +27,8 @@ router.register(r'injuries', stats_api.InjuryViewSet)
 router.register(r'squads', stats_api.SquadViewSet)
 router.register(r'past_seasons', stats_api.PastSeasonViewSet)
 router.register(r'wallpapers', stats_api.WallpaperViewSet, base_name='wallpapers')
+
+router.register(r'user_device', push_notification_api.UserDeviceViewSet)
 
 router.register(r'events', events_api.EventViewSet)
 
