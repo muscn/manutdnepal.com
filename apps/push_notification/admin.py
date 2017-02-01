@@ -1,30 +1,25 @@
-import datetime
-
-from django.conf import settings
-
 from django.contrib import admin
-from fcm.utils import get_device_model
-import pytz
 
-from .models import BulkMessage
-
-Device = get_device_model()
+from .models import PushMessage, UserDevice
+from muscn.utils.admin import StaffFilter, send_action
 
 
-def send(modeladmin, request, queryset):
-    devices = Device.objects.all()
-    for bulk_message in queryset:
-        device_response = devices.send_message({'message': bulk_message.message})
-        bulk_message.response_message = device_response
-        bulk_message.last_sent_at = datetime.datetime.now(tz=pytz.timezone(settings.TIME_ZONE))
-        bulk_message.save()
+class UserDeviceAdmin(admin.ModelAdmin):
+    list_display = ('user', 'dev_id', 'name', 'device_type', 'is_active')
+    list_filter = ('device_type', 'is_active')
 
 
-class BulkMessageAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'created_at', 'updated_at', 'last_sent_at')
-    list_filter = ('created_at', 'updated_at', 'last_sent_at')
-    readonly_fields = ['created_at', 'updated_at', 'last_sent_at']
-    actions = [send, ]
+class PushMessageAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'author', 'created_at', 'updated_at', 'last_sent_at')
+    list_filter = (('author', StaffFilter), 'created_at', 'updated_at', 'last_sent_at')
+    readonly_fields = ['author', 'created_at', 'updated_at', 'last_sent_at']
+    actions = [send_action, ]
+
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'author', None) is None:
+            obj.author = request.user
+        obj.save()
 
 
-admin.site.register(BulkMessage, BulkMessageAdmin)
+admin.site.register(PushMessage, PushMessageAdmin)
+admin.site.register(UserDevice, UserDeviceAdmin)
