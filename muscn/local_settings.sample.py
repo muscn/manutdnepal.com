@@ -1,84 +1,34 @@
 from settings import *
 
-DEBUG = True
+import sys
+
+DEBUG = False
 ALLOWED_HOSTS = ['manutd.org.np', '127.0.0.1', 'localhost']
 SITE_ID = 1
-SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd2f<3'
-TEMPLATE_DEBUG = DEBUG
+SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd1234'
+#TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (('Admin Name', 'admin@server.com'),)
-MANAGERS = (('Admin Name', 'admin@server.com'),)
+ADMINS = (('Dipesh Acharya', 'xtranophilist@gmail.com'), (('Roshan Shrestha'), ('roshanshrestha01@gmail.com')))
+MANAGERS = (('Dipesh Acharya', 'xtranophilist@gmail.com'),)
+
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'muscn',
+         'USER': 'postgres',
+         'PASSWORD': 'R9Bt276h8Q9WO0H',
+         'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+         'PORT': '',  # Set to empty string for default.
+     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'muscn',
-#         'USER': 'muscn',
-#         'PASSWORD': 'muscn',
-#         'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '',  # Set to empty string for default.
-#     }
-# }
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 MEDIA_URL = '/media/'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt': "%d/%b/%Y %H:%M:%S"
-        },
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler',
-        },
-        'logfile': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': "/home/manutd/logs/django.log",
-            'maxBytes': 50000,
-            'backupCount': 2,
-            'formatter': 'standard',
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'standard'
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'WARN',
-        },
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'muscn': {
-            'handlers': ['console', 'logfile'],
-            'level': 'DEBUG',
-        },
-    }
-}
-
-WEBHOOK_PASSCODE = 'YOUR PASSCODE'
+WEBHOOK_PASSCODE = 'passtweird'
 
 INSTALLED_APPS += (
     # 'debug_toolbar',
@@ -91,8 +41,36 @@ CACHES = {
     }
 }
 
-TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
-
-SERVER_EMAIL = 'email@server.com'
-
 FOOTBALL_API_KEY = '1844545d-c3b0-a66a-df028044cbb5'
+TEMPLATES[0]['OPTIONS']['debug'] = True
+
+SERVER_EMAIL = 'manutd@awecode.com'
+FB_ACCESS_TOKEN = 'EAAKmQexfeSkBAIYVZC7UKFwDUbNfOZAXRHeEnSkhMvQSDyW6yS7gRh030jvfrruretOBDYEZCZAPmYq9oZB9JITAZBBMBdQBDJ0vZCVGHoXyMphRzExf3TZALZAINv0hobHtlTzYebQMWdjRkMkiLZAUpJI2TxWXjZAqxIqn81YMPojAgZDZD'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'opbeat': {
+            'level': 'WARNING',
+            'class': 'opbeat.contrib.django.handlers.OpbeatHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['mail_admins', 'opbeat'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+OPBEAT = {
+    'ORGANIZATION_ID': '463c8be84d4e4dfeb1e5feca945b5998',
+    'APP_ID': '45d09f458c',
+    'SECRET_TOKEN': '66633d40a419436743afcac979e302c1b004c4ee',
+}
