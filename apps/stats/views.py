@@ -223,7 +223,7 @@ class FixtureDetail(DetailView):
             fixture = get_object_or_404(self.model, datetime__year=self.date.year, datetime__month=self.date.month,
                                         datetime__day=self.date.day)
         except Fixture.MultipleObjectsReturned:
-            fixture_object = Fixture.object.filter(
+            fixture_object = Fixture.objects.filter(
                 self.model, datetime__year=self.date.year,
                 datetime__month=self.date.month,
                 datetime__day=self.date.day
