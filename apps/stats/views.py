@@ -224,10 +224,10 @@ class FixtureDetail(DetailView):
                                         datetime__day=self.date.day)
         except Fixture.MultipleObjectsReturned:
             fixture_object = Fixture.objects.filter(
-                self.model, datetime__year=self.date.year,
+                datetime__year=self.date.year,
                 datetime__month=self.date.month,
-                datetime__day=self.date.day
-                )
+                datetime__day=self.date.day)
             fixture = fixture_object[0]
-            fixture_object[1:].delete()
+            for fixture in fixture_object[1:]:
+                fixture.delete()
         return fixture
