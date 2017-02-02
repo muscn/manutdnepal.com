@@ -3,7 +3,7 @@ from facup import FACupScraper
 from squad import SquadScraper
 from fixtures import FixturesScraper
 from teams import TeamsScraper
-from table import TableScraper
+from table import TableScraper, EPLScrape, LeagueCupScrape, FACupScrape, EuropaLeagueScrape
 from tv import TVScraper
 from injuries import InjuriesScraper
 
@@ -13,7 +13,10 @@ available_scrapers = {
     'squad': SquadScraper,
     'fixtures': FixturesScraper,
     'teams': TeamsScraper,
-    'table': TableScraper,
+    'epl_table': EPLScrape,
+    'league_cup_table': LeagueCupScrape,
+    'fa_cup_table': FACupScrape,
+    'europa_league_table': EuropaLeagueScrape,
     'tv': TVScraper,
     'injuries': InjuriesScraper,
 }

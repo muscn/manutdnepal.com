@@ -9,7 +9,6 @@ from .base import Scraper
 
 class TableScraper(Scraper):
     base_url = 'http://www.livescores.com'
-    url = 'http://www.livescores.com/soccer/england/premier-league/'
 
     @classmethod
     def scrape(cls):
@@ -20,21 +19,24 @@ class TableScraper(Scraper):
             data = {}
             cols = row.cssselect('div')
             # cols[0] is self
-            if len(cols[1].cssselect('span.live img')):
-                data['live'] = True
-            else:
-                data['live'] = False
-            data['position'] = cols[1].cssselect('span')[1].text_content()
-            data['name'] = cols[2].text_content()
-            data['p'] = cols[3].text_content()
-            data['w'] = cols[4].text_content()
-            data['d'] = cols[5].text_content()
-            data['l'] = cols[6].text_content()
-            data['f'] = cols[7].text_content()
-            data['a'] = cols[8].text_content()
-            data['gd'] = cols[9].text_content()
-            data['pts'] = cols[10].text_content()
-            cls.data['teams'].append(data)
+            try:
+                if len(cols[1].cssselect('span.live img')):
+                    data['live'] = True
+                else:
+                    data['live'] = False
+                data['position'] = cols[1].cssselect('span')[1].text_content()
+                data['name'] = cols[2].text_content()
+                data['p'] = cols[3].text_content()
+                data['w'] = cols[4].text_content()
+                data['d'] = cols[5].text_content()
+                data['l'] = cols[6].text_content()
+                data['f'] = cols[7].text_content()
+                data['a'] = cols[8].text_content()
+                data['gd'] = cols[9].text_content()
+                data['pts'] = cols[10].text_content()
+                cls.data['teams'].append(data)
+            except IndexError:
+                pass
 
         # Also fetch all matches this week
 
@@ -72,6 +74,7 @@ class TableScraper(Scraper):
                             if data['minute'] == 'FT':
                                 fixture.send_updates()
                     except Fixture.DoesNotExist:
+                        print 'Fixture does not exist.'
                         pass
 
     @classmethod
@@ -87,59 +90,91 @@ class TableScraper(Scraper):
         grays = root.cssselect('div.row-gray')
         for gray in grays:
             # HT Score
-            if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[
-                0].text_content().strip() == 'half-time:':
-                data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')', '').replace(' ', '')
-                continue
-            # All but HT Score are events
-            event = {}
-            # Goal
-            if len(gray.cssselect('div.sco')) and gray.cssselect('div.sco')[0].text_content().strip():
-                event['type'] = 'goal'
-                score = gray.cssselect('div.sco')[0].text_content().strip()
-                event['text'] = score
-                m = gray.cssselect('.min')[0].text_content().strip().replace("'", "")
-                event['m'] = m
-                home_scorer = gray.cssselect('div.ply.tright')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
-                    0].text_content().strip()
-                og = False
-                pen = False
-                for ply in gray.cssselect('div.ply'):
-                    # og
-                    if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(o.g.)':
-                        og = True
-                    if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(o.g.)':
-                        og = True
-                    # pen
-                    if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(pen.)':
-                        pen = True
-                    if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(pen.)':
-                        pen = True
-                    # Assist
-                    if len(ply.cssselect('.assist.name')):
-                        event['assist_by'] = ply.cssselect('.assist.name')[0].text_content().replace('(assist)', '').strip()
-                if home_scorer:
-                    if og:
-                        event['team'] = 'away'
-                    else:
-                        event['team'] = 'home'
-                    event['scorer'] = home_scorer
-                else:
-                    if og:
-                        event['team'] = 'home'
-                    else:
-                        event['team'] = 'away'
-                    event['scorer'] = gray.cssselect('div.ply:not(.tright)')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
+            # IndexError for match which have not been played.
+            try:
+                if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[
+                    0].text_content().strip() == 'half-time:':
+                    data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')', '').replace(' ', '')
+                    continue
+                # All but HT Score are events
+                event = {}
+                # Goal
+                if len(gray.cssselect('div.sco')) and gray.cssselect('div.sco')[0].text_content().strip():
+                    event['type'] = 'goal'
+                    score = gray.cssselect('div.sco')[0].text_content().strip()
+                    event['text'] = score
+                    m = gray.cssselect('.min')[0].text_content().strip().replace("'", "")
+                    event['m'] = m
+                    home_scorer = gray.cssselect('div.ply.tright')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
                         0].text_content().strip()
-                if og:
-                    event['og'] = True
-                if pen:
-                    event['pen'] = True
+                    og = False
+                    pen = False
+                    for ply in gray.cssselect('div.ply'):
+                        # og
+                        if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(o.g.)':
+                            og = True
+                        if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(o.g.)':
+                            og = True
+                        # pen
+                        if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(pen.)':
+                            pen = True
+                        if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(pen.)':
+                            pen = True
+                        # Assist
+                        if len(ply.cssselect('.assist.name')):
+                            event['assist_by'] = ply.cssselect('.assist.name')[0].text_content().replace('(assist)', '').strip()
+                    if home_scorer:
+                        if og:
+                            event['team'] = 'away'
+                        else:
+                            event['team'] = 'home'
+                        event['scorer'] = home_scorer
+                    else:
+                        if og:
+                            event['team'] = 'home'
+                        else:
+                            event['team'] = 'away'
+                        event['scorer'] = gray.cssselect('div.ply:not(.tright)')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
+                            0].text_content().strip()
+                    if og:
+                        event['og'] = True
+                    if pen:
+                        event['pen'] = True
 
-                data['events'].append(event)
-                continue
+                    data['events'].append(event)
+                    continue
+            except IndexError:
+                pass
         return data
+
+
+class EPLScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/england/premier-league/'
 
     @classmethod
     def save(cls):
         cache.set('epl_standings', cls.data, timeout=None)
+
+
+class LeagueCupScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/england/carling-cup/'
+
+    @classmethod
+    def save(cls):
+        cache.set('league_cup_standings', cls.data, timeout=None)
+
+
+class FACupScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/england/fa-cup/'
+
+    @classmethod
+    def save(cls):
+        cache.set('fa_cup_standings', cls.data, timeout=None)
+
+
+class EuropaLeagueScrape(TableScraper):
+    url = 'http://www.livescores.com/soccer/europa-league/'
+
+    @classmethod
+    def save(cls):
+        cache.set('europa_league_standings', cls.data, timeout=None)
