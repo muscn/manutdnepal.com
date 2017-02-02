@@ -16,6 +16,7 @@ from apps.events import api as events_api
 from apps.post import api as post_api
 from apps.page import api as page_api
 from apps.push_notification import api as push_notification_api
+from apps.users import api as user_api
 
 router = routers.DefaultRouter()
 
@@ -35,6 +36,8 @@ router.register(r'events', events_api.EventViewSet)
 router.register(r'posts', post_api.PostViewSet)
 
 router.register(r'pages', page_api.PageViewSet)
+
+router.register(r'users', user_api.UserViewSet)
 
 
 urlpatterns = patterns('',
