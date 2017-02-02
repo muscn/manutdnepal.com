@@ -1,5 +1,5 @@
 {% extends "page_base.html" %}
-
+{% load filters i18n %}
 {% block title %}
     {{ page.title }}
     {{ block.super }}
@@ -19,4 +19,32 @@
         {{ page.content|safe }}
     </div>
 
+    {% if page.slug == 'contact-us' %}
+        {% stay_in_contact 'ContactForm' as contact_form %}
+        <h1>{% trans "Leave us a message." %}</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xs-6">
+                    <p>
+                        {{ contact_form.name }}
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    <p>
+                        {{ contact_form.email }}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>
+                        {{ contact_form.message }}
+                    </p>
+                </div>
+            </div>
+            <input class="btn bg-primary full contact-submit theme-title-background" type="submit">
+        </form>
+    {% endif %}
 {% endblock %}

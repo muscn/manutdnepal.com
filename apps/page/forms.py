@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import ModelForm, ChoiceField
 from .models import Page
 from os.path import isfile, join, splitext
@@ -29,3 +30,10 @@ class PageForm(ModelForm):
     class Meta:
         model = Page
         exclude = ()
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control full', 'placeholder': 'Name'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control full', 'placeholder': 'Email'}))
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control full', 'placeholder': 'Message', 'rows': 2}))
