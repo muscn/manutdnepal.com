@@ -256,6 +256,11 @@ class User(AbstractBaseUser):
         name_xy = (name_start_xy[0], name_start_xy[1])
         last_name_xy = (name_xy[0] + name_sans_last_size[0], name_xy[1])
 
+        # For name Shaswotsher Adhikari having first and last name with length >= than 20
+        if len(names) == 2 and len(name) >= 20:
+            last_name_xy = (name_start_xy[0], name_start_xy[1])
+            name_xy = (last_name_xy[0], last_name_xy[1] - 50)
+
         draw.text(name_xy, name_sans_last, fill="white", font=name_sans_last_font)
         draw.text(last_name_xy, last_name, fill="white", font=last_name_font)
 
