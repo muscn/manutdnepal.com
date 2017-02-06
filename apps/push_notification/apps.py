@@ -5,3 +5,4 @@ from django.apps import AppConfig
 
 class PushNotificationConfig(AppConfig):
     name = 'apps.push_notification'
+    verbose_name = 'Push Notification'
