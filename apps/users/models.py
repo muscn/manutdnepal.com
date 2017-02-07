@@ -595,15 +595,16 @@ def get_new_cards():
     min = float('inf')
     max = 0
     for awaiting_card in awaiting_cards:
-        fake_file = StringIO()
-        devil_no = awaiting_card.membership.user.devil_no
-        if devil_no < min:
-            min = devil_no
-        if devil_no > max:
-            max = devil_no
-        card = awaiting_card.membership.user.get_card()
-        card.save(fake_file, "jpeg")
-        zip_file.writestr(str(devil_no) + '.jpg', fake_file.getvalue())
+        if awaiting_card.membership.user.devil_no:
+            fake_file = StringIO()
+            devil_no = awaiting_card.membership.user.devil_no
+            if devil_no < min:
+                min = devil_no
+            if devil_no > max:
+                max = devil_no
+            card = awaiting_card.membership.user.get_card()
+            card.save(fake_file, "jpeg")
+            zip_file.writestr(str(devil_no) + '.jpg', fake_file.getvalue())
     zip_file.close()
     name = str(min) + '-' + str(max) + '.zip'
     return name, in_memory_file
