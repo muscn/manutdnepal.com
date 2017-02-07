@@ -594,7 +594,7 @@ def get_new_cards():
     zip_file = zipfile.ZipFile(in_memory_file, 'w')
     min = float('inf')
     max = 0
-    for awaiting_card in awaiting_cards:
+    for awaiting_card in awaiting_cards[:7]:
         if awaiting_card.membership.user.devil_no:
             fake_file = StringIO()
             devil_no = awaiting_card.membership.user.devil_no
