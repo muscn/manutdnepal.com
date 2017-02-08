@@ -503,6 +503,7 @@ FULL_DATA = [
      "itu": "MOZ", "name": "Mozambique", "num": 508},
     {"a2": "EN", "a3": "ENG", "name": "England"},
     {"a2": "ND", "a3": "NIR", "name": "Northern Ireland"},
+    {"a2": "SS", "a3": "SCO", "name": "Scotland"},
 ]
 
 # http://xml.coverpages.org/country3166.html
