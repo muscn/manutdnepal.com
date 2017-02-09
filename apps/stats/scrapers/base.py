@@ -23,16 +23,22 @@ class Scraper(object):
         cls.log('Retrieving content from: ' + url + ' ...')
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-        response = opener.open(url)
-        return response.read()
+        try:
+            response = opener.open(url)
+            return response.read()
+        except urllib2.URLError:
+            return None
 
     @classmethod
     def get_json_from_url(cls, url):
         cls.log('Retrieving JSON: ' + url + ' ...')
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-        response = opener.open(url)
-        return json.loads(response.read())
+        try:
+            response = opener.open(url)
+            return json.loads(response.read())
+        except urllib2.URLError:
+            return None
 
     @classmethod
     def download(cls, url=None, path=None):
@@ -67,13 +73,14 @@ class Scraper(object):
     def get_root_tree(cls, url=None):
         root_url = url or cls.url
         cls.log('Retrieving root URL: ' + root_url + ' ...')
-        cookies = {'tz': '5.75', 'u_country': 'Nepal', 'u_country_code': 'NP', 'u_timezone': 'Asia%2FKatmandu', 'u_continent':'Asia'}
+        cookies = {'tz': '5.75', 'u_country': 'Nepal', 'u_country_code': 'NP', 'u_timezone': 'Asia%2FKatmandu',
+                   'u_continent': 'Asia'}
         try:
             page = requests.get(root_url, cookies=cookies)
+            tree = html.fromstring(page.text)
+            return tree
         except requests.ConnectionError:
-            pass
-        tree = html.fromstring(page.text)
-        return tree
+            return None
 
     @classmethod
     def get_wiki_cell_content(cls, td):

@@ -41,17 +41,18 @@ class TVScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        match_rows = root.cssselect('.matchrow')
-        for match_row in match_rows:
-            # skip past matches
+        if root:
+            match_rows = root.cssselect('.matchrow')
+            for match_row in match_rows:
+                # skip past matches
 
-            if match_row.cssselect('.narrow.ft'):
-                continue
-            timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
-            cls.data[timestamp] = []
-            channels_text = match_row.cssselect('td')[-1].text_content()
-            channel = channels_text.split(',')[0]
-            cls.data[timestamp].append(channel)
+                if match_row.cssselect('.narrow.ft'):
+                    continue
+                timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
+                cls.data[timestamp] = []
+                channels_text = match_row.cssselect('td')[-1].text_content()
+                channel = channels_text.split(',')[0]
+                cls.data[timestamp].append(channel)
 
     @classmethod
     def save(cls):

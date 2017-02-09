@@ -13,34 +13,35 @@ class SquadScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        table = root.xpath('//table')[0]
-        rows = table.xpath('tr')[1:]
-        for row in rows:
-            dct = {}
-            columns = row.getchildren()
-            if columns:
-                try:
-                    dct['no'] = columns[0].text_content().strip()
-                    if dct['no'] == '':
-                        dct['no'] = None
-                    dct['name'] = columns[1].text_content().strip()
-                    dct['country'] = columns[2].text_content().strip()
-                    dct['position'] = columns[3].text_content().strip()
-                    dct['height'] = columns[4].text_content().strip()
-                    dct['weight'] = columns[5].text_content().strip()
-                    dct['date_of_birth'] = columns[6].text_content().strip()
-                    dct['birth_place'] = columns[7].text_content().strip()
-                    dct['previous_club'] = columns[8].text_content().strip()
-                    if dct['previous_club'] == 'None':
-                        dct['previous_club'] = None
-                    if columns[1].getchildren() and columns[1].getchildren()[0].tag == 'i':
-                        dct['on_loan'] = True
-                    if dct['name'] == 'Name':
-                        break
-                    if not dct['name'] == '':
-                        cls.data.append(dct)
-                except IndexError:
-                    pass
+        if root:
+            table = root.xpath('//table')[0]
+            rows = table.xpath('tr')[1:]
+            for row in rows:
+                dct = {}
+                columns = row.getchildren()
+                if columns:
+                    try:
+                        dct['no'] = columns[0].text_content().strip()
+                        if dct['no'] == '':
+                            dct['no'] = None
+                        dct['name'] = columns[1].text_content().strip()
+                        dct['country'] = columns[2].text_content().strip()
+                        dct['position'] = columns[3].text_content().strip()
+                        dct['height'] = columns[4].text_content().strip()
+                        dct['weight'] = columns[5].text_content().strip()
+                        dct['date_of_birth'] = columns[6].text_content().strip()
+                        dct['birth_place'] = columns[7].text_content().strip()
+                        dct['previous_club'] = columns[8].text_content().strip()
+                        if dct['previous_club'] == 'None':
+                            dct['previous_club'] = None
+                        if columns[1].getchildren() and columns[1].getchildren()[0].tag == 'i':
+                            dct['on_loan'] = True
+                        if dct['name'] == 'Name':
+                            break
+                        if not dct['name'] == '':
+                            cls.data.append(dct)
+                    except IndexError:
+                        pass
 
     @classmethod
     def save(cls):
