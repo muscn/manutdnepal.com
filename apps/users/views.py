@@ -610,7 +610,7 @@ def export_name_and_number(request):
         style.fontSize = 12
         for awaiting_member in awaiting_members:
             _canvas.setPageSize((4.5 * inch, 9.5 * inch))
-            _canvas.drawCentredString(2.25 * inch, 620, '#' + str(awaiting_member.user.devil_no))
+            _canvas.drawCentredString(2.25 * inch, 620, '# ' + str(awaiting_member.user.devil_no))
             _canvas.drawCentredString(2.25 * inch, 605, awaiting_member.user.full_name.title())
             _canvas.drawCentredString(2.25 * inch, 590, awaiting_member.mobile)
             _canvas.showPage()
