@@ -602,13 +602,13 @@ def export_name_and_number(request):
 
     if awaiting_members:
         _canvas = canvas.Canvas(buffer)
-        _canvas.setFont("Lato", 12)
         style = getSampleStyleSheet()['Normal']
         style.wordWrap = 'LTR'
         style.fontName = 'Lato'
         style.leading = 18
         style.fontSize = 12
         for awaiting_member in awaiting_members:
+            _canvas.setFont("Lato", 12)
             _canvas.setPageSize((4.5 * inch, 9.5 * inch))
             _canvas.drawCentredString(2.25 * inch, 620, '# ' + str(awaiting_member.user.devil_no))
             _canvas.drawCentredString(2.25 * inch, 605, awaiting_member.user.full_name.title())
