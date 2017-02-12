@@ -87,66 +87,72 @@ class TableScraper(Scraper):
         # Penalty scored at away
         # url = 'http://www.livescore.com/soccer/england/premier-league/newcastle-united-vs-manchester-united/1-1988916/'
         root = cls.get_root_tree(url)
-        data = {'events': []}
-        grays = root.cssselect('div.row-gray')
-        for gray in grays:
-            # HT Score
-            # IndexError for match which have not been played.
-            try:
-                if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[
-                    0].text_content().strip() == 'half-time:':
-                    data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')', '').replace(' ', '')
-                    continue
-                # All but HT Score are events
-                event = {}
-                # Goal
-                if len(gray.cssselect('div.sco')) and gray.cssselect('div.sco')[0].text_content().strip():
-                    event['type'] = 'goal'
-                    score = gray.cssselect('div.sco')[0].text_content().strip()
-                    event['text'] = score
-                    m = gray.cssselect('.min')[0].text_content().strip().replace("'", "")
-                    event['m'] = m
-                    home_scorer = gray.cssselect('div.ply.tright')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
-                        0].text_content().strip()
-                    og = False
-                    pen = False
-                    for ply in gray.cssselect('div.ply'):
-                        # og
-                        if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(o.g.)':
-                            og = True
-                        if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(o.g.)':
-                            og = True
-                        # pen
-                        if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(pen.)':
-                            pen = True
-                        if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(pen.)':
-                            pen = True
-                        # Assist
-                        if len(ply.cssselect('.assist.name')):
-                            event['assist_by'] = ply.cssselect('.assist.name')[0].text_content().replace('(assist)', '').strip()
-                    if home_scorer:
-                        if og:
-                            event['team'] = 'away'
+        if root:
+            data = {'events': []}
+            grays = root.cssselect('div.row-gray')
+            for gray in grays:
+                # HT Score
+                # IndexError for match which have not been played.
+                try:
+                    if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[0].text_content().strip() == 'half-time:':
+                        data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')',
+                                                                                                                '').replace(
+                            ' ', '')
+                        continue
+                    # All but HT Score are events
+                    event = {}
+                    # Goal
+                    if len(gray.cssselect('div.sco')) and gray.cssselect('div.sco')[0].text_content().strip():
+                        event['type'] = 'goal'
+                        score = gray.cssselect('div.sco')[0].text_content().strip()
+                        event['text'] = score
+                        m = gray.cssselect('.min')[0].text_content().strip().replace("'", "")
+                        event['m'] = m
+                        home_scorer = \
+                            gray.cssselect('div.ply.tright')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
+                                0].text_content().strip()
+                        og = False
+                        pen = False
+                        for ply in gray.cssselect('div.ply'):
+                            # og
+                            if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(o.g.)':
+                                og = True
+                            if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(o.g.)':
+                                og = True
+                            # pen
+                            if len(ply.cssselect('span.ml4')) and ply.cssselect('span.ml4')[0].text_content().strip() == '(pen.)':
+                                pen = True
+                            if len(ply.cssselect('span.mr4')) and ply.cssselect('span.mr4')[0].text_content().strip() == '(pen.)':
+                                pen = True
+                            # Assist
+                            if len(ply.cssselect('.assist.name')):
+                                event['assist_by'] = ply.cssselect('.assist.name')[0].text_content().replace('(assist)',
+                                                                                                             '').strip()
+                        if home_scorer:
+                            if og:
+                                event['team'] = 'away'
+                            else:
+                                event['team'] = 'home'
+                            event['scorer'] = home_scorer
                         else:
-                            event['team'] = 'home'
-                        event['scorer'] = home_scorer
-                    else:
+                            if og:
+                                event['team'] = 'home'
+                            else:
+                                event['team'] = 'away'
+                            event['scorer'] = \
+                                gray.cssselect('div.ply:not(.tright)')[0].cssselect('div:not(.ply)')[0].cssselect(
+                                    '.name')[
+                                    0].text_content().strip()
                         if og:
-                            event['team'] = 'home'
-                        else:
-                            event['team'] = 'away'
-                        event['scorer'] = gray.cssselect('div.ply:not(.tright)')[0].cssselect('div:not(.ply)')[0].cssselect('.name')[
-                            0].text_content().strip()
-                    if og:
-                        event['og'] = True
-                    if pen:
-                        event['pen'] = True
+                            event['og'] = True
+                        if pen:
+                            event['pen'] = True
 
-                    data['events'].append(event)
-                    continue
-            except IndexError:
-                pass
-        return data
+                        data['events'].append(event)
+                        continue
+                except IndexError:
+                    pass
+            return data
 
 
 class EPLScrape(TableScraper):
