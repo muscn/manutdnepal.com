@@ -67,16 +67,17 @@ class TableScraper(Scraper):
                     if len(links):
                         url = cls.base_url + links[0].get('href')
                         m_data = cls.get_m_data(url)
-                        m_data['minute'] = data['minute']
-                        try:
-                            fixture = Fixture.objects.get(datetime=dt)
-                            if not fixture.has_complete_data():
-                                fixture.process_data(data, m_data)
-                                if data['minute'] == 'FT':
-                                    fixture.send_updates()
-                        except Fixture.DoesNotExist:
-                            print 'Fixture does not exist.'
-                            pass
+                        if m_data:
+                            m_data['minute'] = data['minute']
+                            try:
+                                fixture = Fixture.objects.get(datetime=dt)
+                                if not fixture.has_complete_data():
+                                    fixture.process_data(data, m_data)
+                                    if data['minute'] == 'FT':
+                                        fixture.send_updates()
+                            except Fixture.DoesNotExist:
+                                print 'Fixture does not exist.'
+                                pass
 
     @classmethod
     def get_m_data(cls, url):
