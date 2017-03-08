@@ -71,7 +71,6 @@ class TableScraper(Scraper):
                             m_data['minute'] = data['minute']
                             try:
                                 fixture = Fixture.objects.get(datetime=dt)
-                                data['fixture_id'] = fixture.id
                                 if not fixture.has_complete_data():
                                     fixture.process_data(data, m_data)
                                     if data['minute'] == 'FT':
@@ -79,6 +78,13 @@ class TableScraper(Scraper):
                             except Fixture.DoesNotExist:
                                 print 'Fixture does not exist.'
                                 pass
+                try:
+                    fixture = Fixture.objects.get(datetime=dt)
+                    data['fixture_id'] = fixture.id
+                except Exception as e:
+                    data['fixture_id'] = None
+                    print 'Fixture does not exist.'
+                    pass
 
     @classmethod
     def get_m_data(cls, url):
