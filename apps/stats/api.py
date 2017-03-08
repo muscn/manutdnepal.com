@@ -7,7 +7,7 @@ from apps.key.permissions import DistributedKeyAuthentication
 
 from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury, Wallpaper, Player, \
     SeasonData
-from apps.stats.scrapers import TableScraper
+from apps.stats.scrapers import TableScraper, EPLScrape
 from ..stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, WallpaperSerializer, \
     PlayerSerializer, SeasonDataSerializer
 
@@ -22,13 +22,20 @@ class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.
         if 'epl_standings' in cache:
             standings = cache.get('epl_standings')
         else:
-            TableScraper.start(command=True)
+            EPLScrape.start(command=True)
             standings = cache.get('epl_standings')
         if 'matches' in standings:
             for k, v in standings.get('matches').items():
                 standings.get('matches')[str(k)] = standings.get('matches').pop(k)
             standings = standings.get('matches')
         return Response(standings)
+
+
+class FixtureDetailViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    serializer_class = FixtureSerializer
+    queryset = Fixture.objects.all()
+    permission_classes = (DistributedKeyAuthentication,)
+
 
 
 class RecentResultViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):

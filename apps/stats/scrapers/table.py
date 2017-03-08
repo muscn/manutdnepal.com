@@ -71,6 +71,7 @@ class TableScraper(Scraper):
                             m_data['minute'] = data['minute']
                             try:
                                 fixture = Fixture.objects.get(datetime=dt)
+                                data['fixture_id'] = fixture.id
                                 if not fixture.has_complete_data():
                                     fixture.process_data(data, m_data)
                                     if data['minute'] == 'FT':
