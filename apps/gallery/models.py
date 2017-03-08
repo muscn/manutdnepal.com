@@ -104,8 +104,8 @@ class Album(models.Model):
         unique_slugify(self, self.name)
         super(Album, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse_lazy('view_album', kwargs={'slug': self.slug})
+    # def get_absolute_url(self):
+    #     return reverse_lazy('view_album', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name
@@ -133,8 +133,8 @@ class Image(models.Model):
             return self.name
         return self.file_name_sans_ext
 
-    def get_absolute_url(self):
-        return reverse('view_image', kwargs={'pk': self.pk})
+    # def get_absolute_url(self):
+    #     return reverse('view_image', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         if not self.id:
