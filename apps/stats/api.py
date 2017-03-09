@@ -9,7 +9,7 @@ from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers
     SeasonData
 from apps.stats.scrapers import TableScraper, EPLScrape
 from ..stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, WallpaperSerializer, \
-    PlayerSerializer, SeasonDataSerializer
+    PlayerSerializer, SeasonDataSerializer, FixtureDetailSerializer
 
 
 class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -32,7 +32,7 @@ class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.
 
 
 class FixtureDetailViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    serializer_class = FixtureSerializer
+    serializer_class = FixtureDetailSerializer
     queryset = Fixture.objects.all()
     permission_classes = (DistributedKeyAuthentication,)
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount, SeasonData
+from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount, SeasonData, Goal
 
 
 class FixtureSerializer(serializers.ModelSerializer):
@@ -11,6 +11,30 @@ class FixtureSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class GoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goal
+
+
+class FixtureDetailSerializer(serializers.ModelSerializer):
+    opponent_name = serializers.ReadOnlyField(source='opponent.not_so_long_name')
+    opponent_crest = serializers.SerializerMethodField()
+    opponent_short_name = serializers.ReadOnlyField(source='opponent.short_name')
+    competition_name = serializers.ReadOnlyField(source='competition_year.competition.name')
+    goals = GoalSerializer(many=True)
+
+    class Meta:
+        model = Fixture
+        depth = 2
+        fields = ('id', 'is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest',
+                  'opponent_short_name', 'competition_name', 'datetime', 'data', 'broadcast_on', 'goals')
+
+    def get_opponent_crest(self, obj):
+        if obj.opponent.crest:
+            return obj.opponent.crest.url
+        return None
+
+
 class RecentResultSerializer(serializers.ModelSerializer):
     opponent_name = serializers.ReadOnlyField(source='opponent.not_so_long_name')
     opponent_crest = serializers.SerializerMethodField()
@@ -19,7 +43,7 @@ class RecentResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Fixture
-        fields = ('is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest',
+        fields = ('id', 'is_home_game', 'opponent_name', 'mufc_score', 'venue', 'opponent_score', 'opponent_crest',
                   'opponent_short_name', 'competition_name', 'datetime',)
 
     def get_opponent_crest(self, obj):
