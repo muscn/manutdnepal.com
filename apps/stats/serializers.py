@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import DictField, CharField
 
 from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount, SeasonData, Goal
 
@@ -22,6 +23,7 @@ class FixtureDetailSerializer(serializers.ModelSerializer):
     opponent_short_name = serializers.ReadOnlyField(source='opponent.short_name')
     competition_name = serializers.ReadOnlyField(source='competition_year.competition.name')
     goals = GoalSerializer(many=True)
+    data = DictField()
 
     class Meta:
         model = Fixture
