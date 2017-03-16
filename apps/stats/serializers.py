@@ -13,6 +13,9 @@ class FixtureSerializer(serializers.ModelSerializer):
 
 
 class GoalSerializer(serializers.ModelSerializer):
+    scorer = serializers.ReadOnlyField(source='scorer.name')
+    assist_by = serializers.ReadOnlyField(source='assist_by.name')
+
     class Meta:
         model = Goal
 
