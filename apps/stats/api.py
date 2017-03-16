@@ -38,7 +38,7 @@ class FixtureDetailViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
 
 
 
-class RecentResultViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class RecentResultViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = RecentResultSerializer
     queryset = Fixture.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
     permission_classes = (DistributedKeyAuthentication,)
