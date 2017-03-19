@@ -14,8 +14,10 @@ class InjuriesScraper(Scraper):
         if root:
             united_row = root.xpath('//a[contains(text(), "Manchester United")]')[1].getparent().getparent().getparent()
             urtc = united_row.text_content().strip()
-            no_of_injuries = int(re.match(r'Manchester United\s* \((.*)\)', urtc, re.M | re.I).group(1))
-            injury_rows = united_row.xpath('./following-sibling::tr')[:no_of_injuries]
+            # no_of_injuries = int(re.match(r'Manchester United\s* \((.*)\)', urtc, re.M | re.I).group(1))
+            no_of_injuries = int(re.search(r'Manchester United\s* \((.*)\)', urtc, re.M | re.I).group(1))
+            # Added +1 to leave row containing player, condition... header
+            injury_rows = united_row.xpath('./following-sibling::tr')[1:no_of_injuries + 1]
             for row in injury_rows:
                 player_link = row.getchildren()[0].getchildren()[1].attrib['href']
                 player_name = player_link.split('/')[-1:][0].split('.')[0].replace('_injury', '').replace('_', ' ').title()
