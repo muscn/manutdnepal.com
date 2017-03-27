@@ -18,8 +18,10 @@
                     </li>
                 </ul>
             </div>
+            {% if partner.logo %}
             <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" height="200" title="{{ partner.name }}"
                  class="pull-right partner-logo">
+            {% endif %}
         </div>
 
         <div>
