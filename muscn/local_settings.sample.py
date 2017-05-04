@@ -70,7 +70,7 @@ LOGGING = {
 }
 
 OPBEAT = {
-    'ORGANIZATION_ID': '463c8be84d4e4dfeb1e5feca945b5998',
+    'ORGANIZATION_ID': 'adsd',
     'APP_ID': '45d09f458c',
-    'SECRET_TOKEN': '66633d40a419436743afcac979e302c1b004c4ee',
+    'SECRET_TOKEN': 'asd',
 }
