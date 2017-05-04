@@ -53,19 +53,20 @@ INSTALLED_APPS = (
     'apps.push_notification',
 )
 
-MIDDLEWARES = [
-    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'linaro_django_pagination.middleware.PaginationMiddleware',
-    'webstack_django_sorting.middleware.SortingMiddleware',
+
+    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+    # 'linaro_django_pagination.middleware.PaginationMiddleware',
+    # 'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
-    'django.middleware.common.BrokenLinkEmailsMiddleware',
+
 ]
 
 TEMPLATES = [
