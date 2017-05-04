@@ -53,7 +53,7 @@ INSTALLED_APPS = (
     'apps.push_notification',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARES = [
     'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,8 +66,7 @@ MIDDLEWARE_CLASSES = (
     'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
-
-)
+]
 
 TEMPLATES = [
     {
@@ -119,7 +118,6 @@ try:
     from .local_settings import *  # noqa
 except ImportError:
     pass
-
 
 # DJANGO_REDIS_IGNORE_EXCEPTIONS = True
 
