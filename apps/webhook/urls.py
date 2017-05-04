@@ -1,8 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from . import views
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^log/(?P<request_type>[a-zA-Z0-9_.-]+)/$', views.logger, name='logger'),
-)
+]
