@@ -60,7 +60,7 @@ admin.site.register(Wallpaper)
 # admin.site.register(Fixture, ResultAdmin)
 
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ['squad_no', 'name', 'active']
+    list_display = ['squad_no', 'name', 'active', 'on_loan']
     list_display_links = ['squad_no', 'name']
     list_filter = ['favored_position', 'on_loan', 'active', 'nationality', ]
     search_fields = ['name']
