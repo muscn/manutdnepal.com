@@ -2,7 +2,7 @@ from .base import Scraper
 
 
 class SeasonDataScraper(Scraper):
-    url = 'http://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._seasons'
+    url = 'https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._seasons'
 
     @classmethod
     def get_remark_from_bgcolor(cls, bgcolor):
@@ -23,7 +23,7 @@ class SeasonDataScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        if root:
+        if root is not None:
             table = root.xpath('//h2/span[@id="Seasons"]/..//following-sibling::table')[0]
             rows = table.xpath('tr')[2:]
             dct = {}
@@ -31,10 +31,6 @@ class SeasonDataScraper(Scraper):
                 columns = row.getchildren()
                 if columns:
                     year = columns[0].text_content()[0:4]
-                    # if year == '1886':
-                    # import ipdb
-                    #
-                    #     ipdb.set_trace()
                     if columns[0].xpath('.//a'):
                         data = {'wiki_url': columns[0].xpath('.//a')[0].attrib['href']}
                         if cls.gwcc(columns[1]):

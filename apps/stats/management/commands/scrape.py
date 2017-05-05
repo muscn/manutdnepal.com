@@ -11,5 +11,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for arg in options['scraper']:
-            scraper = available_scrapers[arg]
+            try:
+                scraper = available_scrapers[arg]
+            except KeyError:
+                raise CommandError('Scraper "%s" does not exist' % arg)
             scraper.start(command=True)
