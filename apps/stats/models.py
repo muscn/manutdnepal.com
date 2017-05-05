@@ -30,7 +30,7 @@ from django.core.cache import cache
 from django.db.models import Q
 
 from muscn.utils.countries import CountryField
-from muscn.utils.football import get_current_season_start_year
+from muscn.utils.football import get_current_season_start_year, get_current_season_start, get_current_season_start_time
 from muscn.utils.forms import unique_slugify
 from muscn.utils.helpers import facebook_api
 from muscn.utils.npt import utc_to_local
@@ -519,6 +519,13 @@ class Fixture(models.Model):
 
     @classmethod
     def results(cls):
+        # Only from current season
+        return cls.objects.filter(datetime__lt=timezone.now()).filter(datetime__gt=get_current_season_start_time()).order_by(
+            '-datetime')
+
+    @classmethod
+    def all_results(cls):
+        # from all seasons
         return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime').select_related()
 
     @classmethod

@@ -150,9 +150,9 @@ ALIASES = [
     'MUFC',
 ]
 
-import warnings
-warnings.filterwarnings(
-    'error', r"DateTimeField .* received a naive datetime",
-    RuntimeWarning, r'django\.db\.models\.fields')
+# import warnings
+# warnings.filterwarnings(
+#     'error', r"DateTimeField .* received a naive datetime",
+#     RuntimeWarning, r'django\.db\.models\.fields')
 
 TEMPLATE_DEBUG =False
