@@ -7,13 +7,13 @@ from muscn.utils.countries import get_a2_from_a3
 
 
 class SquadScraper(Scraper):
-    url = 'http://www.footballsquads.co.uk/eng/2015-2016/faprem/manutd.htm'
+    url = 'http://www.footballsquads.co.uk/eng/2016-2017/faprem/manutd.htm'
     data = []
 
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        if root:
+        if root is not None:
             table = root.xpath('//table')[0]
             rows = table.xpath('tr')[1:]
             for row in rows:
@@ -47,7 +47,10 @@ class SquadScraper(Scraper):
     def save(cls):
         Player.objects.all().update(active=False)
         for datum in cls.data:
-            player, created = Player.objects.get_or_create(name=datum['name'])
+            try:
+                player = Player.get(datum['name'])
+            except Player.DoesNotExist:
+                player = Player.objects.create(name=datum['name'])
             player.squad_no = datum['no']
             player.height = datum['height']
             player.weight = datum['weight']

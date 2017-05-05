@@ -5,6 +5,7 @@ from random import randint
 import urllib
 import json
 
+from django.contrib.postgres.fields import ArrayField
 from django.core.mail import mail_admins
 from django.utils import timezone
 
@@ -232,7 +233,7 @@ class Player(Person):
     previous_club = models.CharField(max_length=255, blank=True, null=True)
     on_loan = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    alternative_names = models.CharField(max_length=255, blank=True, null=True)
+    alt_names = ArrayField(models.CharField(max_length=255), blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
@@ -251,7 +252,7 @@ class Player(Person):
         try:
             return Player.objects.get(name=name)
         except Player.DoesNotExist:
-            return Player.objects.get(alternative_names__icontains='|' + name + '|')
+            return Player.objects.get(alt_names__contains=[name])
 
 
 class Official(Person):
