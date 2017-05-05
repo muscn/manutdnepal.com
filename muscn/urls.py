@@ -80,6 +80,8 @@ urlpatterns = [
     url(r'^matchweek/$', stats_views.matchweek, name='matchweek'),
     url(r'^fixtures/$', stats_views.fixtures, name='fixtures'),
     url(r'^results/$', stats_views.fixtures, name='results'),
+
+    url(r'^all-results/$', stats_views.all_results, name='all-results'),
     url(r'^top-scorers/$', stats_views.scorers, name='scorers'),
     url(r'^injuries/$', stats_views.injuries, name='injuries'),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': SITEMAPS}, name='django.contrib.sitemaps.views.sitemap'),

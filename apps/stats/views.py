@@ -198,6 +198,13 @@ def fixtures(request):
     return render(request, 'stats/fixtures.html', context)
 
 
+def all_results(request):
+    context = {
+        'results': Fixture.all_results(),
+    }
+    return render(request, 'stats/all_results.html', context)
+
+
 @group_required('Staff')
 def scrape(request, slug):
     from apps.stats.scrapers import available_scrapers
