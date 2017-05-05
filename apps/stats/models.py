@@ -6,6 +6,8 @@ import urllib
 import json
 
 from django.core.mail import mail_admins
+from django.utils import timezone
+
 import wikipedia
 
 from django.core.files import File
@@ -38,6 +40,7 @@ for r in range(1890, (datetime.datetime.now().year + 1)):
     YEAR_CHOICES.append((r, r))
 
 BASE_URL = 'http://manutd.org.np'
+
 
 # Fixtured
 class Competition(models.Model):
@@ -512,15 +515,15 @@ class Fixture(models.Model):
 
     @classmethod
     def get_upcoming(cls):
-        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
+        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
 
     @classmethod
     def results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime').select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime').select_related()
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8].select_related()
 
     @property
     def is_today(self):
