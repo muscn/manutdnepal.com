@@ -66,7 +66,6 @@ MIDDLEWARE = [
     # 'linaro_django_pagination.middleware.PaginationMiddleware',
     # 'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
-
 ]
 
 TEMPLATES = [
