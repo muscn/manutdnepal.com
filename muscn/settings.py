@@ -25,7 +25,7 @@ INSTALLED_APPS = (
 
     'froala_editor',
     'dbsettings',
-    'linaro_django_pagination',
+    'dj_pagination',
     'webstack_django_sorting',
     'auditlog',
     'smuggler',
@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
-    # 'linaro_django_pagination.middleware.PaginationMiddleware',
+    'dj_pagination.middleware.PaginationMiddleware',
     # 'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
 ]

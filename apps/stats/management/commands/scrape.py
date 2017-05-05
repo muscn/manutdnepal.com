@@ -4,12 +4,12 @@ from apps.stats.scrapers import available_scrapers
 
 class Command(BaseCommand):
     args = '[ ' + ' | '.join(available_scrapers.keys()) + ' ]'
-    help = 'Scrap and Save. That\'s what I do.'
+    help = 'Scrap and Save. That\'s what I do.' + ' Available scrapers are: ' + ' | '.join(available_scrapers.keys())
+
+    def add_arguments(self, parser):
+        parser.add_argument('scraper', nargs='+', type=str)
 
     def handle(self, *args, **options):
-        if len(args) < 1:
-            raise CommandError(
-                'I need something to scrap. Available arguments are: ' + ' | '.join(available_scrapers.keys()))
-        for arg in args:
+        for arg in options['scraper']:
             scraper = available_scrapers[arg]
             scraper.start(command=True)
