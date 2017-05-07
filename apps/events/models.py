@@ -1,9 +1,12 @@
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.core.cache import cache
+
 from froala_editor.fields import FroalaField
 
 from muscn.utils.forms import unique_slugify
 from muscn.utils.location import LocationField
+from muscn.utils.mixins import CachedModel
 
 
 class Event(models.Model):
@@ -19,6 +22,10 @@ class Event(models.Model):
     image = models.ImageField(blank=True, null=True)
     location = LocationField(blank=True, max_length=255)
     featured = models.BooleanField(default=True)
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.filter(enabled=True)
 
     @property
     def date(self):
@@ -52,6 +59,7 @@ class Event(models.Model):
             return 'present'
 
     def save(self, *args, **kwargs):
+        cache.delete('featured')
         unique_slugify(self, self.title)
         super(Event, self).save(*args, **kwargs)
 

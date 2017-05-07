@@ -19,8 +19,6 @@ from django.core.urlresolvers import reverse_lazy, reverse
 
 from django.db import models
 
-from django.db.models import Count
-
 from jsonfield import JSONField
 
 from django.conf import settings
@@ -34,6 +32,7 @@ from muscn.utils.countries import CountryField
 from muscn.utils.football import get_current_season_start_year, get_current_season_start, get_current_season_start_time
 from muscn.utils.forms import unique_slugify
 from muscn.utils.helpers import facebook_api
+from muscn.utils.mixins import CachedModel
 from muscn.utils.npt import utc_to_local
 
 YEAR_CHOICES = []
@@ -421,41 +420,6 @@ class Injury(models.Model):
 
     def __unicode__(self):
         return unicode(self.player) + ' - ' + unicode(self.type)
-
-
-class CachedModel(models.Model):
-    @classmethod
-    def get_all(cls):
-        # Override on inherited class if necessary, e.g.
-        # return cls.objects.filter(enabled=True)
-        return cls.objects.all()
-
-    @classmethod
-    def get_cached(cls):
-        all_instances = cache.get(cls._meta.verbose_name_plural)
-        if not all_instances:
-            all_instances = list(cls.get_all())
-            cache.set(cls._meta.verbose_name_plural, all_instances)
-        return all_instances
-
-    @classmethod
-    def random(cls):
-        instances = cls.get_cached()
-        if not instances:
-            return None
-        random_index = randint(0, len(instances) - 1)
-        return instances[random_index]
-
-    @classmethod
-    def invalidate_cache(cls):
-        cache.delete(cls._meta.verbose_name_plural)
-
-    def save(self, *args, **kwargs):
-        self.invalidate_cache()
-        super(CachedModel, self).save()
-
-    class Meta:
-        abstract = True
 
 
 class Quote(CachedModel):
