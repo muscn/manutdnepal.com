@@ -129,7 +129,7 @@ def get_random_quote():
 
 @register.assignment_tag
 def get_partners():
-    return Partner.objects.filter(active=True)
+    return Partner.get_cached()
 
 
 def handler(obj):
