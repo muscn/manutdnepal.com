@@ -41,7 +41,7 @@ class TVScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        if root:
+        if root is not None:
             match_rows = root.cssselect('.matchrow')
             for match_row in match_rows:
                 # skip past matches
