@@ -556,7 +556,7 @@ class Fixture(models.Model):
     @classmethod
     def get_next_match(cls):
         try:
-            return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1].select_related()[0]
+            return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')[:1].select_related()[0]
         except IndexError:
             return None
 
@@ -564,8 +564,7 @@ class Fixture(models.Model):
         return utc_to_local(self.datetime)
 
     def time_remaining(self):
-        now = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
-        delta = self.datetime - now
+        delta = self.datetime - timezone.now()
         dhm = (delta.days, delta.seconds // 3600, (delta.seconds // 60) % 60)
         return dhm
 
