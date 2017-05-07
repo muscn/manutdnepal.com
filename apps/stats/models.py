@@ -694,7 +694,8 @@ class PlayerSocialAccount(models.Model):
 
 def get_top_scorers():
     current_year = get_current_season_start_year()
-    goals = Goal.objects.filter(match__competition_year__year=current_year)
+    goals = Goal.objects.filter(match__competition_year__year=current_year).select_related('scorer').prefetch_related(
+        'match__competition_year__competition')
     competition_years = CompetitionYear.objects.filter(year=current_year).select_related()
     competition_dct = OrderedDict()
     competitions = OrderedDict()
