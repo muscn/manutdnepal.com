@@ -1,14 +1,14 @@
 function NewsVM(data) {
     var self = this;
-    self.entries = data.entries;
+    self.entries = data;
 }
 
 function parseRSS(url, callback) {
     $.ajax({
-        url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(url),
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url),
         dataType: 'json',
         success: function (data) {
-            callback(data.responseData.feed);
+            callback(data.items);
         }
     });
 }
