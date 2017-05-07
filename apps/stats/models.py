@@ -423,24 +423,55 @@ class Injury(models.Model):
         return unicode(self.player) + ' - ' + unicode(self.type)
 
 
-class Quote(models.Model):
+class CachedModel(models.Model):
+    @classmethod
+    def get_all(cls):
+        # Override on inherited class if necessary, e.g.
+        # return cls.objects.filter(enabled=True)
+        return cls.objects.all()
+
+    @classmethod
+    def get_cached(cls):
+        all_instances = cache.get(cls._meta.verbose_name_plural)
+        if not all_instances:
+            all_instances = list(cls.get_all())
+            cache.set(cls._meta.verbose_name_plural, all_instances)
+        return all_instances
+
+    @classmethod
+    def random(cls):
+        instances = cls.get_cached()
+        if not instances:
+            return None
+        random_index = randint(0, len(instances) - 1)
+        return instances[random_index]
+
+    @classmethod
+    def invalidate_cache(cls):
+        cache.delete(cls._meta.verbose_name_plural)
+
+    def save(self, *args, **kwargs):
+        self.invalidate_cache()
+        super(CachedModel, self).save()
+
+    class Meta:
+        abstract = True
+
+
+class Quote(CachedModel):
     text = models.TextField()
     by = models.CharField(max_length=255, null=True, blank=True)
     enabled = models.BooleanField(default=True)
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.filter(enabled=True)
 
     def excerpt(self):
         txt = self.text
         if len(txt) < 101:
             return txt
         return txt[0:98] + ' ...'
-
-    @classmethod
-    def random(cls):
-        count = cls.objects.aggregate(count=Count('id'))['count']
-        if not count:
-            return None
-        random_index = randint(0, count - 1)
-        return cls.objects.all()[random_index]
 
     def __unicode__(self):
         return unicode(self.by) + ' : ' + self.excerpt()
