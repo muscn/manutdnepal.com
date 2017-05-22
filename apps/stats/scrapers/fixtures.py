@@ -1,4 +1,5 @@
 from ics import Calendar
+from ics.parse import ParseError
 from .base import Scraper
 from apps.stats.models import Fixture, CompetitionYear, Competition, Team
 from muscn.utils.football import get_current_season_start_year
@@ -30,11 +31,13 @@ class FixturesScraper(Scraper):
         cal_content = cls.get_url_content(url)
         if cal_content:
             cal_content = cal_content.replace('RATE:', 'RDATE:')
-            cal = Calendar(cal_content.decode('iso-8859-1'))
+            cal = Calendar(cal_content.decode('iso-8859-1').replace('\n\n', ' '))
             Fixture.get_upcoming().delete()
             for event in cal.events:
                 fixture = Fixture()
-                splits = event.name.split('-')
+                # splits = event.name.split('-')
+                # get match and competition_name from description
+                splits = event.description.splitlines()[0].split('-')
                 competition_name = splits[1].strip()
                 if competition_name == u'English Barclays Premier League':
                     try:
