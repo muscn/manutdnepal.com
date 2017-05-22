@@ -1,5 +1,6 @@
 import datetime
 from django.core.cache import cache
+from django.utils import timezone
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
@@ -14,7 +15,7 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
 
 class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureSerializer
-    queryset = Fixture.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
+    queryset = Fixture.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
     permission_classes = (DistributedKeyAuthentication,)
 
     @list_route()
@@ -40,7 +41,7 @@ class FixtureDetailViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
 
 class RecentResultViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = RecentResultSerializer
-    queryset = Fixture.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
+    queryset = Fixture.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8].select_related()
     permission_classes = (DistributedKeyAuthentication,)
 
 

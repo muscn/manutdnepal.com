@@ -36,10 +36,11 @@ admin.site.register(CompetitionYear)
 admin.site.register(Quote)
 admin.site.register(SeasonData)
 # admin.site.register(CompetitionYearMatches)
-admin.site.register(Player)
 # admin.site.register(Fixture)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Stadium)
+
+
 # admin.site.register(MatchResult)
 
 class FixtureAdmin(admin.ModelAdmin):
@@ -52,7 +53,17 @@ class FixtureAdmin(admin.ModelAdmin):
 admin.site.register(Fixture, FixtureAdmin)
 admin.site.register(Wallpaper)
 
+
 # class ResultAdmin(admin.ModelAdmin):
 #     model = Fixture
 #
 # admin.site.register(Fixture, ResultAdmin)
+
+class PlayerAdmin(admin.ModelAdmin):
+    list_display = ['squad_no', 'name', 'active', 'on_loan']
+    list_display_links = ['squad_no', 'name']
+    list_filter = ['favored_position', 'on_loan', 'active', 'nationality', ]
+    search_fields = ['name']
+
+
+admin.site.register(Player, PlayerAdmin)

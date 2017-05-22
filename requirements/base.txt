@@ -6,12 +6,11 @@ django-redis-cache
 django-mptt
 django-froala-editor
 -e git+https://github.com/helber/django-dbsettings.git@master#egg=django-dbsettings
-linaro-django-pagination
+dj-pagination
 webstack-django-sorting
 django-auditlog
 jsonfield
 lxml
-django-smuggler
 ics
 wikipedia
 sorl-thumbnail

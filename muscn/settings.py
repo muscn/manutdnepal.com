@@ -25,7 +25,7 @@ INSTALLED_APPS = (
 
     'froala_editor',
     'dbsettings',
-    'linaro_django_pagination',
+    'dj_pagination',
     'webstack_django_sorting',
     'auditlog',
     'smuggler',
@@ -53,21 +53,20 @@ INSTALLED_APPS = (
     'apps.push_notification',
 )
 
-MIDDLEWARE_CLASSES = (
-    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'linaro_django_pagination.middleware.PaginationMiddleware',
-    'webstack_django_sorting.middleware.SortingMiddleware',
-    'auditlog.middleware.AuditlogMiddleware',
-    'django.middleware.common.BrokenLinkEmailsMiddleware',
 
-)
+    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+    'dj_pagination.middleware.PaginationMiddleware',
+    # 'webstack_django_sorting.middleware.SortingMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
+]
 
 TEMPLATES = [
     {
@@ -78,14 +77,10 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.core.context_processors.static',
-                'django.core.context_processors.request',
-                'django.core.context_processors.media',
-                # 'django.core.context_processors.i18n',
-                'django.contrib.messages.context_processors.messages',
-
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -119,7 +114,6 @@ try:
     from .local_settings import *  # noqa
 except ImportError:
     pass
-
 
 # DJANGO_REDIS_IGNORE_EXCEPTIONS = True
 
@@ -155,3 +149,10 @@ ALIASES = [
     'Man United',
     'MUFC',
 ]
+
+import warnings
+warnings.filterwarnings(
+    'error', r"DateTimeField .* received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields')
+
+TEMPLATE_DEBUG =False

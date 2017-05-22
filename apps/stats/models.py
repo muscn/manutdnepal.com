@@ -5,7 +5,10 @@ from random import randint
 import urllib
 import json
 
+from django.contrib.postgres.fields import ArrayField
 from django.core.mail import mail_admins
+from django.utils import timezone
+
 import wikipedia
 
 from django.core.files import File
@@ -15,8 +18,6 @@ from django.core.files.temp import NamedTemporaryFile
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from django.db import models
-
-from django.db.models import Count
 
 from jsonfield import JSONField
 
@@ -28,9 +29,10 @@ from django.core.cache import cache
 from django.db.models import Q
 
 from muscn.utils.countries import CountryField
-from muscn.utils.football import get_current_season_start_year
+from muscn.utils.football import get_current_season_start_year, get_current_season_start, get_current_season_start_time
 from muscn.utils.forms import unique_slugify
 from muscn.utils.helpers import facebook_api
+from muscn.utils.mixins import CachedModel
 from muscn.utils.npt import utc_to_local
 
 YEAR_CHOICES = []
@@ -38,6 +40,7 @@ for r in range(1890, (datetime.datetime.now().year + 1)):
     YEAR_CHOICES.append((r, r))
 
 BASE_URL = 'http://manutd.org.np'
+
 
 # Fixtured
 class Competition(models.Model):
@@ -229,7 +232,7 @@ class Player(Person):
     previous_club = models.CharField(max_length=255, blank=True, null=True)
     on_loan = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    alternative_names = models.CharField(max_length=255, blank=True, null=True)
+    alt_names = ArrayField(models.CharField(max_length=255), blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
@@ -248,7 +251,7 @@ class Player(Person):
         try:
             return Player.objects.get(name=name)
         except Player.DoesNotExist:
-            return Player.objects.get(alternative_names__icontains='|' + name + '|')
+            return Player.objects.get(alt_names__contains=[name])
 
 
 class Official(Person):
@@ -419,24 +422,20 @@ class Injury(models.Model):
         return unicode(self.player) + ' - ' + unicode(self.type)
 
 
-class Quote(models.Model):
+class Quote(CachedModel):
     text = models.TextField()
     by = models.CharField(max_length=255, null=True, blank=True)
     enabled = models.BooleanField(default=True)
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.filter(enabled=True)
 
     def excerpt(self):
         txt = self.text
         if len(txt) < 101:
             return txt
         return txt[0:98] + ' ...'
-
-    @classmethod
-    def random(cls):
-        count = cls.objects.aggregate(count=Count('id'))['count']
-        if not count:
-            return None
-        random_index = randint(0, count - 1)
-        return cls.objects.all()[random_index]
 
     def __unicode__(self):
         return unicode(self.by) + ' : ' + self.excerpt()
@@ -512,15 +511,22 @@ class Fixture(models.Model):
 
     @classmethod
     def get_upcoming(cls):
-        return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime').select_related()
+        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
 
     @classmethod
     def results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime').select_related()
+        # Only from current season
+        return cls.objects.filter(datetime__lt=timezone.now()).filter(datetime__gt=get_current_season_start_time()).order_by(
+            '-datetime')
+
+    @classmethod
+    def all_results(cls):
+        # from all seasons
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime').select_related()
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=datetime.datetime.now()).order_by('-datetime')[0:8].select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8].select_related()
 
     @property
     def is_today(self):
@@ -545,7 +551,7 @@ class Fixture(models.Model):
     @classmethod
     def get_next_match(cls):
         try:
-            return cls.objects.filter(datetime__gt=datetime.datetime.now()).order_by('datetime')[:1].select_related()[0]
+            return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')[:1].select_related()[0]
         except IndexError:
             return None
 
@@ -553,8 +559,7 @@ class Fixture(models.Model):
         return utc_to_local(self.datetime)
 
     def time_remaining(self):
-        now = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
-        delta = self.datetime - now
+        delta = self.datetime - timezone.now()
         dhm = (delta.days, delta.seconds // 3600, (delta.seconds // 60) % 60)
         return dhm
 
@@ -684,7 +689,8 @@ class PlayerSocialAccount(models.Model):
 
 def get_top_scorers():
     current_year = get_current_season_start_year()
-    goals = Goal.objects.filter(match__competition_year__year=current_year)
+    goals = Goal.objects.filter(match__competition_year__year=current_year).select_related('scorer').prefetch_related(
+        'match__competition_year__competition')
     competition_years = CompetitionYear.objects.filter(year=current_year).select_related()
     competition_dct = OrderedDict()
     competitions = OrderedDict()
@@ -713,7 +719,7 @@ def get_top_scorers():
 
 def get_top_scorers_summary():
     current_year = get_current_season_start_year()
-    goals = Goal.objects.filter(match__competition_year__year=current_year)
+    goals = Goal.objects.filter(match__competition_year__year=current_year).select_related('scorer')
     players = OrderedDict()
     for goal in goals:
         if goal.own_goal:

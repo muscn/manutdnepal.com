@@ -1,8 +1,13 @@
 import datetime
+
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.core.cache import cache
+
 from froala_editor.fields import FroalaField
+
 from muscn.utils.forms import unique_slugify
+from muscn.utils.mixins import CachedModel
 
 
 class Post(models.Model):
@@ -23,6 +28,10 @@ class Post(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='post_images')
     featured = models.BooleanField(default=True)
 
+    @classmethod
+    def get_all(cls):
+        return cls.objects.filter(status='Published')
+
     @property
     def date(self):
         return self.created_at
@@ -30,7 +39,7 @@ class Post(models.Model):
     @classmethod
     def recent(cls, count=10):
         return cls.objects.filter(status='Published')[0:count]
-
+    
     def excerpt(self):
         txt = self.content
         if len(txt) < 101:
@@ -38,6 +47,7 @@ class Post(models.Model):
         return txt[0:98] + ' ...'
 
     def save(self, *args, **kwargs):
+        cache.delete('featured')
         unique_slugify(self, self.title)
         if not self.id:
             self.created_at = datetime.datetime.today()

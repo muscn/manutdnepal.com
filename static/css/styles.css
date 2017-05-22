@@ -532,21 +532,13 @@ header img.logo {
     display: none !important;
 }
 
-.container {
-    position: relative;
-    padding: 39px;
-    /* border-radius: 30px; */
-    /*background-color: #FFF;*/
-    /* margin-top: -200px; */
-}
-
 #home-container {
     background: rgba(255, 255, 255, 0.8);
 }
 
-/*.content#container,*/
-.content > .container {
+.content > .container, .content > .container-fluid  {
     background: rgba(255, 255, 255, 0.97);
+    padding: 35px;
 }
 
 .person-block {

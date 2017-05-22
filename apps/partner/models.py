@@ -2,9 +2,10 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from froala_editor.fields import FroalaField
 from muscn.utils.forms import unique_slugify
+from muscn.utils.mixins import CachedModel
 
 
-class Partner(models.Model):
+class Partner(CachedModel):
     name = models.CharField(max_length=255)
     slug = models.SlugField(
         max_length=255,
@@ -23,6 +24,10 @@ class Partner(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.filter(active=True)
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)

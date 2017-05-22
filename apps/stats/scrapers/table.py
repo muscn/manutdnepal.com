@@ -1,5 +1,6 @@
 import datetime
 
+import pytz
 from django.core.cache import cache
 from django.conf import settings
 
@@ -13,7 +14,8 @@ class TableScraper(Scraper):
     @classmethod
     def scrape(cls):
         root = cls.get_root_tree()
-        if root:
+        tz = pytz.timezone(settings.TIME_ZONE)
+        if root is not None:
             rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
             cls.data['teams'] = []
             for row in rows:
@@ -44,22 +46,20 @@ class TableScraper(Scraper):
             matches = root.cssselect('div[data-type="evt"]')
             cls.data['matches'] = {}
             for match in matches:
-                data = {}
-                data['eid'] = match.get('data-eid')
+                data = {'eid': match.get('data-eid')}
                 minute = match.cssselect('div.min')[0].text_content().strip()
                 data['minute'] = minute
                 if "'" in minute:
                     data['live'] = True
                 else:
                     data['live'] = False
-                dt = datetime.datetime.strptime(match.get('data-esd'), '%Y%m%d%H%M%S')
-                # dt = dt.replace(tzinfo=pytz.UTC).astimezone(pytz.timezone(settings.TIME_ZONE))
+                dt = tz.localize(datetime.datetime.strptime(match.get('data-esd'), '%Y%m%d%H%M%S'))
                 data['kickoff'] = dt
                 date = dt.date()
                 data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
                 data['away_team'] = match.cssselect('div.ply.name:not(.tright)')[0].text_content().strip()
                 data['score'] = match.cssselect('div.sco')[0].text_content().strip()
-                if not date in cls.data['matches']:
+                if date not in cls.data['matches']:
                     cls.data['matches'][date] = []
                 cls.data['matches'][date].append(data)
                 if data['home_team'] in settings.ALIASES or data['away_team'] in settings.ALIASES:
@@ -72,7 +72,7 @@ class TableScraper(Scraper):
                             try:
                                 try:
                                     fixture = Fixture.objects.get(datetime=dt)
-                                except Fixture.MultipleObjectReturned:
+                                except Fixture.MultipleObjectsReturned:
                                     fixture = Fixture.objects.filter(datetime=dt).first()
                                     Fixture.objects.filter(datetime=dt)[1:].delete()
                                 if not fixture.has_complete_data():
@@ -81,14 +81,6 @@ class TableScraper(Scraper):
                                         fixture.send_updates()
                             except Fixture.DoesNotExist:
                                 print 'Fixture does not exist.'
-                                pass
-                try:
-                    fixture = Fixture.objects.get(datetime=dt)
-                    data['fixture_id'] = fixture.id
-                except Exception as e:
-                    data['fixture_id'] = None
-                    print 'Fixture does not exist.'
-                    pass
 
     @classmethod
     def get_m_data(cls, url):
@@ -99,14 +91,15 @@ class TableScraper(Scraper):
         # Penalty scored at away
         # url = 'http://www.livescore.com/soccer/england/premier-league/newcastle-united-vs-manchester-united/1-1988916/'
         root = cls.get_root_tree(url)
-        if root:
+        if root is not None:
             data = {'events': []}
             grays = root.cssselect('div.row-gray')
             for gray in grays:
                 # HT Score
                 # IndexError for match which have not been played.
                 try:
-                    if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[0].text_content().strip() == 'half-time:':
+                    if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[
+                        0].text_content().strip() == 'half-time:':
                         data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')',
                                                                                                                 '').replace(
                             ' ', '')

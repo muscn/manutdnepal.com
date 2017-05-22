@@ -1,9 +1,9 @@
-from datetime import datetime
 import urllib
 
 from django.conf import settings
 from django.db import models
 import requests
+from django.utils import timezone
 from jsonfield import JSONField
 
 
@@ -14,7 +14,7 @@ class EsewaTransaction(models.Model):
     tax_amount = models.FloatField(default=0)
     service_charge = models.FloatField(default=0)
     delivery_charge = models.FloatField(default=0)
-    datetime = models.DateTimeField(default=datetime.now)
+    datetime = models.DateTimeField(default=timezone.now)
 
     details = JSONField()
 

@@ -10,9 +10,9 @@ web_urls = [
 ]
 
 api_urls = [
-#     url(r'^api/images/$', api.ImageListAPI.as_view()),
-#     url(r'^api/albums/$', api.AlbumListAPI.as_view()),
-#     url(r'^api/albums/(?P<pk>\d+)/$', api.AlbumDetailAPI.as_view()),
+    #     url(r'^api/images/$', api.ImageListAPI.as_view()),
+    #     url(r'^api/albums/$', api.AlbumListAPI.as_view()),
+    #     url(r'^api/albums/(?P<pk>\d+)/$', api.AlbumDetailAPI.as_view()),
 ]
 
 # api_urls = format_suffix_patterns(api_urls)
