@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.conf import settings
 from auditlog.registry import auditlog
+from django.utils import timezone
 
 from apps.payment.esewa import EsewaTransaction
 from muscn.utils.football import get_current_season_start
@@ -13,7 +14,7 @@ User = settings.AUTH_USER_MODEL
 
 class Payment(models.Model):
     user = models.ForeignKey(User, blank=False, verbose_name='By')
-    date_time = models.DateTimeField(default=datetime.datetime.now, verbose_name='Date/Time')
+    date_time = models.DateTimeField(default=timezone.now, verbose_name='Date/Time')
     amount = models.FloatField()
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)

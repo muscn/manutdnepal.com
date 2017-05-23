@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import datetime
 from django.conf import settings
+from django.utils import timezone
 
 
 class Migration(migrations.Migration):
@@ -34,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='payment',
             name='date_time',
-            field=models.DateTimeField(default=datetime.datetime.now, verbose_name=b'Date/Time'),
+            field=models.DateTimeField(default=timezone.now, verbose_name=b'Date/Time'),
             preserve_default=True,
         ),
         migrations.AlterField(

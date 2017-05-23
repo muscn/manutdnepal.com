@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import datetime
 import jsonfield.fields
-
+from django.utils import timezone
 
 class Migration(migrations.Migration):
 
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('tax_amount', models.FloatField(default=0)),
                 ('service_charge', models.FloatField(default=0)),
                 ('delivery_charge', models.FloatField(default=0)),
-                ('datetime', models.DateTimeField(default=datetime.datetime.now)),
+                ('datetime', models.DateTimeField(default=timezone.now)),
                 ('details', jsonfield.fields.JSONField()),
                 ('payment', models.OneToOneField(related_name='esewa_payment', to='payment.Payment')),
             ],
