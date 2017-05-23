@@ -24,3 +24,4 @@ openpyxl
 reportlab
 django-solo
 django-fcm
+django-smuggler
