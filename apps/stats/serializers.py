@@ -9,6 +9,7 @@ class FixtureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Fixture
+        fields = '__all__'
         depth = 2
 
 
@@ -18,6 +19,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
+        fields = '__all__'
 
 
 class FixtureDetailSerializer(serializers.ModelSerializer):
@@ -62,11 +64,13 @@ class InjurySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Injury
+        fields = '__all__'
 
 
 class PlayerSocialAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerSocialAccount
+        fields = '__all__'
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -75,6 +79,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
+        fields = '__all__'
 
     def get_nationality(self, obj):
         return obj.get_nationality_display()
@@ -83,8 +88,11 @@ class PlayerSerializer(serializers.ModelSerializer):
 class SeasonDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeasonData
+        fields = '__all__'
 
 
 class WallpaperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wallpaper
+        fields = '__all__'
+
