@@ -17,7 +17,7 @@ DATABASES = {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
          'NAME': 'muscn',
          'USER': 'postgres',
-         'PASSWORD': 'R9Bt276h8Q9WO0H',
+         'PASSWORD': 'password',
          'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
          'PORT': '',  # Set to empty string for default.
      }
@@ -28,7 +28,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 MEDIA_URL = '/media/'
 
-WEBHOOK_PASSCODE = 'passtweird'
+WEBHOOK_PASSCODE = 'password'
 
 INSTALLED_APPS += (
     # 'debug_toolbar',
@@ -41,11 +41,11 @@ CACHES = {
     }
 }
 
-FOOTBALL_API_KEY = '1844545d-c3b0-a66a-df028044cbb5'
+FOOTBALL_API_KEY = 'football-api-key'
 TEMPLATES[0]['OPTIONS']['debug'] = True
 
 SERVER_EMAIL = 'manutd@awecode.com'
-FB_ACCESS_TOKEN = 'EAAKmQexfeSkBAIYVZC7UKFwDUbNfOZAXRHeEnSkhMvQSDyW6yS7gRh030jvfrruretOBDYEZCZAPmYq9oZB9JITAZBBMBdQBDJ0vZCVGHoXyMphRzExf3TZALZAINv0hobHtlTzYebQMWdjRkMkiLZAUpJI2TxWXjZAqxIqn81YMPojAgZDZD'
+FB_ACCESS_TOKEN = 'FB-ACCESS-TOKEN'
 
 LOGGING = {
     'version': 1,
@@ -71,6 +71,6 @@ LOGGING = {
 
 OPBEAT = {
     'ORGANIZATION_ID': 'adsd',
-    'APP_ID': '45d09f458c',
+    'APP_ID': 'appt_id',
     'SECRET_TOKEN': 'asd',
 }
