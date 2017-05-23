@@ -74,7 +74,8 @@ class TableScraper(Scraper):
                                     fixture = Fixture.objects.get(datetime=dt)
                                 except Fixture.MultipleObjectsReturned:
                                     fixture = Fixture.objects.filter(datetime=dt).first()
-                                    Fixture.objects.filter(datetime=dt)[1:].delete()
+                                    fixtures_to_delete = Fixture.objects.filter(datetime=dt)[1:].values_list("id", flat=True)
+                                    Fixture.objects.filter(pk__in=list(fixtures_to_delete)).delete()
                                 if not fixture.has_complete_data():
                                     fixture.process_data(data, m_data)
                                     if data['minute'] == 'FT':
