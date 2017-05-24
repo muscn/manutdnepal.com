@@ -99,7 +99,7 @@ urlpatterns = [
 
     url(r'', include('apps.page.urls')),
 
-    url(r'^api/v1/obtain_auth_token/', user_api.obtain_auth_token),
+    url(r'^api/v1/obtain_auth_token/', user_api.CustomObtainAuth.as_view()),
 
     # Rest API end points
     url(r'api/v1/', include(router.urls)),
