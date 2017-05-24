@@ -1,12 +1,20 @@
 from django.contrib import admin
 from django import forms
 
+from muscn.utils.mixins import EmptyFilterSpec
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
     Fixture, Team, Goal, Stadium, PlayerSocialAccount, Wallpaper
 
 
+class CrestEmptyFilterSpec(EmptyFilterSpec):
+    title = 'Crest'
+    parameter_name = 'crest'
+
+
 class TeamAdmin(admin.ModelAdmin):
     search_fields = ('name', 'short_name', 'alternative_names', 'nick_name')
+    list_display = ('name', 'crest')
+    list_filter = (CrestEmptyFilterSpec,)
 
 
 class GoalForm(forms.ModelForm):
