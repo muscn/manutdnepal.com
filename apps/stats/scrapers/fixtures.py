@@ -26,7 +26,6 @@ class FixturesScraper(Scraper):
     @classmethod
     def scrape(cls):
         url = 'http://calendar.manutd.com/Manchester_United.ics'
-        year = str(get_current_season_start_year())
         # url = 'http://hackeragenda.urlab.be/events/events.ics'
         cal_content = cls.get_url_content(url)
         if cal_content:
@@ -35,7 +34,7 @@ class FixturesScraper(Scraper):
             Fixture.get_upcoming().delete()
             for event in cal.events:
                 fixture = Fixture()
-                # splits = event.name.split('-')
+                fixture.datetime = event.begin.datetime
                 # get match and competition_name from description
                 splits = event.description.splitlines()[0].split(' - ')
                 competition_name = splits[1].strip().split('.')[0]
@@ -55,6 +54,8 @@ class FixturesScraper(Scraper):
                     except Competition.DoesNotExist:
                         # raise Exception('Please add a competition with name : ' + competition_name)
                         competition = Competition.objects.create(name=competition_name)
+                # Check for pre-season matches
+                year = str(get_current_season_start_year(fixture.datetime.date()))
                 try:
                     competition_year = CompetitionYear.objects.get(competition=competition, year=year)
                 except CompetitionYear.DoesNotExist:
@@ -63,17 +64,16 @@ class FixturesScraper(Scraper):
                 fixture.competition_year = competition_year
                 if splits[0][:17] == 'Manchester United':
                     fixture.is_home_game = True
-                    opponent_team_name = splits[0][21:].strip()
+                    opponent_team_name = splits[0][20:].strip()
                 else:
                     fixture.is_home_game = False
-                    opponent_team_name = splits[0].strip()[:-21]
+                    opponent_team_name = splits[0].strip()[:-20]
                 try:
                     opponent_team = Team.get(opponent_team_name)
                 except Team.DoesNotExist:
                     # raise Exception('Please add a team with name : ' + opponent_team_name)
                     opponent_team = Team.objects.create(name=opponent_team_name)
                 fixture.opponent = opponent_team
-                fixture.datetime = event.begin.datetime
                 try:
                     fixture.venue = event.location.split('-')[1].strip()
                 except IndexError:
