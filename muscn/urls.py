@@ -46,7 +46,9 @@ router.register(r'pages', page_api.PageViewSet)
 router.register(r'users', user_api.UserViewSet)
 
 urlpatterns = [
+
     url(r'^$', core_views.home, name='home'),
+
     # url(r'^$', 'apps.users.views.login_register', name='login_register'),
     url(r'^(?P<devil_no>[0-9]+)/$', user_views.devil_no_handler, name='devil_no'),
     url(r'^m/(?P<slug>.*)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
@@ -97,9 +99,10 @@ urlpatterns = [
 
     url(r'', include('apps.page.urls')),
 
+    url(r'^api/v1/obtain_auth_token/', rest_view.obtain_auth_token),
+
     # Rest API end points
     url(r'api/v1/', include(router.urls)),
-    url(r'^obtain_auth_token/', rest_view.obtain_auth_token),
 
     url(r'fcm/', include('fcm.urls')),
 ]
