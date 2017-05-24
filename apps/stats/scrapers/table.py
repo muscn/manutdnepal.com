@@ -162,7 +162,9 @@ class TableScraper(Scraper):
 
 
 class EPLScrape(TableScraper):
-    url = 'http://www.livescores.com/soccer/england/premier-league/'
+    @property
+    def url(self):
+        return self.base_url + '/soccer/england/premier-league/'
 
     @classmethod
     def save(cls):
@@ -170,7 +172,9 @@ class EPLScrape(TableScraper):
 
 
 class LeagueCupScrape(TableScraper):
-    url = 'http://www.livescores.com/soccer/england/carling-cup/'
+    @property
+    def url(self):
+        return self.base_url + '/soccer/england/carling-cup/'
 
     @classmethod
     def save(cls):
@@ -178,7 +182,9 @@ class LeagueCupScrape(TableScraper):
 
 
 class FACupScrape(TableScraper):
-    url = 'http://www.livescores.com/soccer/england/fa-cup/'
+    @property
+    def url(self):
+        return self.base_url + '/soccer/england/fa-cup/'
 
     @classmethod
     def save(cls):
@@ -186,7 +192,9 @@ class FACupScrape(TableScraper):
 
 
 class EuropaLeagueScrape(TableScraper):
-    url = 'http://www.livescores.com/soccer/europa-league/'
+    @property
+    def url(self):
+        return self.base_url + '/soccer/europa-league/'
 
     @classmethod
     def save(cls):

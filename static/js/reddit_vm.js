@@ -4,8 +4,8 @@ $(function () {
         'show_sticky': false,
         'num_threads': 6,
         'allow_internal': false,
-        'upvoted_only': true,
-    }
+        'upvoted_only': true
+    };
     var reddit_vm = new RedditVM(config);
     ko.applyBindings(reddit_vm, $('#reddit-block')[0]);
 });
@@ -50,7 +50,7 @@ function RedditVM(config) {
         'allowed_domains': [], //empty means allow all domains
         'blocked_domains': [], //empty means block no domains
         'upvoted_only': false,
-    }
+    };
 
     var self = this;
 
@@ -64,7 +64,7 @@ function RedditVM(config) {
 
 
     $.getJSON(
-        "http://www.reddit.com/r/" + config.domain + ".json?jsonp=?",
+        "https://www.reddit.com/r/" + config.domain + ".json?jsonp=?",
         function foo(data) {
             var max = self.config.num_threads;
             var cnt = 0;

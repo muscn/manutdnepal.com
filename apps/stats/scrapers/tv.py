@@ -20,12 +20,12 @@ class TVScraper(Scraper):
                 # 'mutv-online': 'MUTV Online',
                 }
 
-    url = 'http://www.livesoccertv.com/teams/england/manchester-united/'
+    url = 'https://www.livesoccertv.com/teams/england/manchester-united/'
 
     # @classmethod
     # def scrape(cls):
     #     json_data = cls.get_json_from_url(
-    #         'http://www.livesoccertv.com/m/api/teams/england/manchester-united/?iso_code=np')
+    #         'https://www.livesoccertv.com/m/api/teams/england/manchester-united/?iso_code=np')
     #     if 'fixtures' in json_data:
     # 
     #         for fixture in json_data['fixtures']:

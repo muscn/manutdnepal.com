@@ -39,7 +39,7 @@ YEAR_CHOICES = []
 for r in range(1890, (datetime.datetime.now().year + 1)):
     YEAR_CHOICES.append((r, r))
 
-BASE_URL = 'http://manutd.org.np'
+BASE_URL = 'https://manutd.org.np'
 
 
 # Fixtured

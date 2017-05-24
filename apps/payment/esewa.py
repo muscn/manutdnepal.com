@@ -22,9 +22,9 @@ class EsewaTransaction(models.Model):
         self.debug = getattr(settings, 'ESEWA_DEBUG', False)
         self.scd = getattr(settings, 'ESEWA_SCD')
         if self.debug:
-            self.url = 'http://dev.esewa.com.np/epay/main'
-            self.verification_url = 'http://dev.esewa.com.np/epay/transrec'
-            self.transaction_url = 'http://dev.esewa.com.np/epay/transdetails'
+            self.url = 'https://dev.esewa.com.np/epay/main'
+            self.verification_url = 'https://dev.esewa.com.np/epay/transrec'
+            self.transaction_url = 'https://dev.esewa.com.np/epay/transdetails'
         else:
             self.url = 'https://esewa.com.np/epay/main'
             self.verification_url = 'https://esewa.com.np/epay/transrec'
