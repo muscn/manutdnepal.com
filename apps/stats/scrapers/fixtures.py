@@ -37,8 +37,8 @@ class FixturesScraper(Scraper):
                 fixture = Fixture()
                 # splits = event.name.split('-')
                 # get match and competition_name from description
-                splits = event.description.splitlines()[0].split('-')
-                competition_name = splits[1].strip()
+                splits = event.description.splitlines()[0].split(' - ')
+                competition_name = splits[1].strip().split('.')[0]
                 if competition_name == u'English Barclays Premier League':
                     try:
                         competition = Competition.objects.get(name='English Premier League')
