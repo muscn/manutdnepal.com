@@ -60,12 +60,13 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'dj_pagination.middleware.PaginationMiddleware',
     # 'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    # Disabled because X-Frame-Options SAMEORIGIN is set on Nginx.
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 TEMPLATES = [
@@ -139,7 +140,7 @@ ALIASES = [
     'MUFC',
 ]
 
-TEMPLATE_DEBUG =False
+TEMPLATE_DEBUG = False
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_HTTPONLY = True
