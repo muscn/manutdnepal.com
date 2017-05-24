@@ -143,21 +143,23 @@ class Team(models.Model):
 
     def get_crest(self):
         if not self.crest:
-            wiki = self.get_wiki()
-            url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
-            url = urllib.quote(url.encode('utf8'), ':/')
-            try:
-                image_data = json.loads(urllib.urlopen(url).read())
-                data = image_data['query']['pages'].itervalues().next()
-            except ValueError:
-                data = {}
-            if (data.get('pageimage')):
-                image_name = data['pageimage'] + '.png'
-                image_url = data['thumbnail']['source']
-                img_temp = NamedTemporaryFile(delete=True)
-                img_temp.write(urllib.urlopen(image_url).read())
-                img_temp.flush()
-                self.crest.save(image_name, File(img_temp))
+            # wiki = self.get_wiki()
+            # if wiki:
+            #     url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
+            #     # url = urllib.quote(url.encode('utf8'), ':/')
+            #     try:
+            #         image_data = json.loads(urllib.urlopen(url).read())
+            #         data = image_data['query']['pages'].itervalues().next()
+            #     except ValueError:
+            #         data = {}
+            #     if (data.get('pageimage')):
+            #         image_name = data['pageimage'] + '.png'
+            #         image_url = data['thumbnail']['source']
+            #         img_temp = NamedTemporaryFile(delete=True)
+            #         img_temp.write(urllib.urlopen(image_url).read())
+            #         img_temp.flush()
+            #         self.crest.save(image_name, File(img_temp))
+            mail_admins('Add crest for: ', str(self))
         return self.crest
 
     def get_crest_url(self):

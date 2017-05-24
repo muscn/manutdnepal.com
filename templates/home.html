@@ -27,7 +27,7 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
-    <td id="home-container">
+    <div id="home-container">
 
         {% if featured %}
             <div class="section featured row">
@@ -50,7 +50,7 @@
                     src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
         </div>
 
-    <td class="section stats text-center">
+    <div class="section stats text-center">
         {#            <div class="section-wrapper">#}
         <div class="stats-block next-match">
             <h2><a href="{% url 'fixtures' %}">{% if next_match.time_remaining.0 == 0 %}MATCH DAY{% else %}NEXT
