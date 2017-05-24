@@ -1,4 +1,5 @@
 from rest_framework import mixins, status, viewsets
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from apps.key.permissions import DistributedKeyAuthentication
 from apps.stats.serializers import FixtureSerializer
@@ -24,3 +25,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(self.serializer_class(user).data, status=status.HTTP_200_OK)
+
+
+class CustomObtainAuth(ObtainAuthToken):
+    permission_classes = (DistributedKeyAuthentication,)
