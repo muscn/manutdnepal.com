@@ -14,7 +14,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_USERNAME_BLACKLIST = ['united', 'manutd', 'manchester', 'reddevil', 'reddevils', 'manchesterunited', 'mufc',
-                              'administrator']
+                              'administrator', 'admin']
 ACCOUNT_FORMS = {'signup': 'apps.users.forms.SignupForm'}
 SOCIALACCOUNT_AUTO_SIGNUP = False
 
