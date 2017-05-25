@@ -67,8 +67,8 @@ class SquadScraper(Scraper):
             except Player.DoesNotExist:
                 player = Player.objects.create(name=datum['name'])
             player.squad_no = datum['no']
-            player.height = datum['height']
-            player.weight = datum['weight']
+            player.height = datum['height'] or None
+            player.weight = datum['weight'] or None
             player.birth_place = datum['birth_place']
             player.previous_club = datum['previous_club']
             player.favored_position = datum['position']
