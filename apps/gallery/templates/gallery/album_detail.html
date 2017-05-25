@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% load staticfiles thumbnail i18n %}
+{% load staticfiles i18n %}
 
 {% block title %}
-    {{ object.name }} | Gallery
+    {{ object.name }} | {% trans 'Gallery' %}
 {% endblock %}
 
 {% block container-class %}container-fluid{% endblock %}
@@ -21,31 +21,11 @@
     </div>
 
     {% if object.event %}
-        {% with object.event as event %}
-            {% include 'events/_event_card.html' with is_gallery=True %}
-        {% endwith %}
+        {% include 'events/_event_card.html' with is_gallery=True event=object.event %}
         <h2>Photos:</h2>
     {% endif %}
 
-    {{ obj }}
-    
-    <div class="row">
-        <div class="col-xs-12 col-md-12" id="gallery-images">
-            {% for obj in object.images.all %}
-
-                <div class="thumbnail album-image">
-                    <a href="{{ obj.file.url }}" class="gallery" title="{{ obj.title }}">
-                        {% thumbnail obj.file "240x140" as image %}
-                            <img src="{{ image.url }}" alt="No Image">
-                        {% endthumbnail %}
-                    </a>
-                    <div class="caption text-center">
-                        <h3 class="h3" id="gallery-name">{{ obj.title }}</h3>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+    {% include 'gallery/_images.html' with album=object %}
 
 {% endblock %}
 

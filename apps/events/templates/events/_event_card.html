@@ -4,7 +4,7 @@
             <div class="date-month">{{ event.start|date:"M" }}</div>
             <div class="date-day">{{ event.start.date.day }}</div>
         </div>
-        {% if is_gallery %}
+        {% if is_gallery and not is_post %}
             <h2><a href="{{ event.get_absolute_url }}">Event</a></h2>
         {% endif %}
         {% if event.whole_day_event %}
@@ -21,7 +21,7 @@
         {% if event.organizer %}
             <strong>Organizer:</strong> {{ event.organizer }}<br/>
         {% endif %}
-        {% if not is_gallery %}
+        {% if not is_gallery and not is_post%}
             {% if event.albums.all %}
                 <strong>Gallery:</strong>
                 {% for album in event.albums.all %}

@@ -1,4 +1,3 @@
-import datetime
 from django.core.cache import cache
 from django.utils import timezone
 from rest_framework import viewsets, mixins
@@ -8,7 +7,7 @@ from apps.key.permissions import DistributedKeyAuthentication
 
 from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury, Wallpaper, Player, \
     SeasonData
-from apps.stats.scrapers import TableScraper, EPLScrape
+from apps.stats.scrapers import EPLScrape
 from ..stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, WallpaperSerializer, \
     PlayerSerializer, SeasonDataSerializer, FixtureDetailSerializer
 
@@ -16,7 +15,7 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
 class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureSerializer
     queryset = Fixture.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
-    permission_classes = (DistributedKeyAuthentication,)
+    permission_classes = []
 
     @list_route()
     def epl_matchweek(self, request):
