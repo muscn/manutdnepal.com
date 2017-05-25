@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
 
-from .models import Image, Album
+from .models import Album
 
 
 def album_list(request):
-    albums = Album.objects.all()
+    albums = Album.objects.order_by('-event__end')
     return render(request, 'album.html', {'albums': albums})
 
 
