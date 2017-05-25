@@ -1,6 +1,5 @@
 .thumbnail {
     height: 15em !important;
-    border: 2px solid rgb(221, 221, 221);
 }
 
 .thumbnail:hover {
@@ -39,10 +38,6 @@
 .caption {
 	overflow: hidden;
 	max-height: 10em;
-}
-
-#gallery-images {
-	width: 65em;
 }
 
 .album-thumbnail {
