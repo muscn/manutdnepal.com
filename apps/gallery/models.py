@@ -1,7 +1,5 @@
 from django.db import models
 import datetime
-from django.template.defaultfilters import slugify
-import re
 import os
 from apps.events.models import Event
 from muscn.utils.forms import unique_slugify

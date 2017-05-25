@@ -6,7 +6,7 @@ from . import api
 
 web_urls = [
     url(r'^$', views.album_list, name='album-list'),
-    url(r'^(?P<slug>[\w-]+)/', views.album_images, name='album-images'),
+    url(r'^(?P<slug>[\w-]+)/', views.AlbumDetail.as_view(), name='album-images'),
 ]
 
 api_urls = [
