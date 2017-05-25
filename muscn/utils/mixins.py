@@ -7,6 +7,7 @@ from django.core.cache import cache
 from django.db.models import Q
 from django.views.generic.edit import UpdateView as BaseUpdateView, CreateView as BaseCreateView, \
     DeleteView as BaseDeleteView
+from django.contrib.admin.filters import SimpleListFilter
 
 
 class CachedModel(models.Model):
@@ -70,9 +71,6 @@ class DeleteView(BaseDeleteView):
         response = super(DeleteView, self).post(request, *args, **kwargs)
         messages.success(request, self.object.__class__._meta.verbose_name.title() + ' successfully deleted!')
         return response
-
-
-from django.contrib.admin.filters import SimpleListFilter
 
 
 class EmptyFilterSpec(SimpleListFilter):
