@@ -18,7 +18,7 @@ class Event(models.Model):
     whole_day_event = models.BooleanField(default=False)
     venue = models.TextField()
     enabled = models.BooleanField(default=True)
-    description = FroalaField()
+    description = FroalaField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
     location = LocationField(blank=True, max_length=255)
     featured = models.BooleanField(default=True)
