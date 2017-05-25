@@ -67,7 +67,7 @@ class FixturesScraper(Scraper):
                     opponent_team_name = splits[0][20:].strip()
                 else:
                     fixture.is_home_game = False
-                    opponent_team_name = splits[0].strip()[:-20]
+                    opponent_team_name = splits[0][:-20].strip()
                 try:
                     opponent_team = Team.get(opponent_team_name)
                 except Team.DoesNotExist:

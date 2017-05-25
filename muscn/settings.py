@@ -110,11 +110,6 @@ REST_FRAMEWORK = {
 
 from user_settings import *  # noqa
 
-try:
-    from .local_settings import *  # noqa
-except ImportError:
-    pass
-
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
@@ -149,3 +144,8 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_NAME = 'ct'
 CSRF_COOKIE_SECURE = True
+
+try:
+    from .local_settings import *  # noqa
+except ImportError:
+    pass
