@@ -55,42 +55,7 @@
         <img class="img-responsive" src="{{ event.image.url }}"/>
     {% endif %}
 
-    <div class="panel panel-default">
-
-        <div class="panel-body">
-            <div class="date-icon">
-                <div class="date-month">{{ event.start|date:"M" }}</div>
-                <div class="date-day">{{ event.start.date.day }}</div>
-            </div>
-
-            {% if event.whole_day_event %}
-                <strong>Date:</strong>
-                {{ event.start.date }}<br/>
-            {% else %}
-                <strong>Start Time:</strong>
-                {{ event.start }}<br/>
-            {% endif %}
-            {% if event.end %}
-                <strong>End Time:</strong> {{ event.end }}<br/>
-            {% endif %}
-            <strong>Venue:</strong> {{ event.venue }}<br/>
-            {% if event.organizer %}
-                <strong>Organizer:</strong> {{ event.organizer }}<br/>
-            {% endif %}
-            {% if event.albums.all %}
-                <strong>Gallery:</strong>
-                {% for album in event.albums.all %}
-                    <a href="{% url 'album-images' album.slug %}">{{ album.name }}</a>
-                {% endfor %}
-            {% endif %}
-            <br/>
-            {{ event.description|safe }}
-
-
-        </div>
-
-
-    </div>
+    {% include 'events/_event_card.html' %}
 
     <h3>Map:</h3>
 
