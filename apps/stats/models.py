@@ -45,7 +45,7 @@ BASE_URL = 'https://manutd.org.np'
 # Fixtured
 class Competition(models.Model):
     name = models.CharField(max_length=255)
-    short_name = models.CharField(max_length=10, null=True, blank=True)
+    short_name = models.CharField(max_length=50, null=True, blank=True)
     slug = models.SlugField(max_length=255)
     order = models.IntegerField(default=0)
 

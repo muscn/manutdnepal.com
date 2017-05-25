@@ -75,6 +75,7 @@
 
     </div>
     <br>
+    {% if object.goals.all %}
     <div>
         <h2>Goals</h2>
         <table class="table table-bordered table-striped table-hover">
@@ -110,6 +111,8 @@
         </table>
     </div>
     <br/>
+    {% endif %}
+    {% if object.assists.all %}
     <div>
         <h2>Assists</h2>
         <table class="table table-bordered table-striped table-hover">
@@ -144,4 +147,5 @@
             </tbody>
         </table>
     </div>
+    {% endif %}
 {% endblock %}
