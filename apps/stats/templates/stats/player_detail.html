@@ -77,13 +77,71 @@
     <br>
     <div>
         <h2>Goals</h2>
-        {% for goal in object.all_goals %}
-            <div>
-                <a href="{{ goal.match.get_absolute_url }}">
-                    vs {{ goal.match.opponent }} - {{ goal.time }}' ({{ goal.match.datetime }}
-                    - {{ goal.match.competition_year.competition.get_short_name }})
-                </a>
-            </div>
-        {% endfor %}
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Min</th>
+                <th>Competition</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for goal in object.goals.all %}
+                <tr>
+                    <td>
+                        <a href="{{ goal.match.get_absolute_url }}">
+                            {{ goal.match.datetime }}
+                        </a>
+
+                    </td>
+                    <td><a href="{{ goal.match.get_absolute_url }}">
+                        {{ goal.match.opponent }}
+                    </a></td>
+                    <td>
+                        {{ goal.time }}'
+                    </td>
+                    <td>
+                        {{ goal.match.competition_year.competition.get_short_name }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <div>
+        <h2>Assists</h2>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Min</th>
+                <th>Competition</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for goal in object.assists.all %}
+                <tr>
+                    <td>
+                        <a href="{{ goal.match.get_absolute_url }}">
+                            {{ goal.match.datetime }}
+                        </a>
+
+                    </td>
+                    <td><a href="{{ goal.match.get_absolute_url }}">
+                        {{ goal.match.opponent }}
+                    </a></td>
+                    <td>
+                        {{ goal.time }}'
+                    </td>
+                    <td>
+                        {{ goal.match.competition_year.competition.get_short_name }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

@@ -1,3 +1,8 @@
+# TODO  
+~~Port to bleeding edge Django~~  
+Port to Python 3  
+
+
 This is the source code for [http://manutd.org.np](http://manutd.org.np), the official site of Manchester United Supporters' Club, Nepal. Developer setup instructions follow.
 
 

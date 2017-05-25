@@ -239,9 +239,6 @@ class Player(Person):
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
 
-    def all_goals(self):
-        return self.goals.all().order_by('-match__datetime')
-
     def get_contract_expiry_date(self):
         pass
 

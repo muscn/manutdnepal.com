@@ -1,6 +1,7 @@
 import datetime
 
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
@@ -157,6 +158,10 @@ class SquadListView(ListView):
 
 class PlayerDetailView(DetailView):
     model = Player
+    queryset = Player.objects.filter(active=True).prefetch_related(
+        Prefetch('goals', queryset=Goal.objects.all().select_related('match__opponent', 'match__competition_year__competition')),
+        Prefetch('assists', queryset=Goal.objects.all().select_related('match__opponent', 'match__competition_year__competition'))
+    )
 
 
 def epl_table(request):
