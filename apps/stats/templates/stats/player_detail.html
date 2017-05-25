@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <th>Previous Club</th>
-                    <td>{{ object.previous_club }}</td>
+                    <td>{{ object.previous_club|default:'-' }}</td>
                 </tr>
             </table>
         </div>

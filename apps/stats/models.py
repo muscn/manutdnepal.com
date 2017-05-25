@@ -513,7 +513,7 @@ class Fixture(models.Model):
 
     @classmethod
     def get_upcoming(cls):
-        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
+        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')
 
     @classmethod
     def results(cls):
@@ -524,11 +524,11 @@ class Fixture(models.Model):
     @classmethod
     def all_results(cls):
         # from all seasons
-        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime').select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8].select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8]
 
     @property
     def is_today(self):

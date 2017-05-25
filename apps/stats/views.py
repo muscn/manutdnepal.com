@@ -151,7 +151,7 @@ class SeasonCompetitionView(DetailView):
 
 
 class SquadListView(ListView):
-    queryset = Player.objects.filter(active=True)
+    queryset = Player.objects.filter(active=True).prefetch_related('social_accounts')
     template_name = 'stats/squad.html'
 
 
@@ -189,8 +189,8 @@ def injuries(request):
 
 
 def fixtures(request):
-    upcoming_fixtures = Fixture.get_upcoming().select_related()
-    results = Fixture.results()
+    upcoming_fixtures = Fixture.get_upcoming().select_related('opponent', 'competition_year__competition')
+    results = Fixture.results().select_related('opponent', 'competition_year__competition')
     context = {
         'fixtures': upcoming_fixtures,
         'results': results,
