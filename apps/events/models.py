@@ -31,7 +31,7 @@ class Event(models.Model):
 
     @property
     def description(self):
-        if timezone.now < (self.end or self.start):
+        if timezone.now() < (self.end or self.start):
             return self.description_pre or self.description_common
         else:
             return self.description_post or self.description_common
