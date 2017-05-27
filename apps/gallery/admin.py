@@ -11,5 +11,10 @@ class AlbumAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Album, AlbumAdmin)
-admin.site.register(Image)
-# Register your models here.
+
+
+class ImageAdmin(admin.ModelAdmin):
+    list_filter = ('album',)
+
+
+admin.site.register(Image, ImageAdmin)
