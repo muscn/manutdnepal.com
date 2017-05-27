@@ -41,7 +41,7 @@ class Album(models.Model):
 
 
 class Image(models.Model):
-    file = models.ImageField()
+    file = models.ImageField(upload_to='images/')
     album = models.ForeignKey(Album, related_name='images')
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
