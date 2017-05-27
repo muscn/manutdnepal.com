@@ -14,8 +14,8 @@ class Album(models.Model):
         help_text='Leave empty/unchanged for default slug.')
     description = models.TextField(blank=True, null=True)
     thumbnail = models.ForeignKey('Image', related_name='thumbnail_of', blank=True, null=True)
-    created_at = models.DateTimeField(editable=False)
-    updated_at = models.DateTimeField(editable=False)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    updated_at = models.DateTimeField(editable=False, auto_now=True)
     event = models.ForeignKey(Event, blank=True, null=True, related_name='albums')
 
     def get_thumbnail(self):
@@ -27,9 +27,6 @@ class Album(models.Model):
             return None
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.created_at = datetime.datetime.today()
-        self.updated_at = datetime.datetime.today()
         unique_slugify(self, self.name)
         super(Album, self).save(*args, **kwargs)
 
@@ -45,8 +42,8 @@ class Image(models.Model):
     album = models.ForeignKey(Album, related_name='images')
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(editable=False)
-    updated_at = models.DateTimeField(editable=False)
+    created_at = models.DateTimeField(editable=False, auto_now_add=True)
+    updated_at = models.DateTimeField(editable=False, auto_now=True)
 
     @property
     def file_name(self):
@@ -67,9 +64,6 @@ class Image(models.Model):
     #     return reverse('view_image', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.created_at = datetime.datetime.today()
-        self.updated_at = datetime.datetime.today()
         super(Image, self).save(*args, **kwargs)
 
     def __str__(self):
