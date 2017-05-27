@@ -8,11 +8,15 @@
 {% endblock %}
 {% block content %}
 
-<div class="">
-
-<h1>{% trans "Sign Up" %}</h1>
+<div>
 
 <p>{% blocktrans %}Already have an account? Then, please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+<br/>
+{% include "account/social_login.html" %}
+<hr/>
+
+<h1>{% trans "Or Sign Up" %}</h1>
 
 {% include "account/signup_form.html" %}
 
