@@ -6,7 +6,7 @@
 
             <div class="thumbnail album-image">
                 <a href="{{ obj.file.url }}" class="gallery" title="{{ obj.title }}">
-                    {% thumbnail obj.file "240x140" as image %}
+                    {% thumbnail obj.file "240x140" crop="center" as image %}
                         <img src="{{ image.url }}" alt="No Image">
                     {% endthumbnail %}
                 </a>
