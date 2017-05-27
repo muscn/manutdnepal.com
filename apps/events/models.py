@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.core.cache import cache
+from django.utils import timezone
 
 from froala_editor.fields import FroalaField
 
@@ -18,10 +19,22 @@ class Event(models.Model):
     whole_day_event = models.BooleanField(default=False)
     venue = models.TextField()
     enabled = models.BooleanField(default=True)
-    description = FroalaField(blank=True, null=True)
+    description_pre = FroalaField(blank=True, null=True,
+                                  help_text='Pre-event description; like invitations, how to reach there, etc.')
+    description_post = FroalaField(blank=True, null=True,
+                                   help_text='Post event description; like thanking the attendees.')
+    description_common = FroalaField(blank=True, null=True,
+                                     help_text='Description to show when pre and post aren\'nt available.')
     image = models.ImageField(blank=True, null=True, upload_to='events/')
     location = LocationField(blank=True, max_length=255)
     featured = models.BooleanField(default=True)
+
+    @property
+    def description(self):
+        if timezone.now < (self.end or self.start):
+            return self.description_pre or self.description_common
+        else:
+            return self.description_post or self.description_common
 
     @classmethod
     def get_all(cls):
