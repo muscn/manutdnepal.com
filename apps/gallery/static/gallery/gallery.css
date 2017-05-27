@@ -1,25 +1,16 @@
-.thumbnail {
-    height: 15em !important;
-}
-
-.thumbnail:hover {
-    border: 2px solid #e54d36;
-}
-
 .album-image {
-	float:left;
-	height:25em; 
-	width:20em; 
-	margin:1em 1em;
+    float: left;
+    width: 20em;
+    margin: 1em 1em;
 }
 
 .album-image a img {
-	height:12em !important;
+    height: 12em !important;
     width: 20em;
 }
 
 .modal {
-	margin-top: 2em;
+    margin-top: 2em;
 }
 
 .modal-content {
@@ -28,7 +19,7 @@
 }
 
 .modal-dialog .modal-content img {
-	height: 45em;
+    height: 45em;
     margin-left: .4em;
     width: 85em;
     margin-top: .4em;
@@ -36,25 +27,24 @@
 }
 
 .caption {
-	overflow: hidden;
-	max-height: 10em;
+    overflow: hidden;
+    max-height: 10em;
 }
 
 .album-thumbnail {
-	float:left; 
-	height:25em;
-	width:20em; 
-	margin:1em 1em
+    float: left;
+    width: 20em;
+    margin: 1em;
 }
 
 .album-thumbnail img {
-	height:12em !important;
+    height: 12em !important;
     width: 20em;
 }
 
 .album-thumbnail .caption {
-	overflow: hidden; 
-	max-height: 10em;
+    overflow: hidden;
+    max-height: 10em;
 }
 
 .caption h3 {
