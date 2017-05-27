@@ -19,7 +19,7 @@ class Event(models.Model):
     venue = models.TextField()
     enabled = models.BooleanField(default=True)
     description = FroalaField(blank=True, null=True)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='events/')
     location = LocationField(blank=True, max_length=255)
     featured = models.BooleanField(default=True)
 

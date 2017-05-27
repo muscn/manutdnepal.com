@@ -731,8 +731,6 @@ def get_top_scorers_summary():
 
 
 def get_latest_epl_standings():
-    print datetime.datetime.now().isoformat()
-    print 'Retrieving table from API'
     link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
     f = urllib.urlopen(link)
     standings = f.read()
@@ -744,7 +742,7 @@ def get_latest_epl_standings():
 
 class Wallpaper(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='wallpapers/')
 
     def __str__(self):
         return self.name or self.image.name
