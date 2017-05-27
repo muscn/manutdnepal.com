@@ -11,6 +11,10 @@
             height: 500px;
         }
     </style>
+    {% if event.albums.all %}
+        <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
+        <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
+    {% endif %}
 {% endblock %}
 
 {% block extrabody %}
@@ -45,6 +49,14 @@
       google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
+    {% if event.albums.all %}
+        <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>
+        <script>
+          $(document).ready(function () {
+            $('a.gallery').colorbox({opacity: 0.5, rel: 'group1', maxWidth: '95%', maxHeight: '95%'});
+          });
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -61,5 +73,11 @@
 
     <div id="map-canvas"></div>
 
-{% endblock %}
+    {% for album in event.albums.all %}
+        <br/>
+        <hr/>
+        <h2><a href="{{ album.get_absolute_url }}">Photos: {{ album }}</a></h2>
+        {% include 'gallery/_images.html' with album=album %}
+    {% endfor %}
 
+{% endblock %}

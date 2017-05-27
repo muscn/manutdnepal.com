@@ -1,6 +1,9 @@
 from django.db import models
 import datetime
 import os
+
+from django.urls import reverse_lazy
+
 from apps.events.models import Event
 from muscn.utils.forms import unique_slugify
 
@@ -30,8 +33,8 @@ class Album(models.Model):
         unique_slugify(self, self.name)
         super(Album, self).save(*args, **kwargs)
 
-    # def get_absolute_url(self):
-    #     return reverse_lazy('view_album', kwargs={'slug': self.slug})
+    def get_absolute_url(self):
+        return reverse_lazy('album-images', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name or str(self.event)

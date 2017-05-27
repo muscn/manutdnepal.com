@@ -32,9 +32,9 @@ class Event(models.Model):
     @property
     def description(self):
         if timezone.now() < (self.end or self.start):
-            return self.description_pre or self.description_common
+            return self.description_pre or self.description_common or ''
         else:
-            return self.description_post or self.description_common
+            return self.description_post or self.description_common or ''
 
     @classmethod
     def get_all(cls):
