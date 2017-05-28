@@ -45,7 +45,7 @@ BASE_URL = 'https://manutd.org.np'
 # Fixtured
 class Competition(models.Model):
     name = models.CharField(max_length=255)
-    short_name = models.CharField(max_length=10, null=True, blank=True)
+    short_name = models.CharField(max_length=50, null=True, blank=True)
     slug = models.SlugField(max_length=255)
     order = models.IntegerField(default=0)
 
@@ -143,21 +143,23 @@ class Team(models.Model):
 
     def get_crest(self):
         if not self.crest:
-            wiki = self.get_wiki()
-            url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
-            url = urllib.quote(url.encode('utf8'), ':/')
-            try:
-                image_data = json.loads(urllib.urlopen(url).read())
-                data = image_data['query']['pages'].itervalues().next()
-            except ValueError:
-                data = {}
-            if (data.get('pageimage')):
-                image_name = data['pageimage'] + '.png'
-                image_url = data['thumbnail']['source']
-                img_temp = NamedTemporaryFile(delete=True)
-                img_temp.write(urllib.urlopen(image_url).read())
-                img_temp.flush()
-                self.crest.save(image_name, File(img_temp))
+            # wiki = self.get_wiki()
+            # if wiki:
+            #     url = 'https://en.wikipedia.org/w/api.php?action=query&titles=' + wiki + '&prop=pageimages&format=json&pithumbsize=200'
+            #     # url = urllib.quote(url.encode('utf8'), ':/')
+            #     try:
+            #         image_data = json.loads(urllib.urlopen(url).read())
+            #         data = image_data['query']['pages'].itervalues().next()
+            #     except ValueError:
+            #         data = {}
+            #     if (data.get('pageimage')):
+            #         image_name = data['pageimage'] + '.png'
+            #         image_url = data['thumbnail']['source']
+            #         img_temp = NamedTemporaryFile(delete=True)
+            #         img_temp.write(urllib.urlopen(image_url).read())
+            #         img_temp.flush()
+            #         self.crest.save(image_name, File(img_temp))
+            mail_admins('Add crest for: ', str(self))
         return self.crest
 
     def get_crest_url(self):
@@ -236,9 +238,6 @@ class Player(Person):
 
     def get_absolute_url(self):
         return reverse('view_player', kwargs={'slug': self.slug})
-
-    def all_goals(self):
-        return self.goals.all().order_by('-match__datetime')
 
     def get_contract_expiry_date(self):
         pass
@@ -511,7 +510,7 @@ class Fixture(models.Model):
 
     @classmethod
     def get_upcoming(cls):
-        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
+        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')
 
     @classmethod
     def results(cls):
@@ -522,11 +521,11 @@ class Fixture(models.Model):
     @classmethod
     def all_results(cls):
         # from all seasons
-        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime').select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8].select_related()
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8]
 
     @property
     def is_today(self):
@@ -732,8 +731,6 @@ def get_top_scorers_summary():
 
 
 def get_latest_epl_standings():
-    print datetime.datetime.now().isoformat()
-    print 'Retrieving table from API'
     link = 'http://football-api.com/api/?Action=standings&comp_id=1204&APIKey=' + settings.FOOTBALL_API_KEY
     f = urllib.urlopen(link)
     standings = f.read()
@@ -745,7 +742,7 @@ def get_latest_epl_standings():
 
 class Wallpaper(models.Model):
     name = models.CharField(max_length=250, blank=True, null=True)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='wallpapers/')
 
     def __str__(self):
         return self.name or self.image.name

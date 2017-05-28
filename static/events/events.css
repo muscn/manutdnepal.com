@@ -8,6 +8,7 @@
     padding: 0.5em 0.5em 0 0.5em;
     border: 1px solid #d2d2d2;
     background: #fcfcfc;
+    font-size: 3rem;
 }
 
 .date-day {
@@ -15,4 +16,5 @@
     background: rgb(69, 72, 77);
     color: #fff;
     text-transform: uppercase;
+    font-size: 3rem;
 }

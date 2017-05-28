@@ -1,0 +1,104 @@
+{% load tz %}
+
+<div class="well">
+    <h3>{{ match.competition_year.competition }}</h3>
+    <div>
+        {% if match.venue %}
+            Venue: {{ match.venue }}
+        {% endif %}
+    </div>
+    <div>
+        {% if match.broadcast_on %}
+            Live on {{ match.broadcast_on }}
+        {% endif %}
+    </div>
+    <div>
+        Date:
+        <span class="date">{{ match.datetime|date:'d' }}</span>
+        <span class="month">{{ match.datetime|date:'F' }}</span>
+        <span class="year">{{ match.datetime|date:'Y' }}</span>,
+        <span class="day">{{ match.datetime|date:'l' }}</span>
+    </div>
+    <div>
+        Kick-off:
+        <span class="time">{{ match.datetime|date:'P' }} NPT</span> <span class="utc-time">({% timezone "UTC" %}
+        {{ match.datetime|date:'P' }}{% endtimezone %} UTC)</span>
+    </div>
+</div>
+
+{% if match.is_upcoming %}
+{% else %}
+    <div class="well">
+        <h2>{{ match.score }}</h2>
+
+        {% if match.data and match.data.ht_score %}
+            <div>Half Time Score: {{ match.data.ht_score }}</div>
+            <br/>
+        {% endif %}
+
+        {% if match.remarks %}
+            <div>{{ match.remarks }}</div><br/>
+        {% endif %}
+
+        <div class="goals">
+            <h3>Goals</h3>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    {% if match.is_home_game %}
+                        <h4>Manchester United</h4>
+                        {% for goal in match.goals.all %}
+                            <div>
+                                <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}'
+                                {% if goal.assist_by %}
+                                    [Assist: <a href="{{ goal.assist_by.get_absolute_url }}">{{ goal.assist_by }}</a>]
+                                {% endif %}
+                                {% if goal.penalty %}
+                                    (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h4>{{ match.opponent }}</h4>
+                        {% for event in match.data.events %}
+                            <div>
+                                {% if event.type == 'goal' and event.team == 'home' %}
+                                    {{ event.scorer }} {{ event.m }}' [{{ event.text }}]
+                                    {% if event.og %} [OG] {% endif %}
+                                    {% if event.pen %} [P] {% endif %}
+                                    {% if event.assist_by %} [Assist: {{ event.assist_by }}] {% endif %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    {% if match.is_home_game %}
+                        <h4>{{ match.opponent }}</h4>
+                        {% for event in match.data.events %}
+                            <div>
+                                {% if event.type == 'goal' and event.team == 'away' %}
+                                    {{ event.scorer }} {{ event.m }}' [{{ event.text }}]
+                                    {% if event.og %} [OG] {% endif %}
+                                    {% if event.pen %} [P] {% endif %}
+                                    {% if event.assist_by %} [Assist: {{ event.assist_by }}] {% endif %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h4>Manchester United</h4>
+                        {% for goal in match.goals.all %}
+                            <div>
+                                <a href="{{ goal.scorer.get_absolute_url }}">{{ goal.scorer }}</a> {{ goal.time }}'
+                                {% if goal.assist_by %}
+                                    [Assist: <a href="{{ goal.assist_by.get_absolute_url }}">{{ goal.assist_by }}</a>]
+                                {% endif %}
+                                {% if goal.penalty %}
+                                    (P){% endif %}{% if goal.own_goal %}(OG){% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

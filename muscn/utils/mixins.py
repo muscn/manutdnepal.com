@@ -4,8 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.core.cache import cache
+from django.db.models import Q
 from django.views.generic.edit import UpdateView as BaseUpdateView, CreateView as BaseCreateView, \
     DeleteView as BaseDeleteView
+from django.contrib.admin.filters import SimpleListFilter
 
 
 class CachedModel(models.Model):
@@ -69,3 +71,23 @@ class DeleteView(BaseDeleteView):
         response = super(DeleteView, self).post(request, *args, **kwargs)
         messages.success(request, self.object.__class__._meta.verbose_name.title() + ' successfully deleted!')
         return response
+
+
+class EmptyFilterSpec(SimpleListFilter):
+    title = ''
+
+    parameter_name = ''
+
+    def lookups(self, request, model_admin):
+        return (
+            ('1', 'Has value'),
+            ('0', 'None'),
+        )
+
+    def queryset(self, request, queryset):
+        filters = Q(**{self.parameter_name + '__isnull': True}) | Q(**{self.parameter_name: ''})
+        if self.value() == '0':
+            return queryset.filter(filters)
+        if self.value() == '1':
+            return queryset.exclude(filters)
+        return queryset

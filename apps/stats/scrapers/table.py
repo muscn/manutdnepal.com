@@ -7,9 +7,11 @@ from django.conf import settings
 from apps.stats.models import Fixture
 from .base import Scraper
 
+BASE_URL = 'http://www.livescores.com'
+
 
 class TableScraper(Scraper):
-    base_url = 'http://www.livescores.com'
+    base_url = BASE_URL
 
     @classmethod
     def scrape(cls):
@@ -162,9 +164,7 @@ class TableScraper(Scraper):
 
 
 class EPLScrape(TableScraper):
-    @property
-    def url(self):
-        return self.base_url + '/soccer/england/premier-league/'
+    url = BASE_URL + '/soccer/england/premier-league/'
 
     @classmethod
     def save(cls):
@@ -172,9 +172,7 @@ class EPLScrape(TableScraper):
 
 
 class LeagueCupScrape(TableScraper):
-    @property
-    def url(self):
-        return self.base_url + '/soccer/england/carling-cup/'
+    url = BASE_URL + '/soccer/england/carling-cup/'
 
     @classmethod
     def save(cls):
@@ -182,9 +180,7 @@ class LeagueCupScrape(TableScraper):
 
 
 class FACupScrape(TableScraper):
-    @property
-    def url(self):
-        return self.base_url + '/soccer/england/fa-cup/'
+    url = BASE_URL + '/soccer/england/fa-cup/'
 
     @classmethod
     def save(cls):
@@ -192,9 +188,7 @@ class FACupScrape(TableScraper):
 
 
 class EuropaLeagueScrape(TableScraper):
-    @property
-    def url(self):
-        return self.base_url + '/soccer/europa-league/'
+    url = BASE_URL + '/soccer/europa-league/'
 
     @classmethod
     def save(cls):

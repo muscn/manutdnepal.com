@@ -1,12 +1,22 @@
 from django.contrib import admin
 from django import forms
+from django.contrib.admin import FieldListFilter, RelatedFieldListFilter, ChoicesFieldListFilter, SimpleListFilter
+from django.utils import timezone
 
+from muscn.utils.mixins import EmptyFilterSpec
 from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
     Fixture, Team, Goal, Stadium, PlayerSocialAccount, Wallpaper
 
 
+class CrestEmptyFilterSpec(EmptyFilterSpec):
+    title = 'Crest'
+    parameter_name = 'crest'
+
+
 class TeamAdmin(admin.ModelAdmin):
     search_fields = ('name', 'short_name', 'alternative_names', 'nick_name')
+    list_display = ('name', 'crest')
+    list_filter = (CrestEmptyFilterSpec,)
 
 
 class GoalForm(forms.ModelForm):
@@ -31,23 +41,41 @@ admin.site.register(Goal, GoalAdmin)
 admin.site.register(Injury)
 admin.site.register(PlayerSocialAccount)
 admin.site.register(Competition)
-admin.site.register(CompetitionYear)
 # admin.site.register(City)
 admin.site.register(Quote)
 admin.site.register(SeasonData)
-# admin.site.register(CompetitionYearMatches)
-# admin.site.register(Fixture)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Stadium)
 
 
-# admin.site.register(MatchResult)
+class FixtureResultFilter(SimpleListFilter):
+    title = 'Type'
+
+    parameter_name = 'type'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('fixture', 'Fixture'),
+            ('result', 'Result'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'fixture':
+            return queryset.filter(datetime__gt=timezone.now())
+        if self.value() == 'result':
+            return queryset.exclude(datetime__gt=timezone.now())
+        return queryset
+
 
 class FixtureAdmin(admin.ModelAdmin):
-    model = Fixture
     list_display = ('opponent', 'is_home_game', 'datetime', 'competition_year', 'venue')
-    list_filter = ('is_home_game', 'competition_year__competition', 'competition_year', 'competition_year__year')
+    list_filter = (
+    FixtureResultFilter, 'is_home_game', 'competition_year__competition', 'competition_year', 'competition_year__year')
     inlines = [GoalInline]
+
+    def get_queryset(self, request):
+        return super(FixtureAdmin, self).get_queryset(request).select_related('opponent', 'competition_year',
+                                                                              'competition_year__competition')
 
 
 admin.site.register(Fixture, FixtureAdmin)
@@ -67,3 +95,14 @@ class PlayerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Player, PlayerAdmin)
+
+
+class CompetitionYearAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'competition', 'year')
+    list_filter = ('competition', 'year')
+
+    def get_queryset(self, request):
+        return super(CompetitionYearAdmin, self).get_queryset(request).select_related('competition')
+
+
+admin.site.register(CompetitionYear, CompetitionYearAdmin)

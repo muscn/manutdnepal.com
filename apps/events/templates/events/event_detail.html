@@ -11,37 +11,52 @@
             height: 500px;
         }
     </style>
+    {% if event.albums.all %}
+        <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
+        <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
+    {% endif %}
+{% endblock %}
+
+{% block extrabody %}
     <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
     <script>
-        var map;
-        function initialize() {
-            var myLatlng = new google.maps.LatLng({{ event.location }});
-            var mapOptions = {
-                zoom: 15,
-                center: myLatlng
-            };
+      var map;
+      function initialize() {
+        var myLatlng = new google.maps.LatLng({{ event.location }});
+        var mapOptions = {
+          zoom: 15,
+          center: myLatlng
+        };
 
-            map = new google.maps.Map(document.getElementById('map-canvas'),
-                    mapOptions);
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
 
 
-            var infowindow = new google.maps.InfoWindow({
-                content: "{{ event.venue|linebreaks }}"
-            });
+        var infowindow = new google.maps.InfoWindow({
+          content: "{{ event.venue|linebreaks }}"
+        });
 
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: "{{ event.venue|linebreaks }}"
-            });
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.open(map, marker);
-            });
-        }
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: "{{ event.venue|linebreaks }}"
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+          infowindow.open(map, marker);
+        });
+      }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+      google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
+    {% if event.albums.all %}
+        <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>
+        <script>
+          $(document).ready(function () {
+            $('a.gallery').colorbox({opacity: 0.5, rel: 'group1', maxWidth: '95%', maxHeight: '95%'});
+          });
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -52,46 +67,17 @@
         <img class="img-responsive" src="{{ event.image.url }}"/>
     {% endif %}
 
-    <div class="panel panel-default">
-
-        <div class="panel-body">
-            <div class="date-icon">
-                <div class="date-month">{{ event.start|date:"M" }}</div>
-                <div class="date-day">{{ event.start.date.day }}</div>
-            </div>
-
-            {% if event.whole_day_event %}
-                <strong>Date:</strong>
-                {{ event.start.date }}<br/>
-            {% else %}
-                <strong>Starts:</strong>
-                {{ event.start }}<br/>
-            {% endif %}
-            {% if event.end %}
-                <strong>Ends:</strong> {{ event.end }}<br/>
-            {% endif %}
-            <strong>Venue:</strong> {{ event.venue }}<br/>
-            {% if event.organizer %}
-                <strong>Organizer:</strong> {{ event.organizer }}<br/>
-            {% endif %}
-            {% if event.albums.all %}
-                <strong>Gallery:</strong>
-                {% for album in event.albums.all %}
-                    <a href="{% url 'album-images' album.slug %}">{{ album.name }}</a>
-                {% endfor %}
-            {% endif %}
-            <br/>
-            {{ event.description|safe }}
-
-
-        </div>
-
-
-    </div>
+    {% include 'events/_event_card.html' %}
 
     <h3>Map:</h3>
 
     <div id="map-canvas"></div>
 
-{% endblock %}
+    {% for album in event.albums.all %}
+        <br/>
+        <hr/>
+        <h2><a href="{{ album.get_absolute_url }}">Photos: {{ album }}</a></h2>
+        {% include 'gallery/_images.html' with album=album %}
+    {% endfor %}
 
+{% endblock %}

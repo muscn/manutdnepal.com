@@ -4,21 +4,59 @@
 
 {% block title %} {{ object.title }} {% endblock %}
 
-{% block content %}
-    
-        <h1>{{ object.title }}</h1>
-
-        <div class="post meta">{{ object.created_at }}</div>
-
-        {% if post.image %}
-            <img class="img-responsive" src="{{ post.image.url }}"/>
-        {% endif %}
-
-        <br/>
-
-        <div>
-            {{ object.content|safe }}
-        </div>
-    
+{% block extrahead %}
+    {% if object.album %}
+        <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
+        <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
+    {% endif %}
+    {% if object.event %}
+        <link href="{% static "events/events.css" %}" rel="stylesheet" type="text/css">
+    {% endif %}
 {% endblock %}
 
+{% block content %}
+
+    <h1>{{ object.title }}</h1>
+
+    <div class="post meta">{{ object.created_at }}</div>
+
+    {% if post.image %}
+        <img class="img-responsive" src="{{ post.image.url }}"/>
+    {% endif %}
+
+    <br/>
+
+    <div>
+        {{ object.content|safe }}
+    </div>
+
+    <hr/>
+
+    {% if object.match %}
+        <h2><a href="{{ object.match.get_absolute_url }}">Match Details</a></h2>
+        {% include 'stats/_match_details.html' with match=object.match %}
+        <hr/>
+    {% endif %}
+
+    {% if object.event %}
+        <h2><a href="{{ object.event.get_absolute_url }}">Event: {{ object.event }}</a></h2>
+        {% include 'events/_event_card.html' with is_post=True event=object.event %}
+    {% endif %}
+
+    {% if object.album %}
+        <h2><a href="{{ object.album.get_absolute_url }}">Gallery: {{ object.album }}</a></h2>
+        {% include 'gallery/_images.html' with album=object.album %}
+    {% endif %}
+
+{% endblock %}
+
+{% block extrabody %}
+    {% if object.album %}
+        <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>
+        <script>
+          $(document).ready(function () {
+            $('a.gallery').colorbox({opacity: 0.5, rel: 'group1', maxWidth: '95%', maxHeight: '95%'});
+          });
+        </script>
+    {% endif %}
+{% endblock %}

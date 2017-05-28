@@ -35,15 +35,13 @@
     {% endblock %}
     <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
     <link href="{% static "css/styles.css" %}" rel="stylesheet" type="text/css">
-    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script> 
     {% block extrahead %}{% endblock %}
 </head>
 <body>
 <div id="container" class="content">
 
     {% include '_header.html' %}
-    <div class="{% block container-class %}container{% endblock %}">
+    <div class="{% block container-class %}container{% endblock %} main-container">
         {% block content %}
         {% endblock %}
     </div>
@@ -52,6 +50,12 @@
 </div>
 
 {% include '_footer.html' %}
+
+<script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/base.js" %}"></script>
+{% block extrabody %}
+{% endblock %}
 
 </body>
 </html>

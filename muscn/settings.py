@@ -60,12 +60,13 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'dj_pagination.middleware.PaginationMiddleware',
     # 'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    # Disabled because X-Frame-Options SAMEORIGIN is set on Nginx.
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 TEMPLATES = [
@@ -109,19 +110,6 @@ REST_FRAMEWORK = {
 
 from user_settings import *  # noqa
 
-try:
-    from .local_settings import *  # noqa
-except ImportError:
-    pass
-
-# DJANGO_REDIS_IGNORE_EXCEPTIONS = True
-
-# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-# SESSION_CACHE_ALIAS = 'default'
-
-# CACHE_MIDDLEWARE_SECONDS = 216000
-# CACHE_MIDDLEWARE_KEY_PREFIX = ''
-
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
@@ -147,9 +135,17 @@ ALIASES = [
     'MUFC',
 ]
 
-import warnings
-warnings.filterwarnings(
-    'error', r"DateTimeField .* received a naive datetime",
-    RuntimeWarning, r'django\.db\.models\.fields')
+TEMPLATE_DEBUG = False
 
-TEMPLATE_DEBUG =False
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_NAME = 'sci'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_NAME = 'ct'
+CSRF_COOKIE_SECURE = True
+
+try:
+    from .local_settings import *  # noqa
+except ImportError:
+    pass

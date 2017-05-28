@@ -285,9 +285,10 @@ class User(AbstractBaseUser):
             if not os.path.exists(os.path.join(settings.MEDIA_ROOT, 'qrs')):
                 os.makedirs(os.path.join(settings.MEDIA_ROOT, 'qrs'))
             urlretrieve(
-                'http://api.qrserver.com/v1/create-qr-code/?data=http://manutd.org.np/' + devil_number + '&size=250x250&ecc=' + qr_error_correction + '&color=ffffff&bgcolor=000',
+                'http://api.qrserver.com/v1/create-qr-code/?data=https://manutd.org.np/' + devil_number + '&size=250x250&ecc=' + qr_error_correction + '&color=ffffff&bgcolor=000',
                 os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png'))
-            qr = Image.open(os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png'))
+            qr_path = os.path.join(settings.MEDIA_ROOT, 'qrs', str(pk) + '.png')
+            qr = Image.open(qr_path)
             # make qr transparent
             qr = qr.convert('RGBA')
             data = qr.getdata()
@@ -302,6 +303,7 @@ class User(AbstractBaseUser):
             # write qr to image
             img = img.convert('RGBA')
             img.paste(qr, qr_xy, qr)
+            os.remove(qr_path)
         return img
 
     def get_card(self):

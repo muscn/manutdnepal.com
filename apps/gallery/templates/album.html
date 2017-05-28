@@ -20,15 +20,16 @@
     {% for album in albums %}
         <div class="thumbnail album-thumbnail">
             <a href="{% url 'album-images' album.slug %}">
-                {% thumbnail album.get_thumbnail.file "240x140" as image %}
+                {% thumbnail album.get_thumbnail.file "240x140" crop="center" as image %}
                     <img src="{{ image.url }}" alt="No Image">
                 {% endthumbnail %}
             </a>
 
             <div class="caption text-center">
-                <h3 class="h3">{{ album.name }}</h3>
+                <h3 class="h3"><a href="{% url 'album-images' album.slug %}">{{ album.name }}</a></h3>
                 {% if album.event %}
-                    <a href="{{ album.event.get_absolute_url }}"><span class="calendar-icon pull-right"><i class="fa fa-calendar" aria-hidden="true"></i></span></a>
+                    <a href="{{ album.event.get_absolute_url }}" title="View event details">
+                        <span class="calendar-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span></a>
                 {% endif %}
             </div>
         </div>

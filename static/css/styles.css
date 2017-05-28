@@ -528,9 +528,6 @@ header img.logo {
     margin-right: 50px;
 }
 
-#mufc-menu {
-    display: none !important;
-}
 
 #home-container {
     background: rgba(255, 255, 255, 0.8);
@@ -741,17 +738,6 @@ pad {
     height: 1em;
 }
 
-@media (max-width: 767px) {
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-        color: #FFF;
-    }
-
-    .call-to-action a {
-        display: block;
-        padding: 20px 0;
-    }
-}
-
 /* Google CSE */
 
 .gsc-input-box {
@@ -789,4 +775,30 @@ td.link-cell a {
 
 .reddit-thread.row h5{
     margin: 0;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #FFF;
+    }
+
+    .call-to-action a {
+        display: block;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 1000px) {
+    #container .main-container{
+        padding:0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 741px) {
+    .stats-block{
+        margin: 1em 0;
+        max-width: 95%;
+        width: 95%;
+    }
 }

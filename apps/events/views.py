@@ -9,4 +9,4 @@ class EventsList(ListView):
 
 
 class EventDetail(DetailView):
-    queryset = Event.objects.filter(enabled=True).prefetch_related('albums')
+    queryset = Event.objects.filter(enabled=True).prefetch_related('albums__images')

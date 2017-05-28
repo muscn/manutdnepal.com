@@ -6,6 +6,9 @@ from django.core.cache import cache
 
 from froala_editor.fields import FroalaField
 
+from apps.events.models import Event
+from apps.gallery.models import Album
+from apps.stats.models import Fixture
 from muscn.utils.forms import unique_slugify
 from muscn.utils.mixins import CachedModel
 
@@ -27,6 +30,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(blank=True)
     image = models.ImageField(blank=True, null=True, upload_to='post_images')
     featured = models.BooleanField(default=True)
+    match = models.ForeignKey(Fixture, blank=True, null=True, related_name='posts')
+    event = models.ForeignKey(Event, blank=True, null=True, related_name='posts')
+    album = models.ForeignKey(Album, blank=True, null=True, related_name='posts')
 
     @classmethod
     def get_all(cls):
@@ -39,7 +45,7 @@ class Post(models.Model):
     @classmethod
     def recent(cls, count=10):
         return cls.objects.filter(status='Published')[0:count]
-    
+
     def excerpt(self):
         txt = self.content
         if len(txt) < 101:

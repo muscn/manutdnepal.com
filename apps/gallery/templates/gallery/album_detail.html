@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}
+    {{ object.name }} | {% trans 'Gallery' %}
+{% endblock %}
+
+{% block container-class %}container-fluid{% endblock %}
+
+{% block extrahead %}
+    <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "colorbox/colorbox.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "events/events.css" %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ object.name }}</h1>
+        </div>
+    </div>
+
+    {% if object.event %}
+        {% include 'events/_event_card.html' with is_gallery=True event=object.event %}
+        <h2>Photos:</h2>
+    {% endif %}
+
+    {% include 'gallery/_images.html' with album=object %}
+
+{% endblock %}
+
+{% block extrabody %}
+    <script src="{% static "colorbox/jquery.colorbox-min.js" %}"></script>
+    <script>
+      $(document).ready(function () {
+        $('a.gallery').colorbox({opacity: 0.5, rel: 'group1', maxWidth: '95%', maxHeight: '95%'});
+      });
+    </script>
+{% endblock %}
