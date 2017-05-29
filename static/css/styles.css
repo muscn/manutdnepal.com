@@ -145,7 +145,7 @@ footer {
     color: #e64522;
 }
 
-.smGlobalBtn:before {
+.connect.btn:before, .smGlobalBtn:before {
     font-family: "FontAwesome";
 }
 
