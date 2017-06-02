@@ -205,7 +205,7 @@ def fixtures(request):
 
 def all_results(request):
     context = {
-        'results': Fixture.all_results(),
+        'results': Fixture.all_results().select_related('opponent', 'competition_year__competition'),
     }
     return render(request, 'stats/all_results.html', context)
 

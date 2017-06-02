@@ -47,15 +47,15 @@
                             <li><a href="{% url 'epl_table' %}">EPL Table</a></li>
                             <li><a href="{% url 'matchweek' %}">Matchweek</a></li>
                             <li><a href="{% url 'scorers' %}">Top Scorers</a></li>
-                            <li><a href="/squad/">Squad</a></li>
+                            <li><a href="{% url 'list_squad' %}">Squad</a></li>
 
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-expanded="false">History<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/seasons/">Past Seasons</a></li>
-                                    <li><a href="/seasons/">Past Fixtures Results</a></li>
+                                    <li><a href="{% url 'list_seasons' %}">Past Seasons</a></li>
+                                    <li><a href="{% url 'all-results' %}">Past Fixtures Results</a></li>
                                 </ul>
                             </li>
                         
@@ -69,7 +69,7 @@
                                     <li><a href="{% url 'list_members' %}">Members</a></li>
                                     <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
                                     <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
-                                    <li><a href="/payment-methods/">Payment Methods</a></li>
+                                    <li><a href="{% url 'view_page' 'payment-methods' %}">Payment Methods</a></li>
                                     <li class="divider"></li>
                                     <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
                                 </ul>
