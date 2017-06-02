@@ -6,7 +6,7 @@ from django.conf import settings
 
 def get_current_season_start_year(day=None):
     day = day or datetime.date.today()
-    if day.month < 6:
+    if day.month < 7:
         return day.year - 1
     return day.year
 
