@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'apps.gallery',
     'apps.key',
     'apps.push_notification',
+    'apps.contact',
 )
 
 MIDDLEWARE = [

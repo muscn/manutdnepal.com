@@ -21,13 +21,17 @@ class LocationPickerWidget(forms.TextInput):
         super(LocationPickerWidget, self).__init__(attrs=attrs)
 
     def render(self, name, value, attrs=None):
-        if None == attrs:
+        if attrs is None:
             attrs = {}
         attrs['class'] = 'location_picker'
         return super(LocationPickerWidget, self).render(name, value, attrs)
 
 
 class LocationField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs.update({'max_length': 255})
+        super(LocationField, self).__init__(*args, **kwargs)
+
     def formfield(self, **kwargs):
         kwargs['widget'] = LocationPickerWidget
         return super(LocationField, self).formfield(**kwargs)
