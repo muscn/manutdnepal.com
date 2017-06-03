@@ -5,31 +5,30 @@
 {% block title %} EPL Table {% endblock %}
 
 {% block extrahead %}
-    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
     <link rel="stylesheet" type="text/css"
           href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+{% endblock %}
 
+{% block extrabody %}
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            $('table').DataTable({
-                paging: false,
-                "aaSorting": [],
-            });
+    $(document).ready(function () {
+        $('.epl-table').DataTable({
+          paging: false,
+          "aaSorting": []
         });
+      });
     </script>
-
 {% endblock %}
 
 {% block content %}
 
     <h1>EPL Table</h1>
 
-    <table class="epl-table table table-bordered">
+    <table class="epl-table table table-bordered table-hover">
         <thead>
         <tr>
             <th></th>
-            {#                                <th></th>#}
             <th>Club</th>
             <th>P</th>
             <th>W</th>
@@ -38,7 +37,6 @@
             <th>GS</th>
             <th>GA</th>
             <th>GD</th>
-            {#            <th>Recent Form</th>#}
             <th>Pts</th>
         </tr>
         </thead>
@@ -59,15 +57,12 @@
                 <td>{{ team.l }}</td>
                 <td>{{ team.f }}</td>
                 <td>{{ team.a }}</td>
-
                 <td>{{ team.gd }}</td>
                 {#                <td>{{ team.stand_recent_form }}</td>#}
                 <td>{{ team.pts }}</td>
             </tr>
         {% endfor %}
         </tbody>
-
-        </tr>
     </table>
 
 

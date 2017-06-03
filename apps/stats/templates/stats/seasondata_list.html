@@ -8,158 +8,137 @@
 
 {% block extrahead %}
     <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
-    {#    <link rel="stylesheet" type="text/css"#}
-    {#          href="{% static 'vendors/datatables/jquery.dataTables.min.css' %}"/>#}
     <link rel="stylesheet" type="text/css"
           href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+{% endblock %}
 
+{% block extrabody %}
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            $('table').DataTable({
-                paging: false,
-                "aaSorting": [],
-                {#                "aoColumns": [#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    null,#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    { "sType": 'numeric' },#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null,#}
-                {#                    null#}
-                {#                ]#}
-            });
+      $(document).ready(function () {
+        $('table').DataTable({
+          paging: false,
+          "aaSorting": []
         });
-
-
+      });
     </script>
 
 {% endblock %}
 
 {% block content %}
-
-        <h1>All Seasons</h1>
-        <table class="table table-bordered">
-            <thead>
+    <h1>All Seasons</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th rowspan="2">Season</th>
+            <th>Division</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>GF</th>
+            <th>GA</th>
+            <th>Pts</th>
+            <th>Pos</th>
+            <th rowspan="2">FA<br>Cup</th>
+            <th rowspan="2">League<br>Cup</th>
+            <th rowspan="2">Community<br>Shield</th>
+            <th rowspan="2">Europe<br>/International</th>
+            <th colspan="2">Top Scorer</th>
+        </tr>
+        <tr>
+            <th colspan="9" class="text-center">League</th>
+            <th>Player(s)</th>
+            <th>Goals</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
             <tr>
-                <th rowspan="2">Season</th>
-                <th>Division</th>
-                <th>P</th>
-                <th>W</th>
-                <th>D</th>
-                <th>L</th>
-                <th>GF</th>
-                <th>GA</th>
-                <th>Pts</th>
-                <th>Pos</th>
-                <th rowspan="2">FA<br>Cup</th>
-                <th rowspan="2">League<br>Cup</th>
-                <th rowspan="2">Community<br>Shield</th>
-                <th rowspan="2">Europe<br>/International</th>
-                <th colspan="2">Top Scorer</th>
+                <td>
+                    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+                </td>
+                <td>{{ object.summary.division|key }}</td>
+                <td>{{ object.summary.P }}</td>
+                <td>{{ object.summary.W }}</td>
+                <td>{{ object.summary.D }}</td>
+                <td>{{ object.summary.L }}</td>
+                <td>{{ object.summary.F }}</td>
+                <td>{{ object.summary.A }}</td>
+                <td>{{ object.summary.Pts }}</td>
+                <td data-order="{{ object.summary.Pos.value|get_cardinal }}" {% if object.summary.Pos.remarks %}
+                    class=
+                    {{ object.summary.Pos.remarks|lower }}{% endif %}>{{ object.summary.Pos.value }}
+                </td>
+                <td{% if object.summary.FA.remarks %} class=
+                    {{ object.summary.FA.remarks|lower }}{% endif %}><a
+                        href="{{ object.get_absolute_url }}fa-cup/">{{ object.summary.FA.value|key }}</a></td>
+                <td{% if object.summary.League.remarks %} class=
+                    {{ object.summary.League.remarks|lower }}{% endif %}>{{ object.summary.League.value|key }}</td>
+                <td{% if object.summary.Community.remarks %} class=
+                    {{ object.summary.Community.remarks|lower }}{% endif %}>{{ object.summary.Community.value|key }}</td>
+                <td>
+                    {% for competition in object.summary.International %}
+                        <span{% if competition.remarks %} class=
+                            {{ competition.remarks|lower }}{% endif %}><strong>{{ competition.cup }}</strong>: {{ competition.value|key }}</span>
+                        <br>
+                    {% endfor %}
+                </td>
+                <td>{% for scorer in object.summary.top_scorers %}
+                    {{ scorer.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</td>
+                <td>{{ object.summary.top_score }}</td>
             </tr>
-            <tr>
-                <th colspan="9" class="text-center">League</th>
-                <th>Player(s)</th>
-                <th>Goals</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for object in object_list %}
-                <tr>
-                    <td>
-                        <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-                    </td>
-                    <td>{{ object.summary.division|key }}</td>
-                    <td>{{ object.summary.P }}</td>
-                    <td>{{ object.summary.W }}</td>
-                    <td>{{ object.summary.D }}</td>
-                    <td>{{ object.summary.L }}</td>
-                    <td>{{ object.summary.F }}</td>
-                    <td>{{ object.summary.A }}</td>
-                    <td>{{ object.summary.Pts }}</td>
-                    <td data-order="{{ object.summary.Pos.value|get_cardinal }}" {% if object.summary.Pos.remarks %}
-                        class=
-                        {{ object.summary.Pos.remarks|lower }}{% endif %}>{{ object.summary.Pos.value }}
-                    </td>
-                    <td{% if object.summary.FA.remarks %} class=
-                        {{ object.summary.FA.remarks|lower }}{% endif %}><a
-                            href="{{ object.get_absolute_url }}fa-cup/">{{ object.summary.FA.value|key }}</a></td>
-                    <td{% if object.summary.League.remarks %} class=
-                        {{ object.summary.League.remarks|lower }}{% endif %}>{{ object.summary.League.value|key }}</td>
-                    <td{% if object.summary.Community.remarks %} class=
-                        {{ object.summary.Community.remarks|lower }}{% endif %}>{{ object.summary.Community.value|key }}</td>
-                    <td>
-                        {% for competition in object.summary.International %}
-                            <span{% if competition.remarks %} class=
-                                {{ competition.remarks|lower }}{% endif %}><strong>{{ competition.cup }}</strong>: {{ competition.value|key }}</span>
-                            <br>
-                        {% endfor %}
-                    </td>
-                    <td>{% for scorer in object.summary.top_scorers %}
-                        {{ scorer.name }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}</td>
-                    <td>{{ object.summary.top_score }}</td>
-                </tr>
-            {% endfor %}
-            {#            <tr>#}
-            {#                <th colspan="10">#}
-            {#                    Pre- Premier League Seasons#}
-            {#                </th>#}
-            {#            </tr>#}
+        {% endfor %}
+        {#            <tr>#}
+        {#                <th colspan="10">#}
+        {#                    Pre- Premier League Seasons#}
+        {#                </th>#}
+        {#            </tr>#}
 
-            {#            {% for object in pre_epl_seasons %}#}
-            {#                <tr>#}
-            {#                    <td>#}
-            {#                        <a href="{{ object.get_absolute_url }}">{{ object }}</a>#}
-            {#                    </td>#}
-            {#                    <td>{{ object.summary.division|key }}</td>#}
-            {#                    <td>{{ object.summary.P }}</td>#}
-            {#                    <td>{{ object.summary.W }}</td>#}
-            {#                    <td>{{ object.summary.D }}</td>#}
-            {#                    <td>{{ object.summary.L }}</td>#}
-            {#                    <td>{{ object.summary.F }}</td>#}
-            {#                    <td>{{ object.summary.A }}</td>#}
-            {#                    <td>{{ object.summary.Pts }}</td>#}
-            {#                    <td{% if object.summary.Pos.remarks %} class=#}
-            {#                        {{ object.summary.Pos.remarks|lower }}{% endif %}>{{ object.summary.Pos.value }}#}
-            {#                    </td>#}
-            {#                    <td{% if object.summary.FA.remarks %} class=#}
-            {#                        {{ object.summary.FA.remarks|lower }}{% endif %}>{{ object.summary.FA.value|key }}</td>#}
-            {#                    <td{% if object.summary.League.remarks %} class=#}
-            {#                        {{ object.summary.League.remarks|lower }}{% endif %}>{{ object.summary.League.value|key }}</td>#}
-            {#                    <td{% if object.summary.Community.remarks %} class=#}
-            {#                        {{ object.summary.Community.remarks|lower }}{% endif %}>{{ object.summary.Community.value|key }}</td>#}
-            {#                    <td>#}
-            {#                        {% for competition in object.summary.International %}#}
-            {#                            <span{% if competition.remarks %} class=#}
-            {#                                {{ competition.remarks|lower }}{% endif %}><strong>{{ competition.cup }}</strong>: {{ competition.value|key }}</span>#}
-            {#                            <br>#}
-            {#                        {% endfor %}#}
-            {#                    </td>#}
-            {#                    <td>{% for scorer in object.summary.top_scorers %}#}
-            {#                        {{ scorer.name }}{% if not forloop.last %}, {% endif %}#}
-            {#                    {% endfor %}</td>#}
-            {#                    <td>{{ object.summary.top_score }}</td>#}
-            {#                </tr>#}
-            {#            {% endfor %}#}
-            </tbody>
-        </table>
+        {#            {% for object in pre_epl_seasons %}#}
+        {#                <tr>#}
+        {#                    <td>#}
+        {#                        <a href="{{ object.get_absolute_url }}">{{ object }}</a>#}
+        {#                    </td>#}
+        {#                    <td>{{ object.summary.division|key }}</td>#}
+        {#                    <td>{{ object.summary.P }}</td>#}
+        {#                    <td>{{ object.summary.W }}</td>#}
+        {#                    <td>{{ object.summary.D }}</td>#}
+        {#                    <td>{{ object.summary.L }}</td>#}
+        {#                    <td>{{ object.summary.F }}</td>#}
+        {#                    <td>{{ object.summary.A }}</td>#}
+        {#                    <td>{{ object.summary.Pts }}</td>#}
+        {#                    <td{% if object.summary.Pos.remarks %} class=#}
+        {#                        {{ object.summary.Pos.remarks|lower }}{% endif %}>{{ object.summary.Pos.value }}#}
+        {#                    </td>#}
+        {#                    <td{% if object.summary.FA.remarks %} class=#}
+        {#                        {{ object.summary.FA.remarks|lower }}{% endif %}>{{ object.summary.FA.value|key }}</td>#}
+        {#                    <td{% if object.summary.League.remarks %} class=#}
+        {#                        {{ object.summary.League.remarks|lower }}{% endif %}>{{ object.summary.League.value|key }}</td>#}
+        {#                    <td{% if object.summary.Community.remarks %} class=#}
+        {#                        {{ object.summary.Community.remarks|lower }}{% endif %}>{{ object.summary.Community.value|key }}</td>#}
+        {#                    <td>#}
+        {#                        {% for competition in object.summary.International %}#}
+        {#                            <span{% if competition.remarks %} class=#}
+        {#                                {{ competition.remarks|lower }}{% endif %}><strong>{{ competition.cup }}</strong>: {{ competition.value|key }}</span>#}
+        {#                            <br>#}
+        {#                        {% endfor %}#}
+        {#                    </td>#}
+        {#                    <td>{% for scorer in object.summary.top_scorers %}#}
+        {#                        {{ scorer.name }}{% if not forloop.last %}, {% endif %}#}
+        {#                    {% endfor %}</td>#}
+        {#                    <td>{{ object.summary.top_score }}</td>#}
+        {#                </tr>#}
+        {#            {% endfor %}#}
+        </tbody>
+    </table>
 
-        <ul class="legends">
-            <li><i class="fa fa-trophy"></i> = Champions</li>
-            <li><i class="fa fa-level-up"></i> = Promoted</li>
-            <li><i class="fa fa-level-down"></i> = Relegated</li>
-        </ul>
+    <ul class="legends">
+        <li><i class="fa fa-trophy"></i> = Champions</li>
+        <li><i class="fa fa-level-up"></i> = Promoted</li>
+        <li><i class="fa fa-level-down"></i> = Relegated</li>
+    </ul>
 
 {% endblock %}
 

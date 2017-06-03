@@ -5,13 +5,12 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid row">
 
-                <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header col-sm-4">
 
                     <div class="row">
                         <div class="pull-left brand-logo">
                             <a href="/">
-                                <img class="logo" id="logo" src="/static/img/logo.svg" alt="">
+                                <img class="logo" id="logo" src="/static/img/logo.svg" alt="MUSCN">
                             </a>
                         </div>
                         <div class="brand-name">
@@ -58,7 +57,7 @@
                                     <li><a href="{% url 'all-results' %}">Past Fixtures Results</a></li>
                                 </ul>
                             </li>
-                        
+
                             <li><a href="{% url 'album-list' %}">Gallery</a></li>
 
                             <li class="dropdown">
@@ -74,8 +73,8 @@
                                     <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
                                 </ul>
                             </li>
-                            <li><a href="/post/">Posts</a></li>
-                            <li><a href="/event/">Events</a></li>
+                            <li><a href="{% url 'list_posts' %}">Posts</a></li>
+                            <li><a href="{% url 'list_events' %}">Events</a></li>
 
                             {% if request.user.is_authenticated %}
                                 {% if request.user.membership %}
@@ -95,10 +94,9 @@
                                        aria-expanded="false">{{ user }}<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
-                                        {#                                        <li><a href="{% url 'list_members' %}">Edit Profile</a></li>#}
                                         <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                                         <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
-                                        <li><a href="{% url 'membership_form' %}">Registration Information</a></li>
+                                        <li><a href="{% url 'membership_form' %}">Registration/Profile Information</a></li>
                                         <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>
                                         <li class="divider"></li>
                                         <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
@@ -111,11 +109,6 @@
                             {% endif %}
                         </ul>
                     </div>
-
-                    {#                    <div class="collapse navbar-collapse" id="mufc-menu">#}
-                    {#                        <ul class="nav navbar-nav navbar-right">#}
-                    {#                        </ul>#}
-                    {#                    </div>#}
 
                 </div>
 

@@ -12,7 +12,6 @@ from apps.partner import views as partner_views
 from .sitemap import SITEMAPS
 
 from rest_framework import routers
-from rest_framework.authtoken import views as rest_view
 from apps.stats import api as stats_api
 from apps.events import api as events_api
 from apps.post import api as post_api

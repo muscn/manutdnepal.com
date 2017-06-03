@@ -5,16 +5,18 @@
 {% block title %} Top Scorers {% endblock %}
 
 {% block extrahead %}
-    <link href="{% static "stats/css/styles.css" %}" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
+{% endblock %}
+
+{% block extrabody %}
+    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            $('table').DataTable({
-                paging: false,
-                aaSorting: [],
-            });
+      $(document).ready(function () {
+        $('table').DataTable({
+          paging: false,
+          aaSorting: []
         });
+      });
     </script>
 
 {% endblock %}
