@@ -69,6 +69,7 @@ urlpatterns = [
     url(r'^event/', include('apps.events.urls')),
     url(r'^post/', include('apps.post.urls')),
     url(r'^timeline/', include('apps.timeline.urls')),
+    url(r'^contact-us/', include('apps.contact.urls')),
 
     url(r'^seasons/$', stats_views.SeasonDataListView.as_view(), name='list_seasons'),
     url(r'^season/(?P<year>[\d]{4})-(?P<year1>[\d]{2})/(?P<competition>[a-zA-Z0-9_.-]+)/$',
@@ -109,6 +110,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     import debug_toolbar
+
     urlpatterns = [
                       url(r'^__debug__/', include(debug_toolbar.urls)),
                   ] + urlpatterns

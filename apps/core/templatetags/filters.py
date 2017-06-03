@@ -6,7 +6,6 @@ from django.template import Library
 
 from django.utils.safestring import mark_safe
 
-from apps.page.forms import ContactForm
 from apps.partner.models import Partner
 from apps.stats.models import Quote
 
@@ -17,10 +16,6 @@ register = Library()
 def get_class_name(value):
     return value.__class__.__name__
 
-
-@register.assignment_tag
-def stay_in_contact(format_string):
-    return ContactForm()
 
 
 @register.filter

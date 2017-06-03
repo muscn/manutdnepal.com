@@ -1,0 +1,44 @@
+{% extends "page_base.html" %}
+{% load filters i18n %}
+{% block title %}{% trans 'Contact Us' %}{% endblock %}
+
+{% block breadcrumbs %}{% trans 'Contact Us' %}{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="page-title">{% trans 'Contact Us' %}</h1>
+
+    <div class="page-content">
+        {{ obj.content|safe }}
+    </div>
+
+
+    <hr/>
+    <h1>{% trans "Leave us a message." %}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-6">
+                <p>
+                    {{ form.name }}
+                </p>
+            </div>
+            <div class="col-xs-6">
+                <p>
+                    {{ form.email }}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    {{ form.message }}
+                </p>
+            </div>
+        </div>
+        <input class="btn bg-primary full contact-submit theme-title-background" type="submit">
+    </form>
+
+{% endblock %}
