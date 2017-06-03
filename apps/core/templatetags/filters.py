@@ -17,7 +17,6 @@ def get_class_name(value):
     return value.__class__.__name__
 
 
-
 @register.filter
 def get_class(value):
     return value.__class__
@@ -92,22 +91,6 @@ def result(match):
     if res == match['ha']:
         return 'won'
     return 'lost'
-
-
-@register.filter
-def linebreaks(obj):
-    return mark_safe(obj.replace("\n", "<br>").replace("\r", ""))
-
-
-@register.filter
-def parse(path):
-    to_import = '.'.join(path.split('.')[:-2])
-    imported = importlib.import_module(to_import)
-    group_name = path.split('.')[-2:-1][0]
-    group = getattr(imported, group_name)
-    attr_name = path.split('.')[-1]
-    val = getattr(group, attr_name)
-    return val
 
 
 @register.assignment_tag

@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load pagination_tags staticfiles %}
 {% load sorting_tags %}
-{% load filters %}
+{% load solo_tags %}
+
 
 {% block title %} Renew Membership {% endblock %}
 
 
 {% block content %}
+    {% get_solo 'users.MembershipSetting' as membership_setting %}
 
     <h1>Renew Membership</h1>
 
@@ -62,8 +64,8 @@
             </form>
         </div>
     </div>
-
-    {% if 'apps.users.membership_settings.enable_esewa'|parse %}
+    
+    {% if membership_setting.membership_fee and membership_setting.enable_esewa %}
 
         <div class="text-center"><h3>OR</h3></div>
 
@@ -71,19 +73,19 @@
 
         <div class="panel panel-default">
             <div class="panel-body">
-                <form action="http://esewa.com.np/epay/main" method="POST">
-                    <input value="{{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }}"
+                <form action="https://esewa.com.np/epay/main" method="POST">
+                    <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
                            name="tAmt" type="hidden">
-                    <input value="{{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }}"
+                    <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
                            name="amt" type="hidden">
                     <input value="0" name="txAmt" type="hidden">
                     <input value="0" name="psc" type="hidden">
                     <input value="0" name="pdc" type="hidden">
                     <input value="manutd" name="scd" type="hidden">
                     <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
-                    <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
+                    <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
                            type="hidden" name="su">
-                    <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
+                    <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
                            type="hidden" name="fu">
 
                     <h2 style="display:inline">Pay via:</h2>

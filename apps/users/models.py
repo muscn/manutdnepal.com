@@ -666,3 +666,5 @@ def email_birthday_users():
     for user in users:
         subject = 'Happy birthday, ' + user.full_name.split()[0] + '.'
         user.email_user(subject, params, text_template)
+
+

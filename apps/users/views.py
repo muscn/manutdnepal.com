@@ -35,7 +35,6 @@ from muscn.utils.football import get_current_season_start
 from muscn.utils.helpers import insert_row
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm, DirectPaymentReceiptForm
-from apps.users import membership_settings
 
 
 def login_register(request):
@@ -128,9 +127,7 @@ def membership_payment(request):
     bank_deposit_form = BankDepositForm()
     direct_payment_form = DirectPaymentPaymentForm()
     if request.POST:
-        from apps.users import membership_settings
-
-        payment = Payment(user=request.user, amount=membership_settings.membership_fee)
+        payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee)
         if request.POST.get('method') == 'direct':
             direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
             if direct_payment_form.is_valid():
@@ -357,7 +354,7 @@ def new_user_membership(request):
     member_form = MembershipForm(prefix='mf')
 
     payment_initial = {
-        'amount': membership_settings.membership_fee,
+        'amount': MembershipSetting.get_solo().membership_fee,
         'date_time': datetime.datetime.now()
     }
     bank_deposit_form = BankDepositPaymentForm(prefix='bf', initial=payment_initial)
@@ -396,7 +393,8 @@ def esewa_success(request):
     # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
     response = dict(request.GET)
     membership = request.user.membership
-    payment = Payment(user=request.user, amount=membership_settings.membership_fee)
+    # payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee)
+    payment = Payment(user=request.user, amount=response.get('amt'))
     esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0], ref_id=response['refId'][0])
     if esewa_payment.verify():
         payment.save()
@@ -437,6 +435,7 @@ class MemberProfileView(DetailView):
 class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
     model = DirectPayment
     form_class = DirectPaymentPaymentForm
+
     # success_url = reverse_lazy('list_memberships')
 
     def get_success_url(self):
@@ -444,7 +443,7 @@ class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
 
     def get_initial(self):
         membership = get_object_or_404(Membership, id=self.kwargs['pk'])
-        return {'amount': membership_settings.membership_fee, 'received_by': self.request.user, 'user': membership.user,
+        return {'amount': MembershipSetting.get_solo().membership_fee, 'received_by': self.request.user, 'user': membership.user,
                 'date_time': datetime.datetime.now(), 'remarks': 'For Membership'}
 
     def form_valid(self, form):
@@ -491,9 +490,7 @@ def renew(request):
     bank_deposit_form = BankDepositForm()
     direct_payment_form = DirectPaymentPaymentForm()
     if request.POST:
-        from apps.users import membership_settings
-
-        payment = Payment(user=request.user, amount=membership_settings.membership_fee, remarks='Renewal')
+        payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee, remarks='Renewal')
         if request.POST.get('method') == 'direct':
             direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
             if direct_payment_form.is_valid():

@@ -1,156 +1,157 @@
 {% extends base_template %}
-{% load filters %}
+{% load solo_tags %}
 {% load static %}
 
 {% block title %} Membership Payment {% endblock %}
 {% block content %}
+    {% get_solo 'users.MembershipSetting' as membership_setting %}
 
-        {% if request.user.membership.payment.verified %}
+    {% if request.user.membership.payment.verified %}
 
-            <div class="alert alert-success" role="alert">
-                You have already paid for membership.
-                <a target="_blank" href="http://www.helpnepal.net/donate">How about some donations?</a>
-            </div>
+        <div class="alert alert-success" role="alert">
+            You have already paid for membership.
+            <a target="_blank" href="http://www.helpnepal.net/donate">How about some donations?</a>
+        </div>
 
-        {% elif request.user.membership.payment %}
+    {% elif request.user.membership.payment %}
 
-            <div class="alert alert-success" role="alert">
-                Your membership request is currently being processed. We will get back to you, thank you!
-            </div>
+        <div class="alert alert-success" role="alert">
+            Your membership request is currently being processed. We will get back to you, thank you!
+        </div>
 
-        {% else %}
+    {% else %}
 
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-            {% endfor %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
 
-            <div class="alert alert-success" role="alert">
-                Thank you! Your membership request has been received. Please make a payment of
-                Rs. {{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }} via one of the following
-                means to complete the membership process. OR <a href="{% url 'membership_form' %}">Go back and correct
-                your membership details.</a>
-            </div>
-
-
-
-            {#            <ul class="list-group">#}
-            {#                {% for account in bank_accounts %}#}
-            {#                    <li class="list-group-item">#}
-            {#                        {{ account.bank_name }} - A/C No.: {{ account.ac_no }}#}
-            {#                    </li>#}
-            {#                {% endfor %}#}
-            {#            </ul>#}
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
-                        {% csrf_token %}
-                        {{ direct_payment_form.non_field_errors }}
-
-                        <div class="form-group">
-                            {{ direct_payment_form.receipt_no.label_tag }}
-                            {{ direct_payment_form.receipt_no }}
-                            {{ direct_payment_form.receipt_no.errors }}
-                        </div>
-
-                        <input type="hidden" name="method" value="direct">
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
-
-                    </form>
-                </div>
-            </div>
-
-            <div class="text-center"><h3>OR</h3></div>
+        <div class="alert alert-success" role="alert">
+            Thank you! Your membership request has been received. Please make a payment of
+            Rs. {{ membership_setting.membership_fee|floatformat:0 }} via one of the following
+            means to complete the membership process. OR <a href="{% url 'membership_form' %}">Go back and correct
+            your membership details.</a>
+        </div>
 
 
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
-                        {% csrf_token %}
-                        {{ bank_deposit_form.non_field_errors }}
 
-                        <div class="form-group">
-                            {{ bank_deposit_form.bank.label_tag }}
-                            {{ bank_deposit_form.bank }}
-                            {{ bank_deposit_form.bank.errors }}
-                        </div>
+        {#            <ul class="list-group">#}
+        {#                {% for account in bank_accounts %}#}
+        {#                    <li class="list-group-item">#}
+        {#                        {{ account.bank_name }} - A/C No.: {{ account.ac_no }}#}
+        {#                    </li>#}
+        {#                {% endfor %}#}
+        {#            </ul>#}
 
-                        <div class="form-group">
-                            {{ bank_deposit_form.voucher_image.label_tag }}
-                            {{ bank_deposit_form.voucher_image }}
-                            {{ bank_deposit_form.voucher_image.errors }}
-                        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
+                    {% csrf_token %}
+                    {{ direct_payment_form.non_field_errors }}
 
-                        <input type="hidden" name="method" value="bank">
-
-                        <button type="submit" class="btn btn-primary">Submit</button>
-
-                    </form>
-                </div>
-            </div>
-
-            {% if 'apps.users.membership_settings.enable_esewa'|parse %}
-
-                <div class="text-center"><h3>OR</h3></div>
-
-                <br/>
-
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form action="http://esewa.com.np/epay/main" method="POST">
-                            <input value="{{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }}"
-                                   name="tAmt" type="hidden">
-                            <input value="{{ 'apps.users.membership_settings.membership_fee'|parse|floatformat:0 }}"
-                                   name="amt" type="hidden">
-                            <input value="0" name="txAmt" type="hidden">
-                            <input value="0" name="psc" type="hidden">
-                            <input value="0" name="pdc" type="hidden">
-                            <input value="manutd" name="scd" type="hidden">
-                            <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
-                            <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
-                                   type="hidden" name="su">
-                            <input value="http://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
-                                   type="hidden" name="fu">
-
-                            <h2 style="display:inline">Pay via:</h2>
-                            {#                            <input value="eSewa" type="submit">#}
-                            <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
-                        </form>
-
-
+                    <div class="form-group">
+                        {{ direct_payment_form.receipt_no.label_tag }}
+                        {{ direct_payment_form.receipt_no }}
+                        {{ direct_payment_form.receipt_no.errors }}
                     </div>
-                </div>
-            {% endif %}
+
+                    <input type="hidden" name="method" value="direct">
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center"><h3>OR</h3></div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="POST" enctype="multipart/form-data" role="form" class="payment-form">
+                    {% csrf_token %}
+                    {{ bank_deposit_form.non_field_errors }}
+
+                    <div class="form-group">
+                        {{ bank_deposit_form.bank.label_tag }}
+                        {{ bank_deposit_form.bank }}
+                        {{ bank_deposit_form.bank.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ bank_deposit_form.voucher_image.label_tag }}
+                        {{ bank_deposit_form.voucher_image }}
+                        {{ bank_deposit_form.voucher_image.errors }}
+                    </div>
+
+                    <input type="hidden" name="method" value="bank">
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+        </div>
+
+        {% if membership_setting.membership_fee and membership_setting.enable_esewa %}
 
             <div class="text-center"><h3>OR</h3></div>
 
-            <br>
+            <br/>
 
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <form action="https://esewa.com.np/epay/main" method="POST">
+                        <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
+                               name="tAmt" type="hidden">
+                        <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
+                               name="amt" type="hidden">
+                        <input value="0" name="txAmt" type="hidden">
+                        <input value="0" name="psc" type="hidden">
+                        <input value="0" name="pdc" type="hidden">
+                        <input value="manutd" name="scd" type="hidden">
+                        <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
+                        <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
+                               type="hidden" name="su">
+                        <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
+                               type="hidden" name="fu">
 
-                    If you want to submit the fee by cash directly or by other means feasible to you, you can contact
-                    us:<br/>
+                        <h2 style="display:inline">Pay via:</h2>
+                        {#                            <input value="eSewa" type="submit">#}
+                        <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
+                    </form>
 
-
-                    <i class="fa fa-globe"></i> <a href="/representatives/">List of Official Representatives</a><br/>
-                    <i class="fa fa-at"></i> <a href="mailto:membership@manutd.org.np">membership@manutd.org.np</a>
-                    <br/>
-                    <i class="fa fa-facebook"></i> <a target="_blank" href="https://www.facebook.com/muscnepal">https://www.facebook.com/muscnepal</a>
-                    <br/>
-                    <i class="fa fa-twitter"></i> <a target="_blank" href="https://twitter.com/MUSCNP">@MUSCNP</a> <br/>
 
                 </div>
             </div>
-
-
         {% endif %}
 
-        <h3>We will deliver you your membership card once your request is processed. Your card looks like
-            this:
-        </h3>
+        <div class="text-center"><h3>OR</h3></div>
 
-        <img class="img-responsive" src="{{ request.user.get_sample_card }}"/>
+        <br>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                If you want to submit the fee by cash directly or by other means feasible to you, you can contact
+                us:<br/>
+
+
+                <i class="fa fa-globe"></i> <a href="/representatives/">List of Official Representatives</a><br/>
+                <i class="fa fa-at"></i> <a href="mailto:membership@manutd.org.np">membership@manutd.org.np</a>
+                <br/>
+                <i class="fa fa-facebook"></i> <a target="_blank" href="https://www.facebook.com/muscnepal">https://www.facebook.com/muscnepal</a>
+                <br/>
+                <i class="fa fa-twitter"></i> <a target="_blank" href="https://twitter.com/MUSCNP">@MUSCNP</a> <br/>
+
+            </div>
+        </div>
+
+
+    {% endif %}
+
+    <h3>We will deliver you your membership card once your request is processed. Your card looks like
+        this:
+    </h3>
+
+    <img class="img-responsive" src="{{ request.user.get_sample_card }}"/>
 
 {% endblock %}
