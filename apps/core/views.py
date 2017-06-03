@@ -22,7 +22,7 @@ def google_form(request):
 
 def home(request):
     next_match = Fixture.get_next_match()
-    recent_results = Fixture.recent_results()
+    recent_results = Fixture.recent_results().select_related('opponent')
     standings = cache.get('epl_standings')
     top_scorers = get_top_scorers_summary()
     injuries = Injury.get_current_injuries()
