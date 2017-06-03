@@ -1,5 +1,6 @@
 import datetime
 
+from anymail.message import AnymailMessage
 from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -145,9 +146,7 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
-    def email_user(self, subject, context, text_template, html_template=None):
-        from django.conf import settings
-        from django.core.mail import send_mail
+    def email_user(self, subject, context, text_template, html_template=None, tag='Default'):
         from django.template.loader import render_to_string
 
         context['user'] = self
@@ -157,8 +156,19 @@ class User(AbstractBaseUser):
         else:
             html_message = None
 
-        send_mail(subject, text_message, settings.DEFAULT_FROM_EMAIL, [self.email], fail_silently=False,
-                  html_message=html_message)
+        # send_mail(subject, text_message, settings.DEFAULT_FROM_EMAIL, [self.email], fail_silently=False,
+        #           html_message=html_message)
+
+        message = AnymailMessage(
+            subject=subject,
+            body=text_message,
+            to=["%s <%s>" % (self.full_name or self.username, self.email)],
+            tags=[tag],
+        )
+        if html_message:
+            message.attach_alternative(html_message, 'text/html')
+        message.track_clicks = True
+        message.send()
 
     def is_admin(self):
         return self.is_superuser
@@ -665,6 +675,4 @@ def email_birthday_users():
     users = get_birthday_users()
     for user in users:
         subject = 'Happy birthday, ' + user.full_name.split()[0] + '.'
-        user.email_user(subject, params, text_template)
-
-
+        user.email_user(subject, params, text_template, tag='Birthday')
