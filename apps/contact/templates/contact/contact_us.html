@@ -14,9 +14,55 @@
     {% endfor %}
 
     <div class="page-content">
-        {{ obj.content|safe }}
-    </div>
+        <div class="contact-info">
+            {% if obj.address %}
+                <div>{{ obj.address }}</div>
+            {% endif %}
+            {% if obj.email %}
+                <div>
+                    E-mail:
+                    {% for email in obj.email %}
+                        <a href="mailto:{{ email }}">{{ email }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if obj.phone %}
+                <div>
+                    Phone:
+                    {% for phone in obj.phone %}
+                        <a href="tel:{{ phone }}">{{ phone }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if obj.fax %}
+                <div>
+                    Fax:
+                    {% for fax in obj.fax %}
+                        <a href="fax:{{ fax }}">{{ fax }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
 
+            {% if obj.social_media %}
+                <h3>Social Media:</h3>
+
+                {# Not Font Awesome #}
+                <div>
+                    {% for medium in obj.social_media %}
+                        <a href="{{ medium.url }}"> <i class="fa fa-{{ medium.fa }}"></i> {{ medium.site }}</a>
+                        {% if not forloop.last %} | {% endif %}
+                    {% endfor %}
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
 
     <hr/>
     <h1>{% trans "Leave us a message." %}</h1>

@@ -14,6 +14,7 @@ from muscn.utils.location import LocationField
 
 class ContactSetting(SingletonModel):
     content = FroalaField(null=True, blank=True)
+    address = models.TextField(blank=True, null=True)
     email = ArrayField(models.EmailField(blank=True, null=True), blank=True, null=True)
     phone = ArrayField(models.CharField(max_length=50, blank=True, null=True), blank=True, null=True)
     fax = ArrayField(models.CharField(max_length=50, blank=True, null=True), blank=True, null=True)
@@ -25,6 +26,28 @@ class ContactSetting(SingletonModel):
     linkedin = models.URLField(blank=True, null=True)
     github = models.URLField(blank=True, null=True)
     location = LocationField(blank=True, null=True)
+
+    @property
+    def social_media(self):
+        media = []
+        if self.facebook_page:
+            media.append({'site': 'Facebook', 'url': self.facebook_page, 'fa': 'facebook'})
+        if self.facebook_group:
+            media.append({'site': 'Facebook Group', 'url': self.facebook_group, 'fa': 'facebook-square'})
+        if self.twitter:
+            media.append({'site': 'Twitter', 'url': self.twitter, 'fa': 'twitter'})
+        if self.instagram:
+            media.append({'site': 'Instagram', 'url': self.instagram, 'fa': 'instagram'})
+        if self.google_plus:
+            media.append({'site': 'Google+', 'url': self.google_plus, 'fa': 'google-plus'})
+        if self.linkedin:
+            media.append({'site': 'LinkedIn', 'url': self.linkedin, 'fa': 'linkedin'})
+        if self.github:
+            media.append({'site': 'GitHub', 'url': self.github, 'fa': 'github'})
+        return media
+
+    def __str__(self):
+        return 'Contact Settings'
 
 
 class Message(models.Model):
