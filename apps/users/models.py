@@ -129,7 +129,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['full_name', 'email']
 
     def __unicode__(self):
-        return self.username
+        return self.full_name or self.username
 
     def get_short_name(self):
         # The user is identified by username

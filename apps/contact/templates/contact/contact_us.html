@@ -9,6 +9,10 @@
 
     <h1 class="page-title">{% trans 'Contact Us' %}</h1>
 
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+
     <div class="page-content">
         {{ obj.content|safe }}
     </div>
@@ -19,18 +23,20 @@
 
     <form method="POST">
         {% csrf_token %}
-        <div class="row">
-            <div class="col-xs-6">
-                <p>
-                    {{ form.name }}
-                </p>
+        {% if not request.user.is_authenticated %}
+            <div class="row">
+                <div class="col-xs-6">
+                    <p>
+                        {{ form.name }}
+                    </p>
+                </div>
+                <div class="col-xs-6">
+                    <p>
+                        {{ form.email }}
+                    </p>
+                </div>
             </div>
-            <div class="col-xs-6">
-                <p>
-                    {{ form.email }}
-                </p>
-            </div>
-        </div>
+        {% endif %}
         <div class="row">
             <div class="col-xs-12">
                 <p>

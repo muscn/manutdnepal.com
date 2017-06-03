@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.postgres.fields import ArrayField
+from django.core.mail import mail_admins
 from django.db import models
 
 from froala_editor.fields import FroalaField
@@ -33,5 +34,11 @@ class Message(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
 
+    def notify(self):
+        mail_admins(str(self), self.message)
+
     def __str__(self):
-        return 'Message from %s' % self.name
+        return 'Message from %s (%s)' % (
+            self.name or (self.user.full_name if self.user else 'Unknown'),
+            self.email or (self.user.email if self.user else 'Unknown')
+        )
