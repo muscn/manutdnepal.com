@@ -13,11 +13,14 @@ def contact_us(request):
     if request.method == 'POST':
         data = request.POST.copy()
         if request.user.is_authenticated:
-            data['name'] = data['name'] or request.user.full_name or 'Unknown'
-            data['email'] = data['email'] or request.user.email or 'Unknown'
+            data['name'] = data.get('name') or request.user.full_name
+            data['email'] = data.get('email') or request.user.email
         form = ContactForm(data)
         if form.is_valid():
-            instance = form.save()
+            instance = form.save(commit=False)
+            if request.user.is_authenticated:
+                instance.user = request.user
+            instance.save()
             instance.notify()
             messages.success(request, _('Thank you! Your message has been received.'))
         else:
