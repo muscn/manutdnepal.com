@@ -40,7 +40,6 @@ class Page(models.Model):
         help_text='Leave empty/unchanged for default slug.')
     content = FroalaField(null=True, blank=True)
     author = models.ForeignKey(User)
-    template = models.CharField(max_length=255, blank=True, null=True)
     statuses = (
         ('Published', 'Published'), ('Draft', 'Draft'), ('Trashed', 'Trashed'))
     status = models.CharField(

@@ -22,4 +22,4 @@ def view_page(request, slug):
                 messages.add_message(request, messages.INFO, 'Your message has been successfully send.')
             except BadHeaderError:
                 return HttpResponse('Invalid header Found')
-    return render(request, obj.template, {'page': obj})
+    return render(request, 'page/bootstrap.html', {'page': obj})
