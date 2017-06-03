@@ -146,6 +146,16 @@ CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_NAME = 'ct'
 CSRF_COOKIE_SECURE = True
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '127.0.0.1:6379',
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SOLO_CACHE = 'default'
+
 try:
     from .local_settings import *  # noqa
 except ImportError:
