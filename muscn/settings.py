@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'solo',
     'fcm',
+    'anymail',
 
     'apps.core',
     'apps.users',
@@ -87,7 +88,6 @@ TEMPLATES = [
     },
 ]
 
-DEFAULT_FROM_EMAIL = 'webmaster@manutd.org.np'
 ROOT_URLCONF = 'muscn.urls'
 WSGI_APPLICATION = 'muscn.wsgi.application'
 LANGUAGE_CODE = 'en-us'
@@ -177,6 +177,10 @@ LOGGING = {
     }
 }
 
+# E-mail settings
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+DEFAULT_FROM_EMAIL = 'webmaster@manutd.org.np'
+SERVER_EMAIL = 'webmaster@manutd.org.np'
 
 try:
     from .local_settings import *  # noqa

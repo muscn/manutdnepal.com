@@ -8,8 +8,8 @@ SITE_ID = 1
 SECRET_KEY = '<35=0kv-7q5$otz58g^fv&o)iq&hldz60p^6%86xui%qcd1234'
 #TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (('Dipesh Acharya', 'xtranophilist@gmail.com'), (('Roshan Shrestha'), ('roshanshrestha01@gmail.com')))
-MANAGERS = (('Dipesh Acharya', 'xtranophilist@gmail.com'),)
+ADMINS = ()
+MANAGERS = ()
 
 
 DATABASES = {
@@ -49,30 +49,12 @@ SERVER_EMAIL = 'manutd@awecode.com'
 FB_ACCESS_TOKEN = 'xxx'
 FCM_APIKEY = 'xxx'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'opbeat': {
-            'level': 'WARNING',
-            'class': 'opbeat.contrib.django.handlers.OpbeatHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['mail_admins', 'opbeat'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
-
 OPBEAT = {
     'ORGANIZATION_ID': 'adsd',
     'APP_ID': 'appt_id',
     'SECRET_TOKEN': 'asd',
+}
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": "<your Mailgun key>",
 }

@@ -24,3 +24,4 @@ reportlab
 django-solo
 django-fcm
 django-smuggler
+django-anymail[mailgun]
