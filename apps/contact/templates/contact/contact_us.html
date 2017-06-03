@@ -20,13 +20,18 @@
         <script src="https://maps.googleapis.com/maps/api/js"></script>
         <script>
           function initialize() {
+            var lat_lng = new google.maps.LatLng({{ obj.location }});
             var mapCanvas = document.getElementById('map_canvas');
             var mapOptions = {
-              center: new google.maps.LatLng({{ obj.location }}),
-              zoom: 12,
+              center: lat_lng,
+              zoom: 14,
               mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
+            };
             var map = new google.maps.Map(mapCanvas, mapOptions);
+            var marker = new google.maps.Marker({
+              position: lat_lng,
+              map: map
+            });
           }
           google.maps.event.addDomListener(window, 'load', initialize);
         </script>
@@ -49,14 +54,14 @@
     <div class="row">
         <!--Contact Info-->
         <div class="col-lg-5 col-lg-offset-1 col-md-5 col-sm-5">
-            <h3>Contact info</h3>
+            <h3>{% trans 'Contact Info' %}</h3>
             <div class="contact-info">
                 {% if obj.address %}
-                    <div>{{ obj.address }}</div>
+                    <div>{{ obj.address|linebreaks }}</div>
                 {% endif %}
                 {% if obj.email %}
                     <div>
-                        E-mail:
+                        {% trans 'E-mail' %}:
                         {% for email in obj.email %}
                             <a href="mailto:{{ email }}">{{ email }}</a>
                             {% if not forloop.last %}, {% endif %}
@@ -65,7 +70,7 @@
                 {% endif %}
                 {% if obj.phone %}
                     <div>
-                        Phone:
+                        {% trans 'Phone' %}:
                         {% for phone in obj.phone %}
                             <a href="tel:{{ phone }}">{{ phone }}</a>
                             {% if not forloop.last %}, {% endif %}
@@ -74,7 +79,7 @@
                 {% endif %}
                 {% if obj.fax %}
                     <div>
-                        Fax:
+                        {% trans 'Fax' %}:
                         {% for fax in obj.fax %}
                             <a href="fax:{{ fax }}">{{ fax }}</a>
                             {% if not forloop.last %}, {% endif %}
@@ -83,7 +88,7 @@
                 {% endif %}
 
                 {% if obj.social_media %}
-                    <h3>Social Media:</h3>
+                    <h3>{% trans 'Social Media' %}:</h3>
 
                     <div>
                         {% for medium in obj.social_media %}
@@ -98,7 +103,7 @@
         </div>
 
         <div class="col-lg-5 col-md-7 col-sm-7">
-            <h3>{% trans "Leave us a message." %}</h3>
+            <h3>{% trans 'Leave us a message.' %}</h3>
 
             <form method="POST">
                 {% csrf_token %}
