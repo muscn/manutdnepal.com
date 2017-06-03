@@ -155,6 +155,29 @@ CACHES = {
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SOLO_CACHE = 'default'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'opbeat': {
+            'level': 'WARNING',
+            'class': 'opbeat.contrib.django.handlers.OpbeatHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['mail_admins', 'opbeat'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+
 try:
     from .local_settings import *  # noqa
 except ImportError:

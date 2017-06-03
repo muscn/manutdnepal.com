@@ -1,5 +1,9 @@
+import logging
+
 from django.core.management.base import BaseCommand, CommandError
 from apps.stats.scrapers import available_scrapers
+
+logger = logging.getLogger('django')
 
 
 class Command(BaseCommand):
@@ -10,9 +14,12 @@ class Command(BaseCommand):
         parser.add_argument('scraper', nargs='+', type=str)
 
     def handle(self, *args, **options):
-        for arg in options['scraper']:
-            try:
-                scraper = available_scrapers[arg]
-            except KeyError:
-                raise CommandError('Scraper "%s" does not exist' % arg)
-            scraper.start(command=True)
+        try:
+            for arg in options['scraper']:
+                try:
+                    scraper = available_scrapers[arg]
+                except KeyError:
+                    raise CommandError('Scraper "%s" does not exist' % arg)
+                scraper.start(command=True)
+        except Exception as ex:
+            logger.error(str(ex), exc_info=True)
