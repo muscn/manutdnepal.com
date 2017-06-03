@@ -24,7 +24,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.twitter',
 
     'froala_editor',
-    'dbsettings',
     'dj_pagination',
     'webstack_django_sorting',
     'auditlog',
