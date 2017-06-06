@@ -11,5 +11,5 @@ class DistributedKeyAuthentication(BasePermission):
         try:
             DistributedKey.objects.get(key=request.META.get('HTTP_KEY'))
             return True
-        except DistributedKeyAuthentication.DoesNotExist as e:
+        except DistributedKey.DoesNotExist as e:
             return False
