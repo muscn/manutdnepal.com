@@ -65,3 +65,5 @@ ANYMAIL = {
 #     'debug_toolbar.panels.redirects.RedirectsPanel',
 # ]
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
