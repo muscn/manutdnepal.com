@@ -25,5 +25,5 @@ class UserDeviceViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets
             obj.save()
             return Response(self.serializer_class(obj).data, status=status.HTTP_200_OK)
         except Exception as e:
-            obj.delete()
+            # obj.delete()
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
