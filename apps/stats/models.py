@@ -126,10 +126,11 @@ class Team(models.Model):
     @property
     def not_so_long_name(self):
         if len(self.name) > 18:
-            try:
-                return self.alternative_names.split('|')[1]
-            except IndexError, AttributeError:
-                pass
+            if self.alternative_names:
+                try:
+                    return self.alternative_names.split('|')[1]
+                except IndexError:
+                    pass
         return self.name
 
     def get_wiki(self):
