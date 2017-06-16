@@ -128,7 +128,7 @@ class Team(models.Model):
         if len(self.name) > 18:
             try:
                 return self.alternative_names.split('|')[1]
-            except IndexError:
+            except IndexError, AttributeError:
                 pass
         return self.name
 
