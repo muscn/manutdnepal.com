@@ -16,8 +16,8 @@ def recent_posts_or_events():
     return p_o_e
 
 
-def google_form(request):
-    return redirect("https://docs.google.com/forms/d/e/1FAIpQLSfJr3rNG5zTRF_w_aSaVffzLWuJRa-nI5Ji6-YvdlTQjF7Mvw/viewform")
+def redirector(request):
+    return redirect("https://manutd.org.np/event/futsal-for-charity/")
 
 
 def home(request):
