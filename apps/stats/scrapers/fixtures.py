@@ -25,8 +25,9 @@ class FixturesScraper(Scraper):
 
     @classmethod
     def scrape(cls):
-        url = 'http://calendar.manutd.com/Manchester_United.ics'
+        # url = 'http://calendar.manutd.com/Manchester_United.ics'
         # url = 'http://hackeragenda.urlab.be/events/events.ics'
+        url = 'https://calendar.google.com/calendar/ical/ov0dk4m6dedaob7oqse4nrda4s%40group.calendar.google.com/public/basic.ics'
         cal_content = cls.get_url_content(url)
         if cal_content:
             cal_content = cal_content.replace('RATE:', 'RDATE:')

@@ -6,6 +6,7 @@ import urllib
 import json
 
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.mail import mail_admins
 from django.utils import timezone
 
@@ -193,6 +194,9 @@ class Team(models.Model):
             return Team.objects.get(name=name)
         except Team.DoesNotExist:
             return Team.objects.get(alternative_names__icontains='|' + name + '|')
+        # except MultipleObjectsReturned:
+        #     import ipdb
+        #     ipdb.set_trace()
 
 
 class TeamYear(models.Model):
