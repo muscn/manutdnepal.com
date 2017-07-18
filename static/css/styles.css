@@ -210,7 +210,6 @@ img.overlaid {
     background: rgba(255, 0, 0, 0.25);
 }
 
-
 .overlay {
     background: red;
     position: absolute;
@@ -219,10 +218,6 @@ img.overlaid {
     width: 100%;
     height: 100%;
     opacity: .4;
-}
-
-.call-to-action h2 {
-    text-align: center;
 }
 
 .section.stats.row {
@@ -520,12 +515,11 @@ header img.logo {
     margin-right: 50px;
 }
 
-
 #home-container {
     background: rgba(255, 255, 255, 0.8);
 }
 
-.content > .container, .content > .container-fluid  {
+.content > .container, .content > .container-fluid {
     background: rgba(255, 255, 255, 0.97);
     padding: 35px;
 }
@@ -621,24 +615,20 @@ header, .f-wrapper {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e54d36', endColorstr='#68190e', GradientType=1);
 }
 
-.call-to-action a {
-    background: #e54d36;
-}
-
 footer {
     background-color: rgba(0, 0, 0, .5);
 }
 
-.call-to-action a {
-    padding: 16px 67px;
-    color: #FFF;
+.call-to-action h2 {
+    padding: 12px;
     box-shadow: 0 0 13px -2px #555;
-
+    background: #e54d36;
+    text-align: center;
+    margin: 0.5em 0;
 }
 
-.call-to-action {
-    z-index: 1000;
-    position: relative;
+.call-to-action h2 a {
+    color: #FFF;
 }
 
 .section.featured a {
@@ -753,12 +743,11 @@ td.link-cell a {
     white-space: nowrap;
 }
 
-.stats-block.matchweek td{
+.stats-block.matchweek td {
     padding: 0 5px 7px;
 }
 
-
-.reddit-thread.row h5{
+.reddit-thread.row h5 {
     margin: 0;
 }
 
@@ -774,25 +763,40 @@ td.link-cell a {
 }
 
 @media (max-width: 1000px) {
-    #container .main-container{
-        padding:0;
+    #container .main-container {
+        padding: 0;
         width: 100%;
     }
 }
 
 @media (max-width: 741px) {
-    .stats-block{
+    .stats-block {
         margin: 1em 0;
         max-width: 95%;
         width: 95%;
     }
 }
 
-.restrict-width{
+.restrict-width {
     max-width: 500px;
 }
 
-input[type="image"]{
+input[type="image"] {
     border: none;
     vertical-align: bottom;
+}
+
+.next-match {
+    height: auto;
+    margin: 0 0 0.5rem;
+    max-width: none;
+    width: 100%;
+}
+
+.next-match h2 {
+    text-align: center;
+}
+
+.next-match h2 a {
+    font-size: 1.5em;
 }
