@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load filters %}
+{% load filters  thumbnail %}
 
 {% block title %} {{ object }} {% endblock %}
 
@@ -12,7 +12,9 @@
 
         <div class="col-xs-12 col-sm-6 col-md-6">
             {% if object.image %}
-                <img class="img-responsive" src="{{ object.image.url }}">
+                {% thumbnail object.image "300x300" format="PNG" as obj_image %}
+                    <img src="{{ obj_image.url }}" alt="{{ object }}">
+                {% endthumbnail %}
             {% endif %}
         </div>
 

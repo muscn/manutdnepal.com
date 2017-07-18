@@ -513,6 +513,7 @@ class StaffOnlyMixin(object):
 
 
 class MembershipSetting(SingletonModel):
+    open = models.BooleanField(default=True)
     membership_fee = models.FloatField(verbose_name='Membership Fee', blank=True, null=True)
     enable_esewa = models.BooleanField(default=True)
     welcome_letter_content = models.TextField(blank=True, null=True)

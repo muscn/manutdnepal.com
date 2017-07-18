@@ -18,7 +18,9 @@
         {% if featured %}
             <div class="section featured row">
                 <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
-                    <img class="img-responsive" src="{{ featured.image.url }}">
+                    {% thumbnail featured.image "500x300" format="PNG" as obj_image %}
+                        <img src="{{ obj_image.url }}" alt="{{ featured }}" class="img-responsive">
+                    {% endthumbnail %}
 
                     <h2><span>{{ featured }}</span></h2>
                 </a>
@@ -26,7 +28,7 @@
         {% endif %}
 
         {#                <div class="section call-to-action row">#}
-        {#                    <h2><a href="{% url 'membership_form' %}">Apply for 2015/16 MUSCN Membership</a></h2>#}
+        {#                    <h2><a href="{% url 'membership_form' %}">Apply for 2017/18 MUSCN Membership</a></h2>#}
         {#                </div>#}
 
         <div class="section call-to-action row text-center">
