@@ -49,6 +49,7 @@ class Competition(models.Model):
     short_name = models.CharField(max_length=50, null=True, blank=True)
     slug = models.SlugField(max_length=255)
     order = models.IntegerField(default=0)
+    friendly = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -194,9 +195,9 @@ class Team(models.Model):
             return Team.objects.get(name=name)
         except Team.DoesNotExist:
             return Team.objects.get(alternative_names__icontains='|' + name + '|')
-        # except MultipleObjectsReturned:
-        #     import ipdb
-        #     ipdb.set_trace()
+            # except MultipleObjectsReturned:
+            #     import ipdb
+            #     ipdb.set_trace()
 
 
 class TeamYear(models.Model):
