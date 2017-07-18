@@ -110,7 +110,7 @@
 
                     {% for result in recent_results %}
                         <tr class="result">
-                            <td class="link-cell">
+                            <td>
                                 <a href="{{ result.get_absolute_url }}">
                                     <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
                                 </a>
@@ -192,7 +192,7 @@
                 <tbody>
                 {% for player, score in players.items %}
                     <tr>
-                        <td class="link-cell"><a href={{ player.get_absolute_url }}>{{ player.name }}</a></td>
+                        <td><a href={{ player.get_absolute_url }}>{{ player.name }}</a></td>
                         <td>{{ score }}</td>
                     </tr>
                 {% endfor %}
@@ -215,7 +215,7 @@
                     <tbody>
                     {% for injury in injuries %}
                         <tr>
-                            <td>{{ injury.player.name }}</td>
+                            <td><a href={{ injury.player.get_absolute_url }}>{{ injury.player.name }}</a></td>
                             <td>{{ injury.type }}</td>
                             <td>{{ injury.return_date|default:'Unspecified' }}</td>
                         </tr>

@@ -158,7 +158,7 @@ class SquadListView(ListView):
 
 class PlayerDetailView(DetailView):
     model = Player
-    queryset = Player.objects.filter(active=True).prefetch_related(
+    queryset = Player.objects.prefetch_related(
         Prefetch('goals', queryset=Goal.objects.all().select_related('match__opponent', 'match__competition_year__competition')),
         Prefetch('assists', queryset=Goal.objects.all().select_related('match__opponent', 'match__competition_year__competition'))
     )
