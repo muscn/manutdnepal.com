@@ -20,7 +20,7 @@ class GroupAdminForm(forms.ModelForm):
 class MembershipForm(HTML5BootstrapModelForm):
     # date_of_birth = HTML5ModelForm.DateTypeInput()
 
-    gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=Membership.GENDERS)
+    # gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=Membership.GENDERS)
     # shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
     #                                choices=Membership.SHIRT_SIZES)
     # present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
@@ -45,7 +45,9 @@ class MembershipForm(HTML5BootstrapModelForm):
 
     class Meta:
         model = Membership
-        exclude = ('status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment', 'expiry_date')
+        exclude = (
+        'status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment', 'expiry_date', 'gender',
+        'identification_file', 'temporary_address', 'telephone')
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
             'temporary_address': forms.Textarea(

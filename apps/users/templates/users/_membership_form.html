@@ -1,93 +1,27 @@
 {{ form.non_field_errors }}
 
-<div class="section">
-{#    <h3>Personal Details</h3>#}
-<br/>
-
-    {% if hide != 'full_name' %}
-        <div class="form-group required">
-            {{ form.full_name.label_tag }}
-            {{ form.full_name }}
-            {{ form.full_name.errors }}
-        </div>
-    {% endif %}
-
-    <div class="row form-group">
-        <div class="col-xs-12 col-sm-6 col-md-6 required">
-            {{ form.date_of_birth.label_tag }}
-            {{ form.date_of_birth }}
-            {{ form.date_of_birth.errors }}
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            {{ form.gender.label_tag }}<i class="required"></i>
-
-            <div class="radio">{{ form.gender }}</div>
-            {{ form.gender.errors }}
-        </div>
-    </div>
-</div>
-<div class="section">
-
-    <div class="row form-group">
-        <div class="col-xs-12 col-sm-6 col-md-6 required">
-            <label>Address</label>
-            {{ form.permanent_address }}
-            {{ form.permanent_address.errors }}
-        </div>
-{#        <div class="col-xs-12 col-sm-6 col-md-6">#}
-{#            {{ form.temporary_address }}#}
-{#            {{ form.temporary_address.errors }}#}
-{#        </div>#}
-    </div>
-</div>
-
-<div class="section">
-{#    <h3>Contact</h3>#}
-
-    <div class="row form-group">
-        <div class="col-xs-12 col-sm-6 col-md-6 required">
-            <label>Mobile:</label>
-            {{ form.mobile }}
-            {{ form.mobile.errors }}
-        </div>
-{#        <div class="col-xs-12 col-sm-6 col-md-6">#}
-{#            <label>Telephone:</label>#}
-{#            {{ form.telephone }}#}
-{#            {{ form.telephone.errors }}#}
-{#        </div>#}
-    </div>
-</div>
-<br/>
-
-<div class="section">
-    <div class="row form-group">
-        {#        <div class="col-xs-12 col-sm-6 col-md-6">#}
-        {#            {{ form.identification_type.label_tag }}<i class="required"></i>#}
-        {##}
-        {#            <div class="radio">{{ form.identification_type }}</div>#}
-        {#            {{ form.identification_type.errors }}#}
-        {#        </div>#}
-        <div class="col-xs-12 col-sm-6 col-md-6 required">
-            {{ form.identification_file.label_tag }}
-            {{ form.identification_file }}
-            {{ form.identification_file.errors }}
-            <span class="help-text">(Your citizenship, passport, driving license or other identification certificate)</span>
-        </div>
+<div class="restrict-width">
+    <div class="form-group">
+        {{ form.full_name.label_tag }}
+        {{ form.full_name }}
+        {{ form.full_name.errors }}
     </div>
 
-    {#    <div class="row form-group">#}
-    {#        <div class="col-xs-12 col-sm-6 col-md-6">#}
-    {#            {{ form.present_status.label_tag }}<i class="required"></i>#}
-    {##}
-    {#            <div class="radio">{{ form.present_status }}</div>#}
-    {#            {{ form.present_status.errors }}#}
-    {#        </div>#}
-    {#        <div class="col-xs-12 col-sm-6 col-md-6">#}
-    {#            {{ form.shirt_size.label_tag }}<i class="required"></i>#}
-    {##}
-    {#            <div class="radio">{{ form.shirt_size }}</div>#}
-    {#            {{ form.shirt_size.errors }}#}
-    {#        </div>#}
-    {#    </div>#}
+    <div class="form-group">
+        {{ form.date_of_birth.label_tag }}
+        {{ form.date_of_birth }}
+        {{ form.date_of_birth.errors }}
+    </div>
 
+    <div class="form-group">
+        <label>Address</label>
+        {{ form.permanent_address }}
+        {{ form.permanent_address.errors }}
+    </div>
+
+    <div class="form-group">
+        <label>Mobile:</label>
+        {{ form.mobile }}
+        {{ form.mobile.errors }}
+    </div>
 </div>

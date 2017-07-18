@@ -783,3 +783,7 @@ td.link-cell a {
         width: 95%;
     }
 }
+
+.restrict-width{
+    max-width: 500px;
+}

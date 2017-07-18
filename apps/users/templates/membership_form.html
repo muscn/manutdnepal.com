@@ -9,26 +9,24 @@
 {% block content %}
     <div class="container pull-up-content" id="wrapper-membership-form">
 
-    {{ form.errors }}
-
-        <div class="social-accounts">
-            {% get_social_accounts user as accounts %}
+{#        <div class="social-accounts">#}
+{#            {% get_social_accounts user as accounts %}#}
             {#        {% if not accounts.twitter or accounts.facebook or accounts.google %}#}
             {#            <span>Connect With</span>#}
             {#        {% endif %}#}
-            {% if not accounts.facebook %}
-                <a href="{% provider_login_url "facebook" process="connect" %}"
-                   class="connect btn facebookBtn">&nbsp;&nbsp;Connect a Facebook account</a>
-            {% endif %}
-            {% if not accounts.google %}
-                <a href="{% provider_login_url "google" process="connect" %}"
-                   class="connect btn googleBtn">&nbsp;&nbsp;Connect a Google account</a>
-            {% endif %}
-            {% if not accounts.twitter %}
-                <a href="{% provider_login_url "twitter" process="connect" %}"
-                   class="connect btn twitterBtn">&nbsp;&nbsp; Connect a Twitter account</a>
-            {% endif %}
-        </div>
+{#            {% if not accounts.facebook %}#}
+{#                <a href="{% provider_login_url "facebook" process="connect" %}"#}
+{#                   class="connect btn facebookBtn">&nbsp;&nbsp;Connect a Facebook account</a>#}
+{#            {% endif %}#}
+{#            {% if not accounts.google %}#}
+{#                <a href="{% provider_login_url "google" process="connect" %}"#}
+{#                   class="connect btn googleBtn">&nbsp;&nbsp;Connect a Google account</a>#}
+{#            {% endif %}#}
+{#            {% if not accounts.twitter %}#}
+{#                <a href="{% provider_login_url "twitter" process="connect" %}"#}
+{#                   class="connect btn twitterBtn">&nbsp;&nbsp; Connect a Twitter account</a>#}
+{#            {% endif %}#}
+{#        </div>#}
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -37,7 +35,7 @@
 
             <br/>
             <input type="submit" class="btn btn-primary" value="Submit">
-            Fields marked with <i class="required"></i> are mandatory.
+{#            Fields marked with <i class="required"></i> are mandatory.#}
         </form>
     </div>
 {% endblock %}
