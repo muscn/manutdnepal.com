@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_logged_in
@@ -80,7 +80,7 @@ class User(AbstractBaseUser):
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
     def __str__(self):
-        return self.full_name
+        return self.full_name or self.username or self.devil_no or self.email
 
     @property
     def gravatar_url(self):
@@ -126,6 +126,7 @@ class User(AbstractBaseUser):
                                                                'payment') and self.membership.approved_date and self.membership.approved_by and not self.membership.has_expired() else False
 
     USERNAME_FIELD = 'email'
+
     # REQUIRED_FIELDS = []
 
     def __unicode__(self):
@@ -508,7 +509,7 @@ class StaffOnlyMixin(object):
             # return True
             if bool(u.groups.filter(name='Staff')):
                 return super(StaffOnlyMixin, self).dispatch(request, *args, **kwargs)
-        raise PermissionDenied()
+        return HttpResponseForbidden()
 
 
 class MembershipSetting(SingletonModel):
@@ -521,19 +522,35 @@ class MembershipSetting(SingletonModel):
         return 'Membership Settings'
 
 
-def group_required(*group_names):
-    """Requires user membership in at least one of the groups passed in."""
+# def group_required(*group_names):
+#     """Requires user membership in at least one of the groups passed in."""
+# 
+#     def in_groups(u):
+#         if u.is_authenticated():
+#             # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
+#             # return True
+#             if bool(u.groups.filter(name__in=group_names)):
+#                 return True
+#             return HttpResponseForbidden()
+#             # raise PermissionDenied('Not found!')
+#         return False
+# 
+#     return user_passes_test(in_groups)
 
-    def in_groups(u):
-        if u.is_authenticated():
-            # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
-            # return True
-            if bool(u.groups.filter(name__in=group_names)):
+def group_required(group, login_url=None, raise_exception=True):
+    def check_perms(user):
+        if user.is_authenticated:
+            if isinstance(group, (str,)):
+                groups = (group,)
+            else:
+                groups = group
+            if user.groups.filter(name__in=groups).exists():
                 return True
-            raise PermissionDenied()
+            if raise_exception:
+                raise PermissionDenied
         return False
 
-    return user_passes_test(in_groups)
+    return user_passes_test(check_perms, login_url=login_url)
 
 
 class GroupProxy(Group):
