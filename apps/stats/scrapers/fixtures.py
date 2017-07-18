@@ -34,8 +34,14 @@ class FixturesScraper(Scraper):
             cal = Calendar(cal_content.decode('iso-8859-1').replace('\n\n', ' '))
             Fixture.get_upcoming().delete()
             for event in cal.events:
-                fixture = Fixture()
-                fixture.datetime = event.begin.datetime
+                dt = event.begin.datetime
+                try:
+                    fixture = Fixture.objects.get(datetime=dt)
+                except Fixture.DoesNotExist:
+                    fixture = Fixture(datetime=dt)
+                except Fixture.MultipleObjectsReturned:
+                    [fix.delete() for fix in Fixture.objects.filter(datetime=dt).order_by('id')[1:]]
+                    fixture = Fixture.objects.get(datetime=dt)
                 # get match and competition_name from description
                 splits = event.description.splitlines()[0].split(' - ')
                 competition_name = splits[1].strip().split('.')[0]
