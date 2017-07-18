@@ -127,7 +127,7 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    # REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username', ]
 
     def __unicode__(self):
         return self.full_name or self.username
@@ -521,21 +521,6 @@ class MembershipSetting(SingletonModel):
     def __str__(self):
         return 'Membership Settings'
 
-
-# def group_required(*group_names):
-#     """Requires user membership in at least one of the groups passed in."""
-# 
-#     def in_groups(u):
-#         if u.is_authenticated():
-#             # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
-#             # return True
-#             if bool(u.groups.filter(name__in=group_names)):
-#                 return True
-#             return HttpResponseForbidden()
-#             # raise PermissionDenied('Not found!')
-#         return False
-# 
-#     return user_passes_test(in_groups)
 
 def group_required(group, login_url=None, raise_exception=True):
     def check_perms(user):
