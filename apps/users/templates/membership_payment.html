@@ -21,26 +21,45 @@
 
     {% else %}
 
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-
         <div class="alert alert-success" role="alert">
             Thank you! Your membership request has been received. Please make a payment of
             Rs. {{ membership_setting.membership_fee|floatformat:0 }} via one of the following
             means to complete the membership process. OR <a href="{% url 'membership_form' %}">Go back and correct
             your membership details.</a>
         </div>
+        
+
+        {% if membership_setting.membership_fee and membership_setting.enable_esewa %}
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form action="https://esewa.com.np/epay/main" method="POST">
+                        <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
+                               name="tAmt" type="hidden">
+                        <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
+                               name="amt" type="hidden">
+                        <input value="0" name="txAmt" type="hidden">
+                        <input value="0" name="psc" type="hidden">
+                        <input value="0" name="pdc" type="hidden">
+                        <input value="manutd" name="scd" type="hidden">
+                        <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
+                        <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
+                               type="hidden" name="su">
+                        <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
+                               type="hidden" name="fu">
+
+                        <h2 style="display:inline">Pay via:</h2>
+                        {#                            <input value="eSewa" type="submit">#}
+                        <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
+                    </form>
 
 
+                </div>
+            </div>
+        {% endif %}
 
-        {#            <ul class="list-group">#}
-        {#                {% for account in bank_accounts %}#}
-        {#                    <li class="list-group-item">#}
-        {#                        {{ account.bank_name }} - A/C No.: {{ account.ac_no }}#}
-        {#                    </li>#}
-        {#                {% endfor %}#}
-        {#            </ul>#}
+        <div class="text-center"><h3>OR</h3></div>
+        <br/>
 
         <div class="panel panel-default">
             <div class="panel-body">
@@ -55,8 +74,13 @@
                     </div>
 
                     <input type="hidden" name="method" value="direct">
-
+                    
                     <button type="submit" class="btn btn-primary">Submit</button>
+                    <div><a href="/representatives/">List of Official Representatives</a></div>
+
+                    <div>
+                         
+                    </div>
 
                 </form>
             </div>
@@ -91,38 +115,6 @@
             </div>
         </div>
 
-        {% if membership_setting.membership_fee and membership_setting.enable_esewa %}
-
-            <div class="text-center"><h3>OR</h3></div>
-
-            <br/>
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <form action="https://esewa.com.np/epay/main" method="POST">
-                        <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
-                               name="tAmt" type="hidden">
-                        <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
-                               name="amt" type="hidden">
-                        <input value="0" name="txAmt" type="hidden">
-                        <input value="0" name="psc" type="hidden">
-                        <input value="0" name="pdc" type="hidden">
-                        <input value="manutd" name="scd" type="hidden">
-                        <input value="m_{{ request.user.id }}_2015" name="pid" type="hidden">
-                        <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
-                               type="hidden" name="su">
-                        <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
-                               type="hidden" name="fu">
-
-                        <h2 style="display:inline">Pay via:</h2>
-                        {#                            <input value="eSewa" type="submit">#}
-                        <input type="image" src="{% static 'img/esewa.png' %}" name="submit" class="btTxt submit"/>
-                    </form>
-
-
-                </div>
-            </div>
-        {% endif %}
 
         <div class="text-center"><h3>OR</h3></div>
 

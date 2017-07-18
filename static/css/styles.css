@@ -787,3 +787,8 @@ td.link-cell a {
 .restrict-width{
     max-width: 500px;
 }
+
+input[type="image"]{
+    border: none;
+    vertical-align: bottom;
+}

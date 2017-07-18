@@ -114,7 +114,8 @@ class BankDeposit(models.Model):
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User, null=True, blank=True)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
-    receipt_no = models.PositiveIntegerField(null=True, unique=True)
+    receipt_no = models.PositiveIntegerField(null=True, unique=True,
+                                             verbose_name='Receipt No. (If you paid directly to a representative)')
     receipt_image = models.ImageField(upload_to='receipt_images/', null=True, blank=True)
 
     def verified(self):
@@ -178,9 +179,9 @@ class ReceiptData(models.Model):
 
     def __str__(self):
         return '%s [%d-%d]' % (self.name, self.from_no, self.to_no)
-    
+
     class Meta:
-        verbose_name_plural = 'Receipt Data' 
+        verbose_name_plural = 'Receipt Data'
 
 
 auditlog.register(DirectPayment)
