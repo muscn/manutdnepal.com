@@ -118,7 +118,7 @@ function parseRSS(url, callback) {
 }
 
 $(function () {
-  parseRSS('http://newsrss.bbc.co.uk/rss/sportonline_uk_edition/football/teams/m/man_utd/rss.xml', function (data) {
+  parseRSS('http://talksport.com/rss/football/manchester-united/feed', function (data) {
     var news_vm = new NewsVM(data);
     var news_block = $('#news-block')[0];
     //ko.cleanNode(news_block);
