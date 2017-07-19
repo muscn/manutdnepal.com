@@ -1,5 +1,7 @@
 from ics import Calendar
 from ics.parse import ParseError
+
+from muscn.utils.helpers import fix_unicode
 from .base import Scraper
 from apps.stats.models import Fixture, CompetitionYear, Competition, Team
 from muscn.utils.football import get_current_season_start_year
@@ -74,6 +76,7 @@ class FixturesScraper(Scraper):
                 else:
                     fixture.is_home_game = False
                     opponent_team_name = splits[0][:-20].strip()
+                opponent_team_name = fix_unicode(opponent_team_name)
                 try:
                     opponent_team = Team.get(opponent_team_name)
                 except Team.DoesNotExist:
