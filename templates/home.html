@@ -19,9 +19,10 @@
                 {% if featured %}
                     <div class="section featured row">
                         <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
-                            {% thumbnail featured.image "700x500" format="PNG" as obj_image %}
-                                <img src="{{ obj_image.url }}" alt="{{ featured }}" class="img-responsive">
-                            {% endthumbnail %}
+{#                            {% thumbnail featured.image "700x500" format="PNG" as obj_image %}#}
+{#                                <img src="{{ obj_image.url }}" alt="{{ featured }}" class="img-responsive">#}
+{#                            {% endthumbnail %}#}
+                            <img src="{{ featured.image.url }}" alt="{{ featured }}" class="img-responsive">
 
                             <h2><span>{{ featured }}</span></h2>
                         </a>
