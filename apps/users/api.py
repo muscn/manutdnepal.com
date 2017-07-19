@@ -66,14 +66,15 @@ class MembershipViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             item.user.full_name = params.get('full_name')
             item.user.save()
             item.date_of_birth = params.get('date_of_birth')
-            item.gender = params.get('gender')
-            item.permanent_address = params.get('permanent_address')
+            # item.gender = params.get('gender')
+            item.permanent_address = params.get('address')
             item.mobile = params.get('mobile')
-            item.identification_file = params.get('identification_file')
+            # item.identification_file = params.get('identification_file')
             item.save()
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(MembershipSerializer(item).data, status=status.HTTP_200_OK)
+
 
 class CustomObtainAuth(ObtainAuthToken):
     permission_classes = (DistributedKeyAuthentication,)
