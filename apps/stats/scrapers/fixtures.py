@@ -32,7 +32,6 @@ class FixturesScraper(Scraper):
         if cal_content:
             cal_content = cal_content.replace('RATE:', 'RDATE:')
             cal = Calendar(cal_content.decode('iso-8859-1').replace('\n\n', ' '))
-            Fixture.get_upcoming().delete()
             for event in cal.events:
                 dt = event.begin.datetime
                 try:
