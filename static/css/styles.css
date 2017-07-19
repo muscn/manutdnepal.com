@@ -755,25 +755,20 @@ td.link-cell a {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #FFF;
     }
-
-    .call-to-action a {
-        display: block;
-        padding: 20px 0;
-    }
 }
 
 @media (max-width: 1000px) {
     #container .main-container {
-        padding: 0;
+        padding: 1em;
         width: 100%;
     }
 }
 
 @media (max-width: 741px) {
     .stats-block {
-        margin: 1em 0;
-        max-width: 95%;
-        width: 95%;
+        margin: 0;
+        max-width: none;
+        width: 100%;
     }
 }
 
