@@ -6,6 +6,7 @@ import urllib
 import json
 
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.mail import mail_admins
 from django.utils import timezone
 
@@ -48,6 +49,7 @@ class Competition(models.Model):
     short_name = models.CharField(max_length=50, null=True, blank=True)
     slug = models.SlugField(max_length=255)
     order = models.IntegerField(default=0)
+    friendly = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -126,10 +128,11 @@ class Team(models.Model):
     @property
     def not_so_long_name(self):
         if len(self.name) > 18:
-            try:
-                return self.alternative_names.split('|')[1]
-            except IndexError, AttributeError:
-                pass
+            if self.alternative_names:
+                try:
+                    return self.alternative_names.split('|')[1]
+                except IndexError:
+                    pass
         return self.name
 
     def get_wiki(self):
@@ -192,6 +195,9 @@ class Team(models.Model):
             return Team.objects.get(name=name)
         except Team.DoesNotExist:
             return Team.objects.get(alternative_names__icontains='|' + name + '|')
+            # except MultipleObjectsReturned:
+            #     import ipdb
+            #     ipdb.set_trace()
 
 
 class TeamYear(models.Model):

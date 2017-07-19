@@ -91,7 +91,7 @@
                                 {% endif %}
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false">{{ user }}<span class="caret"></span></a>
+                                       aria-expanded="false">{{ user.full_name }}<span class="caret"></span></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
                                         <li><a href="{% url 'account_change_password' %}">Change Password</a></li>

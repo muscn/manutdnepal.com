@@ -49,6 +49,7 @@ class SquadScraper(Scraper):
 
     @classmethod
     def scrape(cls):
+        return
         root = cls.get_root_tree()
         if root is not None:
             active_players_table = root.xpath('//table')[0]
@@ -60,6 +61,7 @@ class SquadScraper(Scraper):
 
     @classmethod
     def save(cls):
+        return
         Player.objects.all().update(active=False)
         for datum in cls.data:
             try:

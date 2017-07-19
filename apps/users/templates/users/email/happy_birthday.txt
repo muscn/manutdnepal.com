@@ -3,4 +3,4 @@ Hi {{user.full_name}},
 We wish you a very happy birthday!
 
 Manchester United Supporters' Club, Nepal
-http://manutd.org.np
+https://manutd.org.np

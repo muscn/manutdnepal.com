@@ -1,0 +1,10 @@
+Hello from manutd.org.np,
+
+You're receiving this e-mail because user {{user.full_name}} has given yours as an e-mail address to connect their account.
+
+To confirm this is correct, go to {{ activate_url }}
+
+Thank you from Manchester United Supporters' Club - Nepal!
+
+GGMU!
+https://manutd.org.np

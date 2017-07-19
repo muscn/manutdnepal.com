@@ -1,5 +1,7 @@
 from ics import Calendar
 from ics.parse import ParseError
+
+from muscn.utils.helpers import fix_unicode
 from .base import Scraper
 from apps.stats.models import Fixture, CompetitionYear, Competition, Team
 from muscn.utils.football import get_current_season_start_year
@@ -25,16 +27,22 @@ class FixturesScraper(Scraper):
 
     @classmethod
     def scrape(cls):
-        url = 'http://calendar.manutd.com/Manchester_United.ics'
+        # url = 'http://calendar.manutd.com/Manchester_United.ics'
         # url = 'http://hackeragenda.urlab.be/events/events.ics'
+        url = 'https://calendar.google.com/calendar/ical/ov0dk4m6dedaob7oqse4nrda4s%40group.calendar.google.com/public/basic.ics'
         cal_content = cls.get_url_content(url)
         if cal_content:
             cal_content = cal_content.replace('RATE:', 'RDATE:')
             cal = Calendar(cal_content.decode('iso-8859-1').replace('\n\n', ' '))
-            Fixture.get_upcoming().delete()
             for event in cal.events:
-                fixture = Fixture()
-                fixture.datetime = event.begin.datetime
+                dt = event.begin.datetime
+                try:
+                    fixture = Fixture.objects.get(datetime=dt)
+                except Fixture.DoesNotExist:
+                    fixture = Fixture(datetime=dt)
+                except Fixture.MultipleObjectsReturned:
+                    [fix.delete() for fix in Fixture.objects.filter(datetime=dt).order_by('id')[1:]]
+                    fixture = Fixture.objects.get(datetime=dt)
                 # get match and competition_name from description
                 splits = event.description.splitlines()[0].split(' - ')
                 competition_name = splits[1].strip().split('.')[0]
@@ -68,6 +76,7 @@ class FixturesScraper(Scraper):
                 else:
                     fixture.is_home_game = False
                     opponent_team_name = splits[0][:-20].strip()
+                opponent_team_name = fix_unicode(opponent_team_name)
                 try:
                     opponent_team = Team.get(opponent_team_name)
                 except Team.DoesNotExist:

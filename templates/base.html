@@ -40,6 +40,10 @@
 <body>
 <div id="container" class="content">
 
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+
     {% include '_header.html' %}
     <div class="{% block container-class %}container{% endblock %} main-container">
         {% block content %}

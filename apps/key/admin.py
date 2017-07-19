@@ -6,7 +6,7 @@ from .models import DistributedKey
 
 
 class DistributedKeyAdmin(admin.ModelAdmin):
-    readonly_fields = ('key',)
+    # readonly_fields = ('key',)
     list_display = ('client_name', 'key',)
     actions = ['regenerate_key', ]
 

@@ -4,7 +4,7 @@ from django.db import models
 
 
 class DistributedKey(models.Model):
-    key = models.UUIDField(blank=True, null=True)
+    key = models.TextField(blank=True, help_text='Leave blank for auto-generation.')
     client_name = models.CharField(max_length=250)
 
     def __str__(self):

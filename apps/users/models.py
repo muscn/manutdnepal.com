@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.utils.translation import ugettext_lazy as _
 from django.dispatch import receiver
 from allauth.account.signals import user_logged_in
@@ -31,13 +31,10 @@ from muscn.utils.football import get_current_season_start
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None, full_name=''):
-        # import pdb
-        # pdb.set_trace()
+    def create_user(self, email, password=None, full_name=''):
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(
-            username=username,
             email=UserManager.normalize_email(email),
             full_name=full_name,
         )
@@ -45,12 +42,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, password=None, full_name=''):
+    def create_superuser(self, email, password=None, full_name=''):
         """
         Creates and saves a superuser with the given email, full name and password.
         """
         user = self.create_user(
-            username,
             email,
             password=password,
             full_name=full_name,
@@ -69,7 +65,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    username = models.CharField(max_length=50, unique=True)
+    username = models.CharField(max_length=50, unique=True, blank=True, null=True)
     full_name = models.CharField(max_length=245)
     devil_no = models.PositiveIntegerField(unique=True, null=True, blank=True)
     email = models.EmailField(
@@ -82,6 +78,9 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
+
+    def __str__(self):
+        return self.full_name or self.username or self.devil_no or self.email
 
     @property
     def gravatar_url(self):
@@ -126,8 +125,9 @@ class User(AbstractBaseUser):
         return True if hasattr(self, 'membership') and hasattr(self.membership,
                                                                'payment') and self.membership.approved_date and self.membership.approved_by and not self.membership.has_expired() else False
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['full_name', 'email']
+    USERNAME_FIELD = 'email'
+
+    REQUIRED_FIELDS = ['username', ]
 
     def __unicode__(self):
         return self.full_name or self.username
@@ -401,7 +401,7 @@ class Membership(models.Model):
     mobile = models.CharField(max_length=50, null=True)
     telephone = models.CharField(max_length=50, null=True, blank=True)
     # identification_type = models.CharField(max_length=50, null=True, choices=IDENTIFICATION_TYPES)
-    identification_file = models.FileField(null=True, upload_to='identification_files/')
+    identification_file = models.FileField(null=True, upload_to='identification_files/', blank=True)
     # shirt_size = models.CharField(max_length=4, null=True, choices=SHIRT_SIZES)
     # present_status = models.CharField(max_length=1, null=True, choices=PRESENT_STATUSES)
     registration_date = models.DateField(null=True, default=datetime.datetime.now)
@@ -509,10 +509,11 @@ class StaffOnlyMixin(object):
             # return True
             if bool(u.groups.filter(name='Staff')):
                 return super(StaffOnlyMixin, self).dispatch(request, *args, **kwargs)
-        raise PermissionDenied()
+        return HttpResponseForbidden()
 
 
 class MembershipSetting(SingletonModel):
+    open = models.BooleanField(default=True)
     membership_fee = models.FloatField(verbose_name='Membership Fee', blank=True, null=True)
     enable_esewa = models.BooleanField(default=True)
     welcome_letter_content = models.TextField(blank=True, null=True)
@@ -521,19 +522,20 @@ class MembershipSetting(SingletonModel):
         return 'Membership Settings'
 
 
-def group_required(*group_names):
-    """Requires user membership in at least one of the groups passed in."""
-
-    def in_groups(u):
-        if u.is_authenticated():
-            # if bool(u.groups.filter(name__in=group_names)) | u.is_superuser():
-            # return True
-            if bool(u.groups.filter(name__in=group_names)):
+def group_required(group, login_url=None, raise_exception=True):
+    def check_perms(user):
+        if user.is_authenticated:
+            if isinstance(group, (str,)):
+                groups = (group,)
+            else:
+                groups = group
+            if user.groups.filter(name__in=groups).exists():
                 return True
-            raise PermissionDenied()
+            if raise_exception:
+                raise PermissionDenied
         return False
 
-    return user_passes_test(in_groups)
+    return user_passes_test(check_perms, login_url=login_url)
 
 
 class GroupProxy(Group):
@@ -548,7 +550,6 @@ class GroupProxy(Group):
 def get_extra_data(request, user, sociallogin=None, **kwargs):
     if sociallogin:
         extra_data = sociallogin.account.extra_data
-
         if sociallogin.account.provider == 'twitter':
             user.full_name = extra_data['name']
 

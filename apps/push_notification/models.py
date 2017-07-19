@@ -31,7 +31,7 @@ class PushMessage(models.Model):
     url = models.URLField(blank=True, null=True)
     remarks = models.TextField(null=True, blank=True, help_text='Admin notes.')
     response_message = models.TextField(null=True, blank=True, help_text='FCM response.')
-    author = models.ForeignKey(User, related_name='push_messages', on_delete=models.PROTECT)
+    author = models.ForeignKey(User, related_name='push_messages', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     last_sent_at = models.DateTimeField(blank=True, null=True)

@@ -3,16 +3,7 @@
 from django.core.management.base import BaseCommand
 
 from apps.stats.models import Team
-
-
-def fix(st):
-    if st:
-        try:
-            return st.encode('latin1').decode('utf8')
-        except UnicodeEncodeError:
-            return st
-        except UnicodeDecodeError:
-            return unicode(st.encode('utf8'), errors='ignore')
+from muscn.utils.helpers import fix_unicode
 
 
 class Command(BaseCommand):
@@ -21,6 +12,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         teams = Team.objects.all()
         for team in teams:
-            team.name = fix(team.name)
-            team.alternative_names = fix(team.alternative_names)
+            team.name = fix_unicode(team.name)
+            team.alternative_names = fix_unicode(team.alternative_names)
             team.save()

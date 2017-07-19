@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^m/(?P<slug>.*)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
     url(r'^froala_editor/', include('froala_editor.urls')),
     url(r'admin/clear-cache/', core_views.clear_cache, name='clear_cache'),
+
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout/$', logout, {'next_page': '/'}, 'logout'),
     url(r'^accounts/', include('allauth.urls')),
@@ -89,7 +90,7 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': SITEMAPS}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', partner_views.view_partner, name='view_partner'),
     url(r'^team/$', team_views.football_team, name='football_team'),
-    # url(r'^meet/$', core_views.google_form, name='google_form'),
+    url(r'^futsal/$', core_views.redirector, name='redirector'),
 
     url(r'^match/(?P<date>[\d{4}\-\d{2}\-\d{2}]+)/(?P<extra>[a-zA-Z0-9_.-]*)/?$', stats_views.FixtureDetail.as_view(),
         name='fixture_detail'),

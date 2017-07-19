@@ -1,7 +1,5 @@
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/renew/'
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -11,8 +9,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_USERNAME_BLACKLIST = ['united', 'manutd', 'manchester', 'reddevil', 'reddevils', 'manchesterunited', 'mufc',
                               'administrator', 'admin']
 ACCOUNT_FORMS = {'signup': 'apps.users.forms.SignupForm'}
