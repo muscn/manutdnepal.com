@@ -637,6 +637,11 @@ footer {
     display: inline-block;
 }
 
+.featured img{
+    width: 750px;
+    max-height: 500px;
+}
+
 .section.featured a h2 span {
     color: white;
     font: bold 24px/45px Helvetica, Sans-Serif;
