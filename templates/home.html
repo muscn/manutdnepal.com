@@ -5,6 +5,11 @@
     Manchester United Supporters' Club, Nepal
 {% endblock %}
 
+{% block meta %}
+    <meta name="google-site-verification" content="fYS71uRk0A0NqKJ5YNwPKR41QExGcc3O96H9f0CSZdI"/>
+{% endblock %}
+
+
 {% block extrabody %}
     <script src="{% static "js/ko.min.js" %}"></script>
     <script src="{% static "js/landing.js" %}"></script>
@@ -19,9 +24,9 @@
                 {% if featured %}
                     <div class="section featured row">
                         <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
-{#                            {% thumbnail featured.image "700x500" format="PNG" as obj_image %}#}
-{#                                <img src="{{ obj_image.url }}" alt="{{ featured }}" class="img-responsive">#}
-{#                            {% endthumbnail %}#}
+                            {#                            {% thumbnail featured.image "700x500" format="PNG" as obj_image %}#}
+                            {#                                <img src="{{ obj_image.url }}" alt="{{ featured }}" class="img-responsive">#}
+                            {#                            {% endthumbnail %}#}
                             <img src="{{ featured.image.url }}" alt="{{ featured }}" class="img-responsive">
 
                             <h2><span>{{ featured }}</span></h2>
@@ -102,7 +107,8 @@
                     <h2>
                         <a href="https://play.google.com/store/apps/details?id=com.awecode.muscn&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
                             <i class="fa fa-android"></i></a>
-                        <a href="https://play.google.com/store/apps/details?id=com.awecode.muscn&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">Download Android App</a></h2>
+                        <a href="https://play.google.com/store/apps/details?id=com.awecode.muscn&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">Download
+                            Android App</a></h2>
                 </div>
 
 
