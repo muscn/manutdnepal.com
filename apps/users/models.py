@@ -167,7 +167,6 @@ class User(AbstractBaseUser):
         )
         if html_message:
             message.attach_alternative(html_message, 'text/html')
-        message.track_clicks = True
         message.send()
 
     def is_admin(self):

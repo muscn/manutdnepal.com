@@ -179,8 +179,8 @@ LOGGING = {
 
 # E-mail settings
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-DEFAULT_FROM_EMAIL = 'webmaster@manutd.org.np'
-SERVER_EMAIL = 'webmaster@manutd.org.np'
+DEFAULT_FROM_EMAIL = 'info@manutd.org.np'
+SERVER_EMAIL = 'info@manutd.org.np'
 
 try:
     from .local_settings import *  # noqa
