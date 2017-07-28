@@ -162,6 +162,7 @@ class User(AbstractBaseUser):
         except:
             print('Invalid email: %s' % self.email)
             return
+
         message = AnymailMessage(
             subject=subject,
             body=body,
@@ -699,10 +700,13 @@ class Newsletter(models.Model):
         context = Context({})
 
         for cnt, user in enumerate(users):
-            context['user'] = user
-            subject = subject_template.render(context)
-            body = body_template.render(context)
-            user.send_email(subject, body, tag=self.key)
+            try:
+                context['user'] = user
+                subject = subject_template.render(context)
+                body = body_template.render(context)
+                user.send_email(subject, body, tag=self.key)
+            except Exception as ex:
+                print ex
             show_progress((cnt + 1) * 100 / total_users)
         self.last_sent = timezone.now()
         self.save()
