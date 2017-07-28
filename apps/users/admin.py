@@ -218,6 +218,7 @@ admin.site.register(User, CustomUserAdmin)
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = ('key', 'subject')
     search_fields = ('key', 'subject', 'body')
+    readonly_fields = ('last_sent',)
 
 
 admin.site.register(Newsletter, NewsletterAdmin)

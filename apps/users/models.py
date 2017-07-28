@@ -687,7 +687,7 @@ class Newsletter(models.Model):
         print 'Sending to %d users' % total_users
         subject_template = Template(self.subject)
         body_template = Template(self.body)
-        context = {}
+        context = Context({})
 
         for cnt, user in enumerate(users):
             context['user'] = user

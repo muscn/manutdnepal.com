@@ -179,7 +179,7 @@ LOGGING = {
 
 # E-mail settings
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-DEFAULT_FROM_EMAIL = 'info@manutd.org.np'
+DEFAULT_FROM_EMAIL = 'MUSC Nepal<info@manutd.org.np>'
 SERVER_EMAIL = 'info@manutd.org.np'
 
 try:
