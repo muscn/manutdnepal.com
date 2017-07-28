@@ -1,3 +1,5 @@
+import sys
+
 import facebook
 from django.conf import settings
 
@@ -22,3 +24,10 @@ def fix_unicode(st):
             return st
         except UnicodeDecodeError:
             return unicode(st.encode('utf8'), errors='ignore')
+
+
+def show_progress(percent):
+    percent = int(percent)
+    sys.stdout.write('\r')
+    sys.stdout.write("[%-100s] %d%%" % ('=' * percent, percent))
+    sys.stdout.flush()

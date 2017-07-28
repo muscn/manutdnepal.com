@@ -22,6 +22,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.http import HttpResponse, HttpResponseForbidden
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.template import Template, Context
 
@@ -29,6 +30,7 @@ from solo.models import SingletonModel
 
 from apps.payment.models import Payment
 from muscn.utils.football import get_current_season_start
+from muscn.utils.helpers import show_progress
 
 
 class UserManager(BaseUserManager):
@@ -674,18 +676,24 @@ class Newsletter(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    last_sent = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.key
 
     def send(self):
         users = User.objects.all()
-        users = User.objects.filter(email='xtranophilist@gmail.com')
+        total_users = users.count()
+        print 'Sending to %d users' % total_users
         subject_template = Template(self.subject)
         body_template = Template(self.body)
         context = {}
-        for user in users:
+
+        for cnt, user in enumerate(users):
             context['user'] = user
             subject = subject_template.render(context)
             body = body_template.render(context)
             user.send_email(subject, body, tag=self.key)
+            show_progress((cnt + 1) * 100 / total_users)
+        self.last_sent = timezone.now()
+        self.save()

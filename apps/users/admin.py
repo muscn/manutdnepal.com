@@ -7,7 +7,7 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from apps.users.models import User, GroupProxy, Membership, CardStatus, Renewal, MembershipSetting
+from apps.users.models import User, GroupProxy, Membership, CardStatus, Renewal, MembershipSetting, Newsletter
 from solo.admin import SingletonModelAdmin
 
 
@@ -211,9 +211,16 @@ admin.site.register(Membership, MembershipAdmin)
 
 admin.site.register(User, CustomUserAdmin)
 
+
 # Removing default apps
 # admin.site.unregister(Site)
 
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = ('key', 'subject')
+    search_fields = ('key', 'subject', 'body')
+
+
+admin.site.register(Newsletter, NewsletterAdmin)
 
 from django.contrib.auth.models import Group
 
