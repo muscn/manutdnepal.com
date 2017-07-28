@@ -18,6 +18,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse_lazy
+from django.core.validators import validate_email
 from django.db import models
 from django.dispatch import receiver
 from django.http import HttpResponse, HttpResponseForbidden
@@ -156,6 +157,11 @@ class User(AbstractBaseUser):
         return True
 
     def send_email(self, subject, body, tag='Default'):
+        try:
+            validate_email(self.email)
+        except:
+            print('Invalid email: %s' % self.email)
+            return
         message = AnymailMessage(
             subject=subject,
             body=body,
