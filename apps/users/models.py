@@ -1,32 +1,33 @@
 import datetime
+import os
+import re
+import zipfile
+from StringIO import StringIO
+from urllib import urlretrieve
 
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
+from allauth.account.signals import user_logged_in
 from anymail.message import AnymailMessage
-from django.core.urlresolvers import reverse_lazy
-from django.db import models
+from auditlog.registry import auditlog
+
+from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, HttpResponseForbidden
-from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse_lazy
+from django.db import models
 from django.dispatch import receiver
-from allauth.account.signals import user_logged_in
-from auditlog.registry import auditlog
+from django.http import HttpResponse, HttpResponseForbidden
+from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
+from django.template import Template, Context
+
 from solo.models import SingletonModel
 
 from apps.payment.models import Payment
-
-# imports for generating card
-from django.conf import settings
-from PIL import ImageFont
-from PIL import Image
-from PIL import ImageDraw
-from urllib import urlretrieve
-import os
-import re
-
-import zipfile
-from StringIO import StringIO
 from muscn.utils.football import get_current_season_start
 
 
@@ -132,6 +133,9 @@ class User(AbstractBaseUser):
     def __unicode__(self):
         return self.full_name or self.username
 
+    def first_name(self):
+        return self.full_name.split()[0]
+
     def get_short_name(self):
         # The user is identified by username
         return self.username
@@ -146,27 +150,13 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
-    def email_user(self, subject, context, text_template, html_template=None, tag='Default'):
-        from django.template.loader import render_to_string
-
-        context['user'] = self
-        text_message = render_to_string(text_template, context)
-        if html_template:
-            html_message = render_to_string(html_template, context)
-        else:
-            html_message = None
-
-        # send_mail(subject, text_message, settings.DEFAULT_FROM_EMAIL, [self.email], fail_silently=False,
-        #           html_message=html_message)
-
+    def send_email(self, subject, body, tag='Default'):
         message = AnymailMessage(
             subject=subject,
-            body=text_message,
+            body=body,
             to=["%s <%s>" % (self.full_name or self.username, self.email)],
             tags=[tag],
         )
-        if html_message:
-            message.attach_alternative(html_message, 'text/html')
         message.send()
 
     def is_admin(self):
@@ -574,21 +564,21 @@ auditlog.register(Renewal)
 auditlog.register(CardStatus)
 
 
-def get_members_summary():
-    from docx import Document
-
-    document = Document()
-    document.add_page_break()
-    members = Membership.objects.filter(user__devil_no__isnull=False)
-    for member in members:
-        p = document.add_paragraph('')
-        p.add_run('#' + str(member.user.devil_no))
-        p.add_run('\n')
-        p.add_run(member.user.full_name)
-        p.add_run('\n')
-        p.add_run(member.mobile)
-        document.add_page_break()
-    document.save('/tmp/members.docx')
+# def get_members_summary():
+#     from docx import Document
+# 
+#     document = Document()
+#     document.add_page_break()
+#     members = Membership.objects.filter(user__devil_no__isnull=False)
+#     for member in members:
+#         p = document.add_paragraph('')
+#         p.add_run('#' + str(member.user.devil_no))
+#         p.add_run('\n')
+#         p.add_run(member.user.full_name)
+#         p.add_run('\n')
+#         p.add_run(member.mobile)
+#         document.add_page_break()
+#     document.save('/tmp/members.docx')
 
 
 def initialize_card_statuses():
@@ -674,5 +664,28 @@ def email_birthday_users():
     text_template = 'users/email/happy_birthday.txt'
     users = get_birthday_users()
     for user in users:
-        subject = 'Happy birthday, ' + user.full_name.split()[0] + '.'
+        subject = 'Happy birthday, ' + user.first_name + '.'
         user.email_user(subject, params, text_template, tag='Birthday')
+
+
+class Newsletter(models.Model):
+    key = models.CharField(max_length=255)
+    subject = models.TextField()
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.key
+
+    def send(self):
+        users = User.objects.all()
+        users = User.objects.filter(email='xtranophilist@gmail.com')
+        subject_template = Template(self.subject)
+        body_template = Template(self.body)
+        context = {}
+        for user in users:
+            context['user'] = user
+            subject = subject_template.render(context)
+            body = body_template.render(context)
+            user.send_email(subject, body, tag=self.key)
