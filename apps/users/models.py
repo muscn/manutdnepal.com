@@ -136,6 +136,7 @@ class User(AbstractBaseUser):
     def __unicode__(self):
         return self.full_name or self.username
 
+    @property
     def first_name(self):
         try:
             return self.full_name.split()[0]
@@ -170,6 +171,13 @@ class User(AbstractBaseUser):
             tags=[tag],
         )
         message.send()
+
+    def email_using_template(self, subject, context, template, tag=None):
+        from django.template.loader import render_to_string
+
+        context['user'] = self
+        body = render_to_string(template, context)
+        self.send_email(subject, body, tag=tag)
 
     def is_admin(self):
         return self.is_superuser
@@ -493,7 +501,7 @@ class CardStatus(models.Model):
             subject = 'Your MUSCN membership card has been picked up.'
             params = {}
             text_template = 'users/email/status_delivered.txt'
-        self.membership.user.email_user(subject, params, text_template)
+        self.membership.user.email_using_template(subject, params, text_template, tag='card-status')
 
     def __unicode__(self):
         return self.membership.user.full_name + ' - ' + self.get_status()
@@ -677,7 +685,7 @@ def email_birthday_users():
     users = get_birthday_users()
     for user in users:
         subject = 'Happy birthday, ' + user.first_name + '.'
-        user.email_user(subject, params, text_template, tag='Birthday')
+        user.email_using_template(subject, params, text_template, tag='Birthday')
 
 
 class Newsletter(models.Model):
