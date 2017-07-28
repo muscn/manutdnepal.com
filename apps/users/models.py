@@ -21,7 +21,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.db import models
 from django.dispatch import receiver
 from django.http import HttpResponse, HttpResponseForbidden
-from django.template.loader import render_to_string
+
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.template import Template, Context
@@ -136,7 +136,10 @@ class User(AbstractBaseUser):
         return self.full_name or self.username
 
     def first_name(self):
-        return self.full_name.split()[0]
+        try:
+            return self.full_name.split()[0]
+        except:
+            return self.username
 
     def get_short_name(self):
         # The user is identified by username
