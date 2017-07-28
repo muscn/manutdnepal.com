@@ -277,11 +277,6 @@ class MembershipUpdateView(StaffOnlyMixin, UpdateView):
         else:
             return super(MembershipUpdateView, self).post(request, *args, **kwargs)
 
-    def get_form(self, form_class):
-        form = super(MembershipUpdateView, self).get_form(form_class)
-        form.fields['full_name'].initial = form.instance.user.full_name
-        return form
-
 
 class MembershipDeleteView(StaffOnlyMixin, DeleteView):
     model = Membership

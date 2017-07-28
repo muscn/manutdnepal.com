@@ -34,6 +34,8 @@ class MembershipForm(HTML5BootstrapModelForm):
         super(MembershipForm, self).__init__(*args, **kwargs)
         if self.user:
             self.fields['full_name'].initial = self.user.full_name
+        elif self.instance.pk and self.instance.user_id:
+            self.fields['full_name'].initial = self.instance.user.full_name
 
     def clean_full_name(self):
         tokens_length = len(self.cleaned_data.get('full_name', '').split())
