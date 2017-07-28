@@ -18,6 +18,4 @@ class Command(BaseCommand):
             newsletter = Newsletter.objects.get(key=key)
             newsletter.send()
         except Exception as ex:
-            # logger.error(str(ex), exc_info=True)
-            import ipdb
-            ipdb.set_trace()
+            logger.error(str(ex), exc_info=True)
