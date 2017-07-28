@@ -5,7 +5,7 @@ from . import views
 from . import api
 
 web_urls = [
-url(r'^admin/upload/(?P<pk>\d+)/$', views.multi_upload, name='multi-upload'),
+    url(r'^admin/upload/(?P<pk>\d+)/$', views.multi_upload, name='multi-upload'),
     url(r'^admin/delete/(?P<pk>\d+)/$', views.upload_delete, name='image-delete'),
     url(r'^$', views.album_list, name='album-list'),
     url(r'^(?P<slug>[\w-]+)/', views.AlbumDetail.as_view(), name='album-images'),
