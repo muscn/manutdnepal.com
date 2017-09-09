@@ -724,7 +724,7 @@ def get_top_scorers():
 
 def get_top_scorers_summary():
     current_year = get_current_season_start_year()
-    goals = Goal.objects.filter(match__competition_year__year=current_year).select_related('scorer')
+    goals = Goal.objects.filter(match__competition_year__year=current_year, match__competition_year__competition__friendly=False).select_related('scorer')
     players = OrderedDict()
     for goal in goals:
         if goal.own_goal:
