@@ -131,7 +131,7 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['username', ]
+    REQUIRED_FIELDS = []
 
     def __unicode__(self):
         return self.full_name or self.username

@@ -689,6 +689,7 @@ COUNTRIES = (
     ('QA', _('Qatar')),
     ('RE', _('Reunion')),
     ('RO', _('Romania')),
+    ('RS', _('Serbia')),
     ('RU', _('Russian Federation')),
     ('RW', _('Rwanda')),
     ('SA', _('Saudi Arabia')),
