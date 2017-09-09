@@ -7,7 +7,7 @@ from muscn.utils.countries import get_a2_from_a3
 
 
 class SquadScraper(Scraper):
-    url = 'http://www.footballsquads.co.uk/eng/2016-2017/faprem/manutd.htm'
+    url = 'http://www.footballsquads.co.uk/eng/2017-2018/faprem/manutd.htm'
     data = []
     active = True
 
