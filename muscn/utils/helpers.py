@@ -23,7 +23,7 @@ def fix_unicode(st):
         except UnicodeEncodeError:
             return st
         except UnicodeDecodeError:
-            return unicode(st.encode('utf8'), errors='ignore')
+            return str(st.encode('utf8'), errors='ignore')
 
 
 def show_progress(percent):

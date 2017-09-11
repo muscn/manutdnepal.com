@@ -13,6 +13,8 @@ class TeamsScraper(Scraper):
         cls.log('Retrieving from ESPN EPL Teams Data JSON')
         url = 'https://raw.githubusercontent.com/jokecamp/FootballData/master/EPL%201992%20-%202015/epl-teams-2013-2014.json'
         espn_data = cls.get_json_from_url(url)
+        import ipdb
+        ipdb.set_trace()
         if espn_data:
             teams = espn_data['sports'][0]['leagues'][0]['teams']
             for datum in teams:

@@ -56,7 +56,7 @@ class TVScraper(Scraper):
 
     @classmethod
     def save(cls):
-        for timestamp, channels in cls.data.iteritems():
+        for timestamp, channels in cls.data.items():
             dt = datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.UTC)
             try:
                 fixture = Fixture.objects.get(datetime=dt)

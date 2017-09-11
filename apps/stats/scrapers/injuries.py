@@ -54,7 +54,7 @@ class InjuriesScraper(Scraper):
     def save(cls):
         old_injuries = Injury.get_current_injuries()
         new_injuries = []
-        for player, data in cls.data.iteritems():
+        for player, data in cls.data.items():
             try:
                 injury = old_injuries.get(player=player)
             except Injury.DoesNotExist:
