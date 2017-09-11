@@ -32,6 +32,8 @@ class FixturesScraper(Scraper):
         url = 'https://calendar.google.com/calendar/ical/ov0dk4m6dedaob7oqse4nrda4s%40group.calendar.google.com/public/basic.ics'
         cal_content = cls.get_url_content(url)
         if cal_content:
+            if (cal_content, bytes):
+                cal_content = str(cal_content, 'utf-8')
             cal_content = cal_content.replace('RATE:', 'RDATE:')
             cal = Calendar(cal_content.decode('iso-8859-1').replace('\n\n', ' '))
             for event in cal.events:

@@ -12,7 +12,7 @@ class FACupScraper(Scraper):
     @classmethod
     def scrape(cls):
         cls.download_if_required()
-        with open(cls.local_path, 'rb') as csvfile:
+        with open(cls.local_path, 'rt') as csvfile:
             reader = csv.reader(csvfile)
             dct = {}
             for row in reader:
@@ -54,7 +54,7 @@ class FACupScraper(Scraper):
     @classmethod
     def save(cls):
         competition = Competition.objects.get(name='FA Cup')
-        for season, data in cls.data.iteritems():
+        for season, data in cls.data.items():
             competition_year, created = CompetitionYear.objects.get_or_create(year=season, competition=competition)
             if created:
                 competition_year.save()

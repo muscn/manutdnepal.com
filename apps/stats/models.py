@@ -741,7 +741,7 @@ def get_latest_epl_standings():
     f = urllib.urlopen(link)
     standings = f.read()
     standings_loaded = json.loads(standings)
-    print standings_loaded['ERROR']
+    print(standings_loaded['ERROR'])
     cache.set('epl_standings', standings_loaded, timeout=None)
     return standings_loaded
 

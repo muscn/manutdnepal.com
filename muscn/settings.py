@@ -29,7 +29,7 @@ INSTALLED_APPS = (
     'auditlog',
     'smuggler',
     'sorl.thumbnail',
-    'opbeat.contrib.django',
+    # 'opbeat.contrib.django',
     'rest_framework',
     'rest_framework.authtoken',
     'solo',
@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+    # 'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'dj_pagination.middleware.PaginationMiddleware',
     # 'webstack_django_sorting.middleware.SortingMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
@@ -73,6 +73,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
         ],
@@ -108,7 +109,7 @@ REST_FRAMEWORK = {
     )
 }
 
-from user_settings import *  # noqa
+from .user_settings import *  # noqa
 
 from django.contrib.messages import constants as messages
 
@@ -135,7 +136,7 @@ ALIASES = [
     'MUFC',
 ]
 
-TEMPLATE_DEBUG = False
+# TEMPLATE_DEBUG = False
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_HTTPONLY = True
@@ -163,14 +164,15 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'opbeat': {
-            'level': 'WARNING',
-            'class': 'opbeat.contrib.django.handlers.OpbeatHandler',
-        },
+        # 'opbeat': {
+        #     'level': 'WARNING',
+        #     'class': 'opbeat.contrib.django.handlers.OpbeatHandler',
+        # },
     },
     'loggers': {
         'django': {
-            'handlers': ['mail_admins', 'opbeat'],
+            # 'handlers': ['mail_admins', 'opbeat'],
+            'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },

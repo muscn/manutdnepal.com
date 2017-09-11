@@ -111,7 +111,7 @@ class SeasonDataScraper(Scraper):
     def save(cls):
         from apps.stats.models import SeasonData
 
-        for season, data in cls.data.iteritems():
+        for season, data in cls.data.items():
             season_data, created = SeasonData.objects.get_or_create(year=season)
             season_data.summary = data
             season_data.save()

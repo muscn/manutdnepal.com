@@ -2,8 +2,8 @@ import datetime
 import os
 import re
 import zipfile
-from StringIO import StringIO
-from urllib import urlretrieve
+from io import StringIO
+from urllib.request import urlretrieve
 
 from PIL import Image
 from PIL import ImageDraw
@@ -702,7 +702,7 @@ class Newsletter(models.Model):
     def send(self):
         users = User.objects.all()
         total_users = users.count()
-        print 'Sending to %d users' % total_users
+        print('Sending to %d users' % total_users)
         subject_template = Template(self.subject)
         body_template = Template(self.body)
         context = Context({})
@@ -714,7 +714,7 @@ class Newsletter(models.Model):
                 body = body_template.render(context)
                 user.send_email(subject, body, tag=self.key)
             except Exception as ex:
-                print ex
+                print(ex)
             show_progress((cnt + 1) * 100 / total_users)
         self.last_sent = timezone.now()
         self.save()

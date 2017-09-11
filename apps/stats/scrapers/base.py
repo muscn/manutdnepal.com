@@ -1,9 +1,9 @@
 import os
-import urllib2
 import json
 
 from lxml import html
 import requests
+import urllib.request
 
 
 class Scraper(object):
@@ -21,23 +21,23 @@ class Scraper(object):
     @classmethod
     def get_url_content(cls, url):
         cls.log('Retrieving content from: ' + url + ' ...')
-        opener = urllib2.build_opener()
+        opener = urllib.request.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         try:
             response = opener.open(url)
             return response.read()
-        except urllib2.URLError:
+        except urllib.request.URLError:
             return None
 
     @classmethod
     def get_json_from_url(cls, url):
         cls.log('Retrieving JSON: ' + url + ' ...')
-        opener = urllib2.build_opener()
+        opener = urllib.request.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         try:
             response = opener.open(url)
             return json.loads(response.read())
-        except urllib2.URLError:
+        except urllib.request.URLError:
             return None
 
     @classmethod
@@ -114,9 +114,10 @@ class Scraper(object):
             return None
         styles = all_styles.split(';')
         for style in styles:
-            css_property, value = style.split(':')
-            if css_property == style_property:
-                return value
+            if style:
+                css_property, value = style.split(':')
+                if css_property == style_property:
+                    return value
 
     @classmethod
     def scrape(cls):

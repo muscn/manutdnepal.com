@@ -1,11 +1,11 @@
-from season_summary import SeasonDataScraper
-from facup import FACupScraper
-from squad import SquadScraper
-from fixtures import FixturesScraper
-from teams import TeamsScraper
-from table import TableScraper, EPLScrape, LeagueCupScrape, FACupScrape, EuropaLeagueScrape
-from tv import TVScraper
-from injuries import InjuriesScraper
+from .season_summary import SeasonDataScraper
+from .facup import FACupScraper
+from .squad import SquadScraper
+from .fixtures import FixturesScraper
+from .teams import TeamsScraper
+from .table import TableScraper, EPLScrape, LeagueCupScrape, FACupScrape, EuropaLeagueScrape
+from .tv import TVScraper
+from .injuries import InjuriesScraper
 
 available_scrapers = {
     'season_summary': SeasonDataScraper,

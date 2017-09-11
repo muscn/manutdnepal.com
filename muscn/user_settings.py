@@ -28,5 +28,14 @@ SOCIALACCOUNT_PROVIDERS = \
             'METHOD': 'oauth2',
             # 'LOCALE_FUNC': 'path.to.callable',
             'VERIFIED_EMAIL': False
+        },
+        'google': {
+            'SCOPE': [
+                'profile',
+                'email',
+            ],
+            'AUTH_PARAMS': {
+                'access_type': 'online',
+            }
         }
     }

@@ -21,20 +21,20 @@ class FlexibleDateFormField(forms.Field):
                 timestamp = time.strptime(value, '%Y-%m-%d')
                 value = '{0}-{1}-{2:02}'.format(timestamp.tm_year, timestamp.tm_mon, timestamp.tm_mday % 100)
                 return value
-            except ValueError, e:
+            except ValueError as e:
                 raise forms.ValidationError("%s" % e)
         elif date_year_month_pattern.match(value):
             try:
                 timestamp = time.strptime(value, '%Y-%m')
                 value = '{0}-{1}'.format(timestamp.tm_year, timestamp.tm_mon % 100)
                 return value
-            except ValueError, e:
+            except ValueError as e:
                 raise forms.ValidationError("%s" % e)
         elif date_year_pattern.match(value):
             try:
                 timestamp = time.strptime(value, '%Y')
                 return timestamp.tm_year
-            except ValueError, e:
+            except ValueError as e:
                 raise forms.ValidationError("%s" % e)
         else:
             raise forms.ValidationError("Invalid Date Format")

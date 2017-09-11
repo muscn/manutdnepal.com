@@ -83,7 +83,7 @@ class TableScraper(Scraper):
                                     if data['minute'] == 'FT':
                                         fixture.send_updates()
                             except Fixture.DoesNotExist:
-                                print 'Fixture does not exist.'
+                                print('Fixture does not exist.')
 
     @classmethod
     def get_m_data(cls, url):

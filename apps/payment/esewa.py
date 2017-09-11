@@ -40,7 +40,7 @@ class EsewaTransaction(models.Model):
         kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd}
         url = self.transaction_url + '?' + urllib.urlencode(kwargs)
         self.details = requests.get(url).json()
-        print self.details
+        print(self.details)
         return self.details
 
     def refresh_details(self):
