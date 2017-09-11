@@ -15,7 +15,7 @@ def url_to_edit_object(obj):
     if not obj:
         return 'None'
     url = reverse('admin:%s_%s_change' % (obj._meta.app_label, obj._meta.model_name), args=(obj.pk,))
-    return u'<a href="%s">%s</a>' % (url, obj.__unicode__())
+    return u'<a href="%s">%s</a>' % (url, obj.__str__())
 
 
 class UserCreationForm(DjangoUserCreationForm):

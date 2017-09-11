@@ -133,7 +133,7 @@ class User(AbstractBaseUser):
 
     REQUIRED_FIELDS = []
 
-    def __unicode__(self):
+    def __str__(self):
         return self.full_name or self.username
 
     @property
@@ -453,8 +453,8 @@ class Membership(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})
 
-    def __unicode__(self):
-        return unicode(self.user)
+    def __str__(self):
+        return str(self.user)
 
     class Meta:
         ordering = ['-id']
@@ -467,8 +467,8 @@ class Renewal(models.Model):
     approved_date = models.DateField(null=True, blank=True)
     approved_by = models.ForeignKey(User, related_name='renewals_approved', null=True, blank=True)
 
-    def __unicode__(self):
-        return unicode(self.membership.user)
+    def __str__(self):
+        return str(self.membership.user)
 
 
 class CardStatus(models.Model):
@@ -503,7 +503,7 @@ class CardStatus(models.Model):
             text_template = 'users/email/status_delivered.txt'
         self.membership.user.email_using_template(subject, params, text_template, tag='card-status')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.membership.user.full_name + ' - ' + self.get_status()
 
     class Meta:

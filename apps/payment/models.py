@@ -66,8 +66,8 @@ class Payment(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('update_payment', kwargs={'pk': self.pk})
 
-    def __unicode__(self):
-        return unicode(self.user) + ' - ' + unicode(self.date_time) + ' - ' + unicode(self.amount)
+    def __str__(self):
+        return str(self.user) + ' - ' + str(self.date_time) + ' - ' + str(self.amount)
 
     @property
     def list_payment_for(self):
@@ -86,7 +86,7 @@ class BankAccount(models.Model):
     ac_no = models.CharField(max_length=50)
     branch_name = models.CharField(max_length=255, blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.bank_name + ' (A/C No.: ' + str(self.ac_no) + ' )'
 
 
@@ -106,9 +106,9 @@ class BankDeposit(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('update_bank_deposit', kwargs={'pk': self.pk})
 
-    def __unicode__(self):
-        return unicode(self.payment.user) + ' - ' + unicode(self.payment.date_time) + ' - ' + unicode(
-            self.payment.amount) + '-' + unicode(self.bank)
+    def __str__(self):
+        return str(self.payment.user) + ' - ' + str(self.payment.date_time) + ' - ' + str(
+            self.payment.amount) + '-' + str(self.bank)
 
 
 class DirectPayment(models.Model):
@@ -129,8 +129,8 @@ class DirectPayment(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('update_direct_payment', kwargs={'pk': self.pk})
 
-    def __unicode__(self):
-        return unicode(self.payment.user) + ' - ' + unicode(self.payment.date_time) + ' - ' + unicode(
+    def __str__(self):
+        return str(self.payment.user) + ' - ' + str(self.payment.date_time) + ' - ' + str(
             self.payment.amount)
 
         #
@@ -159,8 +159,8 @@ class EsewaPayment(EsewaTransaction):
 
     # amount = Amount()
 
-    def __unicode__(self):
-        return unicode(self.payment.user) + ' - ' + unicode(self.payment.amount)
+    def __str__(self):
+        return str(self.payment.user) + ' - ' + str(self.payment.amount)
 
     def get_absolute_url(self):
         return reverse_lazy('update_payment', kwargs={'pk': self.payment.pk})

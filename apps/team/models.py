@@ -18,7 +18,7 @@ class Person(models.Model):
         unique_slugify(self, self.user.full_name)
         super(Person, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.full_name
 
     class Meta:

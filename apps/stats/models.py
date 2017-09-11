@@ -61,7 +61,7 @@ class Competition(models.Model):
             return self.short_name
         return self.name
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -72,8 +72,8 @@ class CompetitionYear(models.Model):
     competition = models.ForeignKey(Competition, related_name='seasons')
     year = models.IntegerField('Year', choices=YEAR_CHOICES, default=datetime.datetime.now().year)
 
-    def __unicode__(self):
-        return unicode(self.competition) + ' - ' + unicode(self.year)
+    def __str__(self):
+        return str(self.competition) + ' - ' + str(self.year)
 
     class Meta:
         ordering = ('competition__order',)
@@ -105,7 +105,7 @@ class Stadium(models.Model):
     longitude = models.FloatField(blank=True, null=True)
     image = models.ImageField(upload_to='stadiums/', blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
@@ -170,7 +170,7 @@ class Team(models.Model):
             return self.crest.url
         return None
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_derby_teams(self):
@@ -226,7 +226,7 @@ class Person(models.Model):
     # favored_person = models.ForeignKey('Person')
     # favored_team = models.ForeignKey(Team)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -372,7 +372,7 @@ class StatSet(models.Model):
     team = models.ForeignKey(Team)
     match = models.ForeignKey(Match, related_name='stats')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Stats for %s' % self.match
 
 
@@ -423,8 +423,8 @@ class Injury(models.Model):
     class Meta:
         verbose_name_plural = 'Injuries'
 
-    def __unicode__(self):
-        return unicode(self.player) + ' - ' + unicode(self.type)
+    def __str__(self):
+        return str(self.player) + ' - ' + str(self.type)
 
 
 class Quote(CachedModel):
@@ -442,8 +442,8 @@ class Quote(CachedModel):
             return txt
         return txt[0:98] + ' ...'
 
-    def __unicode__(self):
-        return unicode(self.by) + ' : ' + self.excerpt()
+    def __str__(self):
+        return str(self.by) + ' : ' + self.excerpt()
 
 
 class SeasonData(models.Model):
@@ -461,8 +461,8 @@ class SeasonData(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('view_seasondata', kwargs={'year': self.year, 'year1': str(self.year + 1)[-2:]})
 
-    def __unicode__(self):
-        return unicode(self.slug)
+    def __str__(self):
+        return str(self.slug)
 
     class Meta:
         verbose_name_plural = 'Seasons Data'
@@ -473,8 +473,8 @@ class CompetitionYearMatches(models.Model):
     competition_year = models.ForeignKey(CompetitionYear)
     matches_data = JSONField()
 
-    def __unicode__(self):
-        return unicode(self.competition_year)
+    def __str__(self):
+        return str(self.competition_year)
 
 
 class Fixture(models.Model):
@@ -512,7 +512,7 @@ class Fixture(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('fixture_detail', kwargs={
             'date': datetime.datetime.strftime(self.datetime.astimezone(pytz.timezone(settings.TIME_ZONE)), '%Y-%m-%d'),
-            'extra': self.slug + '/'})
+            'extra': str(self.slug, 'utf-8') + '/'})
 
     @classmethod
     def get_upcoming(cls):
@@ -539,10 +539,10 @@ class Fixture(models.Model):
 
     def score(self):
         if self.is_home_game:
-            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(
+            return 'Man United ' + str(self.mufc_score) + ' - ' + str(
                 self.opponent_score) + ' ' + self.opponent.not_so_long_name
         else:
-            return unicode(self.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
+            return str(self.opponent) + ' ' + str(self.opponent_score) + ' - ' + str(
                 self.mufc_score) + ' Man United'
 
     def result(self):
@@ -588,9 +588,9 @@ class Fixture(models.Model):
     def is_upcoming(self):
         return True if self.datetime > datetime.datetime.utcnow().replace(tzinfo=pytz.UTC) else False
 
-    def __unicode__(self):
+    def __str__(self):
         # return self.title
-        ret = 'vs. ' + unicode(self.opponent) + ' at ' + self.get_venue()
+        ret = 'vs. ' + str(self.opponent) + ' at ' + self.get_venue()
         # if datetime.datetime.now() > self.datetime:
         #     ret += '[PAST] '
         return ret
@@ -655,10 +655,10 @@ class Goal(models.Model):
     time = models.CharField(blank=True, null=True, max_length=10)
     match = models.ForeignKey(Fixture, related_name='goals')
 
-    def __unicode__(self):
-        ret_str = unicode(self.scorer) + ' against ' + unicode(self.match.opponent)
+    def __str__(self):
+        ret_str = str(self.scorer) + ' against ' + str(self.match.opponent)
         if self.time:
-            ret_str = ret_str + ' at ' + unicode(self.time) + "'"
+            ret_str = ret_str + ' at ' + str(self.time) + "'"
         return ret_str
 
 
@@ -670,14 +670,14 @@ class MatchResult(models.Model):
     @property
     def title(self):
         if self.fixture.is_home_game:
-            return 'Man United ' + unicode(self.mufc_score) + ' - ' + unicode(self.opponent_score) + ' ' + unicode(
+            return 'Man United ' + str(self.mufc_score) + ' - ' + str(self.opponent_score) + ' ' + str(
                 self.fixture.opponent)
         else:
-            return unicode(self.fixture.opponent) + ' ' + unicode(self.opponent_score) + ' - ' + unicode(
+            return str(self.fixture.opponent) + ' ' + str(self.opponent_score) + ' - ' + str(
                 self.mufc_score) + ' ' + 'Man United'
 
-    def __unicode__(self):
-        return unicode(self.fixture.title)
+    def __str__(self):
+        return str(self.fixture.title)
 
 
 class PlayerSocialAccount(models.Model):
