@@ -360,7 +360,7 @@ class User(AbstractBaseUser):
         img.save(os.path.join(settings.MEDIA_ROOT, 'sample_cards', str(self.pk) + '.png'), optimize=True)
 
         url = settings.MEDIA_URL + 'sample_cards/' + str(self.pk) + '.png'
-        cache.set('sample_card_' + str(self.pk), url)
+        cache.set('sample_card_' + str(self.pk), url, timeout=None)
         return url
 
     def get_full_name(self):

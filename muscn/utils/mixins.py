@@ -22,7 +22,7 @@ class CachedModel(models.Model):
         all_instances = cache.get(cls._meta.verbose_name_plural)
         if not all_instances:
             all_instances = list(cls.get_all())
-            cache.set(cls._meta.verbose_name_plural, all_instances)
+            cache.set(cls._meta.verbose_name_plural, all_instances, timeout=None)
         return all_instances
 
     @classmethod
