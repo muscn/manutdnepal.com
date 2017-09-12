@@ -10,7 +10,8 @@ class Command(BaseCommand):
     help = 'Send birthday emails.'
 
     def handle(self, *args, **options):
-        try:
-            email_birthday_users()
-        except Exception as ex:
-            logger.error(str(ex), exc_info=True)
+        pass
+        # try:
+        #     email_birthday_users()
+        # except Exception as ex:
+        #     logger.error(str(ex), exc_info=True)
