@@ -90,7 +90,7 @@ class User(AbstractBaseUser):
     def gravatar_url(self):
         import hashlib
 
-        return "http://www.gravatar.com/avatar/" + hashlib.md5(self.email.lower()).hexdigest() + "?s=512&d=blank"
+        return "http://www.gravatar.com/avatar/" + hashlib.md5(self.email.lower().encode("utf-8")).hexdigest() + "?s=512&d=blank"
 
     @property
     def profile_picture(self):
