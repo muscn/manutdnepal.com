@@ -14,7 +14,6 @@ ics
 wikipedia
 sorl-thumbnail
 pytz
--e git+https://github.com/awecode/njango.git@master#egg=njango
 cssselect
 facebook-sdk
 opbeat

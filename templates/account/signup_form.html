@@ -4,34 +4,38 @@
 
     {{ form.non_field_errors }}
 
-    <p>
-        <label for="id_full_name">Full Name</label>
-        <input autofocus="autofocus" class="form-control" id="id_full_name" maxlength="30" name="full_name" type="text"
-               value="{{ form.full_name.value|default:'' }}">
-        {{ form.full_name.errors }}
-    </p>
+    <div class="row">
 
-    <p>
-        <label for="id_email">{{ form.email.label }}</label>
-        <input id="id_email" class="form-control" name="email" type="email" value="{{ form.email.value|default:'' }}">
-        {{ form.email.errors }}
-    </p>
+        <div class="col-md-6">
+            <label for="id_full_name">Full Name</label>
+            <input autofocus="autofocus" class="form-control" id="id_full_name" maxlength="30" name="full_name" type="text"
+                   value="{{ form.full_name.value|default:'' }}">
+            {{ form.full_name.errors }}
+        </div>
 
-    <p>
-        <label for="id_email">{{ form.password1.label }}</label>
-        <input id="id_password1" class="form-control" name="password1" type="password">
-        {{ form.password1.errors }}
-    </p>
+        <div class="col-md-6">
+            <label for="id_email">{{ form.email.label }}</label>
+            <input id="id_email" class="form-control" name="email" type="email" value="{{ form.email.value|default:'' }}">
+            {{ form.email.errors }}
+        </div>
 
-    <p>
-        <label for="id_email">{{ form.password2.label }}</label>
-        <input id="id_password2" class="form-control" name="password2" type="password">
-        {{ form.password2.errors }}
-        <input id="id_confirmation_key" name="confirmation_key" type="hidden">
-    </p>
 
-    {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-    {% endif %}
-    <button class="btn btn-primary btn-lg btn-block" type="submit">{% trans "Sign Up" %}</button>
+    </div>
+    <div class="row">
+
+        <div class="col-md-6">
+            <label for="id_email">{{ form.password1.label }}</label>
+            <input id="id_password1" class="form-control" name="password1" type="password">
+            {{ form.password1.errors }}
+        </div>
+
+        <div class="col-md-6">
+            <label for="id_email">{{ form.password2.label }}</label>
+            <input id="id_password2" class="form-control" name="password2" type="password">
+            {{ form.password2.errors }}
+            <input id="id_confirmation_key" name="confirmation_key" type="hidden">
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg mt-1" type="submit">{% trans "Sign Up" %}</button>
 </form>
