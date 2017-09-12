@@ -2,7 +2,7 @@ Django
 psycopg2
 django-allauth
 Pillow
-django-redis-cache
+django-redis
 django-mptt
 django-froala-editor
 dj-pagination
