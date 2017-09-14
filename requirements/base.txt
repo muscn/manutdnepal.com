@@ -12,7 +12,6 @@ jsonfield
 lxml
 ics
 wikipedia
-sorl-thumbnail
 pytz
 cssselect
 facebook-sdk
@@ -24,3 +23,4 @@ django-solo
 django-fcm
 django-smuggler
 django-anymail[mailgun]
+django-versatileimagefield

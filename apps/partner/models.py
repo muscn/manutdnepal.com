@@ -12,7 +12,7 @@ class Partner(CachedModel):
         blank=True,
         null=True,
         help_text='Leave empty/unchanged for default slug.')
-    logo = models.FileField(upload_to='partners/', blank=True, null=True)
+    logo = models.ImageField(upload_to='partners/', blank=True, null=True)
     about = FroalaField(null=True, blank=True)
     privileges = FroalaField(null=True, blank=True)
     url = models.URLField(null=True, blank=True)

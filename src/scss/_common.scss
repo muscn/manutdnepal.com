@@ -9,7 +9,8 @@ a {
 
 }
 
-.inverse {
+.bg-brand {
+  background: $brand;
   a, h1, h2, h3, h4, h5, h6 {
     color: #fff !important;
   }
@@ -24,6 +25,27 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(#fff, 0.95);
 }
 
-body{
+body {
   background: url('/static/img/bg1.jpg') repeat fixed;
+}
+
+.footer {
+  background: linear-gradient(135deg, #792c20 0%, #68190e 100%);
+  .text-muted{
+    font-style: italic;
+  }
+}
+
+.partners {
+  background: rgba(0, 0, 0, .7);
+}
+
+.separated {
+  a:not(:last-child) {
+    border-right: 1px solid #fff;
+    padding-right: 0.5rem;
+  }
+  a:not(:first-child) {
+    padding-left: 0.5rem;
+  }
 }
