@@ -1,0 +1,7 @@
+//$brand-primary: #ffd454;
+//$brand-primary: $yellow;
+$enable-rounded: false;
+//$body-bg: $brand;
+$body-color: #fff;
+//$blue: $yellow; // overriding primary color
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";

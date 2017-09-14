@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'solo',
     'fcm',
     'anymail',
+    'webpack_loader',
 
     'apps.core',
     'apps.users',

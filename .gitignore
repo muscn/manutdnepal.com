@@ -4,3 +4,6 @@
 muscn/local_settings.py
 db.sqlite3
 private/*
+node_modules
+yarn.lock
+static/dist/
