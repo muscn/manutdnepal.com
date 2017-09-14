@@ -41,20 +41,18 @@
     {% block extrahead %}{% endblock %}
 </head>
 <body>
-<div id="container" class="content">
 
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
+
 
     {% include '_header.html' %}
-    <div class="{% block container-class %}container{% endblock %} main-container">
+    {% include '_messages.html' %}
+    <div class="{% block container-class %}container-fluid{% endblock %} restrict">
         {% block content %}
         {% endblock %}
     </div>
 
-    <div id="push"></div>
-</div>
+
+
 
 {% include '_footer.html' %}
 

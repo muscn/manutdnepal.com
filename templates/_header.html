@@ -1,119 +1,105 @@
-{% load staticfiles %}
-<header>
-    {% block navbar %}
+{% load custom_tags staticfiles %}
 
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid row">
+<section class="section-nav inverse" itemscope itemtype="http://schema.org/WPHeader">
+    <nav class="navbar navbar-expand-lg navbar-dark mb-5 pb-0" itemscope itemtype="http://schema.org/SiteNavigationElement">
 
-                <div class="navbar-header col-sm-4">
+        <input type="checkbox" id="change-hamburger"/>
+        <a class="hamburger" href="#">
+            <span></span>
+            <label for="change-hamburger"></label>
+        </a>
+        <a class="navbar-brand p-0" href="{% url 'home' %}">
+            {#            <div class="logo"></div>#}
+            <img height="80" class="logo" id="logo" src="/static/img/logo.svg" alt="MUSCN">
+            <h3 class="d-inline"><strong>MUSCN</strong></h3>
+        </a>
 
-                    <div class="row">
-                        <div class="pull-left brand-logo">
-                            <a href="/">
-                                <img class="logo" id="logo" src="/static/img/logo.svg" alt="MUSCN">
-                            </a>
-                        </div>
-                        <div class="brand-name">
-                            <h1><a href="/">Manchester United <br/>Supporters' Club, Nepal</a></h1>
-                            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                    data-target="#muscn-menu">
-                                <span class="sr-only">Toggle Navigation</span>
-                                {#                                <span>MUSCN</span>#}
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+        <div class="menu navbar-collapse">
+            {#            <div>#}
+            <ul class="navbar-nav mr-lg-3">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-expanded="false">MUSCN<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'football_team' %}">Football Team</a></li>
+                        <li><a href="{% url 'list_members' %}">Members</a></li>
+                        <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
+                        <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
+                        <li><a href="{% url 'view_page' 'payment-methods' %}">Payment Methods</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'album-list' %}">Gallery</a></li>
+                <li><a href="{% url 'list_posts' %}">Posts</a></li>
+                <li><a href="{% url 'list_events' %}">Events</a></li>
 
-                            {#                            <button type="button" class="navbar-toggle" data-toggle="collapse"#}
-                            {#                                    data-target="#mufc-menu">#}
-                            {#                                <span>&nbsp;MUFC&nbsp;&nbsp;</span>#}
-                            {#                                <span class="icon-bar"></span>#}
-                            {#                                <span class="icon-bar"></span>#}
-                            {#                                <span class="icon-bar"></span>#}
-                            {#                            </button>#}
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <div class="menus col-sm-8">
-                    <div class="collapse navbar-collapse" id="muscn-menu">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="{% url 'fixtures' %}">Fixtures</a></li>
-                            <li><a href="{% url 'results' %}">Results</a></li>
-                            <li><a href="{% url 'epl_table' %}">EPL Table</a></li>
-                            <li><a href="{% url 'matchweek' %}">Matchweek</a></li>
-                            <li><a href="{% url 'scorers' %}">Top Scorers</a></li>
-                            <li><a href="{% url 'list_squad' %}">Squad</a></li>
-
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false">History<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{% url 'list_seasons' %}">Past Seasons</a></li>
-                                    <li><a href="{% url 'all-results' %}">Past Fixtures Results</a></li>
-                                </ul>
-                            </li>
-
-                            <li><a href="{% url 'album-list' %}">Gallery</a></li>
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false">MUSCN<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{% url 'football_team' %}">Football Team</a></li>
-                                    <li><a href="{% url 'list_members' %}">Members</a></li>
-                                    <li><a href="{% url 'view_page' 'privileges' %}">Membership Privileges</a></li>
-                                    <li><a href="{% url 'view_page' 'representatives' %}">Representatives</a></li>
-                                    <li><a href="{% url 'view_page' 'payment-methods' %}">Payment Methods</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{% url 'view_page' 'contact-us' %}">Contact Us</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{% url 'list_posts' %}">Posts</a></li>
-                            <li><a href="{% url 'list_events' %}">Events</a></li>
-
-                            {% if request.user.is_authenticated %}
-                                {% if request.user.membership %}
-                                    {% if request.user.is_member %}
-                                        <li><a>✓</a></li>
-                                    {% endif %}
-                                {% else %}
-                                    <li><a href="{% url 'membership_form' %}" class="secondary small button">Apply for
-                                        Membership</a>
-                                    </li>
-                                {% endif %}
-                                {% if request.user.membership and request.user.membership.has_expired %}
-                                    <li><a href="{% url 'renew' %}">Renew</a></li>
-                                {% endif %}
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                       aria-expanded="false">{{ user.full_name }}<span class="caret"></span></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
-                                        <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
-                                        <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
-                                        <li><a href="{% url 'membership_form' %}">Registration/Profile Information</a></li>
-                                        <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="{% url 'logout' %}" class="secondary small button">Sign Out</a></li>
-                                    </ul>
-                                </li>
-
-                            {% else %}
-                                <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
-                                <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
-                            {% endif %}
+                {% if request.user.is_authenticated %}
+                    {% if request.user.membership %}
+                        {% if request.user.is_member %}
+                            <li><a>✓</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li><a href="{% url 'membership_form' %}">Apply for
+                            Membership</a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.membership and request.user.membership.has_expired %}
+                        <li><a href="{% url 'renew' %}">Renew</a></li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{{ user.full_name }}<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li><a href="{% url 'membership_form' %}">Edit Profile</a></li>
+                            <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
+                            <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+                            <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+                            <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>
+                            <li><a href="{% url 'logout' %}">Sign Out</a></li>
                         </ul>
-                    </div>
+                    </li>
 
-                </div>
+                {% else %}
+                    <li><a href="{% url 'account_login' %}" class="secondary small button">Sign In</a></li>
+                    <li><a href="{% url 'account_signup' %}" class="secondary small button">Sign Up</a></li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav mr-lg-3">
+                <li><a href="{% url 'fixtures' %}">Fixtures</a></li>
+                <li><a href="{% url 'results' %}">Results</a></li>
 
-            </div>
-            <!-- /.container-fluid -->
-        </nav>
-    {% endblock %}
-</header>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Leagues<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="{% url 'epl_table' %}">EPL</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Stats<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="{% url 'scorers' %}">Top Scorers</a></li>
+                        <li><a href="{% url 'list_squad' %}">Squad</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">History
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{% url 'list_seasons' %}">Past Seasons</a></li>
+                        <li><a href="{% url 'all-results' %}">Past Fixtures Results</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+    </nav>
+
+</section>

@@ -1,0 +1,29 @@
+@import "_menu";
+
+a {
+  color: $brand;
+  &:hover {
+    color: darken($brand, 25) !important;
+    text-decoration: none;
+  }
+
+}
+
+.inverse {
+  a, h1, h2, h3, h4, h5, h6 {
+    color: #fff !important;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $brand;
+}
+
+.container-fluid.restrict {
+  max-width: 1580px;
+  background: rgba(#fff, 0.95);
+}
+
+body{
+  background: url('/static/img/bg1.jpg') repeat fixed;
+}
