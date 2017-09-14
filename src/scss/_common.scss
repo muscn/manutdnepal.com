@@ -11,6 +11,7 @@ a {
 
 .bg-brand {
   background: $brand;
+  color: #fff;
   a, h1, h2, h3, h4, h5, h6 {
     color: #fff !important;
   }
@@ -27,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 
 body {
   background: url('/static/img/bg1.jpg') repeat fixed;
+  color: #333333;
 }
 
 .footer {
