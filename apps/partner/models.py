@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from froala_editor.fields import FroalaField
+from versatileimagefield.fields import VersatileImageField
+
 from muscn.utils.forms import unique_slugify
 from muscn.utils.mixins import CachedModel
 
@@ -12,7 +14,7 @@ class Partner(CachedModel):
         blank=True,
         null=True,
         help_text='Leave empty/unchanged for default slug.')
-    logo = models.ImageField(upload_to='partners/', blank=True, null=True)
+    logo = VersatileImageField(upload_to='partners/', blank=True, null=True)
     about = FroalaField(null=True, blank=True)
     privileges = FroalaField(null=True, blank=True)
     url = models.URLField(null=True, blank=True)

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n thumbnail staticfiles filters %}
+{% load i18n staticfiles filters %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
@@ -54,9 +54,9 @@
 
                             </div>
                             <div class="opponent-crest col-xs-6">
-                                {% thumbnail next_match.opponent.get_crest "150x150" format="PNG" as im %}
-                                    <img class="img-responsive" src="{{ im.url }}">
-                                {% endthumbnail %}
+{#                                {% thumbnail next_match.opponent.get_crest "150x150" format="PNG" as im %}#}
+{#                                    <img class="img-responsive" src="{{ im.url }}">#}
+{#                                {% endthumbnail %}#}
                             </div>
                         </div>
                         {#                [<div class="time">{{ next_match.datetime }} GMT</div>]#}

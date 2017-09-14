@@ -1,4 +1,4 @@
-{% load filters thumbnail %}
+{% load filters %}
 
 <footer class="container-fluid bg-brand m-0 p-0">
 
@@ -36,7 +36,7 @@ Oh why she wore that ribbon,
 She said it’s for United and they’re going to Wem-ber-ley,
 Wem-ber-ley, Wem-ber-ley,
 We’re the famous Man United
-And we’re going to Wem-ber-ley">Copyleft Manchester United Supporters' Club Nepal - All Rights Reversed 2014-{% now 'Y' %}
+And we’re going to Wem-ber-ley">Copyleft MUSC Nepal - All Rights Reversed 2014-{% now 'Y' %}
             </div>
 
             <div class="float-right text-right">
@@ -60,11 +60,7 @@ And we’re going to Wem-ber-ley">Copyleft Manchester United Supporters' Club Ne
         {% for partner in partners %}
             {% if partner.logo %}
                 <a href="{{ partner.get_url }}" target="_blank">
-                    {{ partner.logo }}
-                    {% thumbnail partner.logo "100x700" as im %}
-                        <img src="{{ im.url }}" width="{{ im.x }}" height="{{ im.y }}">
-                    {% endthumbnail %}
-                x
+                        <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
                 </a>
             {% endif %}
         {% endfor %}

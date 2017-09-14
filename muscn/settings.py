@@ -27,9 +27,9 @@ INSTALLED_APPS = (
     'dj_pagination',
     'webstack_django_sorting',
     'auditlog',
-    'smuggler',
-    'sorl.thumbnail',
-    # 'opbeat.contrib.django',
+
+    'versatileimagefield',
+
     'rest_framework',
     'rest_framework.authtoken',
     'solo',
