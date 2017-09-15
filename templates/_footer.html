@@ -1,33 +1,39 @@
 {% load filters %}
 <div class="clearfix"></div>
+
+<div class="partners">
+    {% get_partners as partners %}
+    {% for partner in partners %}
+        {% if partner.logo %}
+            <a href="{{ partner.get_url }}" target="_blank">
+                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
+            </a>
+        {% endif %}
+    {% endfor %}
+</div>
+
 <footer class="container-fluid bg-brand p-0">
 
-    <div class="footer p-3">
+    <div class="separated">
+        <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
+        <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
+    </div>
+    
+    <div>
+        <a title="Facebook" class="smGlobalBtn facebookBtn" href="https://www.facebook.com/muscnepal"
+           target="_blank"></a>
+        <a title="Twitter" class="smGlobalBtn twitterBtn" href="https://twitter.com/MUSCNP"
+           target="_blank"></a>
+        <a title="Google" class="smGlobalBtn googleBtn" href="https://plus.google.com/+ManutdOrgNpl"
+           target="_blank" rel="publisher"></a>
+        <a title="Instagram" class="smGlobalBtn instagramBtn" href="https://www.instagram.com/muscnepal/"
+           target="_blank" rel="publisher"><i class="fa fa-instagram"></i></a>
+        <a title="Github" class="smGlobalBtn githubBtn" href="https://github.com/muscn/"
+           target="_blank"></a>
+    </div>
 
-        <div class="">
-            <div class="separated">
-                <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
-                <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
-            </div>
-            <div>
-                <a title="Facebook" class="smGlobalBtn facebookBtn" href="https://www.facebook.com/muscnepal"
-                   target="_blank"></a>
-                <a title="Twitter" class="smGlobalBtn twitterBtn" href="https://twitter.com/MUSCNP"
-                   target="_blank"></a>
-                <a title="Google" class="smGlobalBtn googleBtn" href="https://plus.google.com/+ManutdOrgNpl"
-                   target="_blank" rel="publisher"></a>
-                <a title="Instagram" class="smGlobalBtn instagramBtn" href="https://www.instagram.com/muscnepal/"
-                   target="_blank" rel="publisher"><i class="fa fa-instagram"></i></a>
-                <a title="Github" class="smGlobalBtn githubBtn" href="https://github.com/muscn/"
-                   target="_blank"></a>
-            </div>
-        </div>
-
-
-        <div class="mt-4">
-
-
-            <div class="float-left" title="She wore, she wore,
+    <div class="mt-4">
+        <div class="float-left" title="She wore, she wore,
 She wore a scarlet ribbon,
 She wore a scarlet ribbon in the merry month of May
 
@@ -37,37 +43,18 @@ She said it’s for United and they’re going to Wem-ber-ley,
 Wem-ber-ley, Wem-ber-ley,
 We’re the famous Man United
 And we’re going to Wem-ber-ley">Copyleft MUSC Nepal - All Rights Reversed 2014-{% now 'Y' %}
-            </div>
-
-            <div class="float-right text-right">
-                Made with <strong title="love">♥</strong> and <strong title="coffee">☕</strong> in Nepal.
-            </div>
-
-
-        </div>
-        <div class="clearfix"></div>
-
-
-        <div class="text-center mt-4 text-muted text-">
-            'MANCHESTER UNITED', 'MAN UNITED', 'MAN UTD' and 'MUFC' are registered trademarks of MU LTD.
         </div>
 
+        <div class="float-right text-right">
+            Made with <strong title="love">♥</strong> and <strong title="coffee">☕</strong> in Nepal.
+        </div>
 
     </div>
 
-    <div class="partners">
-        {% get_partners as partners %}
-        {% for partner in partners %}
-            {% if partner.logo %}
-                <a href="{{ partner.get_url }}" target="_blank">
-                        <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
-                </a>
-            {% endif %}
-        {% endfor %}
-    </div>
+    <div class="clearfix"></div>
 
+    <div class="text-center mt-4 text-muted text-">
+        'MANCHESTER UNITED', 'MAN UNITED', 'MAN UTD' and 'MUFC' are registered trademarks of MU LTD.
+    </div>
 
 </footer>
-
-</div>
-</div>

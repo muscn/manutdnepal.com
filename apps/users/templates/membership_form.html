@@ -3,7 +3,6 @@
 {% load socialaccount %}
 {% block extrahead %}
     <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" type="text/css">
-
 {% endblock %}
 
 {% block content %}
@@ -14,7 +13,6 @@
         {% csrf_token %}
 
         {% include 'users/_membership_form.html' with form=form object=object %}
-
 
         <input type="submit" class="btn btn-primary" value="Submit">
     </form>

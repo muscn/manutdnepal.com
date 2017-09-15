@@ -5,6 +5,7 @@ from django.db import models
 from django.core.cache import cache
 
 from froala_editor.fields import FroalaField
+from versatileimagefield.fields import VersatileImageField
 
 from apps.events.models import Event
 from apps.gallery.models import Album
@@ -28,7 +29,7 @@ class Post(models.Model):
         choices=statuses,
         default='Published')
     created_at = models.DateTimeField(blank=True)
-    image = models.ImageField(blank=True, null=True, upload_to='post_images')
+    image = VersatileImageField(blank=True, null=True, upload_to='post_images')
     featured = models.BooleanField(default=True)
     match = models.ForeignKey(Fixture, blank=True, null=True, related_name='posts')
     event = models.ForeignKey(Event, blank=True, null=True, related_name='posts')

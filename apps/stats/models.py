@@ -28,7 +28,9 @@ import pytz
 from django.core.cache import cache
 
 from django.db.models import Q
+from versatileimagefield.fields import VersatileImageField
 
+from apps.partner.models import Partner
 from muscn.utils.countries import CountryField
 from muscn.utils.football import get_current_season_start_year, get_current_season_start, get_current_season_start_time
 from muscn.utils.forms import unique_slugify
@@ -121,7 +123,7 @@ class Team(models.Model):
     nick_name = models.CharField(max_length=50, blank=True, null=True)
     stadium = models.ForeignKey(Stadium, related_name='teams', blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
-    crest = models.FileField(upload_to='crests/', blank=True, null=True)
+    crest = VersatileImageField(upload_to='crests/', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)
     wiki = models.CharField(max_length=255, blank=True, null=True)
 
@@ -489,6 +491,7 @@ class Fixture(models.Model):
     opponent_score = models.PositiveIntegerField(null=True, blank=True)
     remarks = models.CharField(max_length=255, null=True, blank=True)
     data = JSONField(blank=True, null=True)
+    live_screening = models.ForeignKey(Partner, blank=True, null=True)
 
     def home_or_away(self):
         if self.is_home_game:

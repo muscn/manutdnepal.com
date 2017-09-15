@@ -1,3 +1,59 @@
-input{
-  min-width: 200px;
+.register {
+  flex-basis: 300px;
+}
+
+.datetime .date {
+  font-size: 3rem;
+  line-height: 2rem;
+}
+
+.countdown {
+  line-height: 2rem;
+}
+
+.live-screening img {
+  max-width: 200px;
+  max-height: 80px;
+}
+
+.featured {
+  flex-basis: 500px;
+}
+
+.next-match {
+  flex-basis: 400px;
+}
+
+.featured h4 {
+  position: absolute;
+  bottom: 2rem;
+  left: 0.5rem;
+  width: 100%;
+}
+
+.featured span {
+  color: white;
+  letter-spacing: -1px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.2rem 0.5rem;
+}
+
+.block {
+  background: rgba(255, 255, 255, 0.6);
+  /* background-color: #FFF; */
+  box-shadow: 0 0 20px -4px #CCC;
+  
+  border-top: 0.5em solid #e54d36;
+  width: 21em;
+  /* float: left; */
+  margin: 2em 0.8em 0;
+  padding: 20px 25px 25px;
+  overflow: hidden;
+  display: inline-block;
+  text-align: left;
+  max-width: 90%;
+}
+
+.stats{
+  flex-basis: 350px;
 }

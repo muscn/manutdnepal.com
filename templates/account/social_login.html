@@ -1,37 +1,13 @@
 {% load socialaccount %}
 {% get_providers as socialaccount_providers %}
 {% if socialaccount_providers %}
-            <div class='row'>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <h2 class="connect-with">Connect with</h2>
-                </div>
-            </div>
+    <h5>Connect with</h5>
 
-            <div class='row'>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="social-buttons limit-width">
-                        <div class="row">
-                            {% for provider in socialaccount_providers %}
-                                {% if provider.id == "openid" %}
-                                    {% for brand in provider.get_brands %}
-                                        <a title="{{ brand.name }}"
-                                           class="socialaccount_provider {{ provider.id }} {{ brand.id }}"
-                                           href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
-                                                >{{ brand.name }}</a>
-
-                                    {% endfor %}
-                                {% endif %}
-                                <div class="col-xs-4 col-sm-4 col-md-4">
-                                    <a title="{{ provider.name }}"
-                                       class="socialaccount_provider {{ provider.id }} {{ provider.id }}Btn smGlobalBtn"
-                                       href="{% provider_login_url provider.id process=process %}"></a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {#<div class="login-or">{% trans 'or' %}</div>#}
-            {% include "socialaccount/snippets/login_extra.html" %}
-        {% endif %}
+    {% for provider in socialaccount_providers %}
+            <a title="{{ provider.name }}"
+               class="socialaccount_provider {{ provider.id }} {{ provider.id }} btn btn-primary"
+               href="{% provider_login_url provider.id process=process %}">{{ provider.name }}</a>
+    {% endfor %}
+            
+{#    {% include "socialaccount/snippets/login_extra.html" %}#}
+{% endif %}
