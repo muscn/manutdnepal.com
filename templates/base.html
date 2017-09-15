@@ -34,7 +34,7 @@
 
     {% block css %}
         {% render_bundle 'common' 'css' %}
-        {% render_bundle 'landing' 'css' %}
+    {% render_bundle 'landing' 'css' %}
     {% endblock %}
 
 
@@ -43,15 +43,12 @@
 <body>
 
 
-
-    {% include '_header.html' %}
-    {% include '_messages.html' %}
-    <div class="{% block container-class %}container-fluid{% endblock %} restrict">
-        {% block content %}
-        {% endblock %}
-    </div>
-
-
+{% include '_header.html' %}
+{% include '_messages.html' %}
+<div class="container-fluid restrict {% block content_class %}content{% endblock %}">
+    {% block content %}
+    {% endblock %}
+</div>
 
 
 {% include '_footer.html' %}
@@ -60,6 +57,7 @@
     {% render_bundle 'common' 'js' %}
     {% render_bundle 'landing' 'js' %}
 {% endblock %}
+    
 {% block extra_js %}
 {% endblock %}
 {% block extrabody %}

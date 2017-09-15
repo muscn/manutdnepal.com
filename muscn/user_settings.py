@@ -8,7 +8,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
@@ -19,6 +19,12 @@ ACCOUNT_USERNAME_BLACKLIST = ['united', 'manutd', 'manchester', 'reddevil', 'red
                               'administrator', 'admin']
 ACCOUNT_FORMS = {'signup': 'apps.users.forms.SignupForm'}
 SOCIALACCOUNT_AUTO_SIGNUP = False
+SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_DISPLAY = 'email'
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':

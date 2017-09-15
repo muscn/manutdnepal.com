@@ -136,12 +136,6 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.full_name or self.username
 
-    def first_name(self):
-        try:
-            return self.full_name.split()[0]
-        except:
-            return self.username
-
     def get_short_name(self):
         # The user is identified by username
         return self.username
@@ -683,7 +677,7 @@ def email_birthday_users():
     text_template = 'users/email/happy_birthday.txt'
     users = get_birthday_users()
     for user in users:
-        subject = 'Happy birthday, ' + user.first_name() + '.'
+        subject = 'Happy birthday, ' + user.full_name + '.'
         user.email_using_template(subject, params, text_template, tag='Birthday')
 
 

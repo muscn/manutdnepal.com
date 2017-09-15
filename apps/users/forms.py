@@ -79,7 +79,7 @@ class SignupForm(SignupForm):
 
 class UserForm(HTML5BootstrapModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
-    password2 = forms.CharField(widget=forms.PasswordInput, label='Password (again)')
+    # password2 = forms.CharField(widget=forms.PasswordInput, label='Password (again)')
 
     def clean_username(self):
         data = self.cleaned_data
@@ -100,11 +100,6 @@ class UserForm(HTML5BootstrapModelForm):
         except User.DoesNotExist:
             return data['email']
         raise forms.ValidationError('User with this email address already exists.')
-
-    def clean(self):
-        data = self.cleaned_data
-        if "password1" in data and "password2" in data and data["password1"] != data["password2"]:
-            raise forms.ValidationError("Passwords don't match.")
 
     def save(self):
         data = self.cleaned_data
