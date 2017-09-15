@@ -26,9 +26,24 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(#fff, 0.95);
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   background: url('/static/img/bg1.jpg') repeat fixed;
   color: #333333;
+  margin-bottom: $footer-height;
+}
+
+footer{
+  margin-top: 2rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: $footer-height;
 }
 
 .footer {
@@ -53,4 +68,9 @@ body {
   a:not(:first-child) {
     padding-left: 0.5rem;
   }
+}
+
+.content{
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
