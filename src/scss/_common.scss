@@ -64,7 +64,7 @@ footer {
 }
 
 .content {
-  padding: 1rem;
+  padding: 1rem 2rem;
   margin-bottom: 1rem;
   max-width: 1580px;
   background: rgba(#fff, 0.95);
@@ -88,4 +88,20 @@ img {
 
 .large {
   font-size: 2.5rem;
+}
+
+@media (max-width: 735px) {
+  .content {
+    margin: 0;
+    padding: 0;
+  }
+  .pad-cols .col-sm {
+    //margin: 0;
+  }
+  .pad-cols{
+    margin-right: 0;
+  }
+  .block{
+    flex-basis: 100%!important;
+  }
 }
