@@ -24,7 +24,7 @@
 }
 
 .next-match {
-  flex-basis: 350px;
+  flex-basis: 400px;
 }
 
 .register {
@@ -45,6 +45,10 @@
   padding: 0.2rem 0.5rem;
 }
 
+.results{
+  max-height: none !important;
+}
+
 .block {
   background: rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 20px -4px #CCC;
@@ -57,7 +61,7 @@
 
 .stats {
   flex-basis: 325px;
-  height: 27rem;
+  max-height: 27rem;
 }
 
 .link-row{

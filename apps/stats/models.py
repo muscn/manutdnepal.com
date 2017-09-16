@@ -534,7 +534,7 @@ class Fixture(models.Model):
 
     @classmethod
     def recent_results(cls):
-        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8]
+        return cls.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:12]
 
     @property
     def is_today(self):
