@@ -6,7 +6,7 @@
     {% for partner in partners %}
         {% if partner.logo %}
             <a href="{{ partner.get_url }}" target="_blank">
-                <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
+                <img class="p-lg-2" src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
             </a>
         {% endif %}
     {% endfor %}

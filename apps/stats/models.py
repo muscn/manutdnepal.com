@@ -540,13 +540,24 @@ class Fixture(models.Model):
     def is_today(self):
         return datetime.date.today() == self.datetime.date()
 
+    @property
+    def home_team(self):
+        if self.is_home_game:
+            return 'Man United'
+        return self.opponent.name
+
+    @property
+    def away_team(self):
+        if self.is_home_game:
+            return self.opponent.name
+        return 'Man United'
+
+    @property
     def score(self):
         if self.is_home_game:
-            return 'Man United ' + str(self.mufc_score) + ' - ' + str(
-                self.opponent_score) + ' ' + self.opponent.not_so_long_name
+            return str(self.mufc_score) + ' - ' + str(self.opponent_score)
         else:
-            return str(self.opponent) + ' ' + str(self.opponent_score) + ' - ' + str(
-                self.mufc_score) + ' Man United'
+            return str(self.opponent_score) + ' - ' + str(self.mufc_score)
 
     def result(self):
         if self.mufc_score == self.opponent_score:
@@ -727,7 +738,8 @@ def get_top_scorers():
 
 def get_top_scorers_summary():
     current_year = get_current_season_start_year()
-    goals = Goal.objects.filter(match__competition_year__year=current_year, match__competition_year__competition__friendly=False).select_related('scorer')
+    goals = Goal.objects.filter(match__competition_year__year=current_year,
+                                match__competition_year__competition__friendly=False).select_related('scorer')
     players = OrderedDict()
     for goal in goals:
         if goal.own_goal:

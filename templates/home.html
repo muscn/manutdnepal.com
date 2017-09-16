@@ -57,14 +57,14 @@
                     <div class="datetime col-6 brand text-right">
                         <span class="date">{{ next_match.datetime|date:'d' }}</span>
 
-                        <div class="month">{{ next_match.datetime|date:'F' }}</div>
-                        <div class="day">{{ next_match.datetime|date:'l' }}</div>
-                        <div class="time">{{ next_match.datetime|date:'P' }} NPT</div>
+                        <div>{{ next_match.datetime|date:'F' }}</div>
+                        <div>{{ next_match.datetime|date:'l' }} {{ next_match.datetime|date:'P' }} NPT</div>
+
 
                     </div>
                     <div class="col-6 text-left">
                         {#                            150x150#}
-                        <img class="img-responsive" src="{{ next_match.opponent.get_crest.thumbnail.110x110 }}">
+                        <img class="img-responsive" src="{{ next_match.opponent.get_crest.thumbnail.80x80 }}">
 
                     </div>
                 </div>
@@ -98,6 +98,9 @@
                         </div>
                     {% endif %}
                 {% endwith %}
+                <div class="text-center mt-4 text-uppercase">
+                    <a href="#"><h3><strong>Enter Predict & Win Contest</strong></h3></a>
+                </div>
 
             {% else %}
                 <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>
@@ -142,30 +145,21 @@
         {#                    <h2><a href="{% url 'membership_form' %}">Apply for 2017/18 MUSCN Membership</a></h2>#}
         {#                </div>#}
 
-
+        <div class="w-100"></div>
         <div class="stats block col-sm mt-3">
-            <h2><a href="{% url 'results' %}">RECENT RESULTS</a></h2>
-
-            <div class="results block-content">
-                <table class="table">
-                    <tbody>
-                    {% for result in recent_results %}
-                        <tr class="result">
-                            <td class="link-cell">
-                                <a href="{{ result.get_absolute_url }}">
-                                    <i class="result{{ result.result }}"></i>&nbsp;&nbsp;&nbsp;{{ result.score }}
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
-                </table>
-            </div>
+            <h4><a href="{% url 'results' %}">RECENT RESULTS</a></h4>
+            {% for result in recent_results %}
+                <div class="link-row">
+                    <a href="{{ result.get_absolute_url }}">
+                        {{ result.home_team }} <span
+                            class="result{{ result.result }}">{{ result.score }}</span> {{ result.away_team }}
+                    </a>
+                </div>
+            {% endfor %}
         </div>
 
-        <div class="stats-block col-sm mt-3">
-            <h2><a href="{% url 'epl_table' %}">LEAGUE TABLE</a></h2>
+        <div class="stats block col-sm mt-3">
+            <h4><a href="{% url 'epl_table' %}">EPL TABLE</a></h4>
             <table class="epl-table table">
                 <thead>
                 <tr>
@@ -195,12 +189,13 @@
         </div>
 
         {% if standings.matches %}
-            <div class="stats-block matchweek">
-                <h2><a href="{% url 'matchweek' %}">EPL MATCHWEEK</a></h2>
+            <div class="stats block col-sm mt-3">
+                <h4><a href="{% url 'matchweek' %}">EPL MATCHWEEK</a></h4>
+                <hr class="mt-0"/>
                 <table>
                     {% for match_date, matches in standings.matches.items %}
                         {% for match in matches %}
-                            <tr>
+                            <tr class="pb-1">
                                 <td class="link-cell">
                                     <a href="{% url 'matchweek' %}">
                                         {{ match_date|date:'M d' }}
@@ -229,8 +224,8 @@
             </div>
         {% endif %}
 
-        <div class="stats-block col-sm mt-3">
-            <h2><a href="{% url 'scorers' %}">TOP SCORERS</a></h2>
+        <div class="stats block col-sm mt-3">
+            <h4><a href="{% url 'scorers' %}">TOP SCORERS</a></h4>
             <table class="top-scorers table">
                 <thead>
                 <tr>
@@ -250,8 +245,8 @@
             </table>
         </div>
 
-        <div class="stats-block col-sm mt-3">
-            <h2><a href="{% url 'injuries' %}">INJURIES</a></h2>
+        <div class="stats block col-sm mt-3">
+            <h4><a href="{% url 'injuries' %}">INJURIES</a></h4>
             {% if injuries %}
                 <table class="table">
                     <thead>
@@ -278,8 +273,8 @@
             {% endif %}
         </div>
 
-        <div class="stats-block posts col-sm mt-3">
-            <h2><a href="{% url 'list_posts' %}">RECENT POSTS</a></h2>
+        <div class="stats block posts col-sm mt-3">
+            <h4><a href="{% url 'list_posts' %}">RECENT POSTS</a></h4>
             {% for post in posts %}
                 <div class="post-title">
                     <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
@@ -287,41 +282,41 @@
             {% endfor %}
         </div>
 
-        <div class="stats-block col-sm mt-3">
-            <h2>From Reddit</h2>
+        {#        <div class="stats block col-sm mt-3">#}
+        {#            <h4>From Reddit</h4>#}
+        {##}
+        {#            <div id="reddit-content" data-bind="foreach: threads">#}
+        {#                <div class="reddit-thread row">#}
+        {#                    <!-- ko if:internal -->#}
+        {#                    <span class="thumbnail-placeholder pull-left"></span>#}
+        {#                    <!-- /ko -->#}
+        {##}
+        {#                    <!-- ko if:!internal -->#}
+        {#                    <img data-bind="attr: {'src': thumbnail}" class="pull-left">#}
+        {#                    <!-- /ko -->#}
+        {##}
+        {#                    <div class="text">#}
+        {#                        <h5><a data-bind="attr: {'href': url, 'title': text}" target="_blank">#}
+        {#                            <span data-bind="text: title"></span>#}
+        {#                        </a></h5>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+        {##}
+        {#        <div class="stats block col-sm mt-3">#}
+        {#            <h4>News</h4>#}
+        {##}
+        {#            <ul id="news-content" data-bind="foreach: entries" class="block-content">#}
+        {#                <li class="news-item">#}
+        {#                    <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>#}
+        {#                </li>#}
+        {##}
+        {##}
+        {#            </ul>#}
+        {#        </div>#}
 
-            <div id="reddit-content" data-bind="foreach: threads">
-                <div class="reddit-thread row">
-                    <!-- ko if:internal -->
-                    <span class="thumbnail-placeholder pull-left"></span>
-                    <!-- /ko -->
-
-                    <!-- ko if:!internal -->
-                    <img data-bind="attr: {'src': thumbnail}" class="pull-left">
-                    <!-- /ko -->
-
-                    <div class="text">
-                        <h5><a data-bind="attr: {'href': url, 'title': text}" target="_blank">
-                            <span data-bind="text: title"></span>
-                        </a></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="stats-block col-sm mt-3">
-            <h2>News</h2>
-
-            <ul id="news-content" data-bind="foreach: entries" class="block-content">
-                <li class="news-item">
-                    <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>
-                </li>
-
-
-            </ul>
-        </div>
-
-        <div class="stats-block col-sm mt-3">
+        <div class="stats block col-sm mt-3">
             <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="messages"
                  data-height="362"
                  data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
