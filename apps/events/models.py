@@ -4,6 +4,7 @@ from django.core.cache import cache
 from django.utils import timezone
 
 from froala_editor.fields import FroalaField
+from versatileimagefield.fields import VersatileImageField
 
 from muscn.utils.forms import unique_slugify
 from muscn.utils.location import LocationField
@@ -25,7 +26,7 @@ class Event(models.Model):
                                    help_text='Post event description; like thanking the attendees.')
     description_common = FroalaField(blank=True, null=True,
                                      help_text='Description to show when pre and post aren\'nt available.')
-    image = models.ImageField(blank=True, null=True, upload_to='events/')
+    image = VersatileImageField(blank=True, null=True, upload_to='events/')
     location = LocationField(blank=True, max_length=255)
     featured = models.BooleanField(default=True)
 
@@ -63,7 +64,6 @@ class Event(models.Model):
             return 'past'
         if now < self.start:
             return 'future'
-        # return 'present'
         if self.whole_day_event and self.start.date() == now.date():
             return 'present'
         if now > self.start and not self.end and self.start.date() == now.date():
@@ -74,7 +74,11 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         cache.delete('featured')
         unique_slugify(self, self.title)
-        super(Event, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
+        if self.featured:
+            from apps.post.models import Post
+            Event.objects.exclude(pk=self.pk).update(featured=False)
+            Post.objects.all().update(featured=False)
 
     def get_absolute_url(self):
         return reverse('view_event', kwargs={'slug': self.slug})

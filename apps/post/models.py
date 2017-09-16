@@ -58,7 +58,11 @@ class Post(models.Model):
         unique_slugify(self, self.title)
         if not self.id:
             self.created_at = datetime.datetime.today()
-        super(Post, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
+        if self.featured:
+            from apps.events.models import Event
+            Post.objects.exclude(pk=self.pk).update(featured=False)
+            Event.objects.all().update(featured=False)
 
     def get_absolute_url(self):
         return reverse('view_post', kwargs={'slug': self.slug})

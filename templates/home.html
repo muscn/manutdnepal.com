@@ -18,7 +18,6 @@
 
 {% block content %}
     <div class="row justify-content-center pad-cols">
-
         {% if featured %}
             <div class="col-sm mt-3 featured">
                 <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
@@ -29,9 +28,9 @@
         {% endif %}
 
         <div class="col-sm mt-3 next-match block">
-            <h3 class="text-center"><a href="{% url 'fixtures' %}">
+            <h2 class="text-center"><a href="{% url 'fixtures' %}">
                 <strong>{% if next_match.time_remaining.0 == 0 %}MATCH DAY{% else %}NEXT MATCH{% endif %}</strong>
-            </a></h3>
+            </a></h2>
             {% if next_match %}
                 <div class="fixture text-center">
                     <div class="match"><strong>{{ next_match.title }}</strong></div>
@@ -41,13 +40,15 @@
                             - {{ next_match.round }}
                         {% endif %}
                             </span>
-                    {% if next_match.broadcast_on %}
-                        <div>Live on {{ next_match.broadcast_on }}</div>
-                    {% endif %}
+                    <div class="channel">
+                        {% if next_match.broadcast_on %}
+                            Live on {{ next_match.broadcast_on }}
+                        {% endif %}
+                    </div>
                 </div>
                 <pad></pad>
 
-                <div class="row text-center mt-3 justify-content-center">
+                <div class="row text-center mt-4 mb-2 justify-content-center">
                     <div class="datetime col-6 brand text-right">
                         <span class="date">{{ next_match.datetime|date:'d' }}</span>
 
@@ -83,21 +84,22 @@
                     </div>
                 </div>
                 {% with next_match.live_screening as partner %}
-                    {% if partner %}
-                        <div class="text-center font-weight-bold live-screening">
+                    <div class="text-center font-weight-bold live-screening mt-3">
+                        {% if partner %}
                             <a href="{{ partner.url }}">
                                 Live Screening @ <img src="{{ partner.logo.url }}" alt="{{ partner.name }}"
                                                       title="partner.name"/>
                             </a>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 {% endwith %}
-                <div class="text-center mt-4 text-uppercase">
-                    <a href="#"><h3><strong>Enter Predict & Win Contest</strong></h3></a>
+                <hr/>
+                <div class="text-center mt-4">
+                    <a href="#"><h3><strong>Predict and Win</strong></h3></a>
                 </div>
 
             {% else %}
-                <h3 class="text-center">No upcoming <br>matches this <br>season!</h3>
+                <h4 class="text-center">No upcoming <br>matches this <br>season!</h4>
             {% endif %}
 
 
@@ -133,17 +135,16 @@
                     </div>
                     <button class="btn btn-danger">Register</button>
                 </form>
+                <hr/>
+                <div class="cta mt-4 text-center">
+                    <h4><a href="https://play.google.com/store/apps/details?id=com.awecode.muscn"><strong>Download Android
+                        App</strong></a></h4>
+                </div>
             </div>
-            <div class="w-100"></div>
         {% endif %}
 
 
-        {#                <div class="section call-to-action row">#}
-        {#                    <h2><a href="{% url 'membership_form' %}">Apply for 2017/18 MUSCN Membership</a></h2>#}
-        {#                </div>#}
-
-
-        <div class="stats block col-sm mt-3{% if request.user.is_authenticated %} results{% endif %}">
+        <div class="stats block col-sm mt-3">
             <h4><a href="{% url 'results' %}">RECENT RESULTS</a></h4>
             {% for result in recent_results %}
                 <div class="link-row">
@@ -262,7 +263,6 @@
                         </tr>
                     {% endfor %}
                     </tbody>
-                    </tr>
                 </table>
             {% else %}
                 <br/><br/><br/>
