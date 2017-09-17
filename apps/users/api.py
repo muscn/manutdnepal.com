@@ -15,12 +15,12 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     def create(self, request):
         params = request.data
-        username = params.get('username')
+        # username = params.get('username')
         email = params.get('email')
         password = params.get('password')
         full_name = params.get('full_name')
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(email, password)
             user.full_name = full_name
             user.save()
         except Exception as e:
