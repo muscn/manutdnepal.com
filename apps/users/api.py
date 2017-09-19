@@ -1,5 +1,6 @@
 import datetime
 from rest_framework import mixins, status, viewsets
+from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from apps.key.permissions import DistributedKeyAuthentication
@@ -78,3 +79,17 @@ class MembershipViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 class CustomObtainAuth(ObtainAuthToken):
     permission_classes = (DistributedKeyAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        member_status = False
+        is_member = False
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        try:
+            member = user.membership
+            member_status = member.status in ['P', 'A']
+        except Membership.DoesNotExist:
+            pass
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key, 'member_status': member_status, 'is_member': user.is_member()})
