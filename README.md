@@ -1,10 +1,8 @@
-# TODO  
-~~Port to bleeding edge Django~~  
-Port to Python 3  
+
+This is the source code for [http://manutd.org.np](http://manutd.org.np), the official site of Manchester United Supporters' Club, Nepal.
 
 
-This is the source code for [http://manutd.org.np](http://manutd.org.np), the official site of Manchester United Supporters' Club, Nepal. Developer setup instructions follow.
-
+## Development Setup
 
 ### 1. Install
 ```
@@ -13,6 +11,7 @@ source env/bin/activate # Enter the virtual environment
 git clone git@github.com:muscn/manutd.org.np.git app # git clone the repo
 cd app # cd to project dir
 pip install -r requirements/development.txt # install Python packages required for development
+npm install
 cp app/local_settings.sample.py app/local_settings.py # create local settings file from sample file
 vi app/local_settings.py # configure your settings here, database, static & media paths and urls
 ./manage.py migrate # synchronize database and run migrations
@@ -24,6 +23,10 @@ vi app/local_settings.py # configure your settings here, database, static & medi
 ./manage.py runserver
 ```
 
+```
+webpack --watch --progress
+```
+
 ### 3. Add cronjobs
 `crontab -e`  
 ```
@@ -33,7 +36,7 @@ vi app/local_settings.py # configure your settings here, database, static & medi
 1 7 * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py birthday > /home/manutd/logs/cronjob.log
 ```
 
-### 4. Auto deploy via Git
+### 4. Deploying via git push
 #`visudo`
   ```
 manutd ALL= NOPASSWD: /usr/local/bin/supervisorctl restart muscn

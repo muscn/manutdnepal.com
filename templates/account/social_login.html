@@ -4,10 +4,10 @@
     <h5>Connect with</h5>
 
     {% for provider in socialaccount_providers %}
-            <a title="{{ provider.name }}"
-               class="socialaccount_provider {{ provider.id }} {{ provider.id }} btn btn-primary"
-               href="{% provider_login_url provider.id process=process %}">{{ provider.name }}</a>
+        <a title="{{ provider.name }}" class="social btn btn-{{ provider.id }}"
+           href="{% provider_login_url provider.id process=process %}">
+            <i class="fa fa-{{ provider.id }}"></i>{{ provider.name }}</a>
     {% endfor %}
-            
-{#    {% include "socialaccount/snippets/login_extra.html" %}#}
+
+    {#    {% include "socialaccount/snippets/login_extra.html" %}#}
 {% endif %}

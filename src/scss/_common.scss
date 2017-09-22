@@ -1,3 +1,5 @@
+$fa-font-path: "../../node_modules/font-awesome/fonts";
+@import '../../node_modules/font-awesome/scss/font-awesome';
 @import "_menu";
 
 a {
@@ -109,14 +111,48 @@ img {
   }
 }
 
-//.table-bordered td {
-//    border: 1px solid rgba($brand, .1);
-//}
-//
-//.table-bordered {
-//    border: 1px solid ;
-//}
-
 .text-444{
   color: #444;
+}
+
+$facebook: #3b5998;
+$twitter: #1da1f2;
+$google: #ea4335;
+$instagram: #c13584;
+
+// Social buttons styling
+.social.btn{
+  margin-top: 0.1rem;
+  background: $brand;
+  color: #fff;
+  padding: 0 0.5rem 0 0;
+  &:hover{
+    color: #fff !important;
+    opacity: 0.7;
+  }
+  i.fa{
+    width: 2rem;
+    padding: 0.5rem;
+    color: $brand;
+    background: #fff;
+    margin-right: 0.3rem;
+  }
+  &.btn-facebook{
+  background: $facebook;
+    i.fa{
+      color: $facebook;
+    }
+  }
+  &.btn-google{
+  background: $google;
+    i.fa{
+      color: $google;
+    }
+  }
+  &.btn-twitter{
+  background: $twitter;
+    i.fa{
+      color: $twitter;
+    }
+  }
 }

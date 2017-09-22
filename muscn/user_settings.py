@@ -29,7 +29,7 @@ ACCOUNT_USER_DISPLAY = 'email'
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
         {
-            'SCOPE': ['email', 'user_birthday', 'user_website'],
+            'SCOPE': ['email', 'user_birthday',],
             # 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
             'METHOD': 'oauth2',
             # 'LOCALE_FUNC': 'path.to.callable',

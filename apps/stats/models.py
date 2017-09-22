@@ -569,10 +569,7 @@ class Fixture(models.Model):
 
     @classmethod
     def get_next_match(cls):
-        try:
-            return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')[:1].select_related()[0]
-        except IndexError:
-            return None
+        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')[:1].select_related('live_screening').first()
 
     def npt(self):
         return utc_to_local(self.datetime)
