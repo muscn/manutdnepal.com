@@ -128,7 +128,13 @@ $github: #333;
   padding: 0 0.5rem 0 0;
   &:hover {
     color: #fff !important;
-    opacity: 0.7;
+    opacity: 0.9;
+    i.fa {
+      background: transparent;
+      border-right: 1px solid #fff;
+      color: #fff !important;
+      transition: color 1s ease, background-color 1s ease;
+    }
   }
   i.fa {
     width: 2rem;
