@@ -40,20 +40,19 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: $footer-height;
-}
 
-.footer {
-  background: linear-gradient(135deg, #792c20 0%, #68190e 100%);
-  .text-muted {
-    font-style: italic;
+  .social {
+    width: 3rem;
+    font-size: 2rem;
+    background: #fff !important;
+    text-align: center;
   }
 }
 
 .partners {
   background: rgba(#fff, .7);
-  img{
+  img {
     max-height: 100px;
   }
 }
@@ -103,56 +102,63 @@ img {
   .pad-cols .col-sm {
     //margin: 0;
   }
-  .pad-cols{
+  .pad-cols {
     margin-right: 0;
   }
-  .block{
-    flex-basis: 100%!important;
+  .block {
+    flex-basis: 100% !important;
   }
 }
 
-.text-444{
+.text-444 {
   color: #444;
 }
 
 $facebook: #3b5998;
 $twitter: #1da1f2;
 $google: #ea4335;
-$instagram: #c13584;
+//$instagram: #c13584;
+$github: #333;
 
 // Social buttons styling
-.social.btn{
+.social.btn {
   margin-top: 0.1rem;
   background: $brand;
   color: #fff;
   padding: 0 0.5rem 0 0;
-  &:hover{
+  &:hover {
     color: #fff !important;
     opacity: 0.7;
   }
-  i.fa{
+  i.fa {
     width: 2rem;
     padding: 0.5rem;
     color: $brand;
     background: #fff;
     margin-right: 0.3rem;
   }
-  &.btn-facebook{
-  background: $facebook;
-    i.fa{
+  &.btn-facebook {
+    background: $facebook;
+    i.fa {
       color: $facebook;
     }
   }
-  &.btn-google{
-  background: $google;
-    i.fa{
+  &.btn-google {
+    background: $google;
+    i.fa {
       color: $google;
     }
   }
-  &.btn-twitter{
-  background: $twitter;
-    i.fa{
+  &.btn-twitter {
+    background: $twitter;
+    i.fa {
       color: $twitter;
+    }
+  }
+  &.btn-github {
+    //background: $twitter;
+    i.fa {
+      color: $github;
     }
   }
 }

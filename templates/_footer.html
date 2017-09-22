@@ -21,22 +21,24 @@
 
 <footer class="container-fluid bg-brand p-2">
 
-    <div class="separated">
-        <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
-        <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
-    </div>
+    <div class="row">
+        <div class="col-md-6 separated">
+            <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
+            <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
+        </div>
 
-    <div>
-        <a title="Facebook" class="smGlobalBtn facebookBtn" href="https://www.facebook.com/muscnepal"
-           target="_blank"></a>
-        <a title="Twitter" class="smGlobalBtn twitterBtn" href="https://twitter.com/MUSCNP"
-           target="_blank"></a>
-        <a title="Google" class="smGlobalBtn googleBtn" href="https://plus.google.com/+ManutdOrgNpl"
-           target="_blank" rel="publisher"></a>
-        <a title="Instagram" class="smGlobalBtn instagramBtn" href="https://www.instagram.com/muscnepal/"
-           target="_blank" rel="publisher"><i class="fa fa-instagram"></i></a>
-        <a title="Github" class="smGlobalBtn githubBtn" href="https://github.com/muscn/"
-           target="_blank"></a>
+        <div class="col-md-6 text-right">
+            <a title="Facebook" class="social btn btn-facebook" href="https://www.facebook.com/muscnepal" target="_blank">
+                <i class="fa fa-facebook"></i></a>
+            <a title="Twitter" class="social btn btn-twitter" href="https://twitter.com/MUSCNP" target="_blank">
+                <i class="fa fa-twitter"></i></a>
+            <a title="Google" class="social btn btn-google" href="https://plus.google.com/+ManutdOrgNpl"
+               target="_blank" rel="publisher"><i class="fa fa-google"></i></a>
+            <a title="Instagram" class="social btn btn-instagram" href="https://www.instagram.com/muscnepal/"
+               target="_blank" rel="publisher"><i class="fa fa-instagram"></i></a>
+            <a title="Github" class="social btn btn-github" href="https://github.com/muscn/"
+               target="_blank"><i class="fa fa-github"></i></a>
+        </div>
     </div>
 
     <div class="mt-4">
