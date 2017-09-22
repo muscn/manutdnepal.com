@@ -4,6 +4,7 @@ from froala_editor.fields import FroalaField
 from versatileimagefield.fields import VersatileImageField
 
 from muscn.utils.forms import unique_slugify
+from muscn.utils.location import LocationField
 from muscn.utils.mixins import CachedModel
 
 
@@ -19,6 +20,7 @@ class Partner(CachedModel):
     privileges = FroalaField(null=True, blank=True)
     url = models.URLField(null=True, blank=True)
     active = models.BooleanField(default=True)
+    location = LocationField(blank=True, max_length=255)
     order = models.IntegerField(default=0)
 
     class Meta:
