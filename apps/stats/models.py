@@ -215,7 +215,7 @@ class Person(models.Model):
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
-    image = models.ImageField(upload_to='photos/', blank=True, null=True)
+    image = VersatileImageField(upload_to='photos/', blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
     weight = models.FloatField(blank=True, null=True)
     birth_place = models.CharField(max_length=255, blank=True, null=True)
