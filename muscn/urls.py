@@ -18,6 +18,7 @@ from apps.post import api as post_api
 from apps.page import api as page_api
 from apps.push_notification import api as push_notification_api
 from apps.users import api as user_api
+from apps.partner import api as partner_api
 
 from apps.core import views as core_views
 from apps.users import views as user_views
@@ -31,6 +32,7 @@ router.register(r'league_table', stats_api.LeagueTableViewSet, base_name='league
 router.register(r'top_scorers', stats_api.TopScorerViewSet, base_name='top_scorers')
 router.register(r'injuries', stats_api.InjuryViewSet)
 router.register(r'squads', stats_api.SquadViewSet)
+router.register(r'partners', partner_api.PartnerViewSet)
 router.register(r'past_seasons', stats_api.PastSeasonViewSet)
 router.register(r'wallpapers', stats_api.WallpaperViewSet, base_name='wallpapers')
 

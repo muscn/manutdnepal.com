@@ -3,7 +3,6 @@ from django.utils import timezone
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
-from apps.key.permissions import DistributedKeyAuthentication
 
 from apps.stats.models import Fixture, get_latest_epl_standings, get_top_scorers_summary, Injury, Wallpaper, Player, \
     SeasonData
