@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load filters thumbnail %}
+{% load filters %}
 
 {% block title %} Fixtures & Results {% endblock %}
 
@@ -20,7 +20,9 @@
                 <div class="accordion-inner">
                     <div class="results-table table-responsive">
                         <table class="table auto-width table-centered">
-                            {% thumbnail mufc.get_crest "35x35" format="PNG" as mufc_crest %}
+
+                            {% with mufc.get_crest.thumbnail.35x35  as mufc_crest %}
+
                                 {% for fixture in results %}
                                     <tr>
                                         <td class="link-cell">
@@ -50,20 +52,14 @@
                                             </td>
                                             <td class="centered bold right-bordered link-cell">
                                                 <a href="{{ fixture.get_absolute_url }}">
-                                                    {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
-                                                        <img src="{{ opponent_crest.url }}">
-                                                    {% endthumbnail %}
-                                                    <br/>
+                                                    <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}">
                                                     {{ fixture.opponent.name }}
                                                 </a>
                                             </td>
                                         {% else %}
                                             <td class="centered bold left-bordered link-cell">
                                                 <a href="{{ fixture.get_absolute_url }}">
-                                                    {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
-                                                        <img src="{{ opponent_crest.url }}">
-                                                    {% endthumbnail %}
-                                                    <br/>
+                                                    <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}">
                                                     {{ fixture.opponent.name }}
                                                 </a>
                                             </td>
@@ -85,7 +81,7 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                            {% endthumbnail %}
+                            {% endwith %}
                         </table>
                     </div>
                 </div>
@@ -103,7 +99,7 @@
                 <div class="accordion-inner">
                     <div class="fixtures-table table-responsive">
                         <table class="table auto-width table-centered">
-                            {% thumbnail mufc.get_crest "35x35" format="PNG" as mufc_crest %}
+                            {% with mufc.get_crest.thumbnail.35x35  as mufc_crest %}
                                 {% for fixture in fixtures %}
                                     <tr>
                                         <td class="link-cell">
@@ -132,24 +128,18 @@
                                             </td>
                                             <td class="centered bold right-bordered link-cell">
                                                 <a href="{{ fixture.get_absolute_url }}">
-                                                    {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
-                                                        <img src="{{ opponent_crest.url }}"
-                                                             alt="{{ fixture.opponent.short_name }}">
-                                                    {% endthumbnail %}
-                                                    <br/>
+                                                    <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}"
+                                                         alt="{{ fixture.opponent.short_name }}">
                                                     {{ fixture.opponent.name }}
                                                 </a>
                                             </td>
                                         {% else %}
-                                            <td class="centered bold left-bordered link-cell">
-                                                <a href="{{ fixture.get_absolute_url }}">
-                                                    {% thumbnail fixture.opponent.get_crest "35x35" format="PNG" as opponent_crest %}
-                                                        <img src="{{ opponent_crest.url }}"
-                                                             alt="{{ fixture.opponent.short_name }}">
-                                                    {% endthumbnail %}
-                                                    <br/>
-                                                    {{ fixture.opponent.name }}
-                                                </a>
+                                            <td class=" centered bold left-bordered link-cell">
+                                                    <a href="{{ fixture.get_absolute_url }}">
+                                                        <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}"
+                                                         alt="{{ fixture.opponent.short_name }}">
+                                                        {{ fixture.opponent.name }}
+                                                    </a>
                                             </td>
                                             <td class="bold link-cell">
                                                 <a href="{{ fixture.get_absolute_url }}">
@@ -168,7 +158,7 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                            {% endthumbnail %}
+                            {% endwith %}
                         </table>
                     </div>
                 </div>
