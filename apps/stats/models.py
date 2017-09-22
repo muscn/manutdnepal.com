@@ -165,7 +165,7 @@ class Team(models.Model):
             #         img_temp.flush()
             #         self.crest.save(image_name, File(img_temp))
             mail_admins('Add crest for: ', str(self))
-        return self.crest
+        return self.crest or None
 
     def get_crest_url(self):
         if self.get_crest():
