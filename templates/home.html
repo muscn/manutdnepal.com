@@ -46,44 +46,44 @@
                         {% endif %}
                     </div>
                 </div>
-                <pad></pad>
 
-                <div class="row text-center mt-4 mb-2 justify-content-center">
-                    <div class="datetime col-6 brand text-right">
-                        <span class="date">{{ next_match.datetime|date:'d' }}</span>
+                {% with next_match.live_screening as partner %}
+                    <div class="row text-center mt-4 mb-2 justify-content-center">
+                        <div class="datetime col-6 brand text-right">
+                            <span class="date">{{ next_match.datetime|date:'d' }}</span>
 
-                        <div>{{ next_match.datetime|date:'F' }}</div>
-                        <div>{{ next_match.datetime|date:'l' }} {{ next_match.datetime|date:'P' }} NPT</div>
+                            <div>{{ next_match.datetime|date:'F' }}</div>
+                            <div>{{ next_match.datetime|date:'l' }} {{ next_match.datetime|date:'P' }} NPT</div>
 
 
-                    </div>
-                    <div class="col-6 text-left">
-                        {#                            150x150#}
-                        <img class="img-responsive" src="{{ next_match.opponent.get_crest.thumbnail.80x80 }}">
-
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col-sm-3 my-auto">
-                        <strong class="">Time Remaining</strong>
-                    </div>
-                    <div class="col-sm-9 brand countdown mt-3">
-                        <div class="row large">
-                            <span class="days col-4">{{ next_match.time_remaining.0 }}</span>
-                            <span class="days col-4">{{ next_match.time_remaining.1 }}</span>
-                            <span class="days col-4">{{ next_match.time_remaining.2 }}</span>
                         </div>
-                        <div class="row">
+                        <div class="col-6 text-center">
+                            {#                            150x150#}
+                            <img class="img-responsive" src="{{ next_match.opponent.get_crest.thumbnail.80x80 }}">
+
+                        </div>
+                    </div>
+                    <div class="row text-center{% if not partner %} my-5{% endif %}">
+                        <div class="col-sm-3 my-auto">
+                            <strong class="">Time Remaining</strong>
+                        </div>
+                        <div class="col-sm-9 brand countdown mt-3">
+                            <div class="row large">
+                                <span class="days col-4">{{ next_match.time_remaining.0 }}</span>
+                                <span class="days col-4">{{ next_match.time_remaining.1 }}</span>
+                                <span class="days col-4">{{ next_match.time_remaining.2 }}</span>
+                            </div>
+                            <div class="row">
                                 <span class="days col-4">{% if next_match.time_remaining.0 == 1 %}day{% else %}
                                     days{% endif %}</span>
-                            <span class="days col-4">{% if next_match.time_remaining.1 == 1 %}hour{% else %}
-                                hours{% endif %}</span>
-                            <span class="days col-4">{% if next_match.time_remaining.2 == 1 %}min{% else %}
-                                mins{% endif %}</span>
+                                <span class="days col-4">{% if next_match.time_remaining.1 == 1 %}hour{% else %}
+                                    hours{% endif %}</span>
+                                <span class="days col-4">{% if next_match.time_remaining.2 == 1 %}min{% else %}
+                                    mins{% endif %}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% with next_match.live_screening as partner %}
+
                     <div class="text-center font-weight-bold live-screening mt-3">
                         {% if partner %}
                             <a href="{{ partner.url }}">
