@@ -3,6 +3,7 @@ import datetime
 import os
 
 from django.urls import reverse_lazy
+from versatileimagefield.fields import VersatileImageField
 
 from apps.events.models import Event
 from muscn.utils.forms import unique_slugify
@@ -41,7 +42,7 @@ class Album(models.Model):
 
 
 class Image(models.Model):
-    file = models.ImageField(upload_to='images/')
+    file = VersatileImageField(upload_to='images/')
     album = models.ForeignKey(Album, related_name='images')
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)

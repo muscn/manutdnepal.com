@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load staticfiles i18n thumbnail %}
+{% load staticfiles i18n %}
 
 {% block title %}
     {% trans 'Gallery' %}
@@ -7,7 +7,7 @@
 
 
 {% block extrahead %}
-    <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">
+{#    <link href="{% static "gallery/gallery.css" %}" rel="stylesheet" type="text/css">#}
 {% endblock %}
 
 {% block content %}
@@ -20,9 +20,9 @@
     {% for album in albums %}
         <div class="thumbnail album-thumbnail">
             <a href="{% url 'album-images' album.slug %}">
-                {% thumbnail album.get_thumbnail.file "240x140" crop="center" as image %}
-                    <img src="{{ image.url }}" alt="No Image">
-                {% endthumbnail %}
+{#                {% thumbnail album.get_thumbnail.file "240x140" crop="center" as image %}#}
+                    <img src="{{ album.get_thumbnail.file.thumbnail.240x140 }}" alt="">
+{#                {% endthumbnail %}#}
             </a>
 
             <div class="caption text-center">

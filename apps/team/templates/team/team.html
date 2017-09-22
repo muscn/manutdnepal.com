@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load filters %}
-{% load staticfiles thumbnail %}
+{% load staticfiles %}
 
 {% block title %} MUSCN Football Team {% endblock %}
 
@@ -13,19 +13,18 @@
 
     <h2>Players</h2>
     {% for player in players %}
-        <div class="person-block">
+        <div class="card d-inline-block p-2">
             <div class="photo">
-                {% thumbnail player.image "300x300" crop="center" format="PNG" as player_image %}
-                    <img src="{{ player_image.url }}" alt="{{ player.name }}">
-                {% endthumbnail %}
+                <img src="{{ player.image.thumbnail.300x300 }}" alt="{{ player.name }}">
             </div>
-            <div class="name text-center">
+            <div class="font-weight-bold text-center text-uppercase">
                 {{ player.user.full_name }}
                 {% if player.remarks %}
                     {{ player.remarks }}
                 {% endif %}
             </div>
             <table class="table">
+                <tbody>
                 <tr>
                     <th>Address</th>
                     <td>{{ player.user.membership.temporary_address }}</td>
@@ -34,6 +33,7 @@
                     <th>Position</th>
                     <td>{{ player.positions }}</td>
                 </tr>
+                </tbody>
             </table>
         </div>
     {% endfor %}
@@ -44,9 +44,7 @@
     {% for staff in staffs %}
         <div class="person-block">
             <div class="photo">
-                {% thumbnail staff.image "300x300" crop="center" format="PNG" as staff_image %}
-                    <img src="{{ staff_image.url }}" alt="{{ staff.name }}">
-                {% endthumbnail %}
+                <img src="{{ staff.image.thumbnail.300x300 }}" alt="{{ staff.name }}">
             </div>
             <div class="name text-center">{{ staff.user.full_name }}</div>
             <table class="table">

@@ -134,11 +134,11 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.full_name or self.username
+        return self.full_name or self.email
 
     def get_short_name(self):
         # The user is identified by username
-        return self.username
+        return str(self)
 
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"

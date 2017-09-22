@@ -15,9 +15,9 @@
         {% autopaginate object_list 20 as posts %}
 
         {% for post in posts %}
-            <div class="panel panel-default">
+            <div class="card p-2">
 
-                <div class="panel-body post">
+                
                     <h2><a href="{{ post.get_absolute_url }}">{{ post }}</a></h2>
                     <span class="post meta">{{ post.created_at }}</span>
 
@@ -25,7 +25,7 @@
                         {{ post.excerpt|striptags|safe }}
                     </p>
 
-                </div>
+                
             </div>
 
         {% endfor %}
