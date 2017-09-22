@@ -8,4 +8,4 @@ from apps.post.serializers import PostSerializer
 class PostViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status='Published')
-    permission_classes = (DistributedKeyAuthentication,)
+    # permission_classes = (DistributedKeyAuthentication,)
