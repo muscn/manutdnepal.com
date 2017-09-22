@@ -12,7 +12,7 @@ from apps.users.serializers import UserSerializer, MembershipSerializer
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = (DistributedKeyAuthentication,)
+    # permission_classes = (DistributedKeyAuthentication,)
 
     def create(self, request):
         params = request.data
@@ -32,7 +32,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 class MembershipViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = MembershipSerializer
     queryset = Membership.objects.all()
-    permission_classes = (DistributedKeyAuthentication,)
+    # permission_classes = (DistributedKeyAuthentication,)
 
     def create(self, request):
         params = request.data
@@ -78,7 +78,7 @@ class MembershipViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 
 class CustomObtainAuth(ObtainAuthToken):
-    permission_classes = (DistributedKeyAuthentication,)
+    # permission_classes = (DistributedKeyAuthentication,)
 
     def post(self, request, *args, **kwargs):
         member_status = False

@@ -9,4 +9,4 @@ class PageViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
     serializer_class = PageSerializer
     lookup_field = 'slug'
     queryset = Page.objects.all()
-    permission_classes = (DistributedKeyAuthentication,)
+    # permission_classes = (DistributedKeyAuthentication,)
