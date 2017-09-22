@@ -1,12 +1,12 @@
 {% load filters %}
 <div class="clearfix"></div>
 
-<div class="partners text-center">
+<div class="partners d-flex justify-content-around">
     {% get_partners as partners %}
     {% for partner in partners %}
         {% if partner.logo %}
             <a href="{{ partner.get_url }}" target="_blank">
-                <img class="p-lg-2" src="{{ partner.logo.url }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
+                <img class="p-lg-2" src="{{ partner.logo.thumbnail.200x100 }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
             </a>
         {% endif %}
     {% endfor %}
