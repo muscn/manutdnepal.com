@@ -1,14 +1,21 @@
 {% load filters %}
 <div class="clearfix"></div>
 
-<div class="partners d-flex justify-content-around">
+<div class="partners d-lg-flex justify-content-lg-around p-2 px-0 text-lg-left text-center">
     {% get_partners as partners %}
     {% for partner in partners %}
-        {% if partner.logo %}
-            <a href="{{ partner.get_url }}" target="_blank">
-                <img class="p-lg-2" src="{{ partner.logo.thumbnail.200x100 }}" alt="{{ partner.name }}" title="{{ partner.name }}" height="150">
-            </a>
-        {% endif %}
+        <div class="p-lg-2">
+            <h6 class="mb-0 text-444">{{ partner.partnership }}</h6>
+            {% if partner.logo %}
+                <a href="{{ partner.get_url }}" target="_blank">
+                    <img src="{{ partner.logo.thumbnail.200x100 }}" alt="{{ partner.name }}"
+                         title="{{ partner.name }}"
+                         height="150">
+                </a>
+            {% else %}
+                <h3 class="mt-4 text-444">{{ partner }}</h3>
+            {% endif %}
+        </div>
     {% endfor %}
 </div>
 
@@ -18,7 +25,7 @@
         <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
         <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
     </div>
-    
+
     <div>
         <a title="Facebook" class="smGlobalBtn facebookBtn" href="https://www.facebook.com/muscnepal"
            target="_blank"></a>

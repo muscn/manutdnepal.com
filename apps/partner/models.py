@@ -10,6 +10,7 @@ from muscn.utils.mixins import CachedModel
 
 class Partner(CachedModel):
     name = models.CharField(max_length=255)
+    partnership = models.CharField(max_length=255, default='Partner')
     slug = models.SlugField(
         max_length=255,
         blank=True,
