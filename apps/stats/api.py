@@ -15,7 +15,7 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
 class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureSerializer
     queryset = Fixture.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
-    # permission_classes = []
+    permission_classes = []
 
     @list_route()
     def epl_matchweek(self, request):
