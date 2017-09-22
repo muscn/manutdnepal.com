@@ -239,7 +239,6 @@
                     </tr>
                 {% endfor %}
                 </tbody>
-                </tr>
             </table>
         </div>
 
@@ -279,39 +278,37 @@
             {% endfor %}
         </div>
 
-        {#        <div class="stats block col-sm mt-3">#}
-        {#            <h4>From Reddit</h4>#}
-        {##}
-        {#            <div id="reddit-content" data-bind="foreach: threads">#}
-        {#                <div class="reddit-thread row">#}
-        {#                    <!-- ko if:internal -->#}
-        {#                    <span class="thumbnail-placeholder pull-left"></span>#}
-        {#                    <!-- /ko -->#}
-        {##}
-        {#                    <!-- ko if:!internal -->#}
-        {#                    <img data-bind="attr: {'src': thumbnail}" class="pull-left">#}
-        {#                    <!-- /ko -->#}
-        {##}
-        {#                    <div class="text">#}
-        {#                        <h5><a data-bind="attr: {'href': url, 'title': text}" target="_blank">#}
-        {#                            <span data-bind="text: title"></span>#}
-        {#                        </a></h5>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#        </div>#}
-        {##}
-        {#        <div class="stats block col-sm mt-3">#}
-        {#            <h4>News</h4>#}
-        {##}
-        {#            <ul id="news-content" data-bind="foreach: entries" class="block-content">#}
-        {#                <li class="news-item">#}
-        {#                    <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>#}
-        {#                </li>#}
-        {##}
-        {##}
-        {#            </ul>#}
-        {#        </div>#}
+        <div class="stats block col-sm mt-3" id="reddit-block">
+            <h4>From Reddit</h4>
+
+            <div id="reddit-content" data-bind="foreach: threads">
+                <div class="reddit-thread row">
+                    <!-- ko if:internal -->
+                    <span class="thumbnail-placeholder pull-left"></span>
+                    <!-- /ko -->
+
+                    <!-- ko if:!internal -->
+                    <img data-bind="attr: {'src': thumbnail}" class="pull-left">
+                    <!-- /ko -->
+
+                    <div class="text">
+                        <h5><a data-bind="attr: {'href': url, 'title': text}" target="_blank">
+                            <span data-bind="text: title"></span>
+                        </a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats block col-sm mt-3" id="news-block">
+            <h4>News</h4>
+
+            <ul data-bind="foreach: entries" class="block-content">
+                <li class="news-item">
+                    <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>
+                </li>
+            </ul>
+        </div>
 
         <div class="stats block col-sm mt-3">
             <div class="fb-page" data-href="https://www.facebook.com/muscnepal" data-tabs="messages"

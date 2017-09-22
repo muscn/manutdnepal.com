@@ -10,7 +10,7 @@ from .serializers import UserDeviceSerializer
 class UserDeviceViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserDeviceSerializer
     queryset = UserDevice.objects.all()
-    # permission_classes = (DistributedKeyAuthentication,)
+    permission_classes = []
 
     def create(self, request, *args, **kwargs):
         params = request.data
