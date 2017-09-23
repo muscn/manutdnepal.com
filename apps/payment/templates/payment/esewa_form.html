@@ -1,0 +1,33 @@
+{% load solo_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to e-sewa</title>
+</head>
+<body>
+<div>Redirecting to e-sewa...</div>
+<div>If you aren't automatically redirected, click the button below.</div>
+{% get_solo 'users.MembershipSetting' as membership_setting %}
+<form action="https://esewa.com.np/epay/main" method="POST" id="esewa-form">
+    <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
+           name="tAmt" type="hidden">
+    <input value="{{ membership_setting.membership_fee|floatformat:0 }}"
+           name="amt" type="hidden">
+    <input value="0" name="txAmt" type="hidden">
+    <input value="0" name="psc" type="hidden">
+    <input value="0" name="pdc" type="hidden">
+    <input value="manutd" name="scd" type="hidden">
+    <input value="m_{{ request.user.id }}_{% now "U" %}" name="pid" type="hidden">
+    <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_success' %}"
+           type="hidden" name="su">
+    <input value="https://{{ request.META.HTTP_HOST }}{% url 'membership_payment_esewa_failure' %}"
+           type="hidden" name="fu">
+    <input type="submit" value="Click here.">
+</form>
+<script type="text/javascript">
+    document.getElementById("esewa-form").submit();
+</script>
+</body>
+</html>

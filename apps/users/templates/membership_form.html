@@ -47,8 +47,7 @@
                 <div class="tab-pane fade{% if tab == 'esewa' %} show active{% endif %}" id="esewa" role="tabpanel"
                      aria-labelledby="esewa-tab">
                     <h2 style="display:inline">Pay via:</h2>
-                    {#                            <input value="eSewa" type="submit">#}
-                    <input type="image" src="{% static 'img/esewa.png' %}" name="esewa" class=""/>
+                    <input type="image" src="{% static 'img/esewa.png' %}" name="esewa" value="esewa"/>
                 </div>
             {% endif %}
             <div class="tab-pane fade{% if tab == 'receipt' %} show active{% endif %}" id="receipt" role="tabpanel"

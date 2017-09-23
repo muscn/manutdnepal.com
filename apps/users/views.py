@@ -25,6 +25,7 @@ from reportlab.platypus import Paragraph, Table
 from reportlab.lib.units import cm, inch
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from django.utils import timezone
 
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting
@@ -87,8 +88,8 @@ def membership_form(request):
             form.save()
         else:
             valid = False
-        import ipdb
-        ipdb.set_trace()
+        if data.get('esewa'):
+            return redirect(reverse_lazy('esewa_form'))
         if valid:
             return redirect(reverse('membership_form'))
     else:
@@ -103,6 +104,11 @@ def membership_form(request):
         'bank_accounts': bank_accounts,
     })
 
+
+@login_required
+def esewa_form(request):
+    # TODO check membership status
+    return render(request, 'payment/esewa_form.html')
 
 @login_required
 def membership_payment(request):
