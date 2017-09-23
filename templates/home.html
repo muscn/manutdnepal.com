@@ -1,19 +1,17 @@
 {% extends 'base.html' %}
 {% load staticfiles filters %}
-{% load render_bundle from webpack_loader %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
 {% endblock %}
 
 {% block css %}
-    {% render_bundle 'common' 'css' %}
-    {% render_bundle 'landing' 'css' %}
+    <link href="{% static 'dist/css/landing.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block js %}
-    {% render_bundle 'common' 'js' %}
-    {% render_bundle 'landing' 'js' %}
+    <script src="{% static 'dist/js/common.js' %}"></script>
+    <script src="{% static 'dist/js/landing.js' %}"></script>
 {% endblock %}
 
 {% block content %}

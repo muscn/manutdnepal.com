@@ -1,20 +1,14 @@
 from collections import OrderedDict
 import unicodedata
 import datetime
-from random import randint
 import urllib
 import json
 
 from django.contrib.postgres.fields import ArrayField
-from django.core.exceptions import MultipleObjectsReturned
 from django.core.mail import mail_admins
 from django.utils import timezone
 
 import wikipedia
-
-from django.core.files import File
-
-from django.core.files.temp import NamedTemporaryFile
 
 from django.core.urlresolvers import reverse_lazy, reverse
 
@@ -32,9 +26,8 @@ from versatileimagefield.fields import VersatileImageField
 
 from apps.partner.models import Partner
 from muscn.utils.countries import CountryField
-from muscn.utils.football import get_current_season_start_year, get_current_season_start, get_current_season_start_time
+from muscn.utils.football import get_current_season_start_year, get_current_season_start_time
 from muscn.utils.forms import unique_slugify
-from muscn.utils.helpers import facebook_api
 from muscn.utils.mixins import CachedModel
 from muscn.utils.npt import utc_to_local
 

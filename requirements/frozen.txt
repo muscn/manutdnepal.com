@@ -16,7 +16,6 @@ django-froala-editor==2.6.0
 django-jsonfield==1.0.1
 django-mptt==0.8.7
 django-redis-cache==1.7.1
-django-smuggler==0.8.0
 django-solo==1.1.2
 djangorestframework==3.6.2
 enum34==1.1.6

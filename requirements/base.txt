@@ -14,13 +14,10 @@ ics
 wikipedia
 pytz
 cssselect
-facebook-sdk
-opbeat
 djangorestframework
 openpyxl
 reportlab
 django-solo
 django-fcm
-django-smuggler
 django-anymail[mailgun]
 django-versatileimagefield

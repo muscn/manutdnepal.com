@@ -1,27 +1,25 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const BundleTracker = require('webpack-bundle-tracker');
 
 const outputPath = __dirname + '/static/dist/';
 
 const path = require('path');
 
-
 // the path(s) that should be cleaned
 let pathsToClean = [outputPath];
 
-let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({name: 'common', filename: 'js/common.bundle-[hash].js'});
+let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({name: 'common', filename: 'js/common.js'});
 
 module.exports = {
   entry: {
     landing: "./src/landing.js",
-    app: "./src/stats.js",
+    app: "./src/app.js",
   },
   output: {
     path: outputPath,
     publicPath: '/static/dist/',
-    filename: "js/[name].bundle-[hash].js"
+    filename: "js/[name].js"
   },
   module: {
     rules: [
@@ -39,7 +37,6 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(pathsToClean),
     commonsPlugin,
-    new ExtractTextPlugin({filename: 'css/[name]-[hash].css', allChunks: true}),
-    new BundleTracker({filename: './webpack-stats.json'}),
+    new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true}),
   ]
 };
