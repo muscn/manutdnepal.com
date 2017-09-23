@@ -124,6 +124,7 @@
                 {% include "account/social_login.html" %}
                 <h5 class="my-3">Or Sign up</h5>
                 <form method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
                     <div class="form-group">
                         <input autofocus class="form-control" name="full_name" type="text" placeholder="Full Name">
                     </div>

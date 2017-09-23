@@ -1,32 +1,29 @@
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-    {% csrf_token %}
 
-    {{ form.non_field_errors }}
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
 
-    <div class="row">
+        {{ form.non_field_errors }}
 
-        <div class="col">
+        <div class="form-group">
             <label for="id_full_name">Full Name</label>
             <input autofocus="autofocus" class="form-control" id="id_full_name" maxlength="30" name="full_name" type="text"
                    value="{{ form.full_name.value|default:'' }}">
             {{ form.full_name.errors }}
         </div>
 
-        <div class="col">
+        <div class="form-group">
             <label for="id_email">Email</label>
             <input id="id_email" class="form-control" name="email" type="email" value="{{ form.email.value|default:'' }}">
             {{ form.email.errors }}
         </div>
 
 
-        <div class="col">
+        <div class="form-group">
             <label for="id_email">Password</label>
             <input id="id_password1" class="form-control" name="password1" type="password">
             {{ form.password1.errors }}
         </div>
 
-    </div>
 
-
-    <button class="btn btn-primary btn-lg mt-1" type="submit">Sign Up</button>
-</form>
+        <button class="btn btn-primary btn-lg mt-1" type="submit">Sign Up</button>
+    </form>

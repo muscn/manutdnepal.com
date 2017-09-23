@@ -84,7 +84,7 @@ class User(AbstractBaseUser):
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
     def __str__(self):
-        return self.full_name or self.username or self.devil_no or self.email
+        return self.full_name or self.devil_no or self.email or self.username
 
     @property
     def gravatar_url(self):
@@ -132,9 +132,6 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
 
     REQUIRED_FIELDS = []
-
-    def __str__(self):
-        return self.full_name or self.email
 
     def get_short_name(self):
         # The user is identified by username

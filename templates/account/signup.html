@@ -2,13 +2,10 @@
 {% load i18n staticfiles %}
 
 {% block title %}{% trans "Signup" %}{% endblock %}
-{% block extrahead %}
-    <link href="{% static 'css/auth.css' %}" rel="stylesheet" type="text/css">
-{% endblock %}
+
 {% block content %}
 
-    <div>
-
+    <div class="container max-350">
         <p>{% blocktrans %}Already have an account? Then, please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
 
         <br/>
@@ -18,7 +15,6 @@
         <h1>{% trans "Or Sign Up" %}</h1>
 
         {% include "account/signup_form.html" %}
-
     </div>
 
 {% endblock %}
