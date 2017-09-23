@@ -17,53 +17,10 @@ class GroupAdminForm(forms.ModelForm):
         fields = ['name', 'permissions']
 
 
-class MembershipForm(HTML5BootstrapModelForm):
-    # date_of_birth = HTML5ModelForm.DateTypeInput()
-
-    # gender = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}), choices=Membership.GENDERS)
-    # shirt_size = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-    #                                choices=Membership.SHIRT_SIZES)
-    # present_status = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-    #                                    choices=Membership.PRESENT_STATUSES)
-    # identification_type = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'radio-inline'}),
-    #                                         choices=Membership.IDENTIFICATION_TYPES)
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
-
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super(MembershipForm, self).__init__(*args, **kwargs)
-        if self.user:
-            self.fields['full_name'].initial = self.user.full_name
-        elif self.instance.pk and self.instance.user_id:
-            self.fields['full_name'].initial = self.instance.user.full_name
-
-    def clean_full_name(self):
-        tokens_length = len(self.cleaned_data.get('full_name', '').split())
-        if 0 < tokens_length < 2:
-            raise forms.ValidationError("Please provide your full name!")
-        self.instance.user.full_name = self.cleaned_data['full_name']
-        self.instance.user.save()
-        return self.cleaned_data['full_name']
-
-    class Meta:
-        model = Membership
-        exclude = (
-        'status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment', 'expiry_date', 'gender',
-        'identification_file', 'temporary_address', 'telephone')
-        widgets = {
-            'date_of_birth': forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD'}),
-            'temporary_address': forms.Textarea(
-                attrs={'rows': 2, 'placeholder': 'Temporary Address'}),
-            'permanent_address': forms.Textarea(
-                attrs={'rows': 2, 'placeholder': 'Address *'}),
-
-        }
+from allauth.account.forms import SignupForm as AuthSignupForm
 
 
-from allauth.account.forms import SignupForm
-
-
-class SignupForm(SignupForm):
+class SignupForm(AuthSignupForm):
     full_name = forms.CharField(label='Full name')
 
     def save(self, request):
@@ -79,6 +36,7 @@ class SignupForm(SignupForm):
 
 class UserForm(HTML5BootstrapModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
+
     # password2 = forms.CharField(widget=forms.PasswordInput, label='Password (again)')
 
     def clean_username(self):
@@ -129,3 +87,17 @@ class UserUpdateForm(UserForm):
         user.full_name = data['full_name']
         user.save()
         return user
+
+
+class MembershipForm(HTML5BootstrapModelForm):
+    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
+
+    def clean_full_name(self):
+        tokens_length = len(self.cleaned_data.get('full_name', '').split())
+        if tokens_length < 2:
+            raise forms.ValidationError("Please provide your full name!")
+        return self.cleaned_data['full_name']
+
+    class Meta:
+        model = User
+        fields = ('full_name', 'mobile')

@@ -29,12 +29,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
-from apps.payment.forms import BankDepositForm
+from apps.payment.forms import BankDepositForm, ReceiptPaymentForm, BankPaymentForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
 from muscn.utils.football import get_current_season_start
 from muscn.utils.helpers import insert_row
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
-from apps.payment.forms import BankDepositPaymentForm, DirectPaymentPaymentForm, DirectPaymentReceiptForm
+from apps.payment.forms import BankDepositPaymentForm, DirectPaymentForm, DirectPaymentReceiptForm
 
 
 def login_register(request):
@@ -73,59 +73,50 @@ def logout(request, next_page=None):
 @login_required
 def membership_form(request):
     user = request.user
-    try:
-        item = user.membership
-        # return redirect(reverse('membership_payment'))
-    except Membership.DoesNotExist:
-        item = Membership(user=user)
-    # item = Membership(user=user)
-    accounts = sorted(user.socialaccount_set.all(), key=lambda x: x.provider, reverse=True)
-    for account in accounts:
-        if account.provider == 'facebook':
-            extra_data = account.extra_data
-            try:
-                item.gender = extra_data['gender'][:1].upper()
-            except KeyError:
-                pass
-            try:
-                item.date_of_birth = datetime.datetime.strptime(extra_data['birthday'], '%m/%d/%Y').strftime('%Y-%m-%d')
-            except KeyError:
-                pass
-            try:
-                item.temporary_address = extra_data['location']['name']
-            except KeyError:
-                pass
-            try:
-                item.permanent_address = extra_data['hometown']['name']
-            except KeyError:
-                pass
-
+    if MembershipSetting.enable_esewa:
+        tab = 'esewa'
+    else:
+        tab = 'receipt'
+    direct_payment_form = ReceiptPaymentForm()
+    bank_deposit_form = BankPaymentForm()
     if request.POST:
-        form = MembershipForm(request.POST, request.FILES, instance=item, user=user)
+        data = request.POST
+        valid = True
+        form = MembershipForm(data, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect(reverse('membership_payment'))
+        else:
+            valid = False
+        import ipdb
+        ipdb.set_trace()
+        if valid:
+            return redirect(reverse('membership_form'))
     else:
-        form = MembershipForm(instance=item, user=request.user)
+        form = MembershipForm(instance=user)
+    bank_accounts = BankAccount.objects.all()
     return render(request, 'membership_form.html', {
         'form': form,
         'base_template': 'base.html',
+        'tab': tab,
+        'bank_deposit_form': bank_deposit_form,
+        'direct_payment_form': direct_payment_form,
+        'bank_accounts': bank_accounts,
     })
 
 
 @login_required
 def membership_payment(request):
     # check if membership form has been received
-    try:
-        membership = request.user.membership
-        if membership.status == 'A':
-            return redirect(reverse('view_profile'))
-        elif membership.status == 'E':
-            return redirect(reverse('renew_membership'))
-    except Membership.DoesNotExist:
-        return redirect(reverse('membership_form'))
+    # try:
+    #     membership = request.user.membership
+    #     if membership.status == 'A':
+    #         return redirect(reverse('view_profile'))
+    #     elif membership.status == 'E':
+    #         return redirect(reverse('renew_membership'))
+    # except Membership.DoesNotExist:
+    #     return redirect(reverse('membership_form'))
     bank_deposit_form = BankDepositForm()
-    direct_payment_form = DirectPaymentPaymentForm()
+    direct_payment_form = DirectPaymentForm()
     if request.POST:
         payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee)
         if request.POST.get('method') == 'direct':
@@ -141,13 +132,13 @@ def membership_payment(request):
             payment.save()
             bank_deposit.payment = payment
             bank_deposit.save()
-        if payment.id:
-            membership.payment = payment
-            membership.save()
-            return redirect(reverse('membership_thankyou'))
+            # if payment.id:
+            #     membership.payment = payment
+            #     membership.save()
+            #     return redirect(reverse('membership_thankyou'))
     bank_accounts = BankAccount.objects.all()
     return render(request, 'membership_payment.html', {
-        'membership': membership,
+        # 'membership': membership,
         'bank_deposit_form': bank_deposit_form,
         'direct_payment_form': direct_payment_form,
         'bank_accounts': bank_accounts,
@@ -353,7 +344,7 @@ def new_user_membership(request):
         'date_time': datetime.datetime.now()
     }
     bank_deposit_form = BankDepositPaymentForm(prefix='bf', initial=payment_initial)
-    direct_payment_form = DirectPaymentPaymentForm(prefix='df', initial=payment_initial)
+    direct_payment_form = DirectPaymentForm(prefix='df', initial=payment_initial)
     if request.POST:
 
         user_form = UserForm(request.POST, request.FILES, prefix='uf')
@@ -364,7 +355,7 @@ def new_user_membership(request):
             bank_deposit_form = BankDepositPaymentForm(request.POST, request.FILES, prefix='bf', exclude='user')
             payment_form = bank_deposit_form
         elif request.POST['payment_method'] == 'direct-payment':
-            direct_payment_form = DirectPaymentPaymentForm(request.POST, prefix='df', exclude='user')
+            direct_payment_form = DirectPaymentForm(request.POST, prefix='df', exclude='user')
             payment_form = direct_payment_form
 
         if user_form.is_valid() and member_form.is_valid() and payment_form.is_valid():
@@ -429,7 +420,7 @@ class MemberProfileView(DetailView):
 
 class DirectPaymentForMembershipCreateView(StaffOnlyMixin, CreateView):
     model = DirectPayment
-    form_class = DirectPaymentPaymentForm
+    form_class = DirectPaymentForm
 
     # success_url = reverse_lazy('list_memberships')
 
@@ -483,7 +474,7 @@ def renew(request):
         messages.warning(request, 'One of your renewal requests is already pending.')
     membership = user.membership
     bank_deposit_form = BankDepositForm()
-    direct_payment_form = DirectPaymentPaymentForm()
+    direct_payment_form = DirectPaymentForm()
     if request.POST:
         payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee, remarks='Renewal')
         if request.POST.get('method') == 'direct':

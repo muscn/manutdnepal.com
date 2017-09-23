@@ -92,7 +92,7 @@ class BankAccount(models.Model):
 
 class BankDeposit(models.Model):
     bank = models.ForeignKey(BankAccount)
-    voucher_image = models.ImageField(upload_to='voucher_images/')
+    voucher_image = models.FileField(upload_to='voucher_images/')
     payment = models.OneToOneField(Payment, related_name='bank_deposit')
 
     def delete(self, delete_payment=True, *args, **kwargs):

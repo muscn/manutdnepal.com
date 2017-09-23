@@ -71,6 +71,7 @@ class UserManager(BaseUserManager):
 USER_STATUSES = (
     ('Registered', 'Registered'),
     ('Pending Payment', 'Pending Payment'),
+    ('Pending Approval', 'Pending Approval'),
     ('Member', 'Member'),
     ('Expired', 'Expired'),
 )

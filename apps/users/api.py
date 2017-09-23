@@ -12,6 +12,7 @@ from apps.users.serializers import UserSerializer, MembershipSerializer
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
     # permission_classes = (DistributedKeyAuthentication,)
 
     def create(self, request):
@@ -32,6 +33,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 class MembershipViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = MembershipSerializer
     queryset = Membership.objects.all()
+
     # permission_classes = (DistributedKeyAuthentication,)
 
     def create(self, request):
@@ -81,15 +83,8 @@ class CustomObtainAuth(ObtainAuthToken):
     # permission_classes = (DistributedKeyAuthentication,)
 
     def post(self, request, *args, **kwargs):
-        member_status = False
-        is_member = False
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        try:
-            member = user.membership
-            member_status = member.status in ['P', 'A']
-        except Membership.DoesNotExist:
-            pass
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key, 'member_status': member_status, 'is_member': user.is_member()})
+        return Response({'token': token.key, 'status': user.status})

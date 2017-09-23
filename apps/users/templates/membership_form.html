@@ -1,20 +1,100 @@
 {% extends base_template %}
+{% load solo_tags staticfiles %}
+
 {% block title %} Membership Form {% endblock %}
-{% load socialaccount %}
-{% block extrahead %}
-    <link href="{{ STATIC_URL }}css/auth.css" rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block content %}
-    
-    <h2>Complete the form to apply for MUSCN membership and devil card.</h2>
+
+    {% get_solo 'users.MembershipSetting' as membership_setting %}
+
+    <h2 class="my-3">
+        {% if request.user.status == 'Expired' %}
+            Renew Membership
+        {% else %}
+            Apply for Membership
+        {% endif %}
+    </h2>
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
         {% include 'users/_membership_form.html' with form=form object=object %}
 
-        <input type="submit" class="btn btn-primary" value="Submit">
+        <strong>Membership Fee: Rs. {{ membership_setting.membership_fee|floatformat:0 }}</strong>
+
+        <ul class="nav nav-tabs my-4" role="tablist">
+            {% if membership_setting.enable_esewa %}
+                <li class="nav-item">
+                    <a class="nav-link{% if tab == 'esewa' %} active{% endif %}" id="esewa-tab" data-toggle="tab" href="#esewa"
+                       role="tab" aria-controls="esewa" aria-expanded="true">Pay via e-Sewa</a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link{% if tab == 'receipt' %} active{% endif %}" id="receipt-tab" data-toggle="tab" href="#receipt"
+                   role="tab" aria-controls="receipt">Paid via Receipt</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if tab == 'bank' %} active{% endif %}" id="bank-tab" data-toggle="tab" href="#bank"
+                   role="tab" aria-controls="receipt">Paid via Bank Deposit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if tab == 'contact' %} active{% endif %}" id="contact-tab" data-toggle="tab" href="#contact"
+                   role="tab" aria-controls="contact">Contact for Payment</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            {% if membership_setting.enable_esewa %}
+                <div class="tab-pane fade{% if tab == 'esewa' %} show active{% endif %}" id="esewa" role="tabpanel"
+                     aria-labelledby="esewa-tab">
+                    <h2 style="display:inline">Pay via:</h2>
+                    {#                            <input value="eSewa" type="submit">#}
+                    <input type="image" src="{% static 'img/esewa.png' %}" name="esewa" class=""/>
+                </div>
+            {% endif %}
+            <div class="tab-pane fade{% if tab == 'receipt' %} show active{% endif %}" id="receipt" role="tabpanel"
+                 aria-labelledby="receipt-tab">
+                {{ direct_payment_form.non_field_errors }}
+
+                <div class="form-group">
+                    {{ direct_payment_form.receipt_no.label_tag }}
+                    {{ direct_payment_form.receipt_no }}
+                    {{ direct_payment_form.receipt_no.errors }}
+                </div>
+                <input type="submit" class="btn btn-primary" value="Submit" name="receipt">
+            </div>
+            <div class="tab-pane fade{% if tab == 'bank' %} show active{% endif %}" id="bank" role="tabpanel"
+                 aria-labelledby="bank-tab">
+                {{ bank_deposit_form.non_field_errors }}
+
+                <div class="form-group">
+                    {{ bank_deposit_form.bank.label_tag }}
+                    {{ bank_deposit_form.bank }}
+                    {{ bank_deposit_form.bank.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ bank_deposit_form.voucher_image.label_tag }}
+                    {{ bank_deposit_form.voucher_image }}
+                    {{ bank_deposit_form.voucher_image.errors }}
+                </div>
+                <input type="submit" class="btn btn-primary" value="Submit" name="bank">
+            </div>
+            <div class="tab-pane fade{% if tab == 'contact' %} show active{% endif %}" id="contact" role="tabpanel"
+                 aria-labelledby="contact-tab">
+                If you want to submit the fee by cash directly or by other means feasible to you, you can contact
+                us:<br/>
+
+
+                <i class="fa fa-globe"></i> <a href="/representatives/">List of Official Representatives</a><br/>
+                <i class="fa fa-at"></i> <a href="mailto:membership@manutd.org.np">membership@manutd.org.np</a>
+                <br/>
+                <i class="fa fa-facebook"></i> <a target="_blank" href="https://www.facebook.com/muscnepal">https://www.facebook.com/muscnepal</a>
+                <br/>
+                <i class="fa fa-twitter"></i> <a target="_blank" href="https://twitter.com/MUSCNP">@MUSCNP</a> <br/>
+            </div>
+        </div>
+
+
     </form>
 
 {% endblock %}

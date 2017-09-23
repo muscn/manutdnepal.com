@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+
 from muscn.utils.forms import HTML5BootstrapModelForm as form
 from django import forms
 from .models import BankDeposit, Payment, BankAccount, DirectPayment
@@ -8,15 +9,11 @@ from apps.users.models import User
 class BankDepositForm(form):
     class Meta:
         model = BankDeposit
-        exclude = ('payment', )
+        exclude = ('payment',)
 
     def __init__(self, *args, **kwargs):
         super(BankDepositForm, self).__init__(*args, **kwargs)
         self.fields['bank'].empty_label = None
-
-
-class PaymentFormMixin(object):
-    pass
 
 
 class BankDepositPaymentForm(form):
@@ -54,10 +51,18 @@ class BankDepositPaymentForm(form):
 
     class Meta:
         model = BankDeposit
-        exclude = ('payment', )
+        exclude = ('payment',)
 
 
-class DirectPaymentPaymentForm(form):
+class ReceiptPaymentForm(form):
+    receipt_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'number'}), required=False)
+
+    class Meta:
+        model = DirectPayment
+        fields = ('receipt_no',)
+
+
+class DirectPaymentForm(form):
     user = forms.ModelChoiceField(User.objects.all(), empty_label=None)
     date_time = forms.DateTimeField()
     amount = forms.FloatField()
@@ -79,10 +84,10 @@ class DirectPaymentPaymentForm(form):
         payment.save()
         obj.payment_id = payment.id
         obj.save()
-        return super(DirectPaymentPaymentForm, self).save(commit=True)
+        return super().save(commit=True)
 
     def __init__(self, *args, **kwargs):
-        super(DirectPaymentPaymentForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         # self.fields['received_by'].empty_label = None
         if self.instance.payment_id:
             self.initial['amount'] = self.instance.payment.amount
@@ -98,11 +103,10 @@ class DirectPaymentPaymentForm(form):
 
     class Meta:
         model = DirectPayment
-        exclude = ('payment', )
+        exclude = ('payment',)
 
 
 class DirectPaymentReceiptForm(form):
-
     def save(self, commit=True, user=None, payment=None):
         obj = self.instance
         payment.user = user
@@ -125,7 +129,6 @@ class DirectPaymentReceiptForm(form):
         exclude = ('payment', 'received_by')
 
 
-
 class PaymentForm(form):
     class Meta:
         model = Payment
@@ -135,6 +138,17 @@ class PaymentForm(form):
         super(PaymentForm, self).__init__(*args, **kwargs)
         self.fields['user'].empty_label = None
         self.fields['user'].widget.choices = self.fields['user'].choices
+
+
+class BankPaymentForm(form):
+    voucher_image = forms.FileField(widget=forms.FileInput, required=False)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['bank'].empty_label = None
+        
+    class Meta:
+        model = BankDeposit
+        fields = ('bank', 'voucher_image')
 
 
 class BankAccountForm(form):

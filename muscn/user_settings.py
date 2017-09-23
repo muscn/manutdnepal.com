@@ -17,7 +17,9 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 # ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_USERNAME_BLACKLIST = ['united', 'manutd', 'manchester', 'reddevil', 'reddevils', 'manchesterunited', 'mufc',
                               'administrator', 'admin']
-ACCOUNT_FORMS = {'signup': 'apps.users.forms.SignupForm'}
+ACCOUNT_FORMS = {
+    # 'login': 'apps.users.forms.LoginForm',
+    'signup': 'apps.users.forms.SignupForm'}
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
@@ -29,7 +31,7 @@ ACCOUNT_USER_DISPLAY = 'email'
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
         {
-            'SCOPE': ['email', 'user_birthday',],
+            'SCOPE': ['email', 'user_birthday', ],
             # 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
             'METHOD': 'oauth2',
             # 'LOCALE_FUNC': 'path.to.callable',
