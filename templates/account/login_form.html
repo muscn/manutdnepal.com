@@ -1,5 +1,5 @@
 {% load i18n %}
-<form class="login" method="POST" action="{% url 'account_login' %}" role="form">
+<form class="login my-4" method="POST" action="{% url 'account_login' %}" role="form">
     {% csrf_token %}
 
     {% if form.errors %}
@@ -13,8 +13,8 @@
     <input id="id_password" class="form-control" name="password" placeholder="Password" type="password">
 
     <div>
-        <div class="checkbox">
-            <label id="label-rememberme" class="pull-left">
+        <div class="checkbox my-2">
+            <label class="float-left">
                 {{ form.remember }} {{ form.remember.label }}
             </label>
             <br/>
@@ -23,8 +23,7 @@
     {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
     {% endif %}
-    <button class="primaryAction btn btn-primary btn-lg btn-block" id="btn-sign-in"
-            type="submit">{% trans "Sign In" %}</button>
+    <button class="my-2 btn btn-primary btn-lg btn-block" type="submit">{% trans "Sign In" %}</button>
     <a id="id-forgot-password" class="pull-left"
        href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
     <a id="id-sign-up" href="{{ signup_url }}" class="pull-right">{% trans 'Sign Up' %}</a>

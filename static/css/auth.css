@@ -1,97 +1,53 @@
-.radio {
-    margin-top: auto;
-}
-
-.radio ul {
-    padding-left: 0;
-}
-
-.connect-with {
-    text-transform: uppercase;
-    font-size: x-large;
-}
-
-/* or styling*/
-
-#wrapper-login form.login {
-    position: relative;
-    list-style: none;
-    margin: 20px 0 0 0;
-    padding: 30px 0 0 0;
-    border-top: 1px solid #ccc;
-}
-
-#wrapper-login form.login:before {
-    content: 'or';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin: -11px 0 0 -7px;
-    padding: 0 3px;
-    background-color: #fff;
-    font-weight: bold;
-}
-
 /*Sign Up form style*/
 
-form.signup button {
-    text-align: center;
-    max-width: 100px;
-    /*margin: 0px auto;*/
-}
+/*!* Hybrid Login Register Page*!*/
 
-form.signup {
-    max-width: 800px;
-}
+/*#wrapper-login-register h2 {*/
+    /*text-transform: uppercase;*/
+    /*border-bottom: 1px solid #cccccc;*/
+    /*padding-bottom: 6px;*/
+    /*margin-bottom: 10px;*/
+    /*font-size: x-large;*/
+/*}*/
 
-/* Hybrid Login Register Page*/
+/*#wrapper-login-register a#id-sign-up {*/
+    /*display: none;*/
+/*}*/
 
-#wrapper-login-register h2 {
-    text-transform: uppercase;
-    border-bottom: 1px solid #cccccc;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-    font-size: x-large;
-}
+/*#wrapper-login-register #btn-sign-in {*/
+    /*max-width: 150px;*/
+/*}*/
 
-#wrapper-login-register a#id-sign-up {
-    display: none;
-}
+/*#wrapper-login-register .social-buttons .row {*/
+    /*max-width: 225px;*/
+/*}*/
 
-#wrapper-login-register #btn-sign-in {
-    max-width: 150px;
-}
+/*#wrapper-login-register form.login input {*/
+    /*max-width: 300px;*/
+/*}*/
 
-#wrapper-login-register .social-buttons .row {
-    max-width: 225px;
-}
+/*#wrapper-login-register .smGlobalBtn, #wrapper-login .smGlobalBtn {*/
+    /*line-height: 2em;*/
+    /*width: 2em;*/
+    /*font-size: 1.6em;*/
+/*}*/
 
-#wrapper-login-register form.login input {
-    max-width: 300px;
-}
+/*!* Membership Form*!*/
+/*.social-accounts .btn {*/
+    /*color: #fff;*/
+/*}*/
 
-#wrapper-login-register .smGlobalBtn, #wrapper-login .smGlobalBtn {
-    line-height: 2em;
-    width: 2em;
-    font-size: 1.6em;
-}
+/*.social-accounts .btn:hover {*/
+    /*opacity: 0.75;*/
+/*}*/
 
-/* Membership Form*/
-.social-accounts .btn {
-    color: #fff;
-}
+/*#wrapper-membership-form #id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {*/
+    /*max-width: 350px;*/
+/*}*/
 
-.social-accounts .btn:hover {
-    opacity: 0.75;
-}
+/*!* Social Connect buttons *!*/
 
-#wrapper-membership-form #id_full_name, #id_date_of_birth, #id_mobile, #id_telephone {
-    max-width: 350px;
-}
-
-/* Social Connect buttons */
-
-.connect.btn {
-    width: 200px;
-    margin: 0.2em;
-}
+/*.connect.btn {*/
+    /*width: 200px;*/
+    /*margin: 0.2em;*/
+/*}*/

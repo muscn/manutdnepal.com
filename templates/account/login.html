@@ -1,4 +1,4 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
 {% load i18n  staticfiles %}
 
 {% block title %}{% trans "Sign In" %}{% endblock %}
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container text-center limit-width" id="wrapper-login">
+    <div class="container text-center max-350" id="wrapper-login">
         <div class='row'>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <h1>{% trans "Sign In" %}</h1>

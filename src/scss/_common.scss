@@ -168,3 +168,26 @@ $github: #333;
     }
   }
 }
+
+.max-350 {
+  max-width: 350px;
+}
+
+#wrapper-login form.login {
+  position: relative;
+  list-style: none;
+  margin: 20px 0 0 0;
+  padding: 30px 0 0 0;
+  border-top: 1px solid #ccc;
+}
+
+#wrapper-login form.login:before {
+  content: 'or';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin: -11px 0 0 -7px;
+  padding: 0 3px;
+  background-color: #fff;
+  font-weight: bold;
+}
