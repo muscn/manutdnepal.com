@@ -18,6 +18,7 @@ class Payment(models.Model):
     amount = models.FloatField()
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
+    type = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if self.verified:
@@ -176,6 +177,7 @@ class ReceiptData(models.Model):
     from_no = models.IntegerField()
     to_no = models.IntegerField()
     remarks = models.TextField(null=True, blank=True)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return '%s [%d-%d]' % (self.name, self.from_no, self.to_no)

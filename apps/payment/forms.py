@@ -57,6 +57,13 @@ class BankDepositPaymentForm(form):
 class ReceiptPaymentForm(form):
     receipt_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'number'}), required=False)
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
     class Meta:
         model = DirectPayment
         fields = ('receipt_no',)
@@ -142,10 +149,11 @@ class PaymentForm(form):
 
 class BankPaymentForm(form):
     voucher_image = forms.FileField(widget=forms.FileInput, required=False)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['bank'].empty_label = None
-        
+
     class Meta:
         model = BankDeposit
         fields = ('bank', 'voucher_image')

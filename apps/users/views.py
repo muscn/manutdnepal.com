@@ -31,7 +31,7 @@ from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
     MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm, ReceiptPaymentForm, BankPaymentForm
-from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment
+from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment, ReceiptData, BankDeposit
 from muscn.utils.football import get_current_season_start
 from muscn.utils.helpers import insert_row
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
@@ -74,7 +74,9 @@ def logout(request, next_page=None):
 @login_required
 def membership_form(request):
     user = request.user
-    if MembershipSetting.enable_esewa:
+    # todo check status
+    membership_setting = MembershipSetting.get_solo()
+    if membership_setting.enable_esewa:
         tab = 'esewa'
     else:
         tab = 'receipt'
@@ -82,15 +84,45 @@ def membership_form(request):
     bank_deposit_form = BankPaymentForm()
     if request.POST:
         data = request.POST
-        valid = True
+        valid = False
         form = MembershipForm(data, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-        else:
-            valid = False
-        if data.get('esewa'):
-            return redirect(reverse_lazy('esewa_form'))
+            payment = Payment(user=user, amount=float(membership_setting.membership_fee), type='Membership')
+            if data.get('esewa') and not (data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
+                return redirect(reverse_lazy('esewa_form'))
+            elif data.get('receipt') or (data.get('esewa') and data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
+                direct_payment_form = ReceiptPaymentForm(data)
+                tab = 'receipt'
+                valid = False
+                receipt_no = data.get('receipt_no')
+                if not receipt_no:
+                    direct_payment_form.errors['receipt_no'] = 'Receipt number is required.'
+                elif not receipt_no.isdigit():
+                    direct_payment_form.errors['receipt_no'] = 'Invalid receipt number.'
+                elif not ReceiptData.objects.filter(active=True, from_no__lte=receipt_no, to_no__gte=receipt_no).exists():
+                    direct_payment_form.errors['receipt_no'] = 'Invalid receipt number.'
+                else:
+                    payment.save()
+                    DirectPayment.objects.create(payment=payment, receipt_no=receipt_no)
+                    valid = True
+            elif data.get('deposit'):
+                bank_deposit_form = BankPaymentForm(data, request.FILES)
+                tab = 'bank'
+                valid = False
+                if not request.FILES.get('voucher_image'):
+                    bank_deposit_form.errors['voucher_image'] = 'Voucher image is required.'
+                else:
+                    payment.save()
+                    BankDeposit.objects.create(payment=payment, voucher_image=request.FILES.get('voucher_image'),
+                                               bank=BankAccount.objects.first())
+                    valid = True
+            else:
+                valid = False
+
         if valid:
+            user.status = 'Pending Approval'
+            user.save()
             return redirect(reverse('membership_form'))
     else:
         form = MembershipForm(instance=user)
@@ -109,6 +141,7 @@ def membership_form(request):
 def esewa_form(request):
     # TODO check membership status
     return render(request, 'payment/esewa_form.html')
+
 
 @login_required
 def membership_payment(request):

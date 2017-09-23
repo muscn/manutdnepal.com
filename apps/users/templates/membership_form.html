@@ -52,31 +52,31 @@
             {% endif %}
             <div class="tab-pane fade{% if tab == 'receipt' %} show active{% endif %}" id="receipt" role="tabpanel"
                  aria-labelledby="receipt-tab">
-                {{ direct_payment_form.non_field_errors }}
+                <div class="errors">{{ direct_payment_form.non_field_errors }}</div>
 
                 <div class="form-group">
                     {{ direct_payment_form.receipt_no.label_tag }}
                     {{ direct_payment_form.receipt_no }}
-                    {{ direct_payment_form.receipt_no.errors }}
+                    <div class="errors">{{ direct_payment_form.receipt_no.errors }}</div>
                 </div>
                 <input type="submit" class="btn btn-primary" value="Submit" name="receipt">
             </div>
             <div class="tab-pane fade{% if tab == 'bank' %} show active{% endif %}" id="bank" role="tabpanel"
                  aria-labelledby="bank-tab">
-                {{ bank_deposit_form.non_field_errors }}
+                <div class="errors">{{ bank_deposit_form.non_field_errors }}</div>
 
                 <div class="form-group">
                     {{ bank_deposit_form.bank.label_tag }}
                     {{ bank_deposit_form.bank }}
-                    {{ bank_deposit_form.bank.errors }}
+                    <div class="errors">{{ bank_deposit_form.bank.errors }}</div>
                 </div>
 
                 <div class="form-group">
                     {{ bank_deposit_form.voucher_image.label_tag }}
                     {{ bank_deposit_form.voucher_image }}
-                    {{ bank_deposit_form.voucher_image.errors }}
+                    <div class="errors">{{ bank_deposit_form.voucher_image.errors }}</div>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Submit" name="bank">
+                <input type="submit" class="btn btn-primary" value="Submit" name="deposit">
             </div>
             <div class="tab-pane fade{% if tab == 'contact' %} show active{% endif %}" id="contact" role="tabpanel"
                  aria-labelledby="contact-tab">
