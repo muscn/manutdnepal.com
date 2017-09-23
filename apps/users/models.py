@@ -68,15 +68,21 @@ class UserManager(BaseUserManager):
             return False
 
 
+USER_STATUSES = (
+    ('Registered', 'Registered'),
+    ('Pending Payment', 'Pending Payment'),
+    ('Member', 'Member'),
+    ('Expired', 'Expired'),
+)
+
+
 class User(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True, blank=True, null=True)
     full_name = models.CharField(max_length=245)
     devil_no = models.PositiveIntegerField(unique=True, null=True, blank=True)
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=254,
-        unique=True,
-        db_index=True)
+    mobile = models.CharField(max_length=50, null=True)
+    status = models.CharField(choices=USER_STATUSES, max_length=30, default='Registered')
+    email = models.EmailField(verbose_name='Email address', max_length=254, unique=True, db_index=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -110,24 +116,23 @@ class User(AbstractBaseUser):
             return self.membership.get_card_status()
         return ''
 
-    @property
-    def membership_status(self):
-        if self.devil_no:
-            return 'Member'
-        try:
-            if self.membership:
-                if not self.membership.payment:
-                    return 'Payment information not received'
-                if not self.membership.payment.verified:
-                    return 'Payment not verified'
-                return 'Membership not verified'
-        except Membership.DoesNotExist:
-            return 'Membership not applied'
-
-    def is_member(self):
-        # TODO check membership status as Approved but not Pending or Expired
-        return True if hasattr(self, 'membership') and hasattr(self.membership,
-                                                               'payment') and self.membership.approved_date and self.membership.approved_by and not self.membership.has_expired() else False
+    # @property
+    # def membership_status(self):
+    #     if self.devil_no:
+    #         return 'Member'
+    #     try:
+    #         if self.membership:
+    #             if not self.membership.payment:
+    #                 return 'Payment information not received'
+    #             if not self.membership.payment.verified:
+    #                 return 'Payment not verified'
+    #             return 'Membership not verified'
+    #     except Membership.DoesNotExist:
+    #         return 'Membership not applied'
+    # 
+    # def is_member(self):
+    #     return True if hasattr(self, 'membership') and hasattr(self.membership,
+    #                                                            'payment') and self.membership.approved_date and self.membership.approved_by and not self.membership.has_expired() else False
 
     USERNAME_FIELD = 'email'
 
