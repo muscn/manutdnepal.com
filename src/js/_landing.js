@@ -1,15 +1,3 @@
-$(function () {
-  var config = {
-    'domain': 'reddevils',
-    'show_sticky': false,
-    'num_threads': 6,
-    'allow_internal': false,
-    'upvoted_only': true
-  };
-  var reddit_vm = new RedditVM(config);
-  ko.applyBindings(reddit_vm, $('#reddit-block')[0]);
-});
-
 function ThreadVM(data) {
   var self = this;
   if (data.thumbnail != 'self' && data.thumbnail != 'default') {
@@ -118,19 +106,34 @@ function parseRSS(url, callback) {
 }
 
 $(function () {
-  parseRSS('http://talksport.com/rss/football/manchester-united/feed', function (data) {
-    var news_vm = new NewsVM(data);
-    var news_block = $('#news-block')[0];
-    //ko.cleanNode(news_block);
-    ko.applyBindings(news_vm, news_block);
-  })
-});
+  $(this).one('scroll', function () {
 
-(function (d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=745752022186281";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+    var config = {
+      'domain': 'reddevils',
+      'show_sticky': false,
+      'num_threads': 6,
+      'allow_internal': false,
+      'upvoted_only': true
+    };
+    reddit_vm = new RedditVM(config);
+    ko.applyBindings(reddit_vm, $('#reddit-block')[0]);
+
+    parseRSS('http://talksport.com/rss/football/manchester-united/feed', function (data) {
+      var news_vm = new NewsVM(data);
+      var news_block = $('#news-block')[0];
+      //ko.cleanNode(news_block);
+      ko.applyBindings(news_vm, news_block);
+    });
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=745752022186281";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+  });
+});

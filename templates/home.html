@@ -181,7 +181,6 @@
                     </tr>
                 {% endfor %}
                 </tbody>
-                </tr>
             </table>
         </div>
 
@@ -279,10 +278,13 @@
 
         <div class="stats block col-sm mt-3" id="reddit-block">
             <h4>From Reddit</h4>
+            <!-- ko if: !threads().length -->
+            <div class="loader mt-5"></div>
+            <!-- /ko -->
             <!-- ko foreach: threads -->
             <div class="media">
                 <!-- ko if:internal -->
-                <span class="thumbnail-placeholder pull-left"></span>
+                <span class="thumbnail-placeholder float-left"></span>
                 <!-- /ko -->
 
                 <!-- ko if:!internal -->
@@ -302,6 +304,10 @@
         <div class="stats block col-sm mt-3" id="news-block">
             <h4>News</h4>
 
+            <!-- ko if: !entries.length -->
+            <div class="loader mt-5"></div>
+            <!-- /ko -->
+
             <ul data-bind="foreach: entries" class="block-content">
                 <li>
                     <a data-bind="attr: {'href': link}, text: title" target="_blank"></a>
@@ -318,11 +324,11 @@
                 <div class="fb-xfbml-parse-ignore">
                     <blockquote cite="https://www.facebook.com/muscnepal"><a
                             href="https://www.facebook.com/muscnepal">Manchester
-                        United Supporters&#039; Club, Nepal</a></blockquote>
+                        United Supporters' Club, Nepal</a></blockquote>
+                    <div class="loader mt-5"></div>
                 </div>
             </div>
         </div>
-        {#            </div>#}
     </div>
 
     <div class="quote-block section">
