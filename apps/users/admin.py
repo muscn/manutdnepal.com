@@ -80,12 +80,12 @@ class CustomUserAdmin(UserAdmin):
     add_form = UserCreationForm
     ordering = ('username',)
     filter_horizontal = ()
-    list_display = ('username', 'email', 'is_staff')
-    list_filter = ('is_staff', 'is_superuser')
+    list_display = ('full_name', 'email', 'is_staff', 'devil_no', 'status')
+    list_filter = ('is_staff', 'is_superuser', 'status')
     fieldsets = ((None,
                   {'fields': ('full_name',
-                              'username',
                               'devil_no',
+                              'status',
                               'email',
                               'password',
                               'is_active',
@@ -105,7 +105,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_staff',
                                   'is_superuser')}),
                      )
-    search_fields = ('full_name', 'username', 'email', 'devil_no')
+    search_fields = ('full_name', 'email', 'devil_no')
     readonly_fields = ('is_staff', 'is_superuser')
 
 
@@ -149,13 +149,6 @@ class DecadeBornListFilter(admin.SimpleListFilter):
             return queryset.filter(date_of_birth__gte=date(1999, 12, 31))
 
 
-class MembershipAdmin(admin.ModelAdmin):
-    # list_display =
-    list_filter = ('gender',
-                   # 'present_status', 'shirt_size',
-                   DecadeBornListFilter)
-
-
 def make_awaiting(modeladmin, request, queryset):
     queryset.update(status=1)
     [obj.notify() for obj in queryset]
@@ -182,9 +175,9 @@ make_delivered.short_description = "Set as 'Delivered'"
 
 
 class CardStatusAdmin(admin.ModelAdmin):
-    list_display = ('get_devil_no', 'status')
+    list_display = ('user', 'get_devil_no', 'status')
     search_fields = ('user__full_name', 'user__devil_no', 'user__mobile', 'user__email')
-    list_filter = ('status',)
+    list_filter = ('status', 'season')
     actions = [make_awaiting, make_printed, make_delivered]
 
     def save_model(self, request, obj, form, change):
@@ -201,8 +194,6 @@ class CardStatusAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('user')
 
-
-admin.site.register(Membership, MembershipAdmin)
 
 admin.site.register(User, CustomUserAdmin)
 
@@ -222,6 +213,5 @@ from django.contrib.auth.models import Group
 
 admin.site.unregister(Group)
 admin.site.register(GroupProxy)
-admin.site.register(Renewal)
 admin.site.register(CardStatus, CardStatusAdmin)
 admin.site.register(MembershipSetting, SingletonModelAdmin)

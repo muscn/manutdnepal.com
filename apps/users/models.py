@@ -119,10 +119,13 @@ class User(AbstractBaseUser):
                 max_devil_no = 100
             self.devil_no = max_devil_no + 1
         self.status = 'Member'
+        card_status, __ = CardStatus.objects.update_or_create(user=self, season=season(), defaults={'status': 'Awaiting Print'})
+        card_status.notify()
         self.save()
 
     @property
     def card_status(self):
+        # todo
         if hasattr(self, 'membership') and hasattr(self.membership, 'card_status'):
             return self.membership.get_card_status()
         return ''
@@ -480,11 +483,11 @@ class Renewal(models.Model):
 class CardStatus(models.Model):
     user = models.ForeignKey(User, related_name='card_statuses')
     STATUSES = (
-        (1, 'Awaiting Print'),
-        (2, 'Printed'),
-        (3, 'Delivered'),
+        ('Awaiting Print', 'Awaiting Print'),
+        ('Printed', 'Printed'),
+        ('Delivered', 'Delivered'),
     )
-    status = models.PositiveIntegerField(choices=STATUSES, default=1)
+    status = models.CharField(choices=STATUSES, default='Awaiting Print', max_length=20)
     season = models.CharField(max_length=9, default=season)
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
@@ -495,20 +498,20 @@ class CardStatus(models.Model):
         return ret
 
     def notify(self):
-        if self.status == 1:
+        if self.status == 'Awaiting Print':
             subject = 'Your MUSCN membership has been approved.'
             params = {}
             text_template = 'users/email/status_awaiting.txt'
             # html_template = 'users/email/status_awaiting.html'
-        elif self.status == 2:
+        elif self.status == 'Printed':
             subject = 'Your MUSCN membership card has been printed.'
             params = {}
             text_template = 'users/email/status_printed.txt'
-        elif self.status == 3:
+        elif self.status == 'Delivered':
             subject = 'Your MUSCN membership card has been picked up.'
             params = {}
             text_template = 'users/email/status_delivered.txt'
-        self.membership.user.email_using_template(subject, params, text_template, tag='card-status')
+        self.user.email_using_template(subject, params, text_template, tag='card-status')
 
     def __str__(self):
         return self.user.full_name + ' - ' + self.get_status()

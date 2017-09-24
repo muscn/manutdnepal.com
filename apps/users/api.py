@@ -1,8 +1,10 @@
+from django.core.files.base import ContentFile
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, parser_classes
 from rest_framework.exceptions import APIException
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from rest_framework.response import Response
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount
 from apps.users.models import User, MembershipSetting
@@ -35,6 +37,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return Response(self.serializer_class(user).data, status=status.HTTP_200_OK)
 
     @list_route(methods=['POST'])
+    @parser_classes((FormParser, MultiPartParser,))
     def membership(self, request):
         user = request.user
         if not user.is_authenticated:
@@ -68,12 +71,15 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 payment.save()
                 DirectPayment.objects.create(payment=payment, receipt_no=receipt_no)
         elif data.get('deposit'):
-            if not request.FILES.get('voucher_image'):
+            if not request.data.get('voucher_image'):
                 raise APIException('Voucher image is required.')
             else:
                 payment.save()
-                BankDeposit.objects.create(payment=payment, voucher_image=request.FILES.get('voucher_image'),
-                                           bank=BankAccount.objects.first())
+                bd = BankDeposit.objects.create(payment=payment, voucher_image=request.data.get('voucher_image'),
+                                                bank=BankAccount.objects.first())
+                if not bd.voucher_image:
+                    payment.delete()
+                    raise APIException('Could not save voucher image.')
         else:
             raise APIException('No payment method specified.')
         user.status = 'Pending Approval'
