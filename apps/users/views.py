@@ -25,7 +25,6 @@ from reportlab.platypus import Paragraph, Table
 from reportlab.lib.units import cm, inch
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from django.utils import timezone
 
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting

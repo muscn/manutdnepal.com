@@ -16,6 +16,12 @@ class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.
     queryset = Fixture.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
     permission_classes = []
 
+    def finalize_response(self, request, *args, **kwargs):
+        response = super().finalize_response(request, *args, **kwargs)
+        if self.request.user.is_authenticated:
+            response['status'] = request.user.status
+        return response
+
     @list_route()
     def epl_matchweek(self, request):
         if 'epl_standings' in cache:
@@ -34,7 +40,6 @@ class FixtureDetailViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureDetailSerializer
     queryset = Fixture.objects.all()
     # permission_classes = (DistributedKeyAuthentication,)
-
 
 
 class RecentResultViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -88,6 +93,7 @@ class PastSeasonViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewse
 
 class WallpaperViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = WallpaperSerializer
+
     # permission_classes = (DistributedKeyAuthentication,)
 
     def get_queryset(self):

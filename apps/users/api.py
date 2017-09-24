@@ -1,15 +1,12 @@
-import datetime
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import list_route
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
-from apps.key.permissions import DistributedKeyAuthentication
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount
-from apps.stats.serializers import FixtureSerializer
-from apps.users.models import User, Membership, MembershipSetting
-from apps.users.serializers import UserSerializer, MembershipSerializer
+from apps.users.models import User, MembershipSetting
+from apps.users.serializers import UserSerializer
 
 
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):

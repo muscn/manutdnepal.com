@@ -4,7 +4,7 @@ from ics.parse import ParseError
 from muscn.utils.helpers import fix_unicode
 from .base import Scraper
 from apps.stats.models import Fixture, CompetitionYear, Competition, Team
-from muscn.utils.football import get_current_season_start_year
+from muscn.utils.football import season
 
 
 class FixturesScraper(Scraper):
@@ -66,7 +66,7 @@ class FixturesScraper(Scraper):
                         # raise Exception('Please add a competition with name : ' + competition_name)
                         competition = Competition.objects.create(name=competition_name)
                 # Check for pre-season matches
-                year = str(get_current_season_start_year(fixture.datetime.date()))
+                year = str(season(fixture.datetime.date()))
                 try:
                     competition_year = CompetitionYear.objects.get(competition=competition, year=year)
                 except CompetitionYear.DoesNotExist:

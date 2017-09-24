@@ -26,7 +26,7 @@ from versatileimagefield.fields import VersatileImageField
 
 from apps.partner.models import Partner
 from muscn.utils.countries import CountryField
-from muscn.utils.football import get_current_season_start_year, get_current_season_start_time
+from muscn.utils.football import season, get_current_season_start_time
 from muscn.utils.forms import unique_slugify
 from muscn.utils.mixins import CachedModel
 from muscn.utils.npt import utc_to_local
@@ -697,7 +697,7 @@ class PlayerSocialAccount(models.Model):
 
 
 def get_top_scorers():
-    current_year = get_current_season_start_year()
+    current_year = season()
     goals = Goal.objects.filter(match__competition_year__year=current_year).select_related('scorer').prefetch_related(
         'match__competition_year__competition')
     competition_years = CompetitionYear.objects.filter(year=current_year).select_related()
@@ -727,7 +727,7 @@ def get_top_scorers():
 
 
 def get_top_scorers_summary():
-    current_year = get_current_season_start_year()
+    current_year = season()
     goals = Goal.objects.filter(match__competition_year__year=current_year,
                                 match__competition_year__competition__friendly=False).select_related('scorer')
     players = OrderedDict()

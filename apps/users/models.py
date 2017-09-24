@@ -31,7 +31,7 @@ from django.template import Template, Context
 from solo.models import SingletonModel
 
 from apps.payment.models import Payment
-from muscn.utils.football import get_current_season_start
+from muscn.utils.football import get_current_season_start, season
 from muscn.utils.helpers import show_progress
 
 
@@ -478,13 +478,14 @@ class Renewal(models.Model):
 
 
 class CardStatus(models.Model):
-    user = models.OneToOneField(User, related_name='card_status')
+    user = models.ForeignKey(User, related_name='card_statuses')
     STATUSES = (
         (1, 'Awaiting Print'),
         (2, 'Printed'),
         (3, 'Delivered'),
     )
     status = models.PositiveIntegerField(choices=STATUSES, default=1)
+    season = models.CharField(max_length=9, default=season)
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
     def get_status(self):
@@ -510,10 +511,11 @@ class CardStatus(models.Model):
         self.membership.user.email_using_template(subject, params, text_template, tag='card-status')
 
     def __str__(self):
-        return self.membership.user.full_name + ' - ' + self.get_status()
+        return self.user.full_name + ' - ' + self.get_status()
 
     class Meta:
         verbose_name_plural = 'Card Statuses'
+        unique_together = ('user', 'season')
 
 
 class StaffOnlyMixin(object):
