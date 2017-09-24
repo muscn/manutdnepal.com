@@ -59,7 +59,7 @@
                     {{ direct_payment_form.receipt_no }}
                     <div class="errors">{{ direct_payment_form.receipt_no.errors }}</div>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Submit" name="receipt">
+                <input type="submit" class="btn btn-danger" value="Submit" name="receipt">
             </div>
             <div class="tab-pane fade{% if tab == 'bank' %} show active{% endif %}" id="bank" role="tabpanel"
                  aria-labelledby="bank-tab">
@@ -76,7 +76,7 @@
                     {{ bank_deposit_form.voucher_image }}
                     <div class="errors">{{ bank_deposit_form.voucher_image.errors }}</div>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Submit" name="deposit">
+                <input type="submit" class="btn btn-danger" value="Submit" name="deposit">
             </div>
             <div class="tab-pane fade{% if tab == 'contact' %} show active{% endif %}" id="contact" role="tabpanel"
                  aria-labelledby="contact-tab">

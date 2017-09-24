@@ -1,5 +1,5 @@
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = '/renew/'
+LOGIN_REDIRECT_URL = '/membership/'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
