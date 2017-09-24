@@ -23,7 +23,6 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     def create(self, request):
         params = request.data
-        # username = params.get('username')
         email = params.get('email')
         password = params.get('password')
         full_name = params.get('full_name')

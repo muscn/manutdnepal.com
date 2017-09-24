@@ -12,4 +12,4 @@ class MembershipSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'full_name', 'mobile', 'status')
+        fields = ('email', 'full_name', 'mobile', 'status')
