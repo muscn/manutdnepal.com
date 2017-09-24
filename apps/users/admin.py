@@ -182,8 +182,8 @@ make_delivered.short_description = "Set as 'Delivered'"
 
 
 class CardStatusAdmin(admin.ModelAdmin):
-    list_display = ('get_devil_no', 'get_membership', 'status')
-    search_fields = ('membership__user__full_name', 'membership__user__devil_no')
+    list_display = ('get_devil_no', 'status')
+    search_fields = ('user__full_name', 'user__devil_no', 'user__mobile', 'user__email')
     list_filter = ('status',)
     actions = [make_awaiting, make_printed, make_delivered]
 
@@ -192,19 +192,14 @@ class CardStatusAdmin(admin.ModelAdmin):
             obj.notify()
         obj.save()
 
-    def get_membership(self, obj):
-        url = reverse('admin:%s_%s_change' % (obj.membership._meta.app_label, obj.membership._meta.model_name),
-                      args=(obj.membership.pk,))
-        return u'<a href="%s">%s</a>' % (url, obj.membership.user.full_name)
-
-    get_membership.short_description = 'Membership'
-    get_membership.allow_tags = True
-
     def get_devil_no(self, obj):
-        return obj.membership.user.devil_no
+        return obj.user.devil_no
 
     get_devil_no.short_description = 'Devil #'
     get_devil_no.admin_order_field = 'membership__user__devil_no'
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
 
 
 admin.site.register(Membership, MembershipAdmin)

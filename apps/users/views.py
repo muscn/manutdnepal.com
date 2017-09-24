@@ -88,7 +88,9 @@ def membership_form(request):
         form = MembershipForm(data, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            # todo check if renewal
             payment = Payment(user=user, amount=float(membership_setting.membership_fee), type='Membership')
+            # todo api check esewa
             if data.get('esewa') and not (data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
                 return redirect(reverse_lazy('esewa_form'))
             elif data.get('receipt') or (data.get('esewa') and data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):

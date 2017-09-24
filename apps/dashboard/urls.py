@@ -47,6 +47,8 @@ urlpatterns = [
 
     url(r'^audit-log/$', views.AuditLogListView.as_view(), name='audit_log'),
 
+    url(r'^approve_payment_membership/$', views.approve_payment_membership, name='approve_payment_membership'),
+
     url(r'^membership/add/(?P<pk>\d+)/$', users_views.MembershipCreateView.as_view(),
         name='create_membership'),
     url(r'^membership/(?P<pk>\d+)/$', users_views.MembershipUpdateView.as_view(),

@@ -20,6 +20,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse_lazy
 from django.core.validators import validate_email
 from django.db import models
+from django.db.models import Max
 from django.dispatch import receiver
 from django.http import HttpResponse, HttpResponseForbidden
 
@@ -110,6 +111,15 @@ class User(AbstractBaseUser):
                 return 'https://twitter.com/' + account.extra_data.get('screen_name') + '/profile_image?size=original'
 
         return self.gravatar_url
+
+    def approve(self):
+        if not self.devil_no:
+            max_devil_no = User.objects.aggregate(Max('devil_no'))['devil_no__max']
+            if max_devil_no is None:
+                max_devil_no = 100
+            self.devil_no = max_devil_no + 1
+        self.status = 'Member'
+        self.save()
 
     @property
     def card_status(self):
@@ -468,7 +478,7 @@ class Renewal(models.Model):
 
 
 class CardStatus(models.Model):
-    membership = models.OneToOneField(Membership, related_name='card_status')
+    user = models.OneToOneField(User, related_name='card_status')
     STATUSES = (
         (1, 'Awaiting Print'),
         (2, 'Printed'),

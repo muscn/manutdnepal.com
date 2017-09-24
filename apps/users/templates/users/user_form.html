@@ -12,7 +12,7 @@
 {% block content %}
     <h1>Create User</h1>
     <div class="row">
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-md-6">
             <form method="POST">
 
                 {% csrf_token %}
@@ -28,6 +28,59 @@
             </div>
         </div>
 
+        <div class="col-md-6">
+            {% if form.instance.pk %}
+                <div class="card p-2">
+                    <div><strong>Status: </strong> {{ form.instance.status }}</div>
+                    {% if form.instance.devil_no %}
+                        <div><strong>Devil No: </strong> {{ form.instance.devil_no }}</div>
+                    {% endif %}
+                <div><strong>Card Status: </strong>{{ form.instance.card_status.get_status_display }}</div>
+                </div>
+
+                {% for payment in form.instance.payments.all %}
+                    <div class="card p-2">
+                        <div class="font-weight-bold">
+                            <a href="{% url 'update_payment' payment.pk %}" target="_blank">
+                                {{ payment.method_type }} | {{ payment.date_time }} | NRs. {{ payment.amount }}
+                            </a>
+                        </div>
+                        {% if payment.verified_by %}
+                            <div class="text-success">Verified By: {{ payment.verified_by }}</div>
+                        {% else %}
+                            <div class="text-danger">Not Verified</div>
+                        {% endif %}
+                        {% if payment.method_type == 'Bank Deposit' %}
+                            <div>{{ payment.method.bank }}</div>
+                            <a href="{{ payment.method.voucher_image.url }}" target="_blank">
+                                <img src="{{ payment.method.voucher_image.url }}" height="250"/>
+                            </a>
+                        {% endif %}
+                        {% if payment.method_type == 'Direct Payment' %}
+                            <div class="font-weight-bold">Receipt No. {{ payment.method.receipt_no }}</div>
+                            {% if payment.method.receipt_image %}
+                                <a href="{{ payment.method.receipt_image.url }}" target="_blank">
+                                    <img src="{{ payment.method.receipt_image.url }}" height="250"/>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        {% if form.instance.status == 'Pending Approval' and not payment.verified_by %}
+                            <form method="post" action="{% url 'approve_payment_membership' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ form.instance.pk }}">
+                                <input type="hidden" name="payment_id" value="{{ payment.pk }}">
+                                <input type="submit" class="btn btn-success btn-lg" value="Approve"/>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+
+
+
+
+            {% endif %}
+        </div>
 
     </div>
 

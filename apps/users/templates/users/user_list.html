@@ -31,7 +31,7 @@
             </thead>
             <tbody>
             {% for item in paginated_objects %}
-                <tr class="{% if item.is_member %}success{% else %}warning{% endif %}">
+                <tr class="{% if item.status == 'Pending Approval' %}warning{% elif item.status == 'Member' %}success{% endif %}">
                     <td>
                         <a href="{% url 'update_user' item.id %}">
                             {{ item.full_name }}

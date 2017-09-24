@@ -13,7 +13,7 @@ User = settings.AUTH_USER_MODEL
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, blank=False, verbose_name='By')
+    user = models.ForeignKey(User, blank=False, verbose_name='By', related_name='payments')
     date_time = models.DateTimeField(default=timezone.now, verbose_name='Date/Time')
     amount = models.FloatField()
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
