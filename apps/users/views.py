@@ -212,45 +212,9 @@ class PublicMembershipListView(ListView):
                 Q(full_name__icontains=q) |
                 Q(email__icontains=q) |
                 Q(devil_no__contains=q) |
-                Q(membership__telephone__contains=q) |
-                Q(membership__mobile__contains=q)
-            )
-        return qs
-
-
-class MembershipListView(StaffOnlyMixin, ListView):
-    model = Membership
-
-    def get(self, request, *args, **kwargs):
-        if 'q' in self.request.GET:
-            q = self.request.GET['q']
-            self.queryset = Membership.objects.filter(
-                Q(user__username__icontains=q) |
-                Q(user__full_name__icontains=q) |
-                Q(user__email__icontains=q) |
-                Q(user__devil_no__contains=q) |
-                Q(telephone__contains=q) |
                 Q(mobile__contains=q)
             )
-        return super(MembershipListView, self).get(request, *args, **kwargs)
-
-
-class RenewalListView(StaffOnlyMixin, ListView):
-    model = Renewal
-
-    def get(self, request, *args, **kwargs):
-        if 'q' in self.request.GET:
-            q = self.request.GET['q']
-            self.queryset = Renewal.objects.filter(
-                Q(membership__user__username__icontains=q) |
-                Q(membership__user__full_name__icontains=q) |
-                Q(membership__user__email__icontains=q) |
-                Q(membership__user__devil_no__contains=q) |
-                Q(membership__telephone__contains=q) |
-                Q(membership__mobile__contains=q)
-            )
-        return super(RenewalListView, self).get(request, *args, **kwargs)
-
+        return qs
 
 class MembershipCreateView(StaffOnlyMixin, CreateView):
     model = Membership

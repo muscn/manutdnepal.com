@@ -7,24 +7,24 @@
     {% include 'partials/selectize.html' %}
     {% include 'partials/datetimepicker.html' %}
     <script>
-        var disable_required_on_hidden_tabcontent = function (e) {
-            // change value of hidden payment_method input
-            if (typeof($(e.currentTarget).attr('aria-controls')) != 'undefined') {
-                $('input[name="payment_method"]').val($(e.currentTarget).attr('aria-controls'))
-            }
-            // disable required attribute in elements within hidden tabs
-            $(':input[required]:hidden').removeAttr('required').addClass('wasrequired');
-            $('.wasrequired:visible').removeClass('wasrequired').prop('required', 'required');
+      var disable_required_on_hidden_tabcontent = function (e) {
+        // change value of hidden payment_method input
+        if (typeof($(e.currentTarget).attr('aria-controls')) != 'undefined') {
+          $('input[name="payment_method"]').val($(e.currentTarget).attr('aria-controls'))
         }
-        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', disable_required_on_hidden_tabcontent);
-        $(document).on('ready', disable_required_on_hidden_tabcontent);
+        // disable required attribute in elements within hidden tabs
+        $(':input[required]:hidden').removeAttr('required').addClass('wasrequired');
+        $('.wasrequired:visible').removeClass('wasrequired').prop('required', 'required');
+      };
+      $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', disable_required_on_hidden_tabcontent);
+      $(document).on('ready', disable_required_on_hidden_tabcontent);
     </script>
 {% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_memberships' %}"><i class="fa fa-user"></i>Memberships</a>
-    <span>New User/Membership</span>
+    <a class="breadcrumb-item" href="{% url 'list_users' %}"><i class="fa fa-user mr-1"></i>Users</a>
+    <a class="breadcrumb-item" <span>New User/Membership</span></a>
 {% endblock %}
 
 {% block content %}
@@ -37,8 +37,6 @@
                 <div class="limit-width">
                     {% include 'users/_user_form.html' with form=user_form %}
                 </div>
-
-                {% include 'users/_membership_form.html' with form=membership_form hide='full_name' %}
 
                 <h2>Payment Details</h2>
 
