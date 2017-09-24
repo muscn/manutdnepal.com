@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import list_route, parser_classes
 from rest_framework.exceptions import APIException
-from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount, EsewaPayment
 from apps.users.models import User, MembershipSetting

@@ -12,7 +12,7 @@ from django.contrib.auth import logout as auth_logout
 from django.views.generic import DetailView
 from allauth.account.forms import LoginForm, SignupForm
 from django.views.generic.list import ListView
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Prefetch
 from auditlog.models import LogEntry
 from django.contrib import messages
 from django.db.models import Q
@@ -31,7 +31,7 @@ from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus
 from .forms import MembershipForm, UserForm, UserUpdateForm
 from apps.payment.forms import BankDepositForm, ReceiptPaymentForm, BankPaymentForm
 from apps.payment.models import BankAccount, Payment, EsewaPayment, DirectPayment, ReceiptData, BankDeposit
-from muscn.utils.football import get_current_season_start
+from muscn.utils.football import get_current_season_start, season
 from muscn.utils.helpers import insert_row
 from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentForm, DirectPaymentReceiptForm
@@ -287,6 +287,10 @@ class MembershipDeleteView(StaffOnlyMixin, DeleteView):
 
 class UserListView(StaffOnlyMixin, ListView):
     model = User
+
+    def get_queryset(self):
+        return super(UserListView, self).get_queryset().prefetch_related(
+            Prefetch('card_statuses', CardStatus.objects.filter(season=season()), to_attr='card_status_list'))
 
     def get(self, request, *args, **kwargs):
         if 'q' in self.request.GET:

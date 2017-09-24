@@ -35,7 +35,7 @@
                     {% if form.instance.devil_no %}
                         <div><strong>Devil No: </strong> {{ form.instance.devil_no }}</div>
                     {% endif %}
-                <div><strong>Card Status: </strong>{{ form.instance.card_status.get_status_display }}</div>
+                <div><strong>Card Status: </strong>{{ form.instance.card_status }}</div>
                 </div>
 
                 {% for payment in form.instance.payments.all %}
