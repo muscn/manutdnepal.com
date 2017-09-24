@@ -7,9 +7,9 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_users' %}"><i class="fa fa-users"></i>Users</a>
-    <form>
-        <input type="text" name="q" placeholder="Search...">
+    <a class="breadcrumb-item" href="{% url 'list_users' %}"><i class="fa fa-users mr-1 "></i>Users</a>
+    <form class="form-inline float-right">
+        <input type="text" class="form-control" name="q" placeholder="Search...">
     </form>
 {% endblock %}
 
@@ -23,38 +23,23 @@
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
             <thead>
-            <th>{% anchor username 'Username' %}</th>
             <th>{% anchor full_name 'Full Name' %}</th>
+            <th>{% anchor devil_no 'Devil No.' %}</th>
             <th>{% anchor email 'Email' %}</th>
-            <th>{% anchor membership 'Membership' %}</th>
-            {#            <th>{% anchor approved_date 'Approved Date' %}</th>#}
+            <th>{% anchor status 'Status' %}</th>
+            <th>{% anchor devil_no 'Card Status' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
                 <tr class="{% if item.is_member %}success{% else %}warning{% endif %}">
                     <td>
                         <a href="{% url 'update_user' item.id %}">
-                            {{ item.username }}
+                            {{ item.full_name }}
                         </a>
                     </td>
-                    <td>
-                        {{ item.full_name }}
-                    </td>
-                    <td>
-                        {{ item.email }}
-                    </td>
-                    <td>
-                        {% if item.membership %}
-                            <a href="{% url 'update_membership' item.membership.id %}">
-                                View Membership
-                            </a>
-                        {% else %}
-                            <a href="{% url 'create_membership' item.id %}">
-                                Create Membership
-                            </a>
-                        {% endif %}
-                        </a>
-                    </td>
+                    <td>{{ item.devil_no }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.status }}</td>
                 </tr>
             {% endfor %}
             </tbody>

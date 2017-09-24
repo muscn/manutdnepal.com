@@ -35,19 +35,11 @@ class SignupForm(AuthSignupForm):
 
 
 class UserForm(HTML5BootstrapModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
+    # password1 = forms.CharField(widget=forms.PasswordInput, label='Password')
 
     # password2 = forms.CharField(widget=forms.PasswordInput, label='Password (again)')
 
-    def clean_username(self):
-        data = self.cleaned_data
-        try:
-            user = User.objects.get(username=data['username'])
-            if user == self.instance:
-                return data['username']
-        except User.DoesNotExist:
-            return data['username']
-        raise forms.ValidationError('This username is already taken.')
+    
 
     def clean_email(self):
         data = self.cleaned_data
@@ -61,30 +53,32 @@ class UserForm(HTML5BootstrapModelForm):
 
     def save(self):
         data = self.cleaned_data
-        user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password1'])
-        user.full_name = data['full_name']
+        user = User.objects.create_user(email=data['email'], password=data['password'], full_name=data['full_name'])
+        user.mobile = data['mobile']
         user.save()
         return user
 
     class Meta:
         model = User
-        exclude = ('last_login', 'is_active', 'is_staff', 'is_superuser', 'groups', 'password', 'devil_no')
+        exclude = ('last_login', 'is_active', 'is_staff', 'is_superuser', 'groups', 'username', 'devil_no', 'status')
 
 
 class UserUpdateForm(UserForm):
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
-        self.fields['password1'].required = False
-        self.fields['password2'].required = False
+        self.initial['password'] = ''
+        self.fields['password'].required = False
+        self.fields['password'].widget.attrs['required'] = False
+        self.fields['password'].help_text = 'Leave blank to keep it unchanged'
 
     def save(self):
         data = self.cleaned_data
         user = self.instance
-        user.username = data['username']
         user.email = data['email']
-        if data['password1'] != '':
-            user.set_password(data['password1'])
+        if data['password'] != '':
+            user.set_password(data['password'])
         user.full_name = data['full_name']
+        user.mobile = data['full_name']
         user.save()
         return user
 
