@@ -7,7 +7,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_payments' %}"><i class="fa fa-money"></i>Payments</a>
+    <a class="breadcrumb-item" href="{% url 'list_payments' %}"><i class="fa fa-money mr-1"></i>Payments</a>
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
             <th>{% anchor date_time 'Date, Time' %}</th>
             <th>{% anchor user 'By' %}</th>
             <th>{% anchor amount 'Amount' %}</th>
-            <th>{% anchor list_payment_for 'For' %}</th>
+            <th>{% anchor type 'Type' %}</th>
             <th>{% anchor method_type 'Method' %}</th>
             <th>{% anchor verified_by 'Verified By' %}</th>
             </thead>
@@ -44,26 +44,7 @@
                         {{ item.amount }}
                     </td>
                     <td>
-                        {% for event in item.payment_for.all %}
-                            {% if event.get_absolute_url %}
-                                <a href="{{ event.get_absolute_url }}">
-                                    {{ event|get_class_name }}
-                                </a>{% if not forloop.last %}, {% endif %}
-                            {% else %}
-                                {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
-                            {% endif %}
-
-                        {% endfor %}
-                        {% for event in item.renewals.all %}
-                            {% if event.get_absolute_url %}
-                                <a href="{{ event.get_absolute_url }}">
-                                    {{ event|get_class_name }}
-                                </a>{% if not forloop.last %}, {% endif %}
-                            {% else %}
-                                {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
-                            {% endif %}
-
-                        {% endfor %}
+                        {{ item.type }}
                     </td>
                     <td>
                         {% if item.method %}

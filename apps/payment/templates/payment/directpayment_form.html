@@ -5,8 +5,8 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_direct_payments' %}"><i class="fa fa-money"></i>Direct Payments</a>
-    <span>{{ scenario }} {{ object }}</span>
+    <a class="breadcrumb-item" href="{% url 'list_direct_payments' %}"><i class="fa fa-money mr-1"></i>Direct Payments</a>
+    <a class="breadcrumb-item"><span>{{ scenario }} {{ object }}</span></a>
 {% endblock %}
 
 {% block extrahead %}

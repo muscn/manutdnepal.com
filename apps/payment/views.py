@@ -12,6 +12,9 @@ from apps.users.models import StaffOnlyMixin
 class PaymentListView(StaffOnlyMixin, ListView):
     model = Payment
 
+    def get_queryset(self):
+        return super().get_queryset().select_related('user', 'verified_by', 'direct_payment', 'esewa_payment', 'bank_deposit')
+
 
 class PaymentUpdateView(StaffOnlyMixin, UpdateView):
     model = Payment
@@ -68,6 +71,9 @@ class BankAccountDeleteView(StaffOnlyMixin, DeleteView):
 class BankDepositListView(StaffOnlyMixin, ListView):
     model = BankDeposit
 
+    def get_queryset(self):
+        return super().get_queryset().select_related('bank', 'payment__user', 'payment__verified_by')
+
 
 class BankDepositCreateView(StaffOnlyMixin, CreateView):
     model = BankDeposit
@@ -88,6 +94,9 @@ class BankDepositDeleteView(StaffOnlyMixin, DeleteView):
 
 class DirectPaymentListView(StaffOnlyMixin, ListView):
     model = DirectPayment
+    
+    def get_queryset(self):
+        return super().get_queryset().select_related('received_by', 'payment__user', 'payment__verified_by')
 
 
 class DirectPaymentCreateView(StaffOnlyMixin, CreateView):
@@ -109,6 +118,10 @@ class DirectPaymentDeleteView(StaffOnlyMixin, DeleteView):
 
 class EsewaPaymentListView(StaffOnlyMixin, ListView):
     model = EsewaPayment
+    
+    def get_queryset(self):
+        return super().get_queryset().select_related('payment__user')
+
 
 def move_bank_to_direct_payment(request, pk=None):
     bank_deposit = BankDeposit.objects.get(pk=pk)
@@ -117,7 +130,7 @@ def move_bank_to_direct_payment(request, pk=None):
     direct.receipt_image = bank_deposit.voucher_image
     direct.receipt_no = 0
     direct.save()
-    #proxy payment, deleted while bank_deposit is deleted
+    # proxy payment, deleted while bank_deposit is deleted
     payment = Payment(amount=100, user=request.user)
     payment.save()
     bank_deposit.payment = payment
