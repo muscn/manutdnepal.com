@@ -15,6 +15,7 @@ module.exports = {
   entry: {
     landing: "./src/landing.js",
     app: "./src/app.js",
+    dashboard: "./src/dashboard.js",
   },
   output: {
     path: outputPath,

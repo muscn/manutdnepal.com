@@ -7,7 +7,7 @@
 
 {% block breadcrumbs %}
     {{ block.super }}
-    <a href="{% url 'list_bank_accounts' %}"><i class="fa fa-bank"></i>Bank Accounts</a>
+    <a class="breadcrumb-item" href="{% url 'list_bank_accounts' %}"><i class="fa fa-bank"></i>Bank Accounts</a>
 {% endblock %}
 
 {% block content %}

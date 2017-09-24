@@ -13,16 +13,10 @@
 
     <link rel="icon" type="image/png" href="{% block favicon_url %}{% static 'img/favicon.ico' %}{% endblock %}"/>
 
-    {% block bootstrap_styles %}
-        <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
-        <link href="{% static "css/bootstrap-flat.min.css" %}" rel="stylesheet" type="text/css">
+    {% block css %}
+        <link href="{% static 'dist/css/landing.css' %}" rel="stylesheet">
+        <link href="{% static 'dist/css/dashboard.css' %}" rel="stylesheet">
     {% endblock %}
-    <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
-    <link href="{% static "css/styles.css" %}" rel="stylesheet" type="text/css">
-    <link href="{% static "dashboard/css/styles.css" %}" rel="stylesheet" type="text/css">
-    <script src="{% static "js/jquery-2.1.1.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-    <script src="{% static "dashboard/js/dashboard.js" %}"></script>
 
     {% block extrahead %}{% endblock %}
 </head>
@@ -30,40 +24,31 @@
 <div id="container">
 
     {% block navbar %}
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="{% url 'dashboard_index' %}">
-                        <img class="logo" src="{% static "img/logo.svg" %}" alt="">MUSCN Dashboard</a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#navbarCollapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{% url 'home' %}" class="secondary small button"><i class="fa fa-home"></i>
-                            Homepage</a>
-                        </li>
-                        <li><a href="{% url 'logout' %}" class="secondary small button"><i class="fa fa-sign-out"></i>
-                            Sign Out</a></li>
-                    </ul>
-                </div>
+        <div class="justify-content-around row navbar">
+            <div class="col">
+                <a class="navbar-brand" href="{% url 'dashboard_index' %}">
+{#                    <img class="logo" height="50" src="{% static "img/logo.svg" %}" alt="">#}
+                    MUSCN Dashboard</a>
             </div>
-            <!-- /.container-fluid -->
-        </nav>
+            <div class="col">
+                <ul class="nav navbar-nav text-right">
+                    <li><a href="{% url 'home' %}" class="secondary small button"><i class="fa fa-home"></i>
+                        Homepage</a>
+                    </li>
+                    <li><a href="{% url 'logout' %}" class="secondary small button"><i class="fa fa-sign-out"></i>
+                        Sign Out</a></li>
+                </ul>
+            </div>
+        </div>
+
     {% endblock %}
 
-    <div class="container-fluid breadcrumbs">
-        <a title="Home is where the heart is." href="{% url 'dashboard_index' %}">
-            <i class="fa fa-home"></i>Home</a>
+    <nav class="breadcrumb">
+        <a title="Home is where the heart is." href="{% url 'dashboard_index' %}" class="breadcrumb-item">
+            <i class="fa fa-home mr-1"></i>Home</a>
         {% block breadcrumbs %}
         {% endblock %}
-    </div>
+    </nav>
 
     <div class="container-fluid">
         {% for message in messages %}
@@ -71,7 +56,7 @@
         {% endfor %}
     </div>
 
-    <div class="container-fluid content">
+    <div class="container-fluid dashboard-content">
         {% block content %}
         {% endblock %}
     </div>
@@ -79,6 +64,9 @@
 
 
 </div>
+
+<script src="{% static 'dist/js/common.js' %}"></script>
+<script src="{% static 'dist/js/app.js' %}"></script>
 {% block extra_body %}
 {% endblock %}
 
