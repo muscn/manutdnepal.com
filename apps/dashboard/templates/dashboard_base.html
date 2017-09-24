@@ -27,15 +27,15 @@
         <div class="justify-content-around row navbar">
             <div class="col">
                 <a class="navbar-brand" href="{% url 'dashboard_index' %}">
-{#                    <img class="logo" height="50" src="{% static "img/logo.svg" %}" alt="">#}
+                    {# <img class="logo" height="50" src="{% static "img/logo.svg" %}" alt="">#}
                     MUSCN Dashboard</a>
             </div>
             <div class="col">
                 <ul class="nav navbar-nav text-right">
-                    <li><a href="{% url 'home' %}" class="secondary small button"><i class="fa fa-home"></i>
+                    <li><a href="{% url 'home' %}"><i class="fa fa-home"></i>
                         Homepage</a>
                     </li>
-                    <li><a href="{% url 'logout' %}" class="secondary small button"><i class="fa fa-sign-out"></i>
+                    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>
                         Sign Out</a></li>
                 </ul>
             </div>
@@ -62,11 +62,8 @@
     </div>
 </div>
 
-
-</div>
-
 <script src="{% static 'dist/js/common.js' %}"></script>
-<script src="{% static 'dist/js/app.js' %}"></script>
+<script src="{% static 'dist/js/dashboard.js' %}"></script>
 {% block extra_body %}
 {% endblock %}
 
