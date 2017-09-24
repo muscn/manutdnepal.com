@@ -45,7 +45,6 @@ router.register(r'posts', post_api.PostViewSet)
 router.register(r'pages', page_api.PageViewSet)
 
 router.register(r'users', user_api.UserViewSet)
-router.register(r'memberships', user_api.MembershipViewSet)
 
 urlpatterns = [
 

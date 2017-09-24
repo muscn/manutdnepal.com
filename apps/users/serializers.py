@@ -8,7 +8,8 @@ class MembershipSerializer(serializers.ModelSerializer):
         exclude = ('status', 'homepage', 'user', 'registration_date', 'approved_date', 'approved_by', 'payment', 'expiry_date')
         # fields = ('date_of_birth', 'gender', 'permanent_address', 'mobile', 'identification_file',)
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'full_name',)
+        fields = ('username', 'email', 'full_name', 'mobile', 'status')
