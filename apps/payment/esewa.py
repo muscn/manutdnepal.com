@@ -1,4 +1,5 @@
 import urllib
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.db import models
@@ -38,7 +39,7 @@ class EsewaTransaction(models.Model):
         if self.details:
             return self.details
         kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd}
-        url = self.transaction_url + '?' + urllib.urlencode(kwargs)
+        url = self.transaction_url + '?' + urlencode(kwargs)
         self.details = requests.get(url).json()
         return self.details
 
@@ -48,9 +49,9 @@ class EsewaTransaction(models.Model):
 
     def verify(self):
         kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd, 'rid': self.ref_id}
-        url = self.verification_url + '?' + urllib.urlencode(kwargs)
+        url = self.verification_url + '?' + urlencode(kwargs)
         response = requests.get(url)
-        if 'Success' in response.content or 'success' in response.content:
+        if 'Success' in str(response.content) or 'success' in str(response.content):
             return True
         return False
 

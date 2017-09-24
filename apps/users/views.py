@@ -389,22 +389,22 @@ def new_user_membership(request):
 def esewa_success(request):
     # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
     response = dict(request.GET)
-    membership = request.user.membership
-    # payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee)
-    payment = Payment(user=request.user, amount=response.get('amt'))
+    user = request.user
+    payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
+    payment = Payment(user=request.user, amount=response.get('amt'), type=payment_type)
+    if payment.amount < MembershipSetting.get_solo().membership_fee:
+        messages.error(request, 'You did not pay the full amount.')
     esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0], ref_id=response['refId'][0])
     if esewa_payment.verify():
         payment.save()
         esewa_payment.payment = payment
         esewa_payment.get_details()
         esewa_payment.save()
-        membership.payment = payment
-        membership.save()
         messages.success(request, 'Membership fee received via eSewa.')
-        return redirect(reverse('membership_thankyou'))
+        return redirect(reverse_lazy('membership_thankyou'))
     else:
         messages.error(request, 'Payment via eSewa failed!')
-        return redirect('membership_payment')
+        return redirect(reverse_lazy('membership_form'))
 
 
 def esewa_failure(request):

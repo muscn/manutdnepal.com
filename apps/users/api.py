@@ -1,4 +1,5 @@
-from django.core.files.base import ContentFile
+import json
+
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -6,7 +7,7 @@ from rest_framework.decorators import list_route, parser_classes
 from rest_framework.exceptions import APIException
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from rest_framework.response import Response
-from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount
+from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount, EsewaPayment
 from apps.users.models import User, MembershipSetting
 from apps.users.serializers import UserSerializer
 
@@ -54,9 +55,20 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             raise APIException('Mobile number is required.')
         payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
         payment = Payment(user=user, amount=float(membership_setting.membership_fee), type=payment_type)
-        # todo api check esewa
         if data.get('esewa'):
-            pass
+            response = json.loads(data.get('esewa_response'))
+            if float(response['totalAmount']) < float(payment.amount):
+                raise APIException('You did not pay the full amount.')
+            esewa_payment = EsewaPayment(amount=payment.amount, pid=response['productId'],
+                                         ref_id=response['transactionDetails']['referenceId'])
+            if esewa_payment.verify():
+                payment.save()
+                esewa_payment.payment = payment
+                esewa_payment.get_details()
+                esewa_payment.save()
+            else:
+                raise APIException('Payment via eSewa failed!')
+
         elif data.get('receipt'):
             receipt_no = data.get('receipt_no')
             if not receipt_no:
