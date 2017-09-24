@@ -115,8 +115,7 @@ class BankDeposit(models.Model):
 class DirectPayment(models.Model):
     received_by = models.ForeignKey(User, null=True, blank=True)
     payment = models.OneToOneField(Payment, related_name='direct_payment')
-    receipt_no = models.PositiveIntegerField(null=True, unique=True,
-                                             verbose_name='Receipt No. (If you paid directly to a representative)')
+    receipt_no = models.PositiveIntegerField(null=True, verbose_name='Receipt No. (If you paid directly to a representative)')
     receipt_image = models.ImageField(upload_to='receipt_images/', null=True, blank=True)
 
     def verified(self):

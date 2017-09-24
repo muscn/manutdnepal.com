@@ -74,7 +74,12 @@ def logout(request, next_page=None):
 @login_required
 def membership_form(request):
     user = request.user
-    # todo check status
+    if user.status == 'Pending Approval':
+        messages.warning(request, 'Your membership request in pendin approval.')
+        return redirect('/')
+    if user.status == 'Member':
+        messages.warning(request, 'You are already a member.')
+        return redirect('/')
     membership_setting = MembershipSetting.get_solo()
     if membership_setting.enable_esewa:
         tab = 'esewa'
@@ -88,9 +93,8 @@ def membership_form(request):
         form = MembershipForm(data, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            # todo check if renewal
-            payment = Payment(user=user, amount=float(membership_setting.membership_fee), type='Membership')
-            # todo api check esewa
+            payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
+            payment = Payment(user=user, amount=float(membership_setting.membership_fee), type=payment_type)
             if data.get('esewa') and not (data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
                 return redirect(reverse_lazy('esewa_form'))
             elif data.get('receipt') or (data.get('esewa') and data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
@@ -103,6 +107,8 @@ def membership_form(request):
                 elif not receipt_no.isdigit():
                     direct_payment_form.errors['receipt_no'] = 'Invalid receipt number.'
                 elif not ReceiptData.objects.filter(active=True, from_no__lte=receipt_no, to_no__gte=receipt_no).exists():
+                    direct_payment_form.errors['receipt_no'] = 'Invalid receipt number.'
+                elif DirectPayment.objects.filter(receipt_no=receipt_no, payment__verified_by__isnull=False).exists():
                     direct_payment_form.errors['receipt_no'] = 'Invalid receipt number.'
                 else:
                     payment.save()
@@ -217,6 +223,7 @@ class PublicMembershipListView(ListView):
                 Q(mobile__contains=q)
             )
         return qs
+
 
 class MembershipCreateView(StaffOnlyMixin, CreateView):
     model = Membership
