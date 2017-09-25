@@ -223,8 +223,11 @@ class PublicMembershipListView(ListView):
     template_name = 'users/members_list.html'
 
     def get_queryset(self):
-        qs = User.objects.all().select_related('membership__card_status')
+        qs =  User.objects.none()
         if 'q' in self.request.GET:
+            qs = User.objects.all().prefetch_related(
+                Prefetch('card_statuses', CardStatus.objects.filter(season=season()).select_related('pickup_location'),
+                         to_attr='card_status_list'))
             q = self.request.GET['q']
             qs = qs.filter(
                 Q(username__icontains=q) |
@@ -234,6 +237,11 @@ class PublicMembershipListView(ListView):
                 Q(mobile__contains=q)
             )
         return qs
+    
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['count'] = User.objects.count()
+        return data
 
 
 class MembershipCreateView(StaffOnlyMixin, CreateView):

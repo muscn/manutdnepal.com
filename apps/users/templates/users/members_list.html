@@ -7,19 +7,23 @@
 
 
 {% block content %}
-    <form>
-        <input type="text" name="q" placeholder="Search..."> | {{ object_list.count }} members
+
+    <h1 class="mb-5">{{ count }} members</h1>
+
+    <form class="form-inline">
+        <input type="text" name="q" placeholder="Search..." class="form-control large" autofocus>
     </form>
     <br>
 
     {% autosort object_list as sorted_objects %}
     {% autopaginate sorted_objects 20 as paginated_objects %}
 
-    <div class="table-responsive">
+
+    {% if object_list %}
         <table class="table table-bordered table-hover">
             <thead>
             <th>{% anchor full_name 'Member' %}</th>
-            <th>{% anchor membership_status 'Membership Status' %}</th>
+            <th>{% anchor status 'Membership Status' %}</th>
             <th>{% anchor card_status 'Card Status' %}</th>
             </thead>
             <tbody>
@@ -31,7 +35,7 @@
                         </a>
                     </td>
                     <td>
-                        {{ item.membership_status }}
+                        {{ item.status }}
                     </td>
                     <td>
                         {{ item.card_status }}
@@ -40,7 +44,8 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
+    {% endif %}
+
 
     {% paginate %}
 
