@@ -17,10 +17,6 @@ def recent_posts_or_events():
     return p_o_e
 
 
-def redirector(request):
-    return redirect("https://manutd.org.np/event/futsal-for-charity/")
-
-
 def home(request):
     next_match = Fixture.get_next_match()
     recent_results = Fixture.recent_results().select_related('opponent')

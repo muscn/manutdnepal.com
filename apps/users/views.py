@@ -130,7 +130,9 @@ def membership_form(request):
         if valid:
             user.status = 'Pending Approval'
             user.save()
-            return redirect(reverse('membership_form'))
+            messages.success(request,
+                             'Thank you for registering to be a member. You\'ll be notified when your membership package is available.')
+            return redirect('/')
     else:
         form = MembershipForm(instance=user)
     bank_accounts = BankAccount.objects.all()
@@ -146,7 +148,12 @@ def membership_form(request):
 
 @login_required
 def esewa_form(request):
-    # TODO check membership status
+    if request.user.status == 'Pending Approval':
+        messages.warning(request, 'Your membership request is pending approval.')
+        return redirect('/')
+    if request.user.status == 'Member':
+        messages.warning(request, 'You are already a member.')
+        return redirect('/')
     return render(request, 'payment/esewa_form.html')
 
 

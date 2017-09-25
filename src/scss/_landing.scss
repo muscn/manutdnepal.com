@@ -70,16 +70,20 @@
   }
 }
 
-.result0 {
-  color: $yellow;
-}
-
-.result1 {
-  color: $green;
-}
-
-.result-1 {
-  color: $red;
+.result {
+  min-height: 0.7rem;
+  min-width: 0.7rem;
+  display: inline-block;
+  margin-right: 0.3rem;
+  &.draw {
+    background: $yellow;
+  }
+  &.win {
+    background: $green;
+  }
+  &.loss {
+    background: $red;
+  }
 }
 
 .highlight {

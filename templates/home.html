@@ -92,9 +92,9 @@
                     </div>
                 {% endwith %}
                 <hr/>
-                <div class="text-center mt-4">
-                    <a href="#"><h3><strong>Predict and Win</strong></h3></a>
-                </div>
+{#                <div class="text-center mt-4">#}
+{#                    <a href="#"><h3><strong>Predict and Win</strong></h3></a>#}
+{#                </div>#}
 
             {% else %}
                 <h4 class="text-center">No upcoming <br>matches this <br>season!</h4>
@@ -148,8 +148,8 @@
             {% for result in recent_results %}
                 <div class="link-row">
                     <a href="{{ result.get_absolute_url }}">
-                        {{ result.home_team }} <span
-                            class="result{{ result.result }}">{{ result.score }}</span> {{ result.away_team }}
+                        <i class="result {{ result.result }}"></i>{{ result.home_team }}
+                        <span class="text-444">{{ result.score }}</span> {{ result.away_team }}
                     </a>
                 </div>
             {% endfor %}

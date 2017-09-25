@@ -60,12 +60,12 @@ urlpatterns = [
     url(r'^logout/$', logout, {'next_page': '/'}, 'logout'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^membership/$', user_views.membership_form, name='membership_form'),
-    url(r'^renew/$', user_views.renew, name='renew'),
+    # url(r'^renew/$', user_views.renew, name='renew'),
     url(r'^membership/esewa/$', user_views.esewa_form, name='esewa_form'),
     # url(r'^membership/payment/$', user_views.membership_payment, name='membership_payment'),
     url(r'^membership/payment/esewa/success/$', user_views.esewa_success, name='membership_payment_esewa_success'),
     url(r'^membership/payment/esewa/failure/$', user_views.esewa_failure, name='membership_payment_esewa_failure'),
-    url(r'^membership/thankyou/$', user_views.membership_thankyou, name='membership_thankyou'),
+    # url(r'^membership/thankyou/$', user_views.membership_thankyou, name='membership_thankyou'),
 
     url(r'^members/$', user_views.PublicMembershipListView.as_view(), name='list_members'),
     url(r'^dashboard/', include('apps.dashboard.urls')),
@@ -92,7 +92,6 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': SITEMAPS}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^partner/(?P<slug>[a-zA-Z0-9_.-]+)/$', partner_views.view_partner, name='view_partner'),
     url(r'^team/$', team_views.football_team, name='football_team'),
-    url(r'^futsal/$', core_views.redirector, name='redirector'),
 
     url(r'^match/(?P<date>[\d{4}\-\d{2}\-\d{2}]+)/(?P<extra>[a-zA-Z0-9_.-]*)/?$', stats_views.FixtureDetail.as_view(),
         name='fixture_detail'),

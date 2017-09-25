@@ -554,11 +554,11 @@ class Fixture(models.Model):
 
     def result(self):
         if self.mufc_score == self.opponent_score:
-            return 0
+            return 'draw'
         elif self.mufc_score > self.opponent_score:
-            return 1
+            return 'win'
         else:
-            return -1
+            return 'loss'
 
     @classmethod
     def get_next_match(cls):
