@@ -45,8 +45,17 @@ footer {
   .social {
     width: 3rem;
     font-size: 2rem;
-    background: #fff !important;
     text-align: center;
+    &:not(:hover) {
+      background: #fff !important;
+    }
+    &:hover {
+      padding: 0;
+      i.fa {
+        width: 100%;
+        border: none;
+      }
+    }
   }
 }
 
@@ -241,7 +250,6 @@ $github: #333;
   }
 }
 
-
-.errors{
+.errors {
   color: $red;
 }
