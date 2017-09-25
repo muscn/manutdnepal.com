@@ -56,7 +56,6 @@
                             <li><a href="{% url 'membership_form' %}">Edit Profile</a></li>
                             <li><a href="{% url 'view_member_profile'  user.username %}">View Profile</a></li>
                             <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
-                            <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                             <li><a href="{% url 'socialaccount_connections' %}">Social Accounts</a></li>
                             <li><a href="{% url 'logout' %}">Sign Out</a></li>
                         </ul>
@@ -68,6 +67,7 @@
                 {% endif %}
             </ul>
             <ul class="navbar-nav mr-lg-3">
+                <li class="united p-0"><img src="{% static 'img/united.png' %}" height="20" alt="United"/></li>
                 <li><a href="{% url 'fixtures' %}">Fixtures</a></li>
                 <li><a href="{% url 'results' %}">Results</a></li>
 

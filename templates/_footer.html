@@ -1,14 +1,14 @@
-{% load filters %}
+{% load filters staticfiles %}
 <div class="clearfix"></div>
 
 <div class="partners d-lg-flex justify-content-lg-around p-2 px-0 text-lg-left text-center">
     {% get_partners as partners %}
     {% for partner in partners %}
         <div class="p-lg-2">
-            <h6 class="mb-0 text-444">{{ partner.partnership }}</h6>
+            <h6 class="mb-3 text-444 text-center text-uppercase font-weight-bold">{{ partner.partnership }}</h6>
             {% if partner.logo %}
                 <a href="{{ partner.get_url }}" target="_blank">
-                    <img src="{{ partner.logo.thumbnail.200x100 }}" alt="{{ partner.name }}"
+                    <img src="{{ partner.logo.url }}" alt="{{ partner.name }}"
                          title="{{ partner.name }}"
                          height="150">
                 </a>
@@ -22,12 +22,17 @@
 <footer class="container-fluid bg-brand py-2">
 
     <div class="row">
-        <div class="col-md-6 separated text-md-left text-center">
+        <div class="col-md-5 separated text-md-left text-center">
             <a href="{% url 'view_page' 'privacy-policy' %}">Privacy Policy</a>
             <a href="{% url 'view_page' 'contact-us' %}">Contact Us</a>
         </div>
 
-        <div class="col-md-6 text-md-right text-center">
+        <div class="col-md-2 text-center">
+            <img src="{% static 'img/muscn_inverted.svg' %}" alt="MUSCN" title="Manchester United Supporters' Club - Nepal"
+                 height="52"/>
+        </div>
+
+        <div class="col-md-5 text-md-right text-center">
             <a title="Facebook" class="social btn btn-facebook" href="https://www.facebook.com/muscnepal" target="_blank">
                 <i class="fa fa-facebook"></i></a>
             <a title="Twitter" class="social btn btn-twitter" href="https://twitter.com/MUSCNP" target="_blank">

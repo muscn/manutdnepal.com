@@ -253,3 +253,26 @@ $github: #333;
 .errors {
   color: $red;
 }
+
+ul.dropdown-menu {
+  min-width: 200px;
+}
+
+.united img {
+  margin-top: -2px;
+}
+
+.table-compact {
+  td {
+    padding: 0;
+    vertical-align: middle;
+  }
+}
+
+.mw-50 {
+  min-width: 50px;
+}
+
+a.btn-outline-danger:hover{
+  color: #fff !important;
+}

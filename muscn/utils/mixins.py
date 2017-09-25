@@ -15,7 +15,7 @@ class CachedModel(models.Model):
     def get_all(cls):
         # Override on inherited class if necessary, e.g.
         # return cls.objects.filter(enabled=True)
-        return cls.objects.all()
+        return cls.objects.filter(featured=True).order_by('order')
 
     @classmethod
     def get_cached(cls):
