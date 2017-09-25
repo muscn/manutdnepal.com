@@ -1,5 +1,6 @@
 import json
 
+from allauth.socialaccount.models import SocialToken
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -11,7 +12,7 @@ from rest_framework.response import Response
 from apps.partner.models import Partner
 from apps.partner.serializers import PartnerSer
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount, EsewaPayment
-from apps.users.models import User, MembershipSetting, CardStatus
+from apps.users.models import User, MembershipSetting, CardStatus, SocialLoginToken
 from apps.users.serializers import UserSerializer
 from muscn.utils.football import season
 
@@ -115,8 +116,26 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 raise APIException('No payment method specified.')
             user.status = 'Pending Approval'
             user.save()
+            social_data = data.get('social')
+            if social_data:
+                try:
+                    SocialLoginToken.create(user, social_data)
+                except ValueError as e:
+                    raise APIException(str(e))
             data = UserSerializer(user, many=False).data
             return Response(data)
+
+    @list_route(methods=['POST'])
+    def social_login(self, request):
+        if request.user.is_authenticated:
+            return Response(UserSerializer(self.request.user, many=False).data)
+        try:
+            user = SocialLoginToken.get_user(request.data)
+        except ValueError as e:
+            raise APIException(str(e))
+        if user:
+            return Response(UserSerializer(user, many=False).data)
+        return Response({})
 
 
 class CustomObtainAuth(ObtainAuthToken):

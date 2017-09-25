@@ -9,6 +9,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 from allauth.account.signals import user_logged_in
+from allauth.socialaccount.models import SocialToken, SocialAccount, SocialApp
 from anymail.message import AnymailMessage
 from auditlog.registry import auditlog
 
@@ -32,6 +33,7 @@ from solo.models import SingletonModel
 
 from apps.partner.models import Partner
 from apps.payment.models import Payment
+from apps.users.facebook import FacebookAPI
 from muscn.utils.football import get_current_season_start, season
 from muscn.utils.helpers import show_progress
 
@@ -733,3 +735,51 @@ class Newsletter(models.Model):
             show_progress((cnt + 1) * 100 / total_users)
         self.last_sent = timezone.now()
         self.save()
+
+
+class SocialLoginToken(SocialToken):
+    @staticmethod
+    def create(user, data):
+        provider = data.get('provider')
+        token = data.get('token')
+        if not provider:
+            raise ValueError('Provider is required.')
+        if not token:
+            raise ValueError('Token is required.')
+        provider = provider.lower()
+        if provider == 'facebook':
+            api = FacebookAPI(access_token=token)
+        else:
+            raise ValueError('Provider not supported.')
+        data = api.get_self_details()
+        uid = data.get('id')
+        social_account, __ = SocialAccount.objects.update_or_create(user=user, provider=provider,
+                                                                    defaults={'uid': uid, 'extra_data': data})
+        social_app = SocialApp.objects.get(provider=provider)
+        SocialToken.objects.update_or_create(app=social_app, account=social_account, defaults={'token': token})
+
+    @staticmethod
+    def get_user(data):
+        provider = data.get('provider')
+        token = data.get('token')
+        if not provider:
+            raise ValueError('Provider is required.')
+        if not token:
+            raise ValueError('Token is required.')
+        provider = provider.lower()
+        try:
+            social_token = SocialToken.objects.select_related('account__user').get(account__provider=provider,
+                                                                                   token=token)
+            return social_token.account.user
+        except SocialToken.DoesNotExist:
+            if provider == 'facebook':
+                api = FacebookAPI(access_token=token)
+                id = api.get_self_details().get('id')
+                try:
+                    acc = SocialAccount.objects.select_related('user').get(uid=id, provider=provider)
+                    return acc.user
+                except SocialAccount.DoesNotExist:
+                    pass
+
+    class Meta:
+        proxy = True
