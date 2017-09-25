@@ -30,6 +30,7 @@ from django.template import Template, Context
 
 from solo.models import SingletonModel
 
+from apps.partner.models import Partner
 from apps.payment.models import Payment
 from muscn.utils.football import get_current_season_start, season
 from muscn.utils.helpers import show_progress
@@ -133,6 +134,19 @@ class User(AbstractBaseUser):
                 return ''
         try:
             return self.card_statuses.get(season=season()).status
+        except CardStatus.DoesNotExist:
+            return ''
+
+    @property
+    def pickup_location(self):
+        if hasattr(self, 'card_status_list'):
+            lst = self.card_status_list
+            if lst:
+                return lst[0].pickup_location or ''
+            else:
+                return ''
+        try:
+            return self.card_statuses.get(season=season()).pickup_location or ''
         except CardStatus.DoesNotExist:
             return ''
 
@@ -471,12 +485,14 @@ class Renewal(models.Model):
 class CardStatus(models.Model):
     user = models.ForeignKey(User, related_name='card_statuses')
     STATUSES = (
+        ('Awaiting Approval', 'Awaiting Approval'),
         ('Awaiting Print', 'Awaiting Print'),
         ('Printed', 'Printed'),
         ('Delivered', 'Delivered'),
     )
     status = models.CharField(choices=STATUSES, default='Awaiting Print', max_length=20)
     season = models.CharField(max_length=9, default=season)
+    pickup_location = models.ForeignKey(Partner, blank=True, null=True, related_name='card_statuses')
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
     def get_status(self):

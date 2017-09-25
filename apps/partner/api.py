@@ -6,5 +6,5 @@ from .serializers import PartnerSer
 
 class PartnerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = PartnerSer
-    queryset = Partner.objects.filter(active=True)
+    queryset = Partner.objects.filter(featured=True)
     permission_classes = []

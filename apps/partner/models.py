@@ -11,6 +11,7 @@ from muscn.utils.mixins import CachedModel
 class Partner(CachedModel):
     name = models.CharField(max_length=255)
     partnership = models.CharField(max_length=255, default='Partner')
+    short_address = models.CharField(max_length=255)
     slug = models.SlugField(
         max_length=255,
         blank=True,
@@ -20,7 +21,8 @@ class Partner(CachedModel):
     about = FroalaField(null=True, blank=True)
     privileges = FroalaField(null=True, blank=True)
     url = models.URLField(null=True, blank=True)
-    active = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False)
+    pickup_location = models.BooleanField(default=False)
     location = LocationField(blank=True, max_length=255)
     order = models.IntegerField(default=0)
 
@@ -28,11 +30,11 @@ class Partner(CachedModel):
         ordering = ('order',)
 
     def __str__(self):
-        return self.name
+        return '%s, %s' % (self.name, self.short_address)
 
     @classmethod
     def get_all(cls):
-        return cls.objects.filter(active=True)
+        return cls.objects.filter(featured=True)
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)

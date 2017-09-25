@@ -28,6 +28,7 @@
             <th>{% anchor email 'Email' %}</th>
             <th>{% anchor status 'Status' %}</th>
             <th>{% anchor devil_no 'Card Status' %}</th>
+            <th>{% anchor devil_no 'Pickup Location' %}</th>
             </thead>
             <tbody>
             {% for item in paginated_objects %}
@@ -41,6 +42,7 @@
                     <td>{{ item.email }}</td>
                     <td>{{ item.status }}</td>
                     <td>{{ item.card_status }}</td>
+                    <td>{{ item.pickup_location }}</td>
                 </tr>
             {% endfor %}
             </tbody>

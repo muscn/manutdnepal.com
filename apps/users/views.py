@@ -74,7 +74,7 @@ def logout(request, next_page=None):
 def membership_form(request):
     user = request.user
     if user.status == 'Pending Approval':
-        messages.warning(request, 'Your membership request in pendin approval.')
+        messages.warning(request, 'Your membership request is pending approval.')
         return redirect('/')
     if user.status == 'Member':
         messages.warning(request, 'You are already a member.')
@@ -290,7 +290,8 @@ class UserListView(StaffOnlyMixin, ListView):
 
     def get_queryset(self):
         return super(UserListView, self).get_queryset().prefetch_related(
-            Prefetch('card_statuses', CardStatus.objects.filter(season=season()), to_attr='card_status_list'))
+            Prefetch('card_statuses', CardStatus.objects.filter(season=season()).select_related('pickup_location'),
+                     to_attr='card_status_list'))
 
     def get(self, request, *args, **kwargs):
         if 'q' in self.request.GET:

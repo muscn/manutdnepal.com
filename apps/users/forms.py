@@ -1,5 +1,8 @@
 from django import forms
-from .models import User, Membership
+
+from apps.partner.models import Partner
+from muscn.utils.football import season
+from .models import User, Membership, CardStatus
 from django.contrib.auth.models import Group
 from muscn.utils.forms import HTML5BootstrapModelForm
 
@@ -39,7 +42,7 @@ class UserForm(HTML5BootstrapModelForm):
 
     # password2 = forms.CharField(widget=forms.PasswordInput, label='Password (again)')
 
-    
+
 
     def clean_email(self):
         data = self.cleaned_data
@@ -84,13 +87,19 @@ class UserUpdateForm(UserForm):
 
 
 class MembershipForm(HTML5BootstrapModelForm):
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
+    # full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=254)
+    pickup_location = forms.ModelChoiceField(queryset=Partner.objects.filter(pickup_location=True), empty_label=None)
 
     def clean_full_name(self):
         tokens_length = len(self.cleaned_data.get('full_name', '').split())
         if tokens_length < 2:
             raise forms.ValidationError("Please provide your full name!")
         return self.cleaned_data['full_name']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        CardStatus.objects.update_or_create(user=self.instance, season=season(), defaults={'status': 'Awaiting Approval'},
+                                            pickup_location=self.cleaned_data['pickup_location'])
 
     class Meta:
         model = User
