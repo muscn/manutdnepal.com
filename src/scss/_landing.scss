@@ -16,8 +16,16 @@
 }
 
 .featured {
-  flex-basis: 500px;
+  flex-basis: 700px;
   padding: 0 !important;
+}
+
+.next-match {
+  flex-basis: 300px;
+}
+
+.register {
+  flex-basis: 320px;
 }
 
 @media (min-width: 700px) {
@@ -26,13 +34,7 @@
   }
 }
 
-.next-match {
-  flex-basis: 400px;
-}
 
-.register {
-  flex-basis: 320px;
-}
 
 .featured h4 {
   position: absolute;

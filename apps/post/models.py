@@ -34,6 +34,7 @@ class Post(models.Model):
     match = models.ForeignKey(Fixture, blank=True, null=True, related_name='posts')
     event = models.ForeignKey(Event, blank=True, null=True, related_name='posts')
     album = models.ForeignKey(Album, blank=True, null=True, related_name='posts')
+    url = models.URLField(blank=True, null=True)
 
     @classmethod
     def get_all(cls):
@@ -65,7 +66,7 @@ class Post(models.Model):
             Event.objects.all().update(featured=False)
 
     def get_absolute_url(self):
-        return reverse('view_post', kwargs={'slug': self.slug})
+        return self.url or reverse('view_post', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.title

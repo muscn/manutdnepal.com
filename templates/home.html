@@ -21,9 +21,35 @@
         {% if featured %}
             <div class="col-sm mt-3 featured">
                 <a href="{{ featured.get_absolute_url }}" title="{{ featured }}">
-                    <img src="{{ featured.image.thumbnail.700x500 }}" alt="{{ featured }}" class="img-responsive">
+                    <img src="{{ featured.image.thumbnail.889x500 }}" alt="{{ featured }}" class="img-fluid">
                     <h4><span>{{ featured }}</span></h4>
                 </a>
+            </div>
+        {% endif %}
+
+        {% if not request.user.is_authenticated %}
+            <div class="col-sm mt-3 register block">
+                <h2 class="text-uppercase mb-3"><strong>Register</strong></h2>
+                {% include "account/social_login.html" %}
+                <h5 class="my-3">Or Sign up</h5>
+                <form method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input autofocus class="form-control" name="full_name" type="text" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="email" type="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="password1" type="password" placeholder="Password">
+                    </div>
+                    <button class="btn btn-danger">Register</button>
+                </form>
+                <hr/>
+                <div class="cta mt-4 text-center">
+                    <a href="https://play.google.com/store/apps/details?id=com.awecode.muscn" class="btn btn-outline-danger"><i
+                            class="fa fa-android mr-2"></i>Download Android App</a>
+                </div>
             </div>
         {% endif %}
 
@@ -53,14 +79,12 @@
                             <span class="date">{{ next_match.datetime|date:'d' }}</span>
 
                             <h5 class="my-2">{{ next_match.datetime|date:'F' }}</h5>
-                            <h6 class="my-3">{{ next_match.datetime|date:'l' }} {{ next_match.datetime|date:'P' }} NPT</h6>
+                            <div>{{ next_match.datetime|date:'D' }} {{ next_match.datetime|date:'P' }} NPT</div>
 
 
                         </div>
                         <div class="col-6 text-center">
-                            {#                            150x150#}
                             <img class="img-responsive" src="{{ next_match.opponent.get_crest.thumbnail.150x150 }}">
-
                         </div>
                     </div>
                     <div class="row text-center{% if not partner %} my-3 mb-4{% endif %}">
@@ -109,33 +133,6 @@
 
 
         </div>
-
-        {% if not request.user.is_authenticated %}
-            <div class="col-sm mt-3 register block">
-                <h2 class="text-uppercase mb-3"><strong>Register</strong></h2>
-                {% include "account/social_login.html" %}
-                <h5 class="my-3">Or Sign up</h5>
-                <form method="post" action="{% url 'account_signup' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <input autofocus class="form-control" name="full_name" type="text" placeholder="Full Name">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" name="email" type="email" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" name="password1" type="password" placeholder="Password">
-                    </div>
-                    <button class="btn btn-danger">Register</button>
-                </form>
-                <hr/>
-                <div class="cta mt-4 text-center">
-                    <a href="https://play.google.com/store/apps/details?id=com.awecode.muscn" class="btn btn-outline-danger"><i
-                            class="fa fa-android mr-2"></i>Download Android App</a>
-                </div>
-            </div>
-        {% endif %}
-
 
         <div class="stats block col-sm mt-3">
             <h4><a href="{% url 'results' %}">RECENT RESULTS</a></h4>
