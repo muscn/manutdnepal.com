@@ -98,8 +98,9 @@ class MembershipForm(HTML5BootstrapModelForm):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        CardStatus.objects.update_or_create(user=self.instance, season=season(), defaults={'status': 'Awaiting Approval'},
-                                            pickup_location=self.cleaned_data['pickup_location'])
+        CardStatus.objects.update_or_create(user=self.instance, season=season(), defaults={'status': 'Awaiting Approval',
+                                                                                           'pickup_location': self.cleaned_data[
+                                                                                               'pickup_location']})
 
     class Meta:
         model = User

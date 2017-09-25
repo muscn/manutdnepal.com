@@ -11,8 +11,9 @@ from rest_framework.response import Response
 from apps.partner.models import Partner
 from apps.partner.serializers import PartnerSer
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount, EsewaPayment
-from apps.users.models import User, MembershipSetting
+from apps.users.models import User, MembershipSetting, CardStatus
 from apps.users.serializers import UserSerializer
+from muscn.utils.football import season
 
 
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -49,7 +50,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 data['pickup_locations'] = PartnerSer(Partner.objects.filter(pickup_location=True), many=True).data
                 return Response(data)
             return Response({'status': 'error', 'detail': 'Not authenticated.'}, 401)
-        if request.method == 'GET':
+        if request.method == 'POST':
             user = request.user
             if not user.is_authenticated:
                 raise APIException('You need to login first.')
@@ -63,6 +64,14 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 raise APIException('Full name is required.')
             if not data.get('mobile'):
                 raise APIException('Mobile number is required.')
+            if not data.get('pickup_location'):
+                raise APIException('Pickup Location is required')
+            user.full_name = data.get('full_name')
+            user.mobile = data.get('mobile')
+            user.save()
+            CardStatus.objects.update_or_create(user=user, season=season(), defaults={'status': 'Awaiting Approval',
+                                                                                      'pickup_location_id': data.get(
+                                                                                          'pickup_location')})
             payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
             payment = Payment(user=user, amount=float(membership_setting.membership_fee), type=payment_type)
             if data.get('esewa'):
@@ -116,6 +125,6 @@ class CustomObtainAuth(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        user_data = UserSerializer(self.request.user, many=False).data
+        user_data = UserSerializer(user, many=False).data
         user_data['token'] = token.key
         return Response(user_data)
