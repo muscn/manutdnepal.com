@@ -128,6 +128,7 @@ $twitter: #1da1f2;
 $google: #ea4335;
 //$instagram: #c13584;
 $github: #333;
+$android: #a4c639;
 
 // Social buttons styling
 .social.btn {
@@ -171,9 +172,15 @@ $github: #333;
     }
   }
   &.btn-github {
-    //background: $twitter;
+    background: $github;
     i.fa {
       color: $github;
+    }
+  }
+  &.btn-android {
+    background: $android;
+    i.fa {
+      color: $android;
     }
   }
 }

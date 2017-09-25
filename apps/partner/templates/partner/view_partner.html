@@ -6,31 +6,84 @@
 
 {% block content %}
 
-        <div class="row">
-            <div class="pull-left">
-                <h1>{{ partner.name }}</h1>
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#about" aria-controls="about" role="tab"
-                                                              data-toggle="tab">About</a></li>
-                    <li role="presentation"><a href="#privileges" aria-controls="privileges" role="tab"
-                                               data-toggle="tab">Privileges</a>
-                    </li>
-                </ul>
-            </div>
-            {% if partner.logo %}
-            <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" height="200" title="{{ partner.name }}"
-                 class="pull-right partner-logo">
-            {% endif %}
-        </div>
+    <h1>{{ partner.name }}</h1>
+    <h5 class="mb-3 text-444 text-uppercase">{{ partner.partnership }}</h5>
 
-        <div>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="about"><br/>{{ partner.about|safe }}</div>
-                <div role="tabpanel" class="tab-pane" id="privileges"><br/>{{ partner.privileges|safe }}</div>
-            </div>
+    {% if partner.logo %}
+        <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" height="100" title="{{ partner.name }}"
+             class="pull-right partner-logo">
+    {% endif %}
 
-        </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about"
+               aria-expanded="true">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="privileges-tab" data-toggle="tab" href="#privileges" role="tab" aria-controls="privileges">Privileges</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-3" id="myTabContent">
+        <div class="tab-pane fade show active" id="about" role="tabpanel"
+             aria-labelledby="about-tab">{{ partner.about|safe }}</div>
+        <div class="tab-pane fade" id="privileges" role="tabpanel"
+             aria-labelledby="privileges-tab">{{ partner.privileges|safe }}</div>
 
+    </div>
+
+    <hr/>
+
+    {% if partner.location %}
+        <h3>Map:</h3>
+
+        <div id="map-canvas"></div>
+    {% endif %}
+
+{% endblock %}
+
+{% block extrahead %}
+    {% if partner.location %}
+        <style>
+            #map-canvas {
+                height: 500px;
+            }
+        </style>
+    {% endif %}
+{% endblock %}
+
+{% block extrabody %}
+    {% if partner.location %}
+        <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
+        <script>
+          var map;
+
+          function initialize() {
+            var myLatlng = new google.maps.LatLng({{ partner.location }});
+            var mapOptions = {
+              zoom: 15,
+              center: myLatlng
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+              mapOptions);
+
+
+            var infowindow = new google.maps.InfoWindow({
+              content: "{{ partner.short_address }}"
+            });
+
+            var marker = new google.maps.Marker({
+              position: myLatlng,
+              map: map,
+              title: "{{ partner.short_address }}"
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+              infowindow.open(map, marker);
+            });
+          }
+
+          google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+    {% endif %}
 {% endblock %}

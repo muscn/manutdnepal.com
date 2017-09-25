@@ -26,6 +26,7 @@ from reportlab.lib.units import cm, inch
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+from apps.partner.models import Partner
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
@@ -131,8 +132,12 @@ def membership_form(request):
             user.status = 'Pending Approval'
             user.save()
             messages.success(request,
-                             'Thank you for registering to be a member. You\'ll be notified when your membership package is available.')
-            return redirect('/')
+                             'Thank you for registering to be a member.')
+            if data.get('pickup_location'):
+                partner = Partner.objects.get(id=data.get('pickup_location'))
+                messages.success(request,
+                                 'You can pickup your package from %s after you are notified of it\'s availability.' % partner)
+                return redirect(reverse_lazy('view_partner', kwargs={'slug': partner.slug}))
     else:
         form = MembershipForm(instance=user)
     bank_accounts = BankAccount.objects.all()
