@@ -19,6 +19,7 @@ class Payment(models.Model):
     verified_by = models.ForeignKey(User, blank=True, null=True, related_name='verified_payments')
     remarks = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=255, blank=True, null=True)
+    channel = models.CharField(max_length=50, default='Web')
 
     def save(self, *args, **kwargs):
         if self.verified:

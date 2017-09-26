@@ -36,7 +36,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         password = params.get('password')
         full_name = params.get('full_name')
         try:
-            user = User.objects.create_user(email, password, full_name=full_name, active=False)
+            user = User.objects.create_user(email, password, full_name=full_name, active=False, channel='Android')
             social_data = request.data.get('social')
             if social_data:
                 try:
@@ -84,7 +84,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                                                                                       'pickup_location_id': data.get(
                                                                                           'pickup_location')})
             payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
-            payment = Payment(user=user, amount=float(membership_setting.membership_fee), type=payment_type)
+            payment = Payment(user=user, amount=float(membership_setting.membership_fee), type=payment_type, channel='Android')
             if data.get('esewa'):
                 response = json.loads(data.get('esewa_response'))
                 if float(response['totalAmount']) < float(payment.amount):
@@ -139,7 +139,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except ValueError as e:
             raise APIException(str(e))
         if not user and data.get('full_name') and data.get('email'):
-            user = User.objects.create_user(data.get('email'), full_name=data.get('full_name'))
+            user = User.objects.create_user(data.get('email'), full_name=data.get('full_name'), channel='Android')
         if user:
             token, created = Token.objects.get_or_create(user=user)
             user_data = UserSerializer(user, many=False).data

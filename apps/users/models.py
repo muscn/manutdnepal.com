@@ -39,7 +39,7 @@ from muscn.utils.helpers import show_progress
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, full_name='', active=True):
+    def create_user(self, email, password=None, full_name='', active=True, channel='Web'):
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(
@@ -49,6 +49,7 @@ class UserManager(BaseUserManager):
         if password:
             user.set_password(password)
         user.is_active = active
+        user.channel = channel
         user.save(using=self._db)
         return user
 
@@ -63,6 +64,7 @@ class UserManager(BaseUserManager):
         )
         user.is_superuser = True
         user.is_staff = True
+        user.channel = 'Shell'
         user.save(using=self._db)
         return user
 
@@ -95,6 +97,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='users', blank=True)
+    channel = models.CharField(max_length=50, default='Web')
 
     def __str__(self):
         return self.full_name or self.devil_no or self.email or self.username

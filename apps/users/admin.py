@@ -81,7 +81,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('username',)
     filter_horizontal = ()
     list_display = ('full_name', 'email', 'is_staff', 'devil_no', 'status')
-    list_filter = ('is_staff', 'is_superuser', 'status')
+    list_filter = ('is_staff', 'is_superuser', 'status', 'channel')
     fieldsets = ((None,
                   {'fields': ('full_name',
                               'devil_no',
@@ -92,6 +92,7 @@ class CustomUserAdmin(UserAdmin):
                               'is_staff',
                               'is_superuser',
                               'last_login',
+                              'channel',
                               'groups')}),
                  )
     add_fieldsets = ((None,
