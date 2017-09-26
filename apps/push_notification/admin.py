@@ -3,6 +3,8 @@ from django.contrib import admin
 from .models import PushMessage, UserDevice
 from muscn.utils.admin import StaffFilter, send_action
 
+from fcm.models import Device
+
 
 class UserDeviceAdmin(admin.ModelAdmin):
     list_display = ('user', 'dev_id', 'name', 'device_type', 'is_active')
@@ -23,3 +25,4 @@ class PushMessageAdmin(admin.ModelAdmin):
 
 admin.site.register(PushMessage, PushMessageAdmin)
 admin.site.register(UserDevice, UserDeviceAdmin)
+admin.site.unregister(Device)
