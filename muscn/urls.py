@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^(?P<devil_no>[0-9]+)/$', user_views.devil_no_handler, name='devil_no'),
     url(r'^m/(?P<slug>.*)/$', user_views.MemberProfileView.as_view(), name='view_member_profile'),
     url(r'^froala_editor/', include('froala_editor.urls')),
+    url(r'^jet/', include('jet.urls', 'jet')),
     url(r'muadmin/clear-cache/', core_views.clear_cache, name='clear_cache'),
 
     url(r'^muadmin/', include(admin.site.urls)),
