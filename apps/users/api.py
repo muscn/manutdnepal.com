@@ -38,6 +38,12 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             user = User.objects.create_user(email, password)
             user.full_name = full_name
             user.save()
+            social_data = request.data.get('social')
+            if social_data:
+                try:
+                    SocialLoginToken.create(user, social_data)
+                except ValueError as e:
+                    raise APIException(str(e))
             setup_user_email(request, user, [])
             send_email_confirmation(request, user, signup=True)
         except IntegrityError:
@@ -121,12 +127,6 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 raise APIException('No payment method specified.')
             user.status = 'Pending Approval'
             user.save()
-            social_data = data.get('social')
-            if social_data:
-                try:
-                    SocialLoginToken.create(user, social_data)
-                except ValueError as e:
-                    raise APIException(str(e))
             data = UserSerializer(user, many=False).data
             return Response(data)
 
