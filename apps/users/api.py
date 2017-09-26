@@ -159,7 +159,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
                 # if 'HTTP_USER_AGENT' in request.META:
                 #     if request.META.get('HTTP_USER_AGENT').startswith('okhttp'):
                 #         device_type = 'ANDROID'
-                UserDevice.objects.get(reg_id=reg_id, user=user, device_type=device_type).mark_inactive()
+                UserDevice.objects.filter(reg_id=reg_id, user=user, device_type=device_type).update(user=None)
 
                 return Response(status=204)
             except UserDevice.DoesNotExist:
