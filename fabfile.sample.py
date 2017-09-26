@@ -110,3 +110,9 @@ def deploy():
 @roles(hosts)
 def uptime():
     run('uptime')
+    
+@task
+def backend_deploy():
+    local("git checkout master")
+    execute(push_prod)
+
