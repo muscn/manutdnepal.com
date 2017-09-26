@@ -41,9 +41,9 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             setup_user_email(request, user, [])
             send_email_confirmation(request, user, signup=True)
         except IntegrityError:
-            return Response({'error': 'The e-mail address already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': 'The e-mail address already exists.'}, status=400)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': str(e)}, status=400)
         return Response(self.serializer_class(user).data, status=status.HTTP_200_OK)
 
     @list_route(methods=['GET', 'POST'])
