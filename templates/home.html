@@ -117,15 +117,18 @@
                         {% endif %}
                     </div>
                 {% endwith %}
-                <hr/>
 
-                <div class="text-center mt-4">
-                    {#                <div class="text-center mt-4">#}
-                    {#                    <a href="#"><h3><strong>Predict and Win</strong></h3></a>#}
-                    {#                </div>#}
-                    <a href="{% url 'fixtures' %}" class="btn btn-outline-danger"><i class="fa fa-futbol-o mr-2"></i>
-                        View All Fixtures</a>
-                </div>
+
+                {% if not partner %}
+                    <hr/>
+                    <div class="text-center mt-4">
+                        {#                <div class="text-center mt-4">#}
+                        {#                    <a href="#"><h3><strong>Predict and Win</strong></h3></a>#}
+                        {#                </div>#}
+                        <a href="{% url 'fixtures' %}" class="btn btn-outline-danger"><i class="fa fa-futbol-o mr-2"></i>
+                            View All Fixtures</a>
+                    </div>
+                {% endif %}
 
             {% else %}
                 <h4 class="text-center">No upcoming <br>matches this <br>season!</h4>
