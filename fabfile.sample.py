@@ -58,7 +58,7 @@ def push_prod():
 
 
 @task
-@roles('prod')
+@roles('prod', 'cdn')
 def flush_pagespeed_cache():
     with settings(warn_only=True):
         sudo('touch /var/ngx_pagespeed_cache/cache.flush', shell=False)

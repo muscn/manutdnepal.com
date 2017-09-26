@@ -3,21 +3,20 @@ import uuid
 from django.db import models
 from django.core.cache import cache
 
+
 class DistributedKey(models.Model):
     key = models.TextField(blank=True, help_text='Leave blank for auto-generation.')
     client_name = models.CharField(max_length=250)
 
     @staticmethod
     def set_keys():
-        data = []
-        for obj in DistributedKey.objects.all():
-            data.append(obj.key)
-        cache.set('distributed_key', data)
+        data = [obj.key for obj in DistributedKey.objects.all()]
+        cache.set('distributed_keys', data)
         return data
 
     @staticmethod
-    def get_keys():
-        cached = cache.get('distributed_key')
+    def keys():
+        cached = cache.get('distributed_keys')
         if not cached:
             cached = DistributedKey.set_keys()
         return cached
