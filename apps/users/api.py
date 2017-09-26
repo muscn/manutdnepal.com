@@ -1,5 +1,6 @@
 import json
 
+from allauth.account.utils import setup_user_email, send_email_confirmation
 from allauth.socialaccount.models import SocialToken
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
@@ -13,7 +14,7 @@ from apps.partner.models import Partner
 from apps.partner.serializers import PartnerSer
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount, EsewaPayment
 from apps.users.models import User, MembershipSetting, CardStatus, SocialLoginToken
-from apps.users.serializers import UserSerializer
+from apps.users.serializers import UserSerializer, AuthTokenSerializer
 from muscn.utils.football import season
 
 
@@ -37,6 +38,8 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             user = User.objects.create_user(email, password)
             user.full_name = full_name
             user.save()
+            setup_user_email(request, user, [])
+            send_email_confirmation(request, user, signup=True)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(self.serializer_class(user).data, status=status.HTTP_200_OK)
@@ -139,10 +142,15 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 
 class CustomObtainAuth(ObtainAuthToken):
+    serializer_class = AuthTokenSerializer
+
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        if not user.is_active:
+            send_email_confirmation(request, user)
+            return Response({'detail': 'User is inactive!'}, status=403)
         token, created = Token.objects.get_or_create(user=user)
         user_data = UserSerializer(user, many=False).data
         user_data['token'] = token.key
