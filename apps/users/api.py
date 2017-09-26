@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from apps.partner.models import Partner
 from apps.partner.serializers import PartnerSer
 from apps.payment.models import Payment, ReceiptData, DirectPayment, BankDeposit, BankAccount, EsewaPayment
+from apps.push_notification.models import UserDevice
 from apps.users.models import User, MembershipSetting, CardStatus, SocialLoginToken
 from apps.users.serializers import UserSerializer, AuthTokenSerializer
 from muscn.utils.football import season
@@ -145,6 +146,26 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             user_data['token'] = token.key
             return Response(user_data)
         return Response({})
+
+    @list_route(methods=['POST'])
+    def logout(self, request):
+        user = self.request.user
+        if user.is_authenticated:
+            try:
+                reg_id = request.data.get('reg_id')
+                if not reg_id:
+                    return Response({'detail': 'reg_id is required.'}, status=400)
+                device_type = 'ANDROID'
+                # if 'HTTP_USER_AGENT' in request.META:
+                #     if request.META.get('HTTP_USER_AGENT').startswith('okhttp'):
+                #         device_type = 'ANDROID'
+                UserDevice.objects.get(reg_id=reg_id, user=user, device_type=device_type).mark_inactive()
+
+                return Response(status=204)
+            except UserDevice.DoesNotExist:
+                return Response({'status': 'error', 'detail': 'Not found.'}, 404)
+        else:
+            return Response({'status': 'error', 'detail': 'Not authenticated.'}, 401)
 
 
 class CustomObtainAuth(ObtainAuthToken):
