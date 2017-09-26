@@ -18,7 +18,6 @@ class UserDevice(AbstractDevice):
     device_type = models.CharField(choices=TYPES, max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, blank=True, null=True)
 
     @classmethod
     def send_all(cls, msg):

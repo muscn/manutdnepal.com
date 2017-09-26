@@ -16,6 +16,6 @@ class UserDeviceViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets
         user = request.user if request.user.is_authenticated else None
         obj, created = UserDevice.objects.update_or_create(dev_id=params.get('dev_id'),
                                                         defaults={'name': params.get('name'), 'reg_id': params.get('reg_id'),
-                                                                  'device_type': params.get('type'), 'active': True,
+                                                                  'device_type': params.get('type'), 'is_active': True,
                                                                   'user': user})
         return Response(self.serializer_class(obj).data, status=status.HTTP_200_OK)
