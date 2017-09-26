@@ -21,7 +21,6 @@ from muscn.utils.football import season
 class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = []
 
     def list(self, request):
         if self.request.user.is_authenticated:

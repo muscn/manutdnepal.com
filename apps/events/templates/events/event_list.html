@@ -11,18 +11,16 @@
 
 {% block content %}
 
-        <h1>Events</h1>
+    <h1 class="mb-4">Events</h1>
 
-        {% autopaginate object_list 20 as events %}
+    {% autopaginate object_list 20 as events %}
 
-        {% for event in events %}
-            <div class="panel panel-default">
+    {% for event in events %}
 
-                <div class="panel-body">
-                    <div class="date-icon">
-                        <div class="date-month">{{ event.start|date:"M" }}</div>
-                        <div class="date-day">{{ event.start.date.day }}</div>
-                    </div>
+
+        <div class="card p-2">
+            <div class="row">
+                <div class="col">
                     <h2><a href="{{ event.get_absolute_url }}">{{ event }}</a></h2>
                     {% if event.whole_day_event %}
                         <strong>Date:</strong>
@@ -40,14 +38,19 @@
                             <a href="{% url 'album-images' album.slug %}">{{ album.name }}</a>
                         {% endfor %}
                     {% endif %}
-
-
                 </div>
+                <div class="date-icon col-md-2">
+                    <div class="date-month">{{ event.start|date:"M" }}</div>
+                    <div class="date-day">{{ event.start.date.day }}</div>
+                </div>
+
             </div>
+        </div>
 
-        {% endfor %}
 
-        {% paginate %}
+    {% endfor %}
+
+    {% paginate %}
 
 {% endblock %}
 

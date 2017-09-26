@@ -16,9 +16,9 @@
             <h2>{% trans 'Gallery' %}</h2>
         </div>
     </div>
-
+<div class="row">
     {% for album in albums %}
-        <div class="thumbnail album-thumbnail">
+        <div class="col">
             <a href="{% url 'album-images' album.slug %}">
                     <img src="{{ album.get_thumbnail.file.thumbnail.240x140 }}" alt="">
             </a>
@@ -33,5 +33,6 @@
         </div>
 
     {% endfor %}
+</div>
 
 {% endblock %}

@@ -14,7 +14,6 @@ from ..stats.serializers import FixtureSerializer, RecentResultSerializer, Injur
 class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureSerializer
     queryset = Fixture.objects.filter(datetime__gt=timezone.now()).order_by('datetime').select_related()
-    permission_classes = []
 
     def finalize_response(self, request, *args, **kwargs):
         response = super().finalize_response(request, *args, **kwargs)
