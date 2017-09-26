@@ -137,7 +137,10 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except ValueError as e:
             raise APIException(str(e))
         if user:
-            return Response(UserSerializer(user, many=False).data)
+            token, created = Token.objects.get_or_create(user=user)
+            user_data = UserSerializer(user, many=False).data
+            user_data['token'] = token.key
+            return Response(user_data)
         return Response({})
 
 
