@@ -164,6 +164,7 @@ def esewa_success(request):
     if type(amount) == list:
         amount = amount[0]
     amount = float(amount)
+    ref_id = response['refId'][0]
     pid = response['oid'][0]
     user_id = int(pid.split('_')[1])
     if request.user.id != user_id:
@@ -173,8 +174,8 @@ def esewa_success(request):
     payment = Payment(user=request.user, amount=amount, type=payment_type)
     if payment.amount < MembershipSetting.get_solo().membership_fee:
         messages.error(request, 'You did not pay the full amount.')
-    esewa_payment = EsewaPayment(amount=payment.amount, pid=pid, ref_id=response['refId'][0])
-    if esewa_payment.verify():
+    esewa_payment = EsewaPayment(amount=payment.amount, pid=pid, ref_id=ref_id)
+    if esewa_payment.verify(unique=True):
         payment.save()
         esewa_payment.payment = payment
         esewa_payment.get_details()
@@ -192,7 +193,7 @@ def esewa_success(request):
             return redirect('/')
     else:
         messages.error(request, 'Payment via eSewa failed!')
-        return redirect(reverse_lazy('membership'))
+        return redirect(reverse_lazy('membership_form'))
 
 
 @login_required

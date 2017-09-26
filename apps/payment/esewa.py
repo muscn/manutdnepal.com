@@ -2,6 +2,7 @@ import urllib
 from urllib.parse import urlencode
 
 from django.conf import settings
+from django.core.mail import mail_admins
 from django.db import models
 import requests
 from django.utils import timezone
@@ -47,7 +48,10 @@ class EsewaTransaction(models.Model):
         self.clear_details()
         return self.get_details()
 
-    def verify(self):
+    def verify(self, unique=False):
+        if unique and self.__class__.objects.filter(ref_id=self.ref_id).exclude(pk=self.pk).exists():
+            mail_admins('[MUSCN] Esewa Error: Duplicate transaction/ref_id.', 'Ref id: %s' % self.ref_id)
+            return False
         kwargs = {'amt': self.amount, 'pid': self.pid, 'scd': self.scd, 'rid': self.ref_id}
         url = self.verification_url + '?' + urlencode(kwargs)
         response = requests.get(url)
