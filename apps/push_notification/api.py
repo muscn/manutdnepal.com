@@ -16,7 +16,7 @@ class UserDeviceViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets
         params = request.data
         user = request.user if request.user.is_authenticated else None
         reg_id = params.get('reg_id')
-        if reg_id:
+        if reg_id and reg_id.lower() != 'blacklisted':
             obj, created = UserDevice.objects.update_or_create(dev_id=params.get('dev_id'),
                                                                defaults={'name': params.get('name'), 'reg_id': reg_id,
                                                                          'device_type': params.get('type'), 'is_active': True,
