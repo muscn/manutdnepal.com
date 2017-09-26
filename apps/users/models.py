@@ -39,15 +39,16 @@ from muscn.utils.helpers import show_progress
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, full_name=''):
+    def create_user(self, email, password=None, full_name='', active=True):
         if not email:
             raise ValueError('Users must have an email address')
         user = self.model(
             email=UserManager.normalize_email(email),
             full_name=full_name,
         )
-        user.set_password(password)
-        user.is_active = True
+        if password:
+            user.set_password(password)
+        user.is_active = active
         user.save(using=self._db)
         return user
 

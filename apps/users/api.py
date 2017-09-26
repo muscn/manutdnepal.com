@@ -35,9 +35,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         password = params.get('password')
         full_name = params.get('full_name')
         try:
-            user = User.objects.create_user(email, password)
-            user.full_name = full_name
-            user.save()
+            user = User.objects.create_user(email, password, full_name=full_name, active=False)
             social_data = request.data.get('social')
             if social_data:
                 try:
@@ -132,12 +130,15 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     @list_route(methods=['POST'])
     def social_login(self, request):
+        data = request.data
         if request.user.is_authenticated:
             return Response(UserSerializer(self.request.user, many=False).data)
         try:
-            user = SocialLoginToken.get_user(request.data)
+            user = SocialLoginToken.get_user(data)
         except ValueError as e:
             raise APIException(str(e))
+        if not user and data.get('full_name') and data.get('email'):
+            user = User.objects.create_user(data.get('email'), full_name=data.get('full_name'))
         if user:
             token, created = Token.objects.get_or_create(user=user)
             user_data = UserSerializer(user, many=False).data
