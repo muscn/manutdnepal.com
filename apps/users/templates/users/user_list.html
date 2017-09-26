@@ -35,7 +35,7 @@
                 <tr class="{% if item.status == 'Pending Approval' %}warning{% elif item.status == 'Member' %}success{% endif %}">
                     <td>
                         <a href="{% url 'update_user' item.id %}">
-                            {{ item.full_name }}
+                            {{ item.full_name|default:'---' }}
                         </a>
                     </td>
                     <td>{{ item.devil_no }}</td>
