@@ -54,7 +54,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         if request.method == 'POST':
             user = request.user
             if not user.is_authenticated:
-                raise APIException('You need to login first.')
+                return Response({'status': 'error', 'detail': 'Not authenticated.'}, 401)
             data = request.data
             if user.status == 'Pending Approval':
                 raise APIException('Your membership request in pending approval.')

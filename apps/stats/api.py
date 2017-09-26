@@ -39,17 +39,14 @@ class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.
 class FixtureDetailViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = FixtureDetailSerializer
     queryset = Fixture.objects.all()
-    # permission_classes = (DistributedKeyAuthentication,)
 
 
 class RecentResultViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = RecentResultSerializer
     queryset = Fixture.objects.filter(datetime__lt=timezone.now()).order_by('-datetime')[0:8].select_related()
-    # permission_classes = (DistributedKeyAuthentication,)
 
 
 class LeagueTableViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    # permission_classes = (DistributedKeyAuthentication,)
 
     def list(self, request):
         if 'epl_standings' in cache:
@@ -62,7 +59,6 @@ class LeagueTableViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, views
 
 
 class TopScorerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    # permission_classes = (DistributedKeyAuthentication,)
 
     def list(self, request):
         top_scorers = get_top_scorers_summary()
@@ -76,25 +72,21 @@ class TopScorerViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
 class InjuryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = InjurySerializer
     queryset = Injury.get_current_injuries()
-    # permission_classes = (DistributedKeyAuthentication,)
 
 
 class SquadViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = PlayerSerializer
     queryset = Player.objects.filter(active=True)
-    # permission_classes = (DistributedKeyAuthentication,)
 
 
 class PastSeasonViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = SeasonDataSerializer
     queryset = SeasonData.objects.all()
-    # permission_classes = (DistributedKeyAuthentication,)
 
 
 class WallpaperViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = WallpaperSerializer
 
-    # permission_classes = (DistributedKeyAuthentication,)
 
     def get_queryset(self):
         return Wallpaper.objects.all().order_by('-pk')[:5]
