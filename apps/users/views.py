@@ -2,7 +2,7 @@ import datetime
 from io import BytesIO
 import os
 
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, mail_admins
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -151,6 +151,50 @@ def membership_form(request):
     })
 
 
+def esewa_success(request):
+    # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
+    response = dict(request.GET)
+    if not request.user.is_authenticated:
+        messages.error(request, 'An error occurred. Please contact us to complete your registration.')
+        mail_admins('[MUSCN] Esewa Failure: No user session', str(response))
+        return redirect('/')
+    user = request.user
+    payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
+    amount = response.get('amt')
+    if type(amount) == list:
+        amount = amount[0]
+    amount = float(amount)
+    pid = response['oid'][0]
+    user_id = int(pid.split('_')[1])
+    if request.user.id != user_id:
+        messages.error(request, 'An error occurred. Please contact us to complete your registration.')
+        mail_admins('[MUSCN] Esewa Failure: Invalid user id in product id', str(response))
+        return redirect('/')
+    payment = Payment(user=request.user, amount=amount, type=payment_type)
+    if payment.amount < MembershipSetting.get_solo().membership_fee:
+        messages.error(request, 'You did not pay the full amount.')
+    esewa_payment = EsewaPayment(amount=payment.amount, pid=pid, ref_id=response['refId'][0])
+    if esewa_payment.verify():
+        payment.save()
+        esewa_payment.payment = payment
+        esewa_payment.get_details()
+        esewa_payment.save()
+        messages.success(request, 'Thank you for registering to be a member.')
+        user.status = 'Pending Approval'
+        user.save()
+        try:
+            cs = CardStatus.objects.get(user=user, season=season())
+            messages.success(request,
+                             'You can pickup your package from %s after you are notified of it\'s availability.' % cs.pickup_location)
+            return redirect(cs.pickup_location.get_absolute_url())
+        except CardStatus.DoesNotExist:
+            mail_admins('[MUSCN] Esewa Warning: No card pickup location.', str(response))
+            return redirect('/')
+    else:
+        messages.error(request, 'Payment via eSewa failed!')
+        return redirect(reverse_lazy('membership'))
+
+
 @login_required
 def esewa_form(request):
     if request.user.status == 'Pending Approval':
@@ -223,7 +267,7 @@ class PublicMembershipListView(ListView):
     template_name = 'users/members_list.html'
 
     def get_queryset(self):
-        qs =  User.objects.none()
+        qs = User.objects.none()
         if 'q' in self.request.GET:
             qs = User.objects.all().prefetch_related(
                 Prefetch('card_statuses', CardStatus.objects.filter(season=season()).select_related('pickup_location'),
@@ -237,7 +281,7 @@ class PublicMembershipListView(ListView):
                 Q(mobile__contains=q)
             )
         return qs
-    
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['count'] = User.objects.count()
@@ -411,31 +455,10 @@ def new_user_membership(request):
     return render(request, 'users/new_user_membership.html', context)
 
 
-def esewa_success(request):
-    # {u'oid': [u'm_2_2015'], u'amt': [u'150'], u'refId': [u'0000ELD']}
-    response = dict(request.GET)
-    user = request.user
-    payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
-    payment = Payment(user=request.user, amount=response.get('amt'), type=payment_type)
-    if payment.amount < MembershipSetting.get_solo().membership_fee:
-        messages.error(request, 'You did not pay the full amount.')
-    esewa_payment = EsewaPayment(amount=payment.amount, pid=response['oid'][0], ref_id=response['refId'][0])
-    if esewa_payment.verify():
-        payment.save()
-        esewa_payment.payment = payment
-        esewa_payment.get_details()
-        esewa_payment.save()
-        messages.success(request, 'Membership fee received via eSewa.')
-        return redirect(reverse_lazy('membership_thankyou'))
-    else:
-        messages.error(request, 'Payment via eSewa failed!')
-        return redirect(reverse_lazy('membership_form'))
-
-
 def esewa_failure(request):
     # {u'q': [u'fu']}
     messages.error(request, 'eSewa transaction failed or cancelled!')
-    return redirect('membership_payment')
+    return redirect(reverse_lazy('membership'))
 
 
 def download_all_cards(request):
