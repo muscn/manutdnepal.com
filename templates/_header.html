@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark mb-lg-3 pb-0" itemscope itemtype="http://schema.org/SiteNavigationElement">
 
         <input type="checkbox" id="change-hamburger"/>
-        <a class="hamburger" href="#">
+        <a class="hamburger ml-3" href="#">
             <span></span>
             <label for="change-hamburger"></label>
         </a>
@@ -67,7 +67,7 @@
                 {% endif %}
             </ul>
             <ul class="navbar-nav mr-lg-3">
-                <li class="united p-0"><img src="{% static 'img/united.png' %}" height="20" alt="United"/></li>
+                <li class="united p-0 ml-5"><img src="{% static 'img/united.png' %}" height="20" alt="United"/></li>
                 <li><a href="{% url 'fixtures' %}">Fixtures</a></li>
                 <li><a href="{% url 'results' %}">Results</a></li>
 
