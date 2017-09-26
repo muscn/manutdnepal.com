@@ -7,8 +7,9 @@ from fcm.models import Device
 
 
 class UserDeviceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'dev_id', 'name', 'device_type', 'is_active')
+    list_display = ('user', 'dev_id', 'name', 'device_type', 'is_active', 'created_at', 'updated_at')
     list_filter = ('device_type', 'is_active')
+    readonly_fields = ('created_at', 'updated_at')
 
 
 class PushMessageAdmin(admin.ModelAdmin):
