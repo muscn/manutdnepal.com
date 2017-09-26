@@ -2,6 +2,7 @@ import json
 
 from allauth.account.utils import setup_user_email, send_email_confirmation
 from allauth.socialaccount.models import SocialToken
+from django.db import IntegrityError
 from rest_framework import mixins, status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -39,6 +40,8 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
             user.save()
             setup_user_email(request, user, [])
             send_email_confirmation(request, user, signup=True)
+        except IntegrityError:
+            return Response({'error': 'The e-mail address already exists.'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(self.serializer_class(user).data, status=status.HTTP_200_OK)
