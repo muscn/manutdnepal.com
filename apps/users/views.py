@@ -459,7 +459,7 @@ def new_user_membership(request):
 def esewa_failure(request):
     # {u'q': [u'fu']}
     messages.error(request, 'eSewa transaction failed or cancelled!')
-    return redirect(reverse_lazy('membership'))
+    return redirect(reverse_lazy('membership_form'))
 
 
 def download_all_cards(request):
