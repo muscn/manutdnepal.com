@@ -133,20 +133,28 @@
             {% else %}
                 <h4 class="text-center">No upcoming <br>matches this <br>season!</h4>
             {% endif %}
-
-
         </div>
 
         <div class="stats block col-sm mt-3">
-            <h4><a href="{% url 'results' %}">RECENT RESULTS</a></h4>
-            {% for result in recent_results %}
-                <div class="link-row">
-                    <a href="{{ result.get_absolute_url }}">
-                        <i class="result {{ result.result }}"></i>{{ result.home_team }}
-                        <span class="text-444">{{ result.score }}</span> {{ result.away_team }}
-                    </a>
-                </div>
-            {% endfor %}
+            <h4 class="mb-3"><a href="{% url 'results' %}">RECENT RESULTS</a></h4>
+            <table class="table table-compact">
+                {% for result in recent_results %}
+                    <tr>
+                        <td class="pb-2">
+                            <a href="{{ result.get_absolute_url }}"><i class="result {{ result.result }}"></i></a>
+                        </td>
+                        <td>
+                            <a href="{{ result.get_absolute_url }}">{{ result.home_team }}</a>
+                        </td>
+                        <td class="text-center">
+                            <a href="{{ result.get_absolute_url }}"><span class="text-444">{{ result.score }}</span></a>
+                        </td>
+                        <td class="text-right">
+                            <a href="{{ result.get_absolute_url }}">{{ result.away_team }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
 
         <div class="stats block col-sm mt-3">

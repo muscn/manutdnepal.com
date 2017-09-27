@@ -182,3 +182,9 @@ section.bg-brand {
     padding-top: 0.5rem;
   }
 }
+
+@media (max-width: 992px){
+.navbar-brand img {
+    height: 40px;
+}
+}
