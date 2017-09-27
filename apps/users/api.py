@@ -139,7 +139,10 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         except ValueError as e:
             raise APIException(str(e))
         if not user and data.get('full_name') and data.get('email'):
-            user = User.objects.create_user(data.get('email'), full_name=data.get('full_name'), channel='Android')
+            try:
+                user = User.objects.create_user(data.get('email'), full_name=data.get('full_name'), channel='Android')
+            except IntegrityError:
+                user = User.objects.get(email=data.get('email'))
         if user:
             token, created = Token.objects.get_or_create(user=user)
             user_data = UserSerializer(user, many=False).data
