@@ -4,7 +4,7 @@
 <div class="partners d-lg-flex justify-content-lg-around p-2 px-0 text-lg-left text-center">
     {% get_partners as partners %}
     {% for partner in partners %}
-        <div class="p-lg-2">
+        <div class="p-lg-2 mt-3">
             <h6 class="mb-3 text-444 text-center text-uppercase font-weight-bold">{{ partner.partnership }}</h6>
             {% if partner.logo %}
                 <a href="{{ partner.get_url }}" target="_blank">
@@ -15,6 +15,7 @@
             {% else %}
                 <h3 class="mt-4 text-444">{{ partner }}</h3>
             {% endif %}
+        <hr/>
         </div>
     {% endfor %}
 </div>
