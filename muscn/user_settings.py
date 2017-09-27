@@ -20,7 +20,7 @@ ACCOUNT_USERNAME_BLACKLIST = ['united', 'manutd', 'manchester', 'reddevil', 'red
 ACCOUNT_FORMS = {
     # 'login': 'apps.users.forms.LoginForm',
     'signup': 'apps.users.forms.SignupForm'}
-SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_AUTO_SIGNUP = True
 SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'

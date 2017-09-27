@@ -19,6 +19,7 @@
                 <label for="id_email">E-mail:</label>
                 <input class="form-control" type="email" name="email" placeholder="E-mail address" required id="id_email"
                        autofocus>
+                <div class="mt-2">{{ form.email.errors }}</div>
             </div>
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
