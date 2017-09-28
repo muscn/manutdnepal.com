@@ -80,7 +80,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = UserCreationForm
     ordering = ('username',)
     filter_horizontal = ()
-    list_display = ('full_name', 'email', 'is_staff', 'devil_no', 'status')
+    list_display = ('id', 'full_name', 'email', 'is_staff', 'devil_no', 'status')
     list_filter = ('is_staff', 'is_superuser', 'status', 'channel')
     fieldsets = ((None,
                   {'fields': ('full_name',

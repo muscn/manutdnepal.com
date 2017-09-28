@@ -36,7 +36,7 @@ class UserViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         password = params.get('password')
         full_name = params.get('full_name')
         try:
-            user = User.objects.create_user(email, password, full_name=full_name, active=False, channel='Android')
+            user = User.objects.create_user(email, password, full_name=full_name, active=True, channel='Android')
             social_data = request.data.get('social')
             if social_data:
                 try:
