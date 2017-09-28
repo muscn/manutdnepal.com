@@ -78,7 +78,7 @@ class TableScraper(Scraper):
                                     fixture = Fixture.objects.filter(datetime=dt).first()
                                     fixtures_to_delete = Fixture.objects.filter(datetime=dt)[1:].values_list("id", flat=True)
                                     Fixture.objects.filter(pk__in=list(fixtures_to_delete)).delete()
-                                if not fixture.has_complete_data():
+                                if True or not fixture.has_complete_data():
                                     fixture.process_data(data, m_data)
                                     if data['minute'] == 'FT':
                                         fixture.send_updates()
@@ -101,8 +101,8 @@ class TableScraper(Scraper):
                 # HT Score
                 # IndexError for match which have not been played.
                 try:
-                    if len(gray.cssselect('div.ply.tright')) and gray.cssselect('div.ply.tright')[
-                        0].text_content().strip() == 'half-time:':
+                    if len(gray.cssselect('div.ply.tright')) and \
+                                    gray.cssselect('div.ply.tright')[0].text_content().strip() == 'half-time:':
                         data['ht_score'] = gray.cssselect('div.sco')[0].text_content().replace('(', '').replace(')',
                                                                                                                 '').replace(
                             ' ', '')
@@ -193,3 +193,11 @@ class EuropaLeagueScrape(TableScraper):
     @classmethod
     def save(cls):
         cache.set('europa_league_standings', cls.data, timeout=None)
+
+
+class ChampionsLeagueScrape(TableScraper):
+    url = BASE_URL + '/soccer/champions-league/'
+
+    @classmethod
+    def save(cls):
+        cache.set('champions_league_standings', cls.data, timeout=None)
