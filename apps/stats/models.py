@@ -452,7 +452,9 @@ class Fixture(models.Model):
 
     @classmethod
     def get_next_match(cls):
-        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')[:1].select_related('live_screening').first()
+        return cls.objects.filter(datetime__gt=timezone.now()).order_by('datetime')[:1].select_related('opponent',
+                                                                                                       'live_screening',
+                                                                                                       'competition_year__competition').first()
 
     def npt(self):
         return utc_to_local(self.datetime)

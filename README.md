@@ -30,7 +30,7 @@ webpack --watch --progress
 ### 3. Add cronjobs
 `crontab -e`  
 ```
-*/5 * * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape table > /home/manutd/logs/cronjob.log
+*/5 * * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape all_leagues > /home/manutd/logs/cronjob.log
 @daily source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape tv > /home/manutd/logs/cronjob.log
 0 7,15,23 * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py scrape injuries > /home/manutd/logs/cronjob.log
 1 7 * * * source /home/manutd/.bashrc && source /home/manutd/env/bin/activate && python /home/manutd/app/manage.py birthday > /home/manutd/logs/cronjob.log
