@@ -27,6 +27,7 @@ class LeagueScraper(Scraper):
         root = self.get_root_tree()
         tz = pytz.timezone(settings.TIME_ZONE)
         if root is not None:
+
             if self.league.has_table:
                 rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
                 self.data['table'] = []
@@ -53,8 +54,24 @@ class LeagueScraper(Scraper):
                     except IndexError:
                         pass
 
-            # Also fetch all matches this week
+            if self.league.has_group:
+                groups_container = root.cssselect('#leagueTableBodyContainer')[0]
+                groups = {}
+                tables = groups_container.cssselect('.table')
+                for table in tables:
+                    group_name = table.cssselect('[data-type="league-name"]')[0].text_content()
+                    group = []
+                    rows = table.cssselect('.rows')
+                    for row in rows:
+                        rank = row.cssselect('[data-type="rank"]')[0].text_content()
+                        team = row.cssselect('[data-type="name"]')[0].text_content()
+                        gd = row.cssselect('[data-type="goaldiff"]')[0].text_content()
+                        pts = row.cssselect('[data-type="points"]')[0].text_content()
+                        group.append([rank, team, gd, pts])
+                    groups[group_name] = group
+                self.data['group_tables'] = groups
 
+            # Also fetch all matches this week
             matches = root.cssselect('div[data-type="evt"]')
             self.data['matchweek'] = {}
             for match in matches:
@@ -174,7 +191,8 @@ class LeagueScraper(Scraper):
 
 class AllLeagues(Scraper):
     def scrape(self):
-        competitions = Competition.get_ls_active()
+        # competitions = Competition.get_ls_active()
+        competitions = Competition.objects.filter(slug='ucl')
         for competition in competitions:
             competition.scrape()
 

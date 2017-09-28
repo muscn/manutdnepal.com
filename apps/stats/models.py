@@ -90,6 +90,10 @@ class Competition(models.Model):
         return self.data.get('table')
 
     @property
+    def group_tables(self):
+        return self.data.get('group_tables')
+
+    @property
     def matchweek(self):
         return self.data.get('matchweek')
 
