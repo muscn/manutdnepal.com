@@ -87,9 +87,9 @@ def membership_form(request):
             form.save()
             payment_type = 'Renewal' if user.status == 'Expired' else 'Membership'
             payment = Payment(user=user, amount=float(membership_setting.membership_fee), type=payment_type)
-            if data.get('esewa') and not (data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
+            if data.get('esewa.x') and not (data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
                 return redirect(reverse_lazy('esewa_form'))
-            elif data.get('receipt') or (data.get('esewa') and data.get('esewa.x') == '0' and data.get('esewa.y') == '0'):
+            elif data.get('receipt_no') or (data.get('esewa') and data.get('esewa.x') == '0' and data.get('esewca.y') == '0'):
                 direct_payment_form = ReceiptPaymentForm(data)
                 tab = 'receipt'
                 valid = False
@@ -118,7 +118,9 @@ def membership_form(request):
                                                bank=BankAccount.objects.first())
                     valid = True
             else:
-                valid = False
+                tab = 'receipt'
+                direct_payment_form = ReceiptPaymentForm(data)
+                direct_payment_form.errors['receipt_no'] = 'Receipt number is required.'
 
         if valid:
             user.status = 'Pending Approval'
