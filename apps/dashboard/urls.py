@@ -49,12 +49,7 @@ urlpatterns = [
 
     url(r'^approve_payment_membership/$', views.approve_payment_membership, name='approve_payment_membership'),
 
-    url(r'^membership/add/(?P<pk>\d+)/$', users_views.MembershipCreateView.as_view(),
-        name='create_membership'),
-    url(r'^membership/(?P<pk>\d+)/$', users_views.MembershipUpdateView.as_view(),
-        name='update_membership'),
-    url(r'^delete-membership/(?P<pk>\d+)/delete/$', users_views.MembershipDeleteView.as_view(),
-        name='delete_membership'),
+    
     url(r'^membership/add/$', users_views.new_user_membership, name='new_membership'),
     url(r'^membership/download/$', users_views.download_all_cards, name='download_all_cards'),
 

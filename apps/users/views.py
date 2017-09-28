@@ -38,14 +38,6 @@ from muscn.utils.mixins import UpdateView, CreateView, DeleteView
 from apps.payment.forms import BankDepositPaymentForm, DirectPaymentForm, DirectPaymentReceiptForm
 
 
-def login_register(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('membership_form'))
-    login_form = LoginForm()
-    signup_form = SignupForm()
-    return render(request, 'account/login_register.html', {'login_form': login_form, 'signup_form': signup_form})
-
-
 def index(request):
     if request.user.is_authenticated():
         return render(request, 'dashboard_index.html')
@@ -207,62 +199,6 @@ def esewa_form(request):
     return render(request, 'payment/esewa_form.html')
 
 
-@login_required
-def membership_payment(request):
-    # check if membership form has been received
-    # try:
-    #     membership = request.user.membership
-    #     if membership.status == 'A':
-    #         return redirect(reverse('view_profile'))
-    #     elif membership.status == 'E':
-    #         return redirect(reverse('renew_membership'))
-    # except Membership.DoesNotExist:
-    #     return redirect(reverse('membership_form'))
-    bank_deposit_form = BankDepositForm()
-    direct_payment_form = DirectPaymentForm()
-    if request.POST:
-        payment = Payment(user=request.user, amount=MembershipSetting.get_solo().membership_fee)
-        if request.POST.get('method') == 'direct':
-            direct_payment_form = DirectPaymentReceiptForm(request.POST, request.FILES)
-            if direct_payment_form.is_valid():
-                payment.save()
-                direct_payment = direct_payment_form.save(commit=False, user=request.user, payment=payment)
-                # direct_payment.payment = payment
-                direct_payment.save()
-        elif request.POST.get('method') == 'bank':
-            bank_deposit_form = BankDepositForm(request.POST, request.FILES)
-            bank_deposit = bank_deposit_form.save(commit=False)
-            payment.save()
-            bank_deposit.payment = payment
-            bank_deposit.save()
-            # if payment.id:
-            #     membership.payment = payment
-            #     membership.save()
-            #     return redirect(reverse('membership_thankyou'))
-    bank_accounts = BankAccount.objects.all()
-    return render(request, 'membership_payment.html', {
-        # 'membership': membership,
-        'bank_deposit_form': bank_deposit_form,
-        'direct_payment_form': direct_payment_form,
-        'bank_accounts': bank_accounts,
-        'base_template': 'base.html',
-    })
-
-
-@login_required
-def membership_thankyou(request):
-    try:
-        membership = request.user.membership
-    except Membership.DoesNotExist:
-        return redirect(reverse('membership_form'))
-    if not membership.payment:
-        return redirect(reverse('membership_payment'))
-    return render(request, 'membership_thankyou.html', {
-        'membership': membership,
-        'base_template': 'base.html',
-    })
-
-
 class PublicMembershipListView(ListView):
     model = User
     template_name = 'users/members_list.html'
@@ -287,67 +223,6 @@ class PublicMembershipListView(ListView):
         data = super().get_context_data(**kwargs)
         data['count'] = User.objects.count()
         return data
-
-
-class MembershipCreateView(StaffOnlyMixin, CreateView):
-    model = Membership
-    form_class = MembershipForm
-    success_url = reverse_lazy('list_memberships')
-
-    def get_form(self, form_class):
-        form = super(MembershipCreateView, self).get_form(form_class)
-        form.instance.user = User.objects.get(pk=self.kwargs['pk'])
-        form.fields['full_name'].initial = form.instance.user.full_name
-        return form
-
-
-class MembershipUpdateView(StaffOnlyMixin, UpdateView):
-    model = Membership
-    form_class = MembershipForm
-    success_url = reverse_lazy('list_memberships')
-
-    def post(self, request, *args, **kwargs):
-        if 'action' in request.POST:
-            obj = self.get_object()
-
-            if request.POST['action'] == 'Approve':
-                if not hasattr(obj, 'payment') or not obj.payment:
-                    messages.error(request, 'No payment associated with the membership!')
-                elif not obj.payment.verified:
-                    messages.error(request, 'Associated payment hasn\'t been verified!')
-                else:
-                    obj.approved_by = request.user
-                    if not obj.user.devil_no:
-                        max_devil_no = User.objects.aggregate(Max('devil_no'))['devil_no__max']
-                        if max_devil_no is None:
-                            max_devil_no = 100
-                        obj.user.devil_no = max_devil_no + 1
-                        obj.user.save()
-                    obj.approved_date = datetime.datetime.now()
-                    obj.expiry_date = get_current_season_start() + datetime.timedelta(days=365)
-                    messages.info(request, 'The membership is approved!')
-                    obj.save()
-                    if not hasattr(obj, 'card_status'):
-                        card_status = CardStatus(membership=obj)
-                    else:
-                        card_status = CardStatus.objects.get(membership=obj)
-                    card_status.status = 1
-                    card_status.notify()
-                    card_status.save()
-            elif request.POST['action'] == 'Disprove':
-                obj.approved_by = None
-                messages.info(request, 'The membership is disproved!')
-                obj.save()
-            elif request.POST['action'] == 'Download Card':
-                return obj.user.get_card_download()
-            return redirect(reverse_lazy('update_membership', kwargs={'pk': obj.pk}))
-        else:
-            return super(MembershipUpdateView, self).post(request, *args, **kwargs)
-
-
-class MembershipDeleteView(StaffOnlyMixin, DeleteView):
-    model = Membership
-    success_url = reverse_lazy('list_memberships')
 
 
 class UserListView(StaffOnlyMixin, ListView):
