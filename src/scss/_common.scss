@@ -283,3 +283,94 @@ ul.dropdown-menu {
 a.btn-outline-danger:hover {
   color: #fff !important;
 }
+
+// Adaptive Tables
+
+@media only screen and (max-width: 768px) {
+  .table-adaptive {
+    > tbody > tr {
+      background-color: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+      box-shadow: 0 0 2px 0 #151935;
+      padding: 0 0.2em;
+      margin: 0.2em;
+      &:not(:first-child) {
+        margin-top: 2rem;
+      }
+      &.collapse.show {
+        display: block;
+      }
+    }
+
+    > thead {
+
+      > tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+    }
+
+    > thead, > tbody {
+      display: block;
+      > tr {
+        &:not(.collapse) {
+          display: block;
+        }
+        > th {
+          display: block;
+        }
+        > td {
+          display: block;
+          border: none;
+          //border-bottom: 1px solid lighten($brand, 5);
+          position: relative;
+          padding-left: 50%;
+          white-space: normal;
+          text-align: right;
+          &:before {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+            text-align: left;
+            font-weight: bold;
+            content: attr(data-title);
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+        > td[data-header] {
+          padding-left: 0;
+          text-align: center;
+          font-weight: bold;
+
+        }
+        > td[data-footer] {
+          padding-left: 0;
+          text-align: center;
+        }
+        > td[data-hidden] {
+          display: none;
+        }
+        > td[data-center] {
+          padding-left: 0;
+          text-align: center;
+        }
+        > td[data-inline] {
+          padding-left: 0;
+          display: inline-block;
+        }
+    }
+  }
+
+  .card {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+}
