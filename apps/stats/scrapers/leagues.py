@@ -68,6 +68,9 @@ class LeagueScraper(Scraper):
                         gd = row.cssselect('[data-type="goaldiff"]')[0].text_content()
                         pts = row.cssselect('[data-type="points"]')[0].text_content()
                         group.append([rank, team, gd, pts])
+                        if team == 'Manchester United':
+                            self.data['mufc_group'] = {group_name: group}
+
                     groups[group_name] = group
                 self.data['group_tables'] = groups
 
@@ -191,8 +194,8 @@ class LeagueScraper(Scraper):
 
 class AllLeagues(Scraper):
     def scrape(self):
-        # competitions = Competition.get_ls_active()
-        competitions = Competition.objects.filter(slug='ucl')
+        competitions = Competition.get_ls_active()
+        # competitions = Competition.objects.filter(slug='ucl')
         for competition in competitions:
             competition.scrape()
 
