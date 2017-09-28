@@ -10,16 +10,25 @@ from .base import Scraper
 BASE_URL = 'http://www.livescores.com'
 
 
-class TableScraper(Scraper):
-    base_url = BASE_URL
+class LeagueScraper(Scraper):
+    league = None
 
-    @classmethod
-    def scrape(cls):
-        root = cls.get_root_tree()
+    @property
+    def url(self):
+        return BASE_URL + self.league.ls_endpoint
+
+    def __init__(self, league):
+        self.league = league
+
+    def save(self):
+        cache.set(self.league.slug + '_data', self.data, timeout=None)
+
+    def scrape(self):
+        root = self.get_root_tree()
         tz = pytz.timezone(settings.TIME_ZONE)
         if root is not None:
             rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
-            cls.data['teams'] = []
+            self.data['teams'] = []
             for row in rows:
                 data = {}
                 cols = row.cssselect('div')
@@ -39,14 +48,14 @@ class TableScraper(Scraper):
                     data['a'] = cols[8].text_content()
                     data['gd'] = cols[9].text_content()
                     data['pts'] = cols[10].text_content()
-                    cls.data['teams'].append(data)
+                    self.data['teams'].append(data)
                 except IndexError:
                     pass
 
             # Also fetch all matches this week
 
             matches = root.cssselect('div[data-type="evt"]')
-            cls.data['matches'] = {}
+            self.data['matches'] = {}
             for match in matches:
                 data = {'eid': match.get('data-eid')}
                 minute = match.cssselect('div.min')[0].text_content().strip()
@@ -61,14 +70,14 @@ class TableScraper(Scraper):
                 data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
                 data['away_team'] = match.cssselect('div.ply.name:not(.tright)')[0].text_content().strip()
                 data['score'] = match.cssselect('div.sco')[0].text_content().strip()
-                if date not in cls.data['matches']:
-                    cls.data['matches'][date] = []
-                cls.data['matches'][date].append(data)
+                if date not in self.data['matches']:
+                    self.data['matches'][date] = []
+                self.data['matches'][date].append(data)
                 if data['home_team'] in settings.ALIASES or data['away_team'] in settings.ALIASES:
                     links = match.cssselect('div.sco')[0].cssselect('a')
                     if len(links):
-                        url = cls.base_url + links[0].get('href')
-                        m_data = cls.get_m_data(url)
+                        url = BASE_URL + links[0].get('href')
+                        m_data = self.get_m_data(url)
                         if m_data:
                             m_data['minute'] = data['minute']
                             try:
@@ -85,15 +94,14 @@ class TableScraper(Scraper):
                             except Fixture.DoesNotExist:
                                 print('Fixture does not exist.')
 
-    @classmethod
-    def get_m_data(cls, url):
+    def get_m_data(self, url):
         # Has OG by opponent
         # url = 'http://www.livescore.com/soccer/england/premier-league/manchester-united-vs-crystal-palace/1-1989005/'
         # Has OG by Utd
         # url = 'http://www.livescore.com/soccer/england/premier-league/sunderland-vs-manchester-united/1-1988968/'
         # Penalty scored at away
         # url = 'http://www.livescore.com/soccer/england/premier-league/newcastle-united-vs-manchester-united/1-1988916/'
-        root = cls.get_root_tree(url)
+        root = self.get_root_tree(url)
         if root is not None:
             data = {'events': []}
             grays = root.cssselect('div.row-gray')
@@ -163,49 +171,12 @@ class TableScraper(Scraper):
             return data
 
 
-class EPLScrape(TableScraper):
-    url = BASE_URL + '/soccer/england/premier-league/'
-
-    @classmethod
-    def save(cls):
-        cache.set('epl_standings', cls.data, timeout=None)
-
-
-class LeagueCupScrape(TableScraper):
-    url = BASE_URL + '/soccer/england/carling-cup/'
-
-    @classmethod
-    def save(cls):
-        cache.set('league_cup_standings', cls.data, timeout=None)
-
-
-class FACupScrape(TableScraper):
-    url = BASE_URL + '/soccer/england/fa-cup/'
-
-    @classmethod
-    def save(cls):
-        cache.set('fa_cup_standings', cls.data, timeout=None)
-
-
-class EuropaLeagueScrape(TableScraper):
-    url = BASE_URL + '/soccer/europa-league/'
-
-    @classmethod
-    def save(cls):
-        cache.set('europa_league_standings', cls.data, timeout=None)
-
-
-class ChampionsLeagueScrape(TableScraper):
-    url = BASE_URL + '/soccer/champions-league/'
-
-    @classmethod
-    def save(cls):
-        cache.set('champions_league_standings', cls.data, timeout=None)
-
 class AllLeagues(Scraper):
-    
-    @classmethod
-    def scrape(cls):
+    def scrape(self):
         competitions = Competition.get_ls_active()
-        import ipdb
-        ipdb.set_trace()
+        for competition in competitions:
+            scraper = LeagueScraper(competition)
+            scraper.start()
+
+    def save(self):
+        pass
