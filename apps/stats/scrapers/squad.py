@@ -11,8 +11,7 @@ class SquadScraper(Scraper):
     data = []
     active = True
 
-    @classmethod
-    def parse_players(cls, rows):
+    def parse_players(self, rows):
         for row in rows:
             dct = {}
             columns = row.getchildren()
@@ -20,7 +19,7 @@ class SquadScraper(Scraper):
                 try:
                     if columns[8].text_content().strip() == 'New Club':
                         # players from following rows are no longer in the club
-                        cls.active = False
+                        self.active = False
                     dct['name'] = columns[1].text_content().strip()
                     if dct['name'] == 'Name' or not dct['name']:
                         continue
@@ -33,7 +32,7 @@ class SquadScraper(Scraper):
                     dct['weight'] = columns[5].text_content().strip()
                     dct['date_of_birth'] = columns[6].text_content().strip()
                     dct['birth_place'] = columns[7].text_content().strip()
-                    if cls.active:
+                    if self.active:
                         dct['previous_club'] = columns[8].text_content().strip()
                         if dct['previous_club'] == 'None':
                             dct['previous_club'] = None
@@ -42,26 +41,24 @@ class SquadScraper(Scraper):
                         new_club = columns[8].text_content().strip()
                         if new_club.endswith('(On Loan)'):
                             dct['on_loan'] = True
-                    dct['active'] = cls.active
-                    cls.data.append(dct)
+                    dct['active'] = self.active
+                    self.data.append(dct)
                 except IndexError:
                     pass
 
-    @classmethod
-    def scrape(cls):
-        root = cls.get_root_tree()
+    def scrape(self):
+        root = self.get_root_tree()
         if root is not None:
             active_players_table = root.xpath('//table')[0]
             active_player_rows = active_players_table.xpath('tr')[1:]
             # inactive_players_table = root.xpath('//table')[1]
             # inactive_player_rows = inactive_players_table.xpath('tr')[2:]
-            cls.parse_players(active_player_rows)
-            # cls.parse_players(inactive_player_rows, active=False)
+            self.parse_players(active_player_rows)
+            # self.parse_players(inactive_player_rows, active=False)
 
-    @classmethod
-    def save(cls):
+    def save(self):
         Player.objects.all().update(active=False)
-        for datum in cls.data:
+        for datum in self.data:
             try:
                 player = Player.get(datum['name'])
             except Player.DoesNotExist:

@@ -9,7 +9,7 @@ from muscn.utils.football import season
 
 class FixturesScraper(Scraper):
     # @classmethod
-    # def start(cls):
+    # def start(self):
     #     from django.conf import settings
     #
     #     api_key = settings.FOOTBALL_API_KEY
@@ -25,12 +25,11 @@ class FixturesScraper(Scraper):
     #     #     print 'Error: ' + data['ERROR']
     #     # for match in data['matches']:
 
-    @classmethod
-    def scrape(cls):
+    def scrape(self):
         # url = 'http://calendar.manutd.com/Manchester_United.ics'
         # url = 'http://hackeragenda.urlab.be/events/events.ics'
         url = 'https://calendar.google.com/calendar/ical/ov0dk4m6dedaob7oqse4nrda4s%40group.calendar.google.com/public/basic.ics'
-        cal_content = cls.get_url_content(url)
+        cal_content = self.get_url_content(url)
         if cal_content:
             if (cal_content, bytes):
                 cal_content = str(cal_content, 'utf-8')
@@ -93,6 +92,5 @@ class FixturesScraper(Scraper):
 
                 fixture.save()
 
-    @classmethod
-    def save(cls):
+    def save(self):
         pass
