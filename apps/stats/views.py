@@ -195,12 +195,17 @@ def injuries(request):
 
 def fixtures(request):
     upcoming_fixtures = Fixture.get_upcoming().select_related('opponent', 'competition_year__competition')
-    results = Fixture.results().select_related('opponent', 'competition_year__competition')
     context = {
         'fixtures': upcoming_fixtures,
-        'results': results,
     }
     return render(request, 'stats/fixtures.html', context)
+
+def results(request):
+    results = Fixture.results().select_related('opponent', 'competition_year__competition')
+    context = {
+        'results': results,
+    }
+    return render(request, 'stats/results.html', context)
 
 
 def all_results(request):

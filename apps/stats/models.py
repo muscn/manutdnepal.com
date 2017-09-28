@@ -104,6 +104,8 @@ class Competition(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             unique_slugify(self, self.name)
+        if not self.short_name:
+            self.short_name = self.name
         Competition.clear_cache()
         super().save(*args, **kwargs)
 

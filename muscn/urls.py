@@ -81,7 +81,7 @@ urlpatterns = [
     url(r'^epl-table/$', stats_views.epl_table, name='epl_table'),
     url(r'^matchweek/$', stats_views.matchweek, name='matchweek'),
     url(r'^fixtures/$', stats_views.fixtures, name='fixtures'),
-    url(r'^results/$', stats_views.fixtures, name='results'),
+    url(r'^results/$', stats_views.results, name='results'),
 
     url(r'^league/(?P<slug>[a-zA-Z0-9_.-]+)/$', stats_views.CompetitionDetail.as_view(), name='competition-detail'),
 
