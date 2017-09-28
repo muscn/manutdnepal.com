@@ -159,7 +159,7 @@
 
         {% get_active_leagues as leagues %}
         {% for league in leagues %}
-            
+
             {% if league.has_table %}
                 <div class="stats block col-sm mt-3">
                     <h4><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Table</a></h4>
@@ -190,82 +190,78 @@
                     </table>
                 </div>
             {% endif %}
-            
+
             {% if league.has_group %}
                 <div class="stats block col-sm mt-3">
                     <h4><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Table</a></h4>
-                
-                {% for group, table in league.mufc_group.items %}
-                    <strong class="mt-4 d-inline-block text-center">{{ group }}</strong>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Club</th>
-                            <th>Games</th>
-                            <th>Points</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for team in table %}
-                            <tr class="pos{{ team.0 }}{% if team.1 == 'Manchester United' %} highlight{% endif %}">
-                                <td>{{ team.0 }}</td>
-                                <td>{{ team.1 }}</td>
-                                <td>{{ team.2 }}</td>
-                                <td>{{ team.3 }}</td>
+
+                    {% for group, table in league.mufc_group.items %}
+                        <strong class="mt-4 d-block text-center">{{ group }}</strong>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Club</th>
+                                <th>Games</th>
+                                <th>Points</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-            {% endfor %}
-                
+                            </thead>
+                            <tbody>
+                            {% for team in table %}
+                                <tr class="pos{{ team.0 }}{% if team.1 == 'Manchester United' %} highlight{% endif %}">
+                                    <td>{{ team.0 }}</td>
+                                    <td>{{ team.1 }}</td>
+                                    <td>{{ team.2 }}</td>
+                                    <td>{{ team.3 }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endfor %}
+
                 </div>
             {% endif %}
-            
+
             {% if league.matchweek %}
                 <div class="stats block col-sm mt-3">
-                <h4 class="mb-3"><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Matchweek</a></h4>
-                <table class="table table-compact">
-                    {% for match_date, matches in league.matchweek.items %}
-                        {% for match in matches %}
-                            <tr>
-                                <td class="link-cell">
-                                    <a href="{% url 'competition-detail' league.id %}">{{ match.home_team }}</a></td>
-                                <td class="mw-50 link-cell text-center">
-                                    <a href="{% url 'competition-detail' league.id %}">
-                                        {% if match.score == '? - ?' %}
-                                            {{ match.minute }}
-                                        {% else %}
-                                            {{ match.score }}
-                                        {% endif %}
-                                    </a>
+                    <h4 class="mb-3"><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Matchweek</a>
+                    </h4>
+                    <table class="table table-compact">
+                        {% for match_date, matches in league.matchweek.items %}
+                            {% for match in matches %}
+                                <tr>
+                                    <td class="link-cell">
+                                        <a href="{% url 'competition-detail' league.id %}">{{ match.home_team }}</a></td>
+                                    <td class="mw-50 link-cell text-center">
+                                        <a href="{% url 'competition-detail' league.id %}">
+                                            {% if match.score == '? - ?' %}
+                                                {{ match.minute }}
+                                            {% else %}
+                                                {{ match.score }}
+                                            {% endif %}
+                                        </a>
 
-                                    <div class="w-100"></div>
-                                    <a href="{% url 'competition-detail' league.slug %}">
-                                        {{ match_date|date:'M d' }}
+                                        <div class="w-100"></div>
+                                        <a href="{% url 'competition-detail' league.slug %}">
+                                            {{ match_date|date:'M d' }}
 
-                                        {% if match.live %}
-                                            <i class="result1"></i>
-                                        {% endif %}
+                                            {% if match.live %}
+                                                <i class="result1"></i>
+                                            {% endif %}
 
-                                    </a>
+                                        </a>
 
-                                </td>
-                                <td class="link-cell text-right"><a href="{% url 'matchweek' %}">{{ match.away_team }}</a></td>
-                            </tr>
+                                    </td>
+                                    <td class="link-cell text-right"><a href="{% url 'matchweek' %}">{{ match.away_team }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                </table>
-            </div>
+                    </table>
+                </div>
             {% endif %}
-            
+
         {% endfor %}
-
-
-
-        {% if standings.matches %}
-            
-        {% endif %}
 
         <div class="stats block col-sm mt-3">
             <h4><a href="{% url 'scorers' %}">TOP SCORERS</a></h4>
@@ -317,7 +313,7 @@
         <div class="stats block posts col-sm mt-3">
             <h4><a href="{% url 'list_posts' %}">RECENT POSTS</a></h4>
             {% for post in posts %}
-                <div class="post-title">
+                <div class="mb-1">
                     <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                 </div>
             {% endfor %}
@@ -329,7 +325,7 @@
             <div class="loader mt-5"></div>
             <!-- /ko -->
             <!-- ko foreach: threads -->
-            <div class="media">
+            <div class="media mb-1">
                 <!-- ko if:internal -->
                 <span class="thumbnail-placeholder float-left"></span>
                 <!-- /ko -->
@@ -385,6 +381,5 @@
             <div class="by">{{ quote.by }}</div>
         </div>
     </div>
-
 
 {% endblock %}

@@ -2,6 +2,7 @@ import re
 import importlib
 import json
 
+from django.core.cache import cache
 from django.template import Library
 
 from django.utils.safestring import mark_safe
@@ -95,9 +96,12 @@ def result(match):
 
 @register.assignment_tag
 def get_mufc():
-    from apps.stats.models import Team
-
-    return Team.objects.get(name='Manchester United')
+    cached = cache.get('mufc')
+    if not cached:
+        from apps.stats.models import Team
+        cached = Team.objects.get(name='Manchester United')
+        cache.set('mufc', cached, timeout=None)
+    return cached
 
 
 @register.assignment_tag

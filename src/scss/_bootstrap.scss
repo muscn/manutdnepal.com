@@ -4,5 +4,6 @@ $enable-rounded: false;
 //$body-bg: $brand;
 $body-color: #fff;
 //$blue: $yellow; // overriding primary color
-$table-border-color: rgba($brand, .1);
+//$table-border-color: rgba($brand, .1);
+$table-border-color: rgba(lighten($brand, 25), 0.5);
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
