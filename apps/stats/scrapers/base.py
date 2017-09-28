@@ -12,15 +12,13 @@ class Scraper(object):
     command = False
     old_logs = []
 
-    @classmethod
-    def log(cls, log):
-        cls.logs.append(cls.__name__.replace('scraper', '').replace('Scraper', '') + ':: ' + log)
-        if cls.command:
+    def log(self, log):
+        self.logs.append(self.__class__.__name__.replace('scraper', '').replace('Scraper', '') + ':: ' + log)
+        if self.command:
             print(log)
 
-    @classmethod
-    def get_url_content(cls, url):
-        cls.log('Retrieving content from: ' + url + ' ...')
+    def get_url_content(self, url):
+        self.log('Retrieving content from: ' + url + ' ...')
         opener = urllib.request.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         try:
@@ -29,9 +27,8 @@ class Scraper(object):
         except urllib.request.URLError:
             return None
 
-    @classmethod
-    def get_json_from_url(cls, url):
-        cls.log('Retrieving JSON: ' + url + ' ...')
+    def get_json_from_url(self, url):
+        self.log('Retrieving JSON: ' + url + ' ...')
         opener = urllib.request.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         try:
@@ -40,11 +37,10 @@ class Scraper(object):
         except urllib.request.URLError:
             return None
 
-    @classmethod
-    def download(cls, url=None, path=None):
-        url = url or cls.url
-        path = path or cls.local_path
-        cls.log('Downloading ' + url + ' to ' + path)
+    def download(self, url=None, path=None):
+        url = url or self.url
+        path = path or self.local_path
+        self.log('Downloading ' + url + ' to ' + path)
         with open(path, 'wb') as handle:
             response = requests.get(url, stream=True)
             # if not response.ok:
@@ -54,25 +50,22 @@ class Scraper(object):
                     break
                 handle.write(block)
 
-    @classmethod
-    def download_if_required(cls):
-        if not os.path.isfile(cls.local_path):
-            cls.download()
+    def download_if_required(self):
+        if not os.path.isfile(self.local_path):
+            self.download()
 
-    @classmethod
-    def start(cls, *args, **kwargs):
-        cls.command = kwargs.get('command')
-        cls.old_logs += cls.logs
-        cls.logs = []
-        cls.scrape()
-        cls.log('Scraped!')
-        cls.save()
-        cls.log('Saved!')
+    def start(self, *args, **kwargs):
+        self.command = kwargs.get('command')
+        self.old_logs += self.logs
+        self.logs = []
+        self.scrape()
+        self.log('Scraped!')
+        self.save()
+        self.log('Saved!')
 
-    @classmethod
-    def get_root_tree(cls, url=None):
-        root_url = url or cls.url
-        cls.log('Retrieving root URL: ' + root_url + ' ...')
+    def get_root_tree(self, url=None):
+        root_url = url or self.url
+        self.log('Retrieving root URL: ' + root_url + ' ...')
         cookies = {'tz': '5.75', 'u_country': 'Nepal', 'u_country_code': 'NP', 'u_timezone': 'Asia%2FKatmandu',
                    'u_continent': 'Asia'}
         try:
@@ -82,8 +75,7 @@ class Scraper(object):
         except requests.ConnectionError:
             return None
 
-    @classmethod
-    def get_wiki_cell_content(cls, td):
+    def get_wiki_cell_content(self, td):
         if td.getchildren():
             last_child = td.getchildren()[-1]
             if last_child.tag == 'sup':
@@ -102,12 +94,10 @@ class Scraper(object):
             return None
         return ret
 
-    @classmethod
-    def gwcc(cls, *args):
-        return cls.get_wiki_cell_content(*args)
+    def gwcc(self, *args):
+        return self.get_wiki_cell_content(*args)
 
-    @classmethod
-    def get_style(cls, el, style_property):
+    def get_style(self, el, style_property):
         try:
             all_styles = el.attrib['style']
         except KeyError:
@@ -119,10 +109,8 @@ class Scraper(object):
                 if css_property == style_property:
                     return value
 
-    @classmethod
-    def scrape(cls):
+    def scrape(self):
         raise NotImplementedError('Your scraper class needs to implemented scrape().')
 
-    @classmethod
-    def save(cls):
+    def save(self):
         raise NotImplementedError('Your scraper class needs to implemented save().')

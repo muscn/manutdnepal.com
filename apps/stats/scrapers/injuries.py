@@ -8,9 +8,8 @@ from django.core.exceptions import MultipleObjectsReturned
 class InjuriesScraper(Scraper):
     url = 'http://www.physioroom.com/news/english_premier_league/epl_injury_table.php'
 
-    @classmethod
-    def scrape(cls):
-        root = cls.get_root_tree()
+    def scrape(self):
+        root = self.get_root_tree()
         if len(root):
             united_row = root.xpath('//a[contains(text(), "Manchester United")]')[1].getparent().getparent().getparent()
             urtc = united_row.text_content().strip()
@@ -33,9 +32,9 @@ class InjuriesScraper(Scraper):
                         player = Player.objects.get(name__icontains=player_name_last, name__startswith=player_name_first)
                     except Player.DoesNotExist:
                         raise ValueError('Player "%s" does\'nt exist.' % player_name_last)
-                cls.data[player] = {'type': row.getchildren()[1].text_content()}
+                self.data[player] = {'type': row.getchildren()[1].text_content()}
                 if row.getchildren()[2].text:
-                    cls.data[player]['remarks'] = row.getchildren()[2].text
+                    self.data[player]['remarks'] = row.getchildren()[2].text
                 return_date_raw = row.getchildren()[3].text
                 if return_date_raw.lower() == 'no return date':
                     pass
@@ -43,18 +42,17 @@ class InjuriesScraper(Scraper):
                     day = return_date_raw.split()[1].strip(',').zfill(2)
                     month = return_date_raw.split()[0]
                     year = return_date_raw.split()[2]
-                    cls.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%B-%Y')
+                    self.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%B-%Y')
                 elif len(return_date_raw.split()) == 2:
                     day = '15'
                     month = return_date_raw.split()[0]
                     year = return_date_raw.split()[1]
-                    cls.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%B-%Y')
+                    self.data[player]['return_date'] = datetime.datetime.strptime(day + '-' + month + '-' + year, '%d-%B-%Y')
 
-    @classmethod
-    def save(cls):
+    def save(self):
         old_injuries = Injury.get_current_injuries()
         new_injuries = []
-        for player, data in cls.data.items():
+        for player, data in self.data.items():
             try:
                 injury = old_injuries.get(player=player)
             except Injury.DoesNotExist:

@@ -46,6 +46,11 @@ class Competition(models.Model):
     friendly = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     ls_endpoint = models.CharField(max_length=255,blank=True, null=True)
+    
+    @classmethod
+    def get_ls_active(cls):
+        #  TODO Cache
+        return cls.objects.filter(active=True, ls_endpoint__isnull=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -61,7 +66,7 @@ class Competition(models.Model):
         return self.name
 
     class Meta:
-        ordering = ('order',)
+        ordering = ('-order',)
 
 
 class CompetitionYear(models.Model):

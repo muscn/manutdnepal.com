@@ -37,11 +37,16 @@ class GoalAdmin(admin.ModelAdmin):
     form = GoalForm
 
 
+class CompetitionAdmin(admin.ModelAdmin):
+    list_display = ['name', 'short_name', 'slug', 'order', 'friendly', 'active']
+    list_filter = ['friendly', 'active']
+
+
+admin.site.register(Competition, CompetitionAdmin)
+
 admin.site.register(Goal, GoalAdmin)
 admin.site.register(Injury)
 admin.site.register(PlayerSocialAccount)
-admin.site.register(Competition)
-# admin.site.register(City)
 admin.site.register(Quote)
 admin.site.register(SeasonData)
 admin.site.register(Team, TeamAdmin)
@@ -70,7 +75,7 @@ class FixtureResultFilter(SimpleListFilter):
 class FixtureAdmin(admin.ModelAdmin):
     list_display = ('opponent', 'is_home_game', 'datetime', 'competition_year', 'venue')
     list_filter = (
-    FixtureResultFilter, 'is_home_game', 'competition_year__competition', 'competition_year', 'competition_year__year')
+        FixtureResultFilter, 'is_home_game', 'competition_year__competition', 'competition_year', 'competition_year__year')
     inlines = [GoalInline]
 
     def get_queryset(self, request):

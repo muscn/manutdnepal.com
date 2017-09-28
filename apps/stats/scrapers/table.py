@@ -4,7 +4,7 @@ import pytz
 from django.core.cache import cache
 from django.conf import settings
 
-from apps.stats.models import Fixture
+from apps.stats.models import Fixture, Competition
 from .base import Scraper
 
 BASE_URL = 'http://www.livescores.com'
@@ -201,3 +201,11 @@ class ChampionsLeagueScrape(TableScraper):
     @classmethod
     def save(cls):
         cache.set('champions_league_standings', cls.data, timeout=None)
+
+class AllLeagues(Scraper):
+    
+    @classmethod
+    def scrape(cls):
+        competitions = Competition.get_ls_active()
+        import ipdb
+        ipdb.set_trace()

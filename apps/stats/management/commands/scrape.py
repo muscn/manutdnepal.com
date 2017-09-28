@@ -17,7 +17,7 @@ class Command(BaseCommand):
         try:
             for arg in options['scraper']:
                 try:
-                    scraper = available_scrapers[arg]
+                    scraper = available_scrapers[arg]()
                 except KeyError:
                     raise CommandError('Scraper "%s" does not exist' % arg)
                 scraper.start(command=True)
