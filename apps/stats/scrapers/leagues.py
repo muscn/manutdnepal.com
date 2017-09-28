@@ -77,6 +77,7 @@ class LeagueScraper(Scraper):
             # Also fetch all matches this week
             matches = root.cssselect('div[data-type="evt"]')
             self.data['matchweek'] = {}
+            latest_date = datetime.date(1991, 4, 1)
             for match in matches:
                 data = {'eid': match.get('data-eid')}
                 minute = match.cssselect('div.min')[0].text_content().strip()
@@ -88,6 +89,8 @@ class LeagueScraper(Scraper):
                 dt = tz.localize(datetime.datetime.strptime(match.get('data-esd'), '%Y%m%d%H%M%S'))
                 data['kickoff'] = dt
                 date = dt.date()
+                if date > latest_date:
+                    latest_date = date
                 data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
                 data['away_team'] = match.cssselect('div.ply.name:not(.tright)')[0].text_content().strip()
                 data['score'] = match.cssselect('div.sco')[0].text_content().strip()
@@ -114,6 +117,10 @@ class LeagueScraper(Scraper):
                                         fixture.send_updates()
                             except Fixture.DoesNotExist:
                                 print('Fixture does not exist.')
+
+            # Do not consider recent match older than 10 days for matchweek
+            if latest_date + datetime.timedelta(days=10) < datetime.date.today():
+                self.data['matchweek'] = {}
 
     def get_m_data(self, url):
         # Has OG by opponent
