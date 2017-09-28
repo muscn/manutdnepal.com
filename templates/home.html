@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles filters %}
+{% load staticfiles filters custom_tags %}
 
 {% block whole_title %}
     Manchester United Supporters' Club, Nepal
@@ -157,46 +157,82 @@
             </table>
         </div>
 
-        <div class="stats block col-sm mt-3">
-            <h4><a href="{% url 'epl_table' %}">EPL TABLE</a></h4>
-            <table class="epl-table table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Club</th>
-                    <th>P</th>
-                    <th>GD</th>
-                    <th>Pts</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for team in standings.teams %}
-                    <tr {% if team.name == 'Manchester United' %}class=highlight{% endif %}>
-                        <td>{{ team.position }}</td>
-                        <td>
-                            {% if team.name == 'Manchester United' %}Man United{% else %}
-                                {{ team.name }}{% endif %}
-                        </td>
-                        <td>{{ team.p }}</td>
-                        <td>{{ team.gd }}</td>
-                        <td>{{ team.pts }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        {% if standings.matches %}
-            <div class="stats block col-sm mt-3">
-                <h4 class="mb-3"><a href="{% url 'matchweek' %}">EPL MATCHWEEK</a></h4>
+        {% get_active_leagues as leagues %}
+        {% for league in leagues %}
+            
+            {% if league.has_table %}
+                <div class="stats block col-sm mt-3">
+                    <h4><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Table</a></h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Club</th>
+                            <th>P</th>
+                            <th>GD</th>
+                            <th>Pts</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for team in league.table %}
+                            <tr {% if team.name == 'Manchester United' %}class=highlight{% endif %}>
+                                <td>{{ team.position }}</td>
+                                <td>
+                                    {% if team.name == 'Manchester United' %}Man United{% else %}
+                                        {{ team.name }}{% endif %}
+                                </td>
+                                <td>{{ team.p }}</td>
+                                <td>{{ team.gd }}</td>
+                                <td>{{ team.pts }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            
+            {% if league.has_group %}
+                <div class="stats block col-sm mt-3">
+                    <h4><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Table</a></h4>
+                
+                {% for group, table in league.mufc_group.items %}
+                    <strong class="mt-4 d-inline-block text-center">{{ group }}</strong>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Club</th>
+                            <th>Games</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for team in table %}
+                            <tr class="pos{{ team.0 }}{% if team.1 == 'Manchester United' %} highlight{% endif %}">
+                                <td>{{ team.0 }}</td>
+                                <td>{{ team.1 }}</td>
+                                <td>{{ team.2 }}</td>
+                                <td>{{ team.3 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+            {% endfor %}
+                
+                </div>
+            {% endif %}
+            
+            {% if league.matchweek %}
+                <div class="stats block col-sm mt-3">
+                <h4 class="mb-3"><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Matchweek</a></h4>
                 <table class="table table-compact">
-                    {% for match_date, matches in standings.matches.items %}
+                    {% for match_date, matches in league.matchweek.items %}
                         {% for match in matches %}
                             <tr>
                                 <td class="link-cell">
-                                    <a href="{% url 'matchweek' %}">{{ match.home_team }}</a></td>
+                                    <a href="{% url 'competition-detail' league.id %}">{{ match.home_team }}</a></td>
                                 <td class="mw-50 link-cell text-center">
-                                    <a href="{% url 'matchweek' %}">
+                                    <a href="{% url 'competition-detail' league.id %}">
                                         {% if match.score == '? - ?' %}
                                             {{ match.minute }}
                                         {% else %}
@@ -205,7 +241,7 @@
                                     </a>
 
                                     <div class="w-100"></div>
-                                    <a href="{% url 'matchweek' %}">
+                                    <a href="{% url 'competition-detail' league.slug %}">
                                         {{ match_date|date:'M d' }}
 
                                         {% if match.live %}
@@ -221,6 +257,14 @@
                     {% endfor %}
                 </table>
             </div>
+            {% endif %}
+            
+        {% endfor %}
+
+
+
+        {% if standings.matches %}
+            
         {% endif %}
 
         <div class="stats block col-sm mt-3">

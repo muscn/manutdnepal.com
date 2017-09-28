@@ -246,7 +246,10 @@ class CompetitionDetail(DetailView):
     model = Competition
 
     def get_object(self, queryset=None):
-        return Competition.get(self.kwargs.get('slug'))
+        obj = Competition.get(self.kwargs.get('slug'))
+        if not obj:
+            raise Http404
+        return obj
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
