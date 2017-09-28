@@ -11,7 +11,7 @@ from django.core.cache import cache
 from apps.users.models import StaffOnlyMixin, group_required
 from muscn.utils.mixins import CreateView, UpdateView, DeleteView
 from .models import Injury, Quote, SeasonData, CompetitionYearMatches, CompetitionYear, Player, Fixture, \
-    get_top_scorers, Goal
+    get_top_scorers, Goal, Competition
 from .forms import QuoteForm, InjuryForm, ResultForm, GoalForm, FixtureForm, ResultGoalFormset
 
 
@@ -240,3 +240,10 @@ class FixtureDetail(DetailView):
             fixture = qs.first()
             qs.exclude(pk=fixture.pk).delete()
         return fixture
+
+
+class CompetitionDetail(DetailView):
+    model = Competition
+
+    def get_object(self, queryset=None):
+        return Competition.get(self.kwargs.get('slug'))

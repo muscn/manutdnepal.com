@@ -56,7 +56,7 @@ class LeagueScraper(Scraper):
             # Also fetch all matches this week
 
             matches = root.cssselect('div[data-type="evt"]')
-            self.data['matches'] = {}
+            self.data['matchweek'] = {}
             for match in matches:
                 data = {'eid': match.get('data-eid')}
                 minute = match.cssselect('div.min')[0].text_content().strip()
@@ -71,9 +71,9 @@ class LeagueScraper(Scraper):
                 data['home_team'] = match.cssselect('div.ply.tright.name')[0].text_content().strip()
                 data['away_team'] = match.cssselect('div.ply.name:not(.tright)')[0].text_content().strip()
                 data['score'] = match.cssselect('div.sco')[0].text_content().strip()
-                if date not in self.data['matches']:
-                    self.data['matches'][date] = []
-                self.data['matches'][date].append(data)
+                if date not in self.data['matchweek']:
+                    self.data['matchweek'][date] = []
+                self.data['matchweek'][date].append(data)
                 if data['home_team'] in settings.ALIASES or data['away_team'] in settings.ALIASES:
                     links = match.cssselect('div.sco')[0].cssselect('a')
                     if len(links):

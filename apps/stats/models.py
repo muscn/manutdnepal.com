@@ -91,7 +91,7 @@ class Competition(models.Model):
 
     @property
     def matchweek(self):
-        return self.data.get('matches')
+        return self.data.get('matchweek')
 
     def save(self, *args, **kwargs):
         if not self.slug:

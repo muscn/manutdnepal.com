@@ -1,31 +1,14 @@
 {% extends 'base.html' %}
-{% load filters %}
-{% load staticfiles %}
 
-{% block title %} EPL Table {% endblock %}
-
-{% block extrahead %}
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'vendors/datatables/css/dataTables.bootstrap.css' %}"/>
-{% endblock %}
-
-{% block extrabody %}
-    <script type="text/javascript" src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
-    <script>
-    $(document).ready(function () {
-        $('.epl-table').DataTable({
-          paging: false,
-          "aaSorting": []
-        });
-      });
-    </script>
-{% endblock %}
+{% block title %} {{ object.name }}{% endblock %}
 
 {% block content %}
-
-    <h1>EPL Table</h1>
-
-    <table class="epl-table table table-bordered table-hover">
+    <h1>{{ object.name }}</h1>
+    
+    {% if object.has_table %}
+        <h3 class="my-3">Standings</h3>
+        
+        <table class="epl-table table table-bordered table-hover">
         <thead>
         <tr>
             <th></th>
@@ -41,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for team in standings.teams %}
+        {% for team in object.table %}
             <tr class="pos{{ team.position }}{% if team.name == 'Manchester United' %} highlight{% endif %}">
                 {#                    <td>{{ team.stand_status }}</td>#}
                 <td>
@@ -64,10 +47,40 @@
         {% endfor %}
         </tbody>
     </table>
-
-
-    <br/>
+    {% endif %}
     
+    {% if object.matchweek %}
+        <h3 class="my-3">This Matchweek</h3>
 
+    {% for match_date, matches in object.matchweek.items %}
+
+        <h5>{{ match_date }}</h5>
+        <table class="table">
+            <tbody>
+            {% for match in matches %}
+                <tr>
+
+                    <td>
+                        {{ match.minute }}
+                        {% if match.live %}
+                            <i class="result1"></i>
+                        {% endif %}
+                    </td>
+                    <td>{{ match.home_team }}</td>
+                    <td>{{ match.score }}</td>
+                    <td>{{ match.away_team }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endfor %}
+        
+    {% endif %}
+    
+    <div class="alert alert-info">
+        Updated every five minutes.
+    </div>
+    
 {% endblock %}
-

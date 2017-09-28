@@ -87,6 +87,8 @@ urlpatterns = [
     url(r'^fixtures/$', stats_views.fixtures, name='fixtures'),
     url(r'^results/$', stats_views.fixtures, name='results'),
 
+    url(r'^league/(?P<slug>[a-zA-Z0-9_.-]+)/$', stats_views.CompetitionDetail.as_view(), name='competition-detail'),
+
     url(r'^all-results/$', stats_views.all_results, name='all-results'),
     url(r'^top-scorers/$', stats_views.scorers, name='scorers'),
     url(r'^injuries/$', stats_views.injuries, name='injuries'),
