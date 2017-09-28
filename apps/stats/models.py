@@ -38,13 +38,14 @@ for r in range(1890, (datetime.datetime.now().year + 1)):
 BASE_URL = 'https://manutd.org.np'
 
 
-# Fixtured
 class Competition(models.Model):
     name = models.CharField(max_length=255)
     short_name = models.CharField(max_length=50, null=True, blank=True)
     slug = models.SlugField(max_length=255)
     order = models.IntegerField(default=0)
     friendly = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
+    ls_endpoint = models.CharField(max_length=255,blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
