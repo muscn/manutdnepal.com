@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django import forms
-from django.contrib.admin import FieldListFilter, RelatedFieldListFilter, ChoicesFieldListFilter, SimpleListFilter
+from django.contrib.admin import SimpleListFilter
 from django.utils import timezone
 
 from muscn.utils.mixins import EmptyFilterSpec
-from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, CompetitionYearMatches, Player, \
-    Fixture, Team, Goal, Stadium, PlayerSocialAccount, Wallpaper
+from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, Player, Fixture, Team, Goal, Stadium, \
+    PlayerSocialAccount, Wallpaper
 
 
 class CrestEmptyFilterSpec(EmptyFilterSpec):

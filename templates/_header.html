@@ -78,7 +78,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         {% get_active_leagues as leagues %}
                         {% for league in leagues %}
-                        <li><a href="{% url 'epl_table' %}">{{ league.short_name }}</a></li>
+                            <li><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
