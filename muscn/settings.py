@@ -153,6 +153,8 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
 SOLO_CACHE = 'default'
+SOLO_CACHE_PREFIX = 'solo'
+SOLO_CACHE_TIMEOUT = 60 * 60 * 24
 
 LOGGING = {
     'version': 1,
