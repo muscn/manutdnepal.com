@@ -247,3 +247,9 @@ class CompetitionDetail(DetailView):
 
     def get_object(self, queryset=None):
         return Competition.get(self.kwargs.get('slug'))
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['recent_matches'] = Fixture.all_results().filter(competition_year__competition=self.object).order_by(
+            '-datetime').select_related('opponent')
+        return data

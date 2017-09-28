@@ -352,7 +352,7 @@ class Fixture(models.Model):
     opponent = models.ForeignKey(Team)
     is_home_game = models.BooleanField(default=True)
     datetime = models.DateTimeField()
-    competition_year = models.ForeignKey(CompetitionYear)
+    competition_year = models.ForeignKey(CompetitionYear, related_name='matches')
     round = models.CharField(max_length=255, blank=True, null=True)
     venue = models.CharField(max_length=255, blank=True, null=True, help_text='Leave blank for auto-detection')
     broadcast_on = models.CharField(max_length=255, blank=True, null=True)
@@ -465,8 +465,6 @@ class Fixture(models.Model):
         elif self.is_home_game:
             return 'Old Trafford'
         else:
-            if self.opponent.stadium:
-                return str(self.opponent.stadium.name)
             return 'Unknown'
 
     def is_upcoming(self):
@@ -544,24 +542,6 @@ class Goal(models.Model):
         if self.time:
             ret_str = ret_str + ' at ' + str(self.time) + "'"
         return ret_str
-
-
-class MatchResult(models.Model):
-    fixture = models.ForeignKey(Fixture)
-    mufc_score = models.PositiveIntegerField(default=0)
-    opponent_score = models.PositiveIntegerField(default=0)
-
-    @property
-    def title(self):
-        if self.fixture.is_home_game:
-            return 'Man United ' + str(self.mufc_score) + ' - ' + str(self.opponent_score) + ' ' + str(
-                self.fixture.opponent)
-        else:
-            return str(self.fixture.opponent) + ' ' + str(self.opponent_score) + ' - ' + str(
-                self.mufc_score) + ' ' + 'Man United'
-
-    def __str__(self):
-        return str(self.fixture.title)
 
 
 class PlayerSocialAccount(models.Model):

@@ -1,88 +1,148 @@
 {% extends 'base.html' %}
+{% load filters %}
 
 {% block title %} {{ object.name }}{% endblock %}
 
 {% block content %}
     <h1>{{ object.name }}</h1>
-    
+
     {% if object.has_table %}
         <h3 class="my-3">Standings</h3>
-        
+
         <table class="epl-table table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Club</th>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>GS</th>
-            <th>GA</th>
-            <th>GD</th>
-            <th>Pts</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for team in object.table %}
-            <tr class="pos{{ team.position }}{% if team.name == 'Manchester United' %} highlight{% endif %}">
-                {#                    <td>{{ team.stand_status }}</td>#}
-                <td>
-                    {{ team.position }}
-                    {% if team.live %}
-                        <i class="result1"></i>
-                    {% endif %}
-                </td>
-                <td>{{ team.name }}</td>
-                <td>{{ team.p }}</td>
-                <td>{{ team.w }}</td>
-                <td>{{ team.d }}</td>
-                <td>{{ team.l }}</td>
-                <td>{{ team.f }}</td>
-                <td>{{ team.a }}</td>
-                <td>{{ team.gd }}</td>
-                {#                <td>{{ team.stand_recent_form }}</td>#}
-                <td>{{ team.pts }}</td>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Club</th>
+                <th>P</th>
+                <th>W</th>
+                <th>D</th>
+                <th>L</th>
+                <th>GS</th>
+                <th>GA</th>
+                <th>GD</th>
+                <th>Pts</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-    
-    {% if object.matchweek %}
-        <h3 class="my-3">This Matchweek</h3>
-
-    {% for match_date, matches in object.matchweek.items %}
-
-        <h5>{{ match_date }}</h5>
-        <table class="table">
+            </thead>
             <tbody>
-            {% for match in matches %}
-                <tr>
-
+            {% for team in object.table %}
+                <tr class="pos{{ team.position }}{% if team.name == 'Manchester United' %} highlight{% endif %}">
+                    {#                    <td>{{ team.stand_status }}</td>#}
                     <td>
-                        {{ match.minute }}
-                        {% if match.live %}
+                        {{ team.position }}
+                        {% if team.live %}
                             <i class="result1"></i>
                         {% endif %}
                     </td>
-                    <td>{{ match.home_team }}</td>
-                    <td>{{ match.score }}</td>
-                    <td>{{ match.away_team }}</td>
-
+                    <td>{{ team.name }}</td>
+                    <td>{{ team.p }}</td>
+                    <td>{{ team.w }}</td>
+                    <td>{{ team.d }}</td>
+                    <td>{{ team.l }}</td>
+                    <td>{{ team.f }}</td>
+                    <td>{{ team.a }}</td>
+                    <td>{{ team.gd }}</td>
+                    {#                <td>{{ team.stand_recent_form }}</td>#}
+                    <td>{{ team.pts }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-
-    {% endfor %}
-        
     {% endif %}
-    
+
+    {% if object.matchweek %}
+        <h3 class="my-3">This Matchweek</h3>
+
+        {% for match_date, matches in object.matchweek.items %}
+
+            <h5>{{ match_date }}</h5>
+            <table class="table">
+                <tbody>
+                {% for match in matches %}
+                    <tr>
+
+                        <td>
+                            {{ match.minute }}
+                            {% if match.live %}
+                                <i class="result1"></i>
+                            {% endif %}
+                        </td>
+                        <td>{{ match.home_team }}</td>
+                        <td>{{ match.score }}</td>
+                        <td>{{ match.away_team }}</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% endfor %}
+
+    {% endif %}
+
     <div class="alert alert-info">
         Updated every five minutes.
     </div>
-    
+
     <h3 class="my-3">Recent United Matches</h3>
-    
+    <table class="table auto-width table-centered">
+        {% get_mufc as mufc %}
+        {% with mufc.get_crest.thumbnail.35x35  as mufc_crest %}
+            {% for fixture in recent_matches %}
+                <tr>
+                    <td class="link-cell">
+                        <a href="{{ fixture.get_absolute_url }}">
+                            <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
+
+                            <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                        </a>
+                    </td>
+                    {% if fixture.is_home_game %}
+                        <td class="text-center font-weight-bold">
+                            <a href="{{ fixture.get_absolute_url }}">
+                                <img src="{{ mufc_crest }}">
+                                <br/>
+                                United
+                            </a>
+                        </td>
+                        <td class="text-center font-weight-bold">
+                            <a href="{{ fixture.get_absolute_url }}">
+                                <h3>{{ fixture.mufc_score }} - {{ fixture.opponent_score }}</h3>
+                            </a>
+                        </td>
+                        <td class="text-center font-weight-bold">
+                            <a href="{{ fixture.get_absolute_url }}">
+                                <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}">
+                                <br/>
+                                {{ fixture.opponent.name }}
+                            </a>
+                        </td>
+                    {% else %}
+                        <td class="text-center font-weight-bold">
+                            <a href="{{ fixture.get_absolute_url }}">
+                                <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}">
+                                <br/>
+                                {{ fixture.opponent.name }}
+                            </a>
+                        </td>
+
+                        <td class="text-center font-weight-bold">
+                            <a href="{{ fixture.get_absolute_url }}">
+                                <h3>{{ fixture.opponent_score }} - {{ fixture.mufc_score }}</h3>
+                            </a>
+                        </td>
+                        <td class="text-center font-weight-bold">
+                            <a href="{{ fixture.get_absolute_url }}">
+                                <img src="{{ mufc_crest }}">
+                                <br/>United
+                            </a>
+                        </td>
+                    {% endif %}
+
+                    <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
+                </tr>
+            {% endfor %}
+        {% endwith %}
+    </table>
+
 {% endblock %}
