@@ -7,38 +7,45 @@
     <h1>Results</h1>
     {% get_mufc as mufc %}
 
-    <table class="table">
+    <table class="table table-adaptive">
 
         {% with mufc.get_crest.thumbnail.35x35  as mufc_crest %}
 
             {% for fixture in results %}
-                <tr>
-                    <td class="link-cell">
+                <tr class="text-center">
+                    <td class="link-cell" data-center>
                         <a href="{{ fixture.get_absolute_url }}">
-                            <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
-
-                            <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                            <div class="d-none d-lg-block">
+                                <span class="date">{{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'F' }} {{ fixture.datetime|date:'Y' }}</span>
+                                <div class="time">{{ fixture.datetime|date:'P' }} NPT</div>
+                            </div>
+                            <div class="d-lg-none d-block">
+                                <span class="date">
+                                    {{ fixture.datetime|date:'d' }} {{ fixture.datetime|date:'M' }}
+                                    {{ fixture.datetime|date:'P' }}
+                                </span>
+                            </div>
                         </a>
                     </td>
-                    <td class="link-cell">
+                    <td class="link-cell py-0" data-center>
                         <a href="{{ fixture.get_absolute_url }}">
                             {{ fixture.competition_year.competition }}
                         </a>
                     </td>
                     {% if fixture.is_home_game %}
-                        <td class="text-center font-weight-bold">
+                        <td class="text-center font-weight-bold" data-inline>
                             <a href="{{ fixture.get_absolute_url }}">
                                 <img src="{{ mufc_crest }}">
                                 <br/>
                                 United
                             </a>
                         </td>
-                        <td class="text-center font-weight-bold">
+                        <td class="text-center font-weight-bold" data-inline>
                             <a href="{{ fixture.get_absolute_url }}">
                                 <h3>{{ fixture.mufc_score }} - {{ fixture.opponent_score }}</h3>
                             </a>
                         </td>
-                        <td class="text-center font-weight-bold">
+                        <td class="text-center font-weight-bold" data-inline>
                             <a href="{{ fixture.get_absolute_url }}">
                                 <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}">
                                 <br/>
@@ -46,7 +53,7 @@
                             </a>
                         </td>
                     {% else %}
-                        <td class="text-center font-weight-bold">
+                        <td class="text-center font-weight-bold" data-inline>
                             <a href="{{ fixture.get_absolute_url }}">
                                 <img src="{{ fixture.opponent.get_crest.thumbnail.35x35 }}">
                                 <br/>
@@ -54,12 +61,12 @@
                             </a>
                         </td>
 
-                        <td class="text-center font-weight-bold">
+                        <td class="text-center font-weight-bold" data-inline>
                             <a href="{{ fixture.get_absolute_url }}">
                                 <h3>{{ fixture.opponent_score }} - {{ fixture.mufc_score }}</h3>
                             </a>
                         </td>
-                        <td class="text-center font-weight-bold">
+                        <td class="text-center font-weight-bold" data-inline>
                             <a href="{{ fixture.get_absolute_url }}">
                                 <img src="{{ mufc_crest }}">
                                 <br/>United
@@ -67,7 +74,7 @@
                         </td>
                     {% endif %}
 
-                    <td class="link-cell"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
+                    <td class="link-cell d-none d-lg-block"><a href="{{ fixture.get_absolute_url }}">{{ fixture.venue }}</a></td>
                 </tr>
             {% endfor %}
         {% endwith %}
