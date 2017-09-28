@@ -127,38 +127,11 @@ class CompetitionYear(models.Model):
         ordering = ('competition__order',)
 
 
-class City(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
-    country = CountryField()
-
-    class Meta:
-        verbose_name_plural = 'Cities'
-
-
-class Stadium(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, blank=True, null=True)
-    city = models.ForeignKey(City, related_name='stadiums', blank=True, null=True)
-    capacity = models.PositiveIntegerField(blank=True, null=True)
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-    image = models.ImageField(upload_to='stadiums/', blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        unique_slugify(self, self.name)
-        super(Stadium, self).save(*args, **kwargs)
-
-
 class Team(models.Model):
     name = models.CharField(max_length=255)
     short_name = models.CharField(max_length=10, blank=True, null=True)
     alternative_names = models.CharField(max_length=255, blank=True, null=True)
     nick_name = models.CharField(max_length=50, blank=True, null=True)
-    stadium = models.ForeignKey(Stadium, related_name='teams', blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
     crest = VersatileImageField(upload_to='crests/', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True, null=True)
@@ -656,11 +629,3 @@ def get_latest_epl_standings():
     print(standings_loaded['ERROR'])
     cache.set('epl_standings', standings_loaded, timeout=None)
     return standings_loaded
-
-
-class Wallpaper(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    image = models.ImageField(upload_to='wallpapers/')
-
-    def __str__(self):
-        return self.name or self.image.name

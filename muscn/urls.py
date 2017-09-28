@@ -34,7 +34,6 @@ router.register(r'injuries', stats_api.InjuryViewSet)
 router.register(r'squads', stats_api.SquadViewSet)
 router.register(r'partners', partner_api.PartnerViewSet)
 router.register(r'past_seasons', stats_api.PastSeasonViewSet)
-router.register(r'wallpapers', stats_api.WallpaperViewSet, base_name='wallpapers')
 
 router.register(r'user_device', push_notification_api.UserDeviceViewSet)
 

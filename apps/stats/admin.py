@@ -4,8 +4,7 @@ from django.contrib.admin import SimpleListFilter
 from django.utils import timezone
 
 from muscn.utils.mixins import EmptyFilterSpec
-from .models import Injury, Competition, CompetitionYear, City, Quote, SeasonData, Player, Fixture, Team, Goal, Stadium, \
-    PlayerSocialAccount, Wallpaper
+from .models import Injury, Competition, CompetitionYear, Quote, SeasonData, Player, Fixture, Team, Goal, PlayerSocialAccount
 
 
 class CrestEmptyFilterSpec(EmptyFilterSpec):
@@ -50,8 +49,6 @@ admin.site.register(PlayerSocialAccount)
 admin.site.register(Quote)
 admin.site.register(SeasonData)
 admin.site.register(Team, TeamAdmin)
-admin.site.register(Stadium)
-
 
 class FixtureResultFilter(SimpleListFilter):
     title = 'Type'
@@ -84,13 +81,6 @@ class FixtureAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Fixture, FixtureAdmin)
-admin.site.register(Wallpaper)
-
-
-# class ResultAdmin(admin.ModelAdmin):
-#     model = Fixture
-#
-# admin.site.register(Fixture, ResultAdmin)
 
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ['squad_no', 'name', 'active', 'on_loan']

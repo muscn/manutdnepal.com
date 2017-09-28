@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from rest_framework.fields import DictField, CharField
+from rest_framework.fields import DictField
 
-from apps.stats.models import Fixture, Injury, Wallpaper, Player, PlayerSocialAccount, SeasonData, Goal
+from apps.stats.models import Fixture, Injury, Player, PlayerSocialAccount, SeasonData, Goal
 
 
 class FixtureSerializer(serializers.ModelSerializer):
@@ -89,10 +89,3 @@ class SeasonDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeasonData
         fields = '__all__'
-
-
-class WallpaperSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Wallpaper
-        fields = '__all__'
-

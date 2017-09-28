@@ -3,10 +3,9 @@ from rest_framework import viewsets, mixins
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
-from apps.stats.models import Fixture, get_top_scorers_summary, Injury, Wallpaper, Player, \
-    SeasonData, Competition
-from ..stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, WallpaperSerializer, \
-    PlayerSerializer, SeasonDataSerializer, FixtureDetailSerializer
+from apps.stats.models import Fixture, get_top_scorers_summary, Injury, Player, SeasonData, Competition
+from ..stats.serializers import FixtureSerializer, RecentResultSerializer, InjurySerializer, PlayerSerializer, \
+    SeasonDataSerializer, FixtureDetailSerializer
 
 
 class FixtureViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -65,10 +64,3 @@ class SquadViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Ge
 class PastSeasonViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = SeasonDataSerializer
     queryset = SeasonData.objects.all()
-
-
-class WallpaperViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    serializer_class = WallpaperSerializer
-
-    def get_queryset(self):
-        return Wallpaper.objects.all().order_by('-pk')[:5]
