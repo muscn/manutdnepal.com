@@ -45,17 +45,59 @@ class Competition(models.Model):
     order = models.IntegerField(default=0)
     friendly = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    ls_endpoint = models.CharField(max_length=255,blank=True, null=True)
-    
+    ls_endpoint = models.CharField(max_length=255, blank=True, null=True)
+    has_table = models.BooleanField(default=False)
+    has_group = models.BooleanField(default=False)
+
+    @classmethod
+    def clear_cache(cls):
+        cache.delete('ls_active')
+        cache.delete('competitions')
+
     @classmethod
     def get_ls_active(cls):
-        #  TODO Cache
-        return cls.objects.filter(active=True, ls_endpoint__isnull=False)
+        cached = cache.get('ls_active')
+        if not cached:
+            cached = cls.objects.filter(active=True, ls_endpoint__isnull=False)
+            cache.set('ls_active', cached, timeout=None)
+        return cached
+
+    @classmethod
+    def all(cls):
+        cached = cache.get('competitions')
+        if not cached:
+            cached = {obj.slug: obj for obj in cls.objects.all()}
+            cache.set('competitions', cached, timeout=None)
+        return cached
+
+    @classmethod
+    def get(cls, slug):
+        return cls.all().get(slug)
+
+    @property
+    def cache_key(self):
+        return self.slug + '_data'
+
+    @property
+    def data(self):
+        data = cache.get(self.cache_key)
+        if not data:
+            self.scrape()
+        return cache.get(self.cache_key)
+
+    @property
+    def table(self):
+        return self.data.get('table')
+
+    @property
+    def matchweek(self):
+        return self.data.get('matches')
 
     def save(self, *args, **kwargs):
         if not self.slug:
             unique_slugify(self, self.name)
-        super(Competition, self).save(*args, **kwargs)
+        Competition.clear_cache()
+        super().save(*args, **kwargs)
 
     def get_short_name(self):
         if self.short_name:
@@ -64,6 +106,11 @@ class Competition(models.Model):
 
     def __str__(self):
         return self.name
+
+    def scrape(self):
+        from apps.stats.scrapers import LeagueScraper
+        scraper = LeagueScraper(self)
+        scraper.start()
 
     class Meta:
         ordering = ('-order',)

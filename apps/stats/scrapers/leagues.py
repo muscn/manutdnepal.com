@@ -21,36 +21,38 @@ class LeagueScraper(Scraper):
         self.league = league
 
     def save(self):
-        cache.set(self.league.slug + '_data', self.data, timeout=None)
+        cache.set(self.league.cache_key, self.data, timeout=None)
 
     def scrape(self):
         root = self.get_root_tree()
         tz = pytz.timezone(settings.TIME_ZONE)
         if root is not None:
-            rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
-            self.data['teams'] = []
-            for row in rows:
-                data = {}
-                cols = row.cssselect('div')
-                # cols[0] is self
-                try:
-                    if len(cols[1].cssselect('span.live img')):
-                        data['live'] = True
-                    else:
-                        data['live'] = False
-                    data['position'] = cols[1].cssselect('span')[1].text_content()
-                    data['name'] = cols[2].text_content()
-                    data['p'] = cols[3].text_content()
-                    data['w'] = cols[4].text_content()
-                    data['d'] = cols[5].text_content()
-                    data['l'] = cols[6].text_content()
-                    data['f'] = cols[7].text_content()
-                    data['a'] = cols[8].text_content()
-                    data['gd'] = cols[9].text_content()
-                    data['pts'] = cols[10].text_content()
-                    self.data['teams'].append(data)
-                except IndexError:
-                    pass
+
+            if self.league.has_table:
+                rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
+                self.data['table'] = []
+                for row in rows:
+                    data = {}
+                    cols = row.cssselect('div')
+                    # cols[0] is self
+                    try:
+                        if len(cols[1].cssselect('span.live img')):
+                            data['live'] = True
+                        else:
+                            data['live'] = False
+                        data['position'] = cols[1].cssselect('span')[1].text_content()
+                        data['name'] = cols[2].text_content()
+                        data['p'] = cols[3].text_content()
+                        data['w'] = cols[4].text_content()
+                        data['d'] = cols[5].text_content()
+                        data['l'] = cols[6].text_content()
+                        data['f'] = cols[7].text_content()
+                        data['a'] = cols[8].text_content()
+                        data['gd'] = cols[9].text_content()
+                        data['pts'] = cols[10].text_content()
+                        self.data['table'].append(data)
+                    except IndexError:
+                        pass
 
             # Also fetch all matches this week
 
@@ -175,8 +177,7 @@ class AllLeagues(Scraper):
     def scrape(self):
         competitions = Competition.get_ls_active()
         for competition in competitions:
-            scraper = LeagueScraper(competition)
-            scraper.start()
+            competition.scrape()
 
     def save(self):
         pass
