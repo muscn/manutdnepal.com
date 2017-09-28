@@ -20,6 +20,7 @@
     <meta property="og:site_name" content="Manchester United Supporters' Club Nepal"/>
     <meta property="fb:admins" content="1627112045"/>
     <meta property="og:image" content="https://manutd.org.np{% static "img/logo.png" %}"/>
+    <link rel="manifest" href="{% static 'manifest.json' %}">
 
 
     <meta name="description" content="Welcome to the official website of Manchester United Supporters' Club - Nepal">
@@ -66,7 +67,10 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-59781165-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)};
+
+  function gtag() {
+    dataLayer.push(arguments)
+  };
   gtag('js', new Date());
 
   gtag('config', 'UA-59781165-1');
