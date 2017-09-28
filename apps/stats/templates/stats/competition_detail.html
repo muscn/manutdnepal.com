@@ -5,57 +5,44 @@
 
 {% block content %}
     <h1>{{ object.name }}</h1>
-    
-    {% if object.has_groups %}
-        <h3 class="my-3">Group Tables</h3>
-        
-        {{ object.group_tables }}
 
-{#        <table class="table table-bordered table-hover">#}
-{#            <thead>#}
-{#            <tr>#}
-{#                <th></th>#}
-{#                <th>Club</th>#}
-{#                <th>P</th>#}
-{#                <th>W</th>#}
-{#                <th>D</th>#}
-{#                <th>L</th>#}
-{#                <th>GS</th>#}
-{#                <th>GA</th>#}
-{#                <th>GD</th>#}
-{#                <th>Pts</th>#}
-{#            </tr>#}
-{#            </thead>#}
-{#            <tbody>#}
-{#            {% for team in object.table %}#}
-{#                <tr class="pos{{ team.position }}{% if team.name == 'Manchester United' %} highlight{% endif %}">#}
-                    {#                    <td>{{ team.stand_status }}</td>#}
-{#                    <td>#}
-{#                        {{ team.position }}#}
-{#                        {% if team.live %}#}
-{#                            <i class="result1"></i>#}
-{#                        {% endif %}#}
-{#                    </td>#}
-{#                    <td>{{ team.name }}</td>#}
-{#                    <td>{{ team.p }}</td>#}
-{#                    <td>{{ team.w }}</td>#}
-{#                    <td>{{ team.d }}</td>#}
-{#                    <td>{{ team.l }}</td>#}
-{#                    <td>{{ team.f }}</td>#}
-{#                    <td>{{ team.a }}</td>#}
-{#                    <td>{{ team.gd }}</td>#}
-                    {#                <td>{{ team.stand_recent_form }}</td>#}
-{#                    <td>{{ team.pts }}</td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
-{#            </tbody>#}
-{#        </table>#}
+    {% if object.has_group %}
+        <h3 class="my-3">Group Tables</h3>
+
+        <div class="row">
+            {% for group, table in object.group_tables.items %}
+                <div class="col">
+                    <h5>{{ group }}</h5>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Club</th>
+                            <th>Games</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for team in table %}
+                            <tr class="pos{{ team.0 }}{% if team.1 == 'Manchester United' %} highlight{% endif %}">
+                                <td>{{ team.0 }}</td>
+                                <td>{{ team.1 }}</td>
+                                <td>{{ team.2 }}</td>
+                                <td>{{ team.3 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+
     {% endif %}
 
     {% if object.has_table %}
         <h3 class="my-3">Standings</h3>
 
-        <table class="epl-table table table-bordered table-hover">
+        <table class="table table-bordered table-hover">
             <thead>
             <tr>
                 <th></th>
@@ -73,7 +60,6 @@
             <tbody>
             {% for team in object.table %}
                 <tr class="pos{{ team.position }}{% if team.name == 'Manchester United' %} highlight{% endif %}">
-                    {#                    <td>{{ team.stand_status }}</td>#}
                     <td>
                         {{ team.position }}
                         {% if team.live %}
@@ -88,7 +74,6 @@
                     <td>{{ team.f }}</td>
                     <td>{{ team.a }}</td>
                     <td>{{ team.gd }}</td>
-                    {#                <td>{{ team.stand_recent_form }}</td>#}
                     <td>{{ team.pts }}</td>
                 </tr>
             {% endfor %}
