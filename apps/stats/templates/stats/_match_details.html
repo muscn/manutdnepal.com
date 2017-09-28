@@ -1,7 +1,11 @@
 {% load tz %}
 
-<div class="well">
-    <h3>{{ match.competition_year.competition }}</h3>
+<h1>
+    {{ match.home_team }} v {{ match.away_team }}
+</h1>
+
+<div class="card p-2">
+    <h6>{{ match.competition_year.competition }}</h6>
     <div>
         {% if match.venue %}
             Venue: {{ match.venue }}
@@ -28,23 +32,12 @@
 
 {% if match.is_upcoming %}
 {% else %}
-    <div class="well">
-        <h2>{{ match.score }}</h2>
+    <div class="card p-2">
 
-        {% if match.data and match.data.ht_score %}
-            <div>Half Time Score: {{ match.data.ht_score }}</div>
-            <br/>
-        {% endif %}
-
-        {% if match.remarks %}
-            <div>{{ match.remarks }}</div><br/>
-        {% endif %}
 
         <div class="goals">
-            <h3>Goals</h3>
-
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm">
                     {% if match.is_home_game %}
                         <h4>Manchester United</h4>
                         {% for goal in match.goals.all %}
@@ -71,7 +64,20 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm text-center">
+                    <h2>{{ match.score }}</h2>
+
+                    {% if match.data and match.data.ht_score %}
+                        <div>Half Time Score: {{ match.data.ht_score }}</div>
+                        <br/>
+                    {% endif %}
+
+                    {% if match.remarks %}
+                        <div>{{ match.remarks }}</div><br/>
+                    {% endif %}
+
+                </div>
+                <div class="col-sm">
                     {% if match.is_home_game %}
                         <h4>{{ match.opponent }}</h4>
                         {% for event in match.data.events %}
