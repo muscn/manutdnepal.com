@@ -538,6 +538,10 @@ class Fixture(models.Model):
     remarks = models.CharField(max_length=255, null=True, blank=True)
     data = JSONField(blank=True, null=True)
     live_screening = models.ForeignKey(Partner, blank=True, null=True)
+    
+    @classmethod
+    def select(cls):
+        return cls.objects.select_related('competition_year__competition')
 
     def home_or_away(self):
         if self.is_home_game:

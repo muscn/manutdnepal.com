@@ -230,16 +230,13 @@ class FixtureDetail(DetailView):
     model = Fixture
 
     def get_object(self, queryset=None):
-        self.date = datetime.datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
+        date = datetime.datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date()
+        qs = self.model.select().prefetch_related('goals__scorer', 'goals__assist_by').filter(datetime__year=date.year,
+                                                                                              datetime__month=date.month,
+                                                                                              datetime__day=date.day)
         try:
-            fixture = get_object_or_404(self.model, datetime__year=self.date.year, datetime__month=self.date.month,
-                                        datetime__day=self.date.day)
+            fixture = get_object_or_404(qs)
         except Fixture.MultipleObjectsReturned:
-            fixture_object = Fixture.objects.filter(
-                datetime__year=self.date.year,
-                datetime__month=self.date.month,
-                datetime__day=self.date.day)
-            fixture = fixture_object[0]
-            for fixture in fixture_object[1:]:
-                fixture.delete()
+            fixture = qs.first()
+            qs.exclude(pk=fixture.pk).delete()
         return fixture

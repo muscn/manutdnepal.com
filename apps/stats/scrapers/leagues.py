@@ -27,7 +27,6 @@ class LeagueScraper(Scraper):
         root = self.get_root_tree()
         tz = pytz.timezone(settings.TIME_ZONE)
         if root is not None:
-
             if self.league.has_table:
                 rows = root.cssselect('div.ltable div.row-gray:not(div.title.row-gray)')
                 self.data['table'] = []
@@ -89,7 +88,7 @@ class LeagueScraper(Scraper):
                                     fixture = Fixture.objects.filter(datetime=dt).first()
                                     fixtures_to_delete = Fixture.objects.filter(datetime=dt)[1:].values_list("id", flat=True)
                                     Fixture.objects.filter(pk__in=list(fixtures_to_delete)).delete()
-                                if True or not fixture.has_complete_data():
+                                if not fixture.has_complete_data():
                                     fixture.process_data(data, m_data)
                                     if data['minute'] == 'FT':
                                         fixture.send_updates()

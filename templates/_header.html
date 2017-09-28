@@ -76,7 +76,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Leagues<span
                             class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li><a href="{% url 'epl_table' %}">EPL</a></li>
+                        {% get_active_leagues as leagues %}
+                        {% for league in leagues %}
+                        <li><a href="{% url 'epl_table' %}">{{ league.short_name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
 
