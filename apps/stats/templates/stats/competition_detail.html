@@ -7,7 +7,7 @@
     <h1>{{ object.name }}</h1>
 
     {% if object.has_group %}
-        <h3 class="my-3">Group Tables</h3>
+        <h3 class="my-3" id="group-tables">Group Tables</h3>
 
         <div class="row">
             {% for group, table in object.group_tables.items %}
@@ -40,7 +40,7 @@
     {% endif %}
 
     {% if object.has_table %}
-        <h3 class="my-3">Standings</h3>
+        <h3 class="my-3" id="table">Standings</h3>
 
         <table class="table table-bordered table-hover">
             <thead>
@@ -82,7 +82,7 @@
     {% endif %}
 
     {% if object.matchweek %}
-        <h3 class="my-3">This Matchweek</h3>
+        <h3 class="my-3" id="matchweek">Matchweek</h3>
 
         {% for match_date, matches in object.matchweek.items %}
 

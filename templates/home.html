@@ -162,7 +162,7 @@
 
             {% if league.has_table %}
                 <div class="stats block col-sm mt-3">
-                    <h4><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Table</a></h4>
+                    <h4><a href="{% url 'competition-detail' league.slug %}#table">{{ league.short_name }} Table</a></h4>
                     <table class="table">
                         <thead>
                         <tr>
@@ -193,7 +193,7 @@
 
             {% if league.has_group %}
                 <div class="stats block col-sm mt-3">
-                    <h4><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Table</a></h4>
+                    <h4><a href="{% url 'competition-detail' league.slug %}#group-tables">{{ league.short_name }} Table</a></h4>
 
                     {% for group, table in league.mufc_group.items %}
                         <strong class="mt-4 d-block text-center">{{ group }}</strong>
@@ -224,7 +224,7 @@
 
             {% if league.matchweek %}
                 <div class="stats block col-sm mt-3">
-                    <h4 class="mb-3"><a href="{% url 'competition-detail' league.slug %}">{{ league.short_name }} Matchweek</a>
+                    <h4 class="mb-3"><a href="{% url 'competition-detail' league.slug %}#matchweek">{{ league.short_name }} Matchweek</a>
                     </h4>
                     <table class="table table-compact">
                         {% for match_date, matches in league.matchweek.items %}
