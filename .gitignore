@@ -9,3 +9,4 @@ yarn.lock
 static/dist/
 webpack-stats.json
 fabfile.py
+muscn/settings/env.py
