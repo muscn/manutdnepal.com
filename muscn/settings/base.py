@@ -2,9 +2,9 @@ import os
 
 BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..')
 
-STATICFILES_DIRS = (
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-)
+]
 
 INSTALLED_APPS = (
     'jet',

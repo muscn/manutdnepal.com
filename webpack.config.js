@@ -2,12 +2,24 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const outputPath = __dirname + '/static/dist/';
-
 const path = require('path');
+const resolve = path.resolve.bind(path, __dirname);
+const dev_path = resolve('static/dist_dev/');
+const prod_path = resolve('static/dist/');
+let output;
 
-// the path(s) that should be cleaned
-let pathsToClean = [outputPath];
+output = {
+  path: dev_path,
+  filename: 'js/[name].js',
+  publicPath: '/static/dist/'
+};
+
+if (process.env.NODE_ENV === 'production') {
+  output['path'] = prod_path;
+  output['publicPath'] = 'https://cdn.awecode.com/muscn/';
+}
+
+let pathsToClean = [dev_path, prod_path];
 
 let commonsPlugin = new webpack.optimize.CommonsChunkPlugin({name: 'common', filename: 'js/common.js'});
 
@@ -17,11 +29,7 @@ module.exports = {
     app: "./src/app.js",
     dashboard: "./src/dashboard.js",
   },
-  output: {
-    path: outputPath,
-    publicPath: '/static/dist/',
-    filename: "js/[name].js"
-  },
+  output: output,
   module: {
     rules: [
       {
@@ -31,8 +39,8 @@ module.exports = {
           use: "css-loader!sass-loader"
         })
       },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+      {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff"},
+      {test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
     ]
   },
   plugins: [

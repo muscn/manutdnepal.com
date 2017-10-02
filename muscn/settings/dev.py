@@ -16,6 +16,7 @@ DATABASES = {
 }
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS += ('dist', os.path.join(BASE_DIR, 'static', 'dist_dev', )),
 
 INSTALLED_APPS += (
     'debug_toolbar',
@@ -27,7 +28,6 @@ MIDDLEWARE += (
 )
 
 TEMPLATES[0]['OPTIONS']['debug'] = True
-
 
 INTERNAL_IPS = ['127.0.0.1']
 
