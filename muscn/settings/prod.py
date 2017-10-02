@@ -1,5 +1,7 @@
 DEBUG = False
-# TEMPLATE_DEBUG = False
+
+# Overridden by env.py in prod
+SECRET_KEY = 'xyz'
 
 ALLOWED_HOSTS = ['manutd.org.np', ]
 

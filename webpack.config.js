@@ -16,7 +16,7 @@ output = {
 
 if (process.env.NODE_ENV === 'production') {
   output['path'] = prod_path;
-  output['publicPath'] = 'https://cdn.awecode.com/muscn/';
+  output['publicPath'] = 'https://cdn.awecode.com/muscn/dist/';
 }
 
 let pathsToClean = [dev_path, prod_path];
