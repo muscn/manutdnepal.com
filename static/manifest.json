@@ -1,14 +1,14 @@
 {
   "name": "Manchester United Supporters' Club - Nepal",
-  "short_name": "MUSCN",
+  "short_name": "MUSC Nepal",
   "theme_color": "#e54d36",
   "background_color": "#fff",
   "display": "fullscreen",
   "Scope": "/",
-  "start_url": "/",
+  "start_url": "https://manutd.org.np/",
   "icons": [
     {
-      "src": "\/static/img/logo.png",
+      "src": "https://cdn.awecode.com/muscn/img/logo.png",
       "sizes": "192x192",
       "type": "image\/png",
       "density": "4.0"
