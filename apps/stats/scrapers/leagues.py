@@ -3,6 +3,7 @@ import datetime
 import pytz
 from django.core.cache import cache
 from django.conf import settings
+from django.core.mail import mail_admins
 
 from apps.stats.models import Fixture, Competition
 from .base import Scraper
@@ -205,6 +206,7 @@ class AllLeagues(Scraper):
         # competitions = Competition.objects.filter(slug='ucl')
         for competition in competitions:
             competition.scrape()
+        mail_admins('Leagues scraping completed!')
 
     def save(self):
         pass
