@@ -68,12 +68,12 @@ class Scraper(object):
         self.log('Retrieving root URL: ' + root_url + ' ...')
         cookies = {'tz': '5.75', 'u_country': 'Nepal', 'u_country_code': 'NP', 'u_timezone': 'Asia%2FKatmandu',
                    'u_continent': 'Asia'}
-        try:
-            page = requests.get(root_url, cookies=cookies)
-            tree = html.fromstring(page.text)
-            return tree
-        except requests.ConnectionError:
-            return None
+        # try:
+        page = requests.get(root_url, cookies=cookies)
+        tree = html.fromstring(page.text)
+        return tree
+        # except requests.ConnectionError:
+        #     return None
 
     def get_wiki_cell_content(self, td):
         if td.getchildren():

@@ -10,7 +10,7 @@ class InjuriesScraper(Scraper):
 
     def scrape(self):
         root = self.get_root_tree()
-        if len(root):
+        if root and len(root):
             united_row = root.xpath('//a[contains(text(), "Manchester United")]')[1].getparent().getparent().getparent()
             urtc = united_row.text_content().strip()
             # no_of_injuries = int(re.match(r'Manchester United\s* \((.*)\)', urtc, re.M | re.I).group(1))

@@ -67,10 +67,5 @@ class Image(models.Model):
     # def get_absolute_url(self):
     #     return reverse('view_image', kwargs={'pk': self.pk})
 
-    def save(self, *args, **kwargs):
-        super(Image, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.name or self.file_name
-
-# Create your models here.
