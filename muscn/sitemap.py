@@ -34,7 +34,7 @@ class PartnerSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Partner.objects.filter(active=True)
+        return Partner.objects.all()
 
 
 class PostSitemap(Sitemap):
