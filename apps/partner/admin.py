@@ -1,8 +1,9 @@
+from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 from .models import Partner
 
 
-class PartnerAdmin(admin.ModelAdmin):
+class PartnerAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('name', 'short_address', 'order')
 
 

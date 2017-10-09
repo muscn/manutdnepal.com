@@ -24,7 +24,7 @@ class Partner(CachedModel):
     featured = models.BooleanField(default=False)
     pickup_location = models.BooleanField(default=False)
     location = LocationField(blank=True, max_length=255)
-    order = models.IntegerField(default=0)
+    order = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ('order',)

@@ -28,14 +28,13 @@ INSTALLED_APPS = (
     'dj_pagination',
     'webstack_django_sorting',
     'auditlog',
-
     'versatileimagefield',
-
     'rest_framework',
     'rest_framework.authtoken',
     'solo',
     'fcm',
     'anymail',
+    'adminsortable2',
 
     'apps.core',
     'apps.users',

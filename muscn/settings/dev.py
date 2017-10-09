@@ -60,6 +60,4 @@ LOGGING = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# TEMPLATE_DEBUG = True
-
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
