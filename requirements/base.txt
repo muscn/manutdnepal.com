@@ -19,7 +19,6 @@ openpyxl
 reportlab
 django-solo
 django-fcm
-django-anymail[mailgun]
 django-versatileimagefield
 django-jet
 django-admin-sortable2
