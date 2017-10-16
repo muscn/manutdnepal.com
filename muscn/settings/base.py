@@ -33,8 +33,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'solo',
     'fcm',
-    'anymail',
     'adminsortable2',
+    'django_filters',
 
     'apps.core',
     'apps.users',
@@ -178,7 +178,6 @@ LOGGING = {
     }
 }
 
-
 # E-mail settings
 DEFAULT_FROM_EMAIL = 'MUSC Nepal<info@manutd.org.np>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
@@ -187,7 +186,6 @@ EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'info@manutd.org.np'
 EMAIL_USE_TLS = True
-
 
 SITE_ID = 1
 

@@ -108,6 +108,31 @@ class HTML5ModelForm(forms.ModelForm):
         return self
 
 
+class BootstrapForm(forms.Form):
+    required_css_class = 'required'
+
+    def __init__(self, *args, **kwargs):
+        self.exclude = kwargs.pop('exclude', None)
+        super().__init__(*args, **kwargs)
+        if self.exclude:
+            del self.fields[self.exclude]
+        self.refine()
+
+    def refine(self):
+        for (i, (name, field)) in enumerate(self.fields.items()):
+            widget = field.widget
+            exclude_form_control = ['CheckboxInput', 'RadioSelect']
+            if widget.__class__.__name__ in exclude_form_control:
+                continue
+            if 'class' in widget.attrs:
+                widget.attrs['class'] += ' form-control'
+            else:
+                widget.attrs['class'] = 'form-control'
+            # Auto-focus for first field of forms
+            if i == 0:
+                widget.attrs['autofocus'] = True
+
+
 class BootstrapModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(BootstrapModelForm, self).__init__(*args, **kwargs)

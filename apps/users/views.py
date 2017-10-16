@@ -27,6 +27,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
 from apps.partner.models import Partner
+from apps.users.filters import UserFilter
 from .models import Membership, User, StaffOnlyMixin, group_required, CardStatus, get_new_cards, Renewal, \
     MembershipSetting
 from .forms import MembershipForm, UserForm, UserUpdateForm
@@ -229,11 +230,15 @@ class PublicMembershipListView(ListView):
 
 class UserListView(StaffOnlyMixin, ListView):
     model = User
+    filter = None
 
     def get_queryset(self):
-        return super(UserListView, self).get_queryset().prefetch_related(
+        qs = super(UserListView, self).get_queryset().prefetch_related(
             Prefetch('card_statuses', CardStatus.objects.filter(season=season()).select_related('pickup_location'),
                      to_attr='card_status_list'))
+        self.filter = UserFilter(self.request.GET, queryset=qs)
+        qs = self.filter.qs
+        return qs
 
     def get(self, request, *args, **kwargs):
         if 'q' in self.request.GET:
@@ -247,6 +252,12 @@ class UserListView(StaffOnlyMixin, ListView):
                 Q(membership__mobile__contains=q)
             )
         return super(UserListView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # Add filter to context data for filter form generation
+        context_data['filter'] = self.filter
+        return context_data
 
 
 class UserCreateView(StaffOnlyMixin, CreateView):

@@ -8,17 +8,19 @@
 {% block breadcrumbs %}
     {{ block.super }}
     <a class="breadcrumb-item" href="{% url 'list_users' %}"><i class="fa fa-users mr-1 "></i>Users</a>
-    <form class="form-inline float-right">
-        <input type="text" class="form-control" name="q" placeholder="Search...">
-    </form>
+    <div class="float-right">
+        <form class="form-inline">
+            {{ filter.form.as_p }}
+            <input type="submit" class="btn btn-outline-primary mr-2"/>
+            <input type="text" class="form-control" name="q" placeholder="Search...">
+        </form>
+    </div>
 {% endblock %}
 
 {% block content %}
 
     {% autosort object_list as sorted_objects %}
     {% autopaginate sorted_objects 20 as paginated_objects %}
-
-
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
