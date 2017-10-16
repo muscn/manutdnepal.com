@@ -30,3 +30,16 @@ def approve_payment_membership(request):
     user.approve()
     messages.success(request, 'Payment and membership approved!')
     return redirect(reverse_lazy('update_user', kwargs={'pk': user.id}))
+
+
+@group_required('Staff')
+def approve_membership(request):
+    if not request.method == 'POST':
+        raise Http404
+    data = request.POST
+    user = User.objects.get(pk=data.get('user_id'), status='Pending Approval')
+    payment = Payment.objects.get(pk=data.get('payment_id'), user=user)
+    if payment.verified:
+        user.approve()
+        messages.success(request, 'Membership approved!')
+    return redirect(reverse_lazy('update_user', kwargs={'pk': user.id}))

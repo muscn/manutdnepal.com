@@ -35,7 +35,7 @@
                     {% if form.instance.devil_no %}
                         <div><strong>Devil No: </strong> {{ form.instance.devil_no }}</div>
                     {% endif %}
-                <div><strong>Card Status: </strong>{{ form.instance.card_status }}</div>
+                    <div><strong>Card Status: </strong>{{ form.instance.card_status }}</div>
                 </div>
 
                 {% for payment in form.instance.payments.all %}
@@ -69,9 +69,17 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{ form.instance.pk }}">
                                 <input type="hidden" name="payment_id" value="{{ payment.pk }}">
-                                <input type="submit" class="btn btn-success btn-lg" value="Approve"/>
+                                <input type="submit" class="btn btn-success btn-lg" value="Approve Payment & Membership"/>
+                            </form>
+                        {% elif form.instance.status == 'Pending Approval' and payment.verified_by%}
+                            <form method="post" action="{% url 'approve_membership' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ form.instance.pk }}">
+                                <input type="hidden" name="payment_id" value="{{ payment.pk }}">
+                                <input type="submit" class="btn btn-success btn-lg" value="Approve Membership"/>
                             </form>
                         {% endif %}
+
                     </div>
                 {% endfor %}
 

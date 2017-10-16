@@ -48,8 +48,8 @@ urlpatterns = [
     url(r'^audit-log/$', views.AuditLogListView.as_view(), name='audit_log'),
 
     url(r'^approve_payment_membership/$', views.approve_payment_membership, name='approve_payment_membership'),
+    url(r'^approve_membership/$', views.approve_membership, name='approve_membership'),
 
-    
     url(r'^membership/add/$', users_views.new_user_membership, name='new_membership'),
     url(r'^membership/download/$', users_views.download_all_cards, name='download_all_cards'),
 
