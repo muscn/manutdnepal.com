@@ -464,9 +464,8 @@ def export_awaiting_print(request):
 
 
 def export_welcome_letters(request):
-    awaiting_members = Membership.objects.filter(card_status__status=1).order_by('-user__devil_no')
-    devil_no = Membership.objects.filter(card_status__status=1).aggregate(max_devil_no=Max('user__devil_no'),
-                                                                          min_devil_no=Min('user__devil_no'))
+    awaiting_members = User.objects.filter(card_statuses__status='Awaiting Print', status='Member').order_by('-devil_no')
+    devil_no = awaiting_members.aggregate(max_devil_no=Max('devil_no'), min_devil_no=Min('devil_no'))
     pdfmetrics.registerFont(TTFont('Lato', os.path.join(settings.BASE_DIR, 'static', 'fonts', 'Lato-Regular.ttf')))
     try:
         member_settings = MembershipSetting.objects.get()
@@ -494,15 +493,15 @@ def export_welcome_letters(request):
         style.fontSize = 12
         for awaiting_member in awaiting_members:
             _canvas.drawString(50, 630, datetime.date.today().strftime('%b %d, %Y'))
-            _canvas.drawString(50, 570, 'Dear ' + awaiting_member.user.full_name.title() + ' ( #' + str(
-                awaiting_member.user.devil_no) + ' ),')
+            _canvas.drawString(50, 570, 'Dear ' + awaiting_member.full_name.title() + ' ( #' + str(
+                awaiting_member.devil_no) + ' ),')
             p = Paragraph(content, style)
             data = [[p]]
             table = Table(data)
             table.wrapOn(_canvas, width, height)
             table.drawOn(_canvas, 45, 320)
             _canvas.drawString(50, 220, "With best regards,")
-            _canvas.drawString(50, 145, "Chairman")
+            _canvas.drawString(50, 145, "Chairperson")
             _canvas.drawString(50, 125, "Manchester United Supporters' Club - Nepal")
             _canvas.showPage()
         _canvas.save()
