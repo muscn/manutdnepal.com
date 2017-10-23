@@ -12,7 +12,7 @@ METHODS = (
 
 def get_payment_method(qs, name, value):
     kgs = {'payments__' + value + '__isnull': False}
-    return qs.filter(**kgs).order_by('-payments__date_time')
+    return qs.filter(**kgs).order_by('-payments__date_time').exclude(status='Expired')
 
 
 class UserFilter(django_filters.FilterSet):
