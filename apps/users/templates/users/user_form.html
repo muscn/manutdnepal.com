@@ -75,14 +75,14 @@
                                     </a>
                                 {% endif %}
                             {% endif %}
-                            {% if form.instance.status == 'Pending Approval' and not payment.verified_by %}
+                            {% if form.instance.status == 'Pending Approval' and not payment.verified_by and payment.is_in_current_season %}
                                 <form method="post" action="{% url 'approve_payment_membership' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="user_id" value="{{ form.instance.pk }}">
                                     <input type="hidden" name="payment_id" value="{{ payment.pk }}">
                                     <input type="submit" class="btn btn-success btn-lg" value="Approve Payment & Membership"/>
                                 </form>
-                            {% elif form.instance.status == 'Pending Approval' and payment.verified_by %}
+                            {% elif form.instance.status == 'Pending Approval' and payment.verified_by and payment.is_in_current_season %}
                                 <form method="post" action="{% url 'approve_membership' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="user_id" value="{{ form.instance.pk }}">

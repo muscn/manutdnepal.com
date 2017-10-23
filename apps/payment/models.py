@@ -7,7 +7,7 @@ from auditlog.registry import auditlog
 from django.utils import timezone
 
 from apps.payment.esewa import EsewaTransaction
-from muscn.utils.football import get_current_season_start
+from muscn.utils.football import get_current_season_start, get_current_season_start_time
 
 User = settings.AUTH_USER_MODEL
 
@@ -44,6 +44,9 @@ class Payment(models.Model):
         if delete_method and self.method:
             self.method.delete(delete_payment=False)
         return super(Payment, self).delete(*args, **kwargs)
+    
+    def is_in_current_season(self):
+        return self.date_time > get_current_season_start_time()
 
     @property
     def method(self):

@@ -139,7 +139,7 @@ class DirectPaymentReceiptForm(form):
 class PaymentForm(form):
     class Meta:
         model = Payment
-        exclude = ()
+        exclude = ('channel',)
 
     def __init__(self, *args, **kwargs):
         super(PaymentForm, self).__init__(*args, **kwargs)
