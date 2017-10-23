@@ -127,9 +127,9 @@ class User(AbstractBaseUser):
                 max_devil_no = 100
             self.devil_no = max_devil_no + 1
         self.status = 'Member'
+        self.save()
         card_status, __ = CardStatus.objects.update_or_create(user=self, season=season(), defaults={'status': 'Awaiting Print'})
         card_status.notify()
-        self.save()
 
     @property
     def card_status(self):
