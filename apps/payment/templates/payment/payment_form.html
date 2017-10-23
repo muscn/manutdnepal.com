@@ -95,6 +95,7 @@
                         </a>
                     </div>
                 {% elif object.method|get_class_name == 'DirectPayment' %}
+                    <h3>Paid to {{ object.method.receipt_data }}.</h3>
                     <h3>Directly paid to {{ object.method.received_by.full_name }}.</h3>
                 {% elif object.method|get_class_name == 'EsewaPayment' %}
                     Paid via eSewa

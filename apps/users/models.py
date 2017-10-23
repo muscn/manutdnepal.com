@@ -2,7 +2,7 @@ import datetime
 import os
 import re
 import zipfile
-from io import StringIO, BytesIO
+from io import BytesIO
 from urllib.request import urlretrieve
 
 from PIL import Image
@@ -33,9 +33,10 @@ from solo.models import SingletonModel
 
 from apps.partner.models import Partner
 from apps.payment.models import Payment
-from apps.users.facebook import FacebookAPI
 from muscn.utils.football import get_current_season_start, season
 from muscn.utils.helpers import show_progress
+
+from .facebook import FacebookAPI
 
 
 class UserManager(BaseUserManager):

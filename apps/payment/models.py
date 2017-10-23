@@ -122,6 +122,10 @@ class DirectPayment(models.Model):
     def verified(self):
         return True if self.payment.verified_by else False
 
+    @property
+    def receipt_data(self):
+        return ReceiptData.find(self.receipt_no)
+
     def delete(self, delete_payment=True, *args, **kwargs):
         if delete_payment and self.payment:
             self.payment.delete(delete_method=False)
@@ -178,6 +182,10 @@ class ReceiptData(models.Model):
     to_no = models.IntegerField()
     remarks = models.TextField(null=True, blank=True)
     active = models.BooleanField(default=False)
+
+    @classmethod
+    def find(cls, no):
+        return cls.objects.get(from_no__lte=no, to_no__gte=no)
 
     def __str__(self):
         return '%s [%d-%d]' % (self.name, self.from_no, self.to_no)

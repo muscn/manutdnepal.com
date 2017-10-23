@@ -58,6 +58,7 @@
                         {% endif %}
                         {% if payment.method_type == 'Direct Payment' %}
                             <div class="font-weight-bold">Receipt No. {{ payment.method.receipt_no }}</div>
+                            <div class="font-weight-bold">Paid to: {{ payment.method.receipt_data }}</div>
                             {% if payment.method.receipt_image %}
                                 <a href="{{ payment.method.receipt_image.url }}" target="_blank">
                                     <img src="{{ payment.method.receipt_image.url }}" height="250"/>
@@ -71,7 +72,7 @@
                                 <input type="hidden" name="payment_id" value="{{ payment.pk }}">
                                 <input type="submit" class="btn btn-success btn-lg" value="Approve Payment & Membership"/>
                             </form>
-                        {% elif form.instance.status == 'Pending Approval' and payment.verified_by%}
+                        {% elif form.instance.status == 'Pending Approval' and payment.verified_by %}
                             <form method="post" action="{% url 'approve_membership' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{ form.instance.pk }}">
