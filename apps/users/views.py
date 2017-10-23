@@ -515,9 +515,8 @@ def export_welcome_letters(request):
 
 
 def export_name_and_number(request):
-    awaiting_members = Membership.objects.filter(card_status__status=1).order_by('-user__devil_no')
-    devil_no = Membership.objects.filter(card_status__status=1).aggregate(max_devil_no=Max('user__devil_no'),
-                                                                          min_devil_no=Min('user__devil_no'))
+    awaiting_members = User.objects.filter(card_statuses__status='Awaiting Print', status='Member').order_by('-devil_no')
+    devil_no = awaiting_members.aggregate(max_devil_no=Max('devil_no'), min_devil_no=Min('devil_no'))
     pdfmetrics.registerFont(TTFont('Lato', os.path.join(settings.BASE_DIR, 'static', 'fonts', 'Lato-Regular.ttf')))
 
     response = HttpResponse(content_type='application/pdf')
@@ -536,8 +535,8 @@ def export_name_and_number(request):
         for awaiting_member in awaiting_members:
             _canvas.setFont("Lato", 12)
             _canvas.setPageSize((4.5 * inch, 9.5 * inch))
-            _canvas.drawCentredString(2.25 * inch, 620, '# ' + str(awaiting_member.user.devil_no))
-            _canvas.drawCentredString(2.25 * inch, 605, awaiting_member.user.full_name.title())
+            _canvas.drawCentredString(2.25 * inch, 620, '# ' + str(awaiting_member.devil_no))
+            _canvas.drawCentredString(2.25 * inch, 605, awaiting_member.full_name.title())
             _canvas.drawCentredString(2.25 * inch, 590, awaiting_member.mobile)
             _canvas.showPage()
         _canvas.save()
