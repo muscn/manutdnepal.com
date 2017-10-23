@@ -489,6 +489,14 @@ class Renewal(models.Model):
         return str(self.membership.user)
 
 
+SEASONS = (
+    ('2017', '2017'),
+    ('2016', '2016'),
+    ('2015', '2015'),
+    ('2014', '2014'),
+)
+
+
 class CardStatus(models.Model):
     user = models.ForeignKey(User, related_name='card_statuses')
     STATUSES = (
@@ -498,7 +506,7 @@ class CardStatus(models.Model):
         ('Delivered', 'Delivered'),
     )
     status = models.CharField(choices=STATUSES, default='Awaiting Print', max_length=20)
-    season = models.CharField(max_length=9, default=season)
+    season = models.CharField(max_length=9, default=season, choices=SEASONS)
     pickup_location = models.ForeignKey(Partner, blank=True, null=True, related_name='card_statuses')
     remarks = models.CharField(max_length=255, null=True, blank=True)
 
