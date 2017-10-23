@@ -86,6 +86,7 @@ class CustomUserAdmin(UserAdmin):
                   {'fields': ('full_name',
                               'devil_no',
                               'status',
+                              'mobile',
                               'email',
                               'password',
                               'is_active',
