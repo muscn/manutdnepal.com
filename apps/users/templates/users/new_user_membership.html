@@ -24,7 +24,7 @@
 {% block breadcrumbs %}
     {{ block.super }}
     <a class="breadcrumb-item" href="{% url 'list_users' %}"><i class="fa fa-user mr-1"></i>Users</a>
-    <a class="breadcrumb-item" <span>New User/Membership</span></a>
+    <a class="breadcrumb-item"><span>New User/Membership</span></a>
 {% endblock %}
 
 {% block content %}
@@ -73,7 +73,7 @@
             </form>
 
             <div class="pull-right actions">
-                {% include 'partials/delete_button.html' with object=object url='delete_membership' %}
+                {% include 'partials/delete_button.html' with object=object url='delete_user' %}
             </div>
         </div>
 
