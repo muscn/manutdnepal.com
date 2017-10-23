@@ -151,7 +151,7 @@ class DecadeBornListFilter(admin.SimpleListFilter):
 
 
 def make_awaiting(modeladmin, request, queryset):
-    queryset.update(status=1)
+    queryset.update(status='Awaiting Approval')
     [obj.notify() for obj in queryset]
 
 
@@ -159,7 +159,7 @@ make_awaiting.short_description = "Set as 'Awaiting Print'"
 
 
 def make_printed(modeladmin, request, queryset):
-    queryset.update(status=2)
+    queryset.update(status='Printed')
     queryset.update(remarks='')
     [obj.notify() for obj in queryset]
 
@@ -168,7 +168,7 @@ make_printed.short_description = "Set as 'Printed'"
 
 
 def make_delivered(modeladmin, request, queryset):
-    queryset.update(status=3)
+    queryset.update(status='Delivered')
     [obj.notify() for obj in queryset]
 
 
