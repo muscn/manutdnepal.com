@@ -63,7 +63,7 @@ class UserForm(HTML5BootstrapModelForm):
 
     class Meta:
         model = User
-        exclude = ('last_login', 'is_active', 'is_staff', 'is_superuser', 'groups', 'username', 'devil_no', 'status')
+        fields = ('full_name', 'email', 'mobile', 'complimentary', 'password')
 
 
 class UserUpdateForm(UserForm):

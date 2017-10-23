@@ -20,5 +20,6 @@ class UserFilter(django_filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ['status', 'payment_method', 'card_statuses__status', 'card_statuses__pickup_location', 'card_statuses__season']
+        fields = ['status', 'payment_method', 'card_statuses__status', 'card_statuses__pickup_location', 'card_statuses__season',
+                  'complimentary']
         form = BootstrapForm
