@@ -176,9 +176,9 @@ make_delivered.short_description = "Set as 'Delivered'"
 
 
 class CardStatusAdmin(admin.ModelAdmin):
-    list_display = ('user', 'get_devil_no', 'status')
+    list_display = ('user', 'get_devil_no', 'status', 'pickup_location')
     search_fields = ('user__full_name', 'user__devil_no', 'user__mobile', 'user__email')
-    list_filter = ('status', 'season')
+    list_filter = ('status', 'season', 'pickup_location')
     actions = [make_awaiting, make_printed, make_delivered]
 
     def save_model(self, request, obj, form, change):
@@ -193,7 +193,7 @@ class CardStatusAdmin(admin.ModelAdmin):
     get_devil_no.admin_order_field = 'membership__user__devil_no'
 
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related('user')
+        return super().get_queryset(request).select_related('user', 'pickup_location')
 
 
 admin.site.register(User, CustomUserAdmin)
