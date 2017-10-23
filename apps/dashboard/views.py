@@ -44,7 +44,7 @@ def approve_membership(request):
         messages.success(request, 'Membership approved!')
     return redirect(reverse_lazy('update_user', kwargs={'pk': user.id}))
 
-
+@group_required('Staff')
 def approve_complimentary_membership(request):
     if not request.method == 'POST':
         raise Http404
