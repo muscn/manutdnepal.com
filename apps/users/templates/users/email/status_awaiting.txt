@@ -5,4 +5,4 @@ Your membership number (Devil No.) is {{ user.devil_no }}.
 Thank you for registering!
 
 Manchester United Supporters' Club, Nepal
-http://manutd.org.np
+https://manutd.org.np

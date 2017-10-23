@@ -1,5 +1,5 @@
 
-This is the source code for [http://manutd.org.np](http://manutd.org.np), the official site of Manchester United Supporters' Club, Nepal.
+This is the source code for [https://manutd.org.np](https://manutd.org.np), the official site of Manchester United Supporters' Club, Nepal.
 
 
 ## Development Setup
