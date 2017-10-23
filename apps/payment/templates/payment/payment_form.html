@@ -51,16 +51,6 @@
             </form>
 
             <div class="pull-right actions">
-                {% for event in object.payment_for.all %}
-                    {% if event.get_absolute_url %}
-                        <a href="{{ event.get_absolute_url }}" class="btn btn-info">
-                            {{ event|get_class_name }}
-                        </a>{% if not forloop.last %}, {% endif %}
-                    {% else %}
-                        {{ event|get_class_name }}{% if not forloop.last %}, {% endif %}
-                    {% endif %}
-
-                {% endfor %}
                 {% if object.method %}
                     <a href="{{ object.method.get_absolute_url }}"
                        class="btn btn-info">View/Update {{ object.method_type }}</a>

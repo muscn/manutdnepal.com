@@ -472,6 +472,8 @@ class Membership(models.Model):
             card_status.save()
 
     def get_absolute_url(self):
+        import ipdb
+        ipdb.set_trace()
         return reverse_lazy('update_membership', kwargs={'pk': self.pk})
 
     def __str__(self):
