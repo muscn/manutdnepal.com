@@ -43,3 +43,15 @@ def approve_membership(request):
         user.approve()
         messages.success(request, 'Membership approved!')
     return redirect(reverse_lazy('update_user', kwargs={'pk': user.id}))
+
+
+def approve_complimentary_membership(request):
+    if not request.method == 'POST':
+        raise Http404
+    data = request.POST
+    user = User.objects.get(pk=data.get('user_id'), complimentary=True)
+    user.approve()
+    messages.success(request, 'Complimentary Membership approved!')
+    user.complimentary = False
+    user.save()
+    return redirect(reverse_lazy('update_user', kwargs={'pk': user.id}))

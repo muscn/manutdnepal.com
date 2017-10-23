@@ -49,6 +49,7 @@ urlpatterns = [
 
     url(r'^approve_payment_membership/$', views.approve_payment_membership, name='approve_payment_membership'),
     url(r'^approve_membership/$', views.approve_membership, name='approve_membership'),
+    url(r'^approve_complimentary_membership/$', views.approve_complimentary_membership, name='approve_complimentary_membership'),
 
     url(r'^membership/add/$', users_views.new_user_membership, name='new_membership'),
 

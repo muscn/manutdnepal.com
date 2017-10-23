@@ -82,8 +82,13 @@ class UserUpdateForm(UserForm):
             user.set_password(data['password'])
         user.full_name = data['full_name']
         user.mobile = data['full_name']
+        user.complimentary = data['complimentary']
         user.save()
         return user
+
+    class Meta:
+        model = User
+        fields = ('full_name', 'email', 'mobile', 'complimentary', 'password')
 
 
 class MembershipForm(HTML5BootstrapModelForm):
@@ -101,7 +106,6 @@ class MembershipForm(HTML5BootstrapModelForm):
         CardStatus.objects.update_or_create(user=self.instance, season=season(), defaults={'status': 'Awaiting Approval',
                                                                                            'pickup_location': self.cleaned_data[
                                                                                                'pickup_location']})
-        
 
     class Meta:
         model = User
