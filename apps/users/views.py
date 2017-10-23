@@ -350,10 +350,6 @@ def esewa_failure(request):
     return redirect(reverse_lazy('membership_form'))
 
 
-def download_all_cards(request):
-    filtered = [x for x in Membership.objects.all() if x.approved()]
-
-
 def devil_no_handler(request, devil_no):
     # if int(devil_no) < 100:
     #     raise Http404('Member does not exist!')

@@ -2,7 +2,7 @@ import datetime
 import os
 import re
 import zipfile
-from io import StringIO
+from io import StringIO, BytesIO
 from urllib.request import urlretrieve
 
 from PIL import Image
@@ -221,7 +221,7 @@ class User(AbstractBaseUser):
     def generate_card(self, devil_number, draw_qr, base_image):
         pk = self.pk
         name = self.full_name
-        phone = self.membership.mobile
+        phone = self.mobile
 
         # The co-ordinates
         devil_number_ending_xy = (882, 32)
@@ -641,22 +641,22 @@ def initialize_card_statuses():
 
 
 def get_new_cards():
-    in_memory_file = StringIO()
-    awaiting_cards = CardStatus.objects.filter(status=1).select_related('membership__user')
+    in_memory_file = BytesIO()
+    awaiting_cards = CardStatus.objects.filter(status='Awaiting Print', user__status='Member').select_related('user')
     zip_file = zipfile.ZipFile(in_memory_file, 'w')
     min = float('inf')
     max = 0
     for awaiting_card in awaiting_cards:
-        if awaiting_card.membership.user.devil_no:
-            fake_file = StringIO()
-            devil_no = awaiting_card.membership.user.devil_no
+        if awaiting_card.user.devil_no:
+            fake_file = BytesIO()
+            devil_no = awaiting_card.user.devil_no
             if devil_no < min:
                 min = devil_no
             if devil_no > max:
                 max = devil_no
-            card = awaiting_card.membership.user.get_card()
-            card.save(fake_file, "jpeg")
-            zip_file.writestr(str(devil_no) + '.jpg', fake_file.getvalue())
+            card = awaiting_card.user.get_card()
+            card.save(fake_file, "png")
+            zip_file.writestr(str(devil_no) + '.png', fake_file.getvalue())
     zip_file.close()
     name = str(min) + '-' + str(max) + '.zip'
     return name, in_memory_file
