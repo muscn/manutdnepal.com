@@ -107,7 +107,7 @@ class CustomUserAdmin(UserAdmin):
                                   'is_staff',
                                   'is_superuser')}),
                      )
-    search_fields = ('full_name', 'email', 'devil_no')
+    search_fields = ('id', 'full_name', 'email', 'devil_no')
     readonly_fields = ('is_staff', 'is_superuser')
 
 
