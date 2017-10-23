@@ -151,7 +151,7 @@ class DecadeBornListFilter(admin.SimpleListFilter):
 
 
 def make_awaiting(modeladmin, request, queryset):
-    queryset.update(status='Awaiting Approval')
+    queryset.update(status='Awaiting Print')
     [obj.notify() for obj in queryset]
 
 

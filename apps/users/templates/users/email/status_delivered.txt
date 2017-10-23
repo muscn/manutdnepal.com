@@ -1,6 +1,6 @@
 Hi {{user.full_name}},
 
-Your MUSCN membership card (Devil Card) was picked up from Trafford Restro, New Baneshwor. If this is an error, please let us know.
+Your MUSCN membership card (Devil Card) was picked up from {{pickup_location}}. If this is an error, please let us know.
 Thank you for registering!
 
 Manchester United Supporters' Club, Nepal

@@ -522,19 +522,19 @@ class CardStatus(models.Model):
         return ret
 
     def notify(self):
+        params = {'pickup_location': self.pickup_location}
         if self.status == 'Awaiting Print':
             subject = 'Your MUSCN membership has been approved.'
-            params = {}
             text_template = 'users/email/status_awaiting.txt'
             # html_template = 'users/email/status_awaiting.html'
         elif self.status == 'Printed':
             subject = 'Your MUSCN membership card has been printed.'
-            params = {}
             text_template = 'users/email/status_printed.txt'
         elif self.status == 'Delivered':
             subject = 'Your MUSCN membership card has been picked up.'
-            params = {}
             text_template = 'users/email/status_delivered.txt'
+        else:
+            return
         self.user.email_using_template(subject, params, text_template, tag='card-status')
 
     def __str__(self):
