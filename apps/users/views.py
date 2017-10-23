@@ -401,7 +401,7 @@ def email_new_cards(request):
     mail.attach(zip_name, new_cards.getvalue(), 'application/zip')
     mail.send()
     messages.info(request, "E-mail sent to " + settings.ADMINS[0][1])
-    return redirect(reverse_lazy('list_memberships'))
+    return redirect(reverse_lazy('list_users'))
 
 
 @login_required
