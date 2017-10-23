@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load staticfiles %}
 
-{% block title %}Manchester United Supporters' Club Nepal{% endblock %}
+{% block title %}{{ title }} | {{ site_title|default:_('MUSCN Admin') }}{% endblock %}
 <link rel="icon" type="image/png" href="{% block favicon_url %}{% static 'img/favicon.ico' %}{% endblock %}"/>
 
 {% block branding %}
