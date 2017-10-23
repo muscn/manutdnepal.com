@@ -244,6 +244,7 @@ class UserListView(StaffOnlyMixin, ListView):
         if 'q' in self.request.GET:
             q = self.request.GET['q']
             self.queryset = User.objects.filter(
+                Q(id=q) |
                 Q(username__icontains=q) |
                 Q(full_name__icontains=q) |
                 Q(email__icontains=q) |
