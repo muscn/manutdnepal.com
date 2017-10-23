@@ -449,13 +449,13 @@ def renew(request):
 
 
 def export_awaiting_print(request):
-    query = Membership.objects.filter(card_status__status=1)
-    table_header = ['Full Name', 'Gender', 'Devil No.']
+    query = User.objects.filter(card_statuses__status='Awaiting Print', status='Member').distinct()
+    table_header = ['Full Name', 'Mobile', 'Devil No.', 'Email']
     wb = Workbook()
     ws = wb.active
     row_index = insert_row(ws, 1, table_header)
     for obj in query:
-        data = [obj.user.full_name.title(), obj.get_gender_display(), obj.user.devil_no]
+        data = [obj.full_name.title(), obj.mobile, obj.devil_no, obj.email]
         row_index = insert_row(ws, row_index, data)
     response = HttpResponse(save_virtual_workbook(wb), content_type='application/vnd.ms-excel')
     file_name = 'Awaiting-Print.xlsx'
