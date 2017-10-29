@@ -173,7 +173,7 @@ def esewa_success(request):
     if esewa_payment.verify(unique=True):
         payment.save()
         esewa_payment.payment = payment
-        esewa_payment.get_details()
+        # esewa_payment.get_details()
         esewa_payment.save()
         messages.success(request, 'Thank you for registering to be a member.')
         user.status = 'Pending Approval'
