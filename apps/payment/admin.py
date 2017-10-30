@@ -3,7 +3,8 @@ from .models import Payment, DirectPayment, BankAccount, BankDeposit, EsewaPayme
 
 
 class ReceiptDataAdmin(admin.ModelAdmin):
-    list_display = ('name', 'from_no', 'to_no')
+    list_display = ('name', 'from_no', 'to_no', 'active')
+    list_filter = ('active',)
     search_fields = ('name', 'from_no', 'to_no')
 
 
