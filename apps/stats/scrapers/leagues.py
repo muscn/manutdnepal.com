@@ -206,7 +206,7 @@ class AllLeagues(Scraper):
         # competitions = Competition.objects.filter(slug='ucl')
         for competition in competitions:
             competition.scrape()
-        mail_admins('Leagues scraping completed!', 'Complete!')
+        # mail_admins('Leagues scraping completed!', 'Complete!')
 
     def save(self):
         pass
