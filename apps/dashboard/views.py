@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
 from apps.payment.models import Payment
@@ -23,7 +23,7 @@ def approve_payment_membership(request):
     if not request.method == 'POST':
         raise Http404
     data = request.POST
-    user = User.objects.get(pk=data.get('user_id'), status='Pending Approval')
+    user = get_object_or_404(User, pk=data.get('user_id'), status='Pending Approval')
     payment = Payment.objects.get(pk=data.get('payment_id'), user=user)
     payment.verified_by = request.user
     payment.save()
@@ -37,7 +37,7 @@ def approve_membership(request):
     if not request.method == 'POST':
         raise Http404
     data = request.POST
-    user = User.objects.get(pk=data.get('user_id'), status='Pending Approval')
+    user = get_object_or_404(User, pk=data.get('user_id'), status='Pending Approval')
     payment = Payment.objects.get(pk=data.get('payment_id'), user=user)
     if payment.verified:
         user.approve()
