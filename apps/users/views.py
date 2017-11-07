@@ -238,7 +238,7 @@ class UserListView(StaffOnlyMixin, ListView):
                      to_attr='card_status_list'))
         self.filter = UserFilter(self.request.GET, queryset=qs)
         qs = self.filter.qs
-        return qs
+        return qs.distinct()
 
     def get(self, request, *args, **kwargs):
         if 'q' in self.request.GET:
