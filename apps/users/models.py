@@ -647,7 +647,8 @@ def initialize_card_statuses():
 
 def get_new_cards():
     in_memory_file = BytesIO()
-    awaiting_cards = CardStatus.objects.filter(status='Awaiting Print', user__status='Member').select_related('user')
+    awaiting_cards = CardStatus.objects.filter(status='Awaiting Print', user__status='Member', season=season()).select_related(
+        'user')
     zip_file = zipfile.ZipFile(in_memory_file, 'w')
     min = float('inf')
     max = 0
