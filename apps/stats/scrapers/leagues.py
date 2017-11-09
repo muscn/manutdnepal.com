@@ -56,7 +56,10 @@ class LeagueScraper(Scraper):
                         pass
 
             if self.league.has_group:
-                groups_container = root.cssselect('#leagueTableBodyContainer')[0]
+                try:
+                    groups_container = root.cssselect('#leagueTableBodyContainer')[0]
+                except IndexError:
+                    return
                 groups = {}
                 tables = groups_container.cssselect('.table')
                 for table in tables:
@@ -206,7 +209,7 @@ class AllLeagues(Scraper):
         # competitions = Competition.objects.filter(slug='ucl')
         for competition in competitions:
             competition.scrape()
-        # mail_admins('Leagues scraping completed!', 'Complete!')
+            # mail_admins('Leagues scraping completed!', 'Complete!')
 
     def save(self):
         pass
