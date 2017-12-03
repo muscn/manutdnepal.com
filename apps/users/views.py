@@ -5,7 +5,7 @@ import os
 from django.core.mail import EmailMessage, mail_admins
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import login
 from django.contrib.auth import logout as auth_logout

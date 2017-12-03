@@ -40,7 +40,7 @@ def home(request):
 @user_passes_test(lambda u: u.is_superuser)
 def clear_cache(request):
     from django.core.cache import cache
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
     from django.http import HttpResponseRedirect
     from django.contrib import messages
 

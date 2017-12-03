@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic.list import ListView

@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.sitemaps import Sitemap
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from apps.events.models import Event
 from apps.page.models import Page
 from apps.partner.models import Partner

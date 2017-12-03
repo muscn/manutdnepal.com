@@ -10,7 +10,7 @@ from django.utils import timezone
 
 import wikipedia
 
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.urls import reverse_lazy, reverse
 
 from django.db import models
 

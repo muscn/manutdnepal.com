@@ -1,6 +1,6 @@
 import datetime
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.db.models import Prefetch
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render

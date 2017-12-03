@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.core.validators import validate_email
 from django.db import models
 from django.db.models import Max
