@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from .models import Page
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 def view_page(request, slug):
@@ -23,3 +23,7 @@ def view_page(request, slug):
             except BadHeaderError:
                 return HttpResponse('Invalid header Found')
     return render(request, 'page/bootstrap.html', {'page': obj})
+
+
+def redirector(request):
+    return redirect('https://docs.google.com/forms/d/15OgKeaUvlrYZ5V88hkZVFvp6F4fEGIQGEFbrVhgCBZc')
