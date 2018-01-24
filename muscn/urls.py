@@ -47,6 +47,7 @@ router.register(r'pages', page_api.PageViewSet)
 router.register(r'users', user_api.UserViewSet)
 
 urlpatterns = [
+    url(r'fifa/', page_views.redirector),
 
     url(r'^$', core_views.home, name='home'),
 
@@ -101,7 +102,6 @@ urlpatterns = [
     url(r'', include('apps.page.urls')),
 
     url(r'^api/v1/obtain_auth_token/', user_api.CustomObtainAuth.as_view()),
-    url(r'fifa/', page_views.redirector),
     # Rest API end points
     url(r'api/v1/', include(router.urls)),
 
