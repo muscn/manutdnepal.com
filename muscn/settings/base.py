@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'fcm',
     'adminsortable2',
     'django_filters',
+    'import_export',
 
     'apps.core',
     'apps.users',

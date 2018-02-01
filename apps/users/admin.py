@@ -6,9 +6,17 @@ from django.contrib.auth.admin import UserAdmin, UserChangeForm as DjangoUserCha
 from django import forms
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from import_export.admin import ImportExportMixin
 
 from apps.users.models import User, GroupProxy, Membership, CardStatus, Renewal, MembershipSetting, Newsletter
 from solo.admin import SingletonModelAdmin
+
+from import_export import resources
+
+
+class UserResource(resources.ModelResource):
+    class Meta:
+        model = User
 
 
 def url_to_edit_object(obj):
@@ -73,9 +81,11 @@ class UserChangeForm(DjangoUserChangeForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+from import_export.admin import ImportExportActionModelAdmin
 
 
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(ImportExportActionModelAdmin, UserAdmin):
+    resource_class = UserResource
     form = UserChangeForm
     add_form = UserCreationForm
     ordering = ('username',)
