@@ -22,6 +22,7 @@ from apps.partner import api as partner_api
 
 from apps.core import views as core_views
 from apps.users import views as user_views
+from apps.page import views as page_views
 
 router = routers.DefaultRouter()
 
@@ -46,6 +47,7 @@ router.register(r'pages', page_api.PageViewSet)
 router.register(r'users', user_api.UserViewSet)
 
 urlpatterns = [
+    url(r'fifa/', page_views.redirector),
 
     url(r'^$', core_views.home, name='home'),
 
@@ -100,9 +102,9 @@ urlpatterns = [
     url(r'', include('apps.page.urls')),
 
     url(r'^api/v1/obtain_auth_token/', user_api.CustomObtainAuth.as_view()),
-
     # Rest API end points
     url(r'api/v1/', include(router.urls)),
+
 
     url(r'fcm/', include('fcm.urls')),
 ]
