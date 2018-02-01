@@ -81,7 +81,7 @@ class UserUpdateForm(UserForm):
         if data['password'] != '':
             user.set_password(data['password'])
         user.full_name = data['full_name']
-        user.mobile = data['full_name']
+        user.mobile = data['mobile']
         user.complimentary = data['complimentary']
         user.save()
         return user
