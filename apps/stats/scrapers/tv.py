@@ -43,10 +43,12 @@ class TVScraper(Scraper):
             match_rows = root.cssselect('.matchrow')
             for match_row in match_rows:
                 # skip past matches
-
                 if match_row.cssselect('.narrow.ft'):
                     continue
-                timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
+                try:
+                    timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
+                except IndexError:
+                    pass
                 self.data[timestamp] = []
                 channels_text = match_row.cssselect('td')[-1].text_content()
                 channel = channels_text.split(',')[0]
