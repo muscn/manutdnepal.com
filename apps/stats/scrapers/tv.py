@@ -47,12 +47,12 @@ class TVScraper(Scraper):
                     continue
                 try:
                     timestamp = float(match_row.cssselect('span.ftime span.ts')[0].get('dv')) / 1000
+                    self.data[timestamp] = []
+                    channels_text = match_row.cssselect('td')[-1].text_content()
+                    channel = channels_text.split(',')[0]
+                    self.data[timestamp].append(channel)
                 except IndexError:
                     pass
-                self.data[timestamp] = []
-                channels_text = match_row.cssselect('td')[-1].text_content()
-                channel = channels_text.split(',')[0]
-                self.data[timestamp].append(channel)
 
     def save(self):
         for timestamp, channels in self.data.items():
