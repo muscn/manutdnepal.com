@@ -15,7 +15,9 @@
     {% for player in players %}
         <div class="card d-inline-block p-2">
             <div class="photo">
+              {% if player.image %}
                 <img src="{{ player.image.thumbnail.300x300 }}" alt="{{ player.name }}">
+              {% endif %}
             </div>
             <div class="font-weight-bold text-center text-uppercase">
                 {{ player.user.full_name }}
@@ -43,9 +45,11 @@
     <h2>Staff</h2>
     {% for staff in staffs %}
         <div class="person-block">
+          {% if staff.image %}
             <div class="photo">
                 <img src="{{ staff.image.thumbnail.300x300 }}" alt="{{ staff.name }}">
             </div>
+          {% endif %}
             <div class="name text-center">{{ staff.user.full_name }}</div>
             <table class="table">
                 <tr>
