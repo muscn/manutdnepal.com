@@ -184,7 +184,8 @@ class Team(models.Model):
             #         img_temp.write(urllib.urlopen(image_url).read())
             #         img_temp.flush()
             #         self.crest.save(image_name, File(img_temp))
-            mail_admins('Add crest for: ', str(self))
+            # mail_admins('Add crest for: ', str(self))
+            pass
         return self.crest or None
 
     def get_crest_url(self):
@@ -516,7 +517,8 @@ class Fixture(models.Model):
                     # if created:
                     #     api.put_wall_post(get_msg_from_event(event, goal, self))
                 except Exception as e:
-                    mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event) + ' - ' + str(e))
+                    pass
+                    # mail_admins('[MUSCN] LS & MUSCN Player name mismatch', str(event) + ' - ' + str(e))
 
         self.save()
 

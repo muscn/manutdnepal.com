@@ -58,7 +58,8 @@ class Message(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def notify(self):
-        mail_admins(str(self), self.message)
+        pass
+        # mail_admins(str(self), self.message)
 
     def __str__(self):
         return 'Message from %s (%s)' % (
