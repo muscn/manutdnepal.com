@@ -17,7 +17,7 @@ django-jsonfield==1.0.1
 django-mptt==0.8.7
 django-redis-cache==1.7.1
 django-solo==1.1.2
-djangorestframework==3.6.2
+djangorestframework==3.11.2
 enum34==1.1.6
 et-xmlfile==1.0.1
 facebook-sdk==2.0.0
