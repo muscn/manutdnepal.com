@@ -10,7 +10,7 @@ Django==1.11
 django-allauth==0.32.0
 django-auditlog==0.4.3
 -e git+https://github.com/helber/django-dbsettings.git@5bcd8bbabd71a5550cf6815473691d033991284d#egg=django_dbsettings
-django-debug-toolbar==1.7
+django-debug-toolbar==1.11.1
 django-fcm==0.1.1
 django-froala-editor==2.6.0
 django-jsonfield==1.0.1
